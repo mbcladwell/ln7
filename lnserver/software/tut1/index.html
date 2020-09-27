@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TX9H8WK');</script>
+<!-- End Google Tag Manager -->
+
+
+
+
+
+
+  
+  <title>Tutorial 1 - Canonical workflow | Laboratory Automation Solutions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Using the demonstration data, work through a cononical workflow. Create a new plate set by reformatingUsing the demonstration data, reformat Project 10, Plate Set 6, 10 96 well plates, into 384 well a">
+<meta name="keywords" content="tutorial 1,canonical">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tutorial 1 - Canonical workflow">
+<meta property="og:url" content="http://labsolns.com/software/tut1/index.html">
+<meta property="og:site_name" content="Laboratory Automation Solutions">
+<meta property="og:description" content="Using the demonstration data, work through a cononical workflow. Create a new plate set by reformatingUsing the demonstration data, reformat Project 10, Plate Set 6, 10 96 well plates, into 384 well a">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://labsolns.com/software/tut1/menu.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/reformatdialog.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/view_accs_calc.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/ggplot2.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/ggplot1.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/menu2.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/dialogimport.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/dialoghitlist.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/assayrun.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/scatter.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/hitlistview.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/rearray.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/retrieveworklist.png">
+<meta property="og:image" content="http://labsolns.com/software/tut1/worklistcalc.png">
+<meta property="og:updated_time" content="2020-03-02T11:42:16.936Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tutorial 1 - Canonical workflow">
+<meta name="twitter:description" content="Using the demonstration data, work through a cononical workflow. Create a new plate set by reformatingUsing the demonstration data, reformat Project 10, Plate Set 6, 10 96 well plates, into 384 well a">
+<meta name="twitter:image" content="http://labsolns.com/software/tut1/menu.png">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  
+  <link rel="stylesheet" href="/software/css/style.css">
+  
+    <link rel="stylesheet" href="/software/fancybox/jquery.fancybox.min.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+</head>
+
+<body>
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TX9H8WK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/software/" id="logo">Laboratory Automation Solutions</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/software/toc">TOC</a>
+        
+          <a class="main-nav-link" href="/software/download">Download</a>
+        
+          <a class="main-nav-link" href="/software/contact">Contact</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://labsolns.com/software"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tut1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/software/tut1/" class="article-date">
+  <time class="dt-published" datetime="2020-03-02T11:42:16.948Z" itemprop="datePublished">2020-03-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/software/categories/Tutorials/">Tutorials</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Tutorial 1 - Canonical workflow
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Using the demonstration data, work through a <a href="/software/canonical/">cononical workflow</a>.</p>
+<h2 id="Create-a-new-plate-set-by-reformating"><a href="#Create-a-new-plate-set-by-reformating" class="headerlink" title="Create a new plate set by reformating"></a>Create a new plate set by reformating</h2><p>Using the demonstration data, reformat Project 10, Plate Set 6, 10 96 well plates, into 384 well assay plates with a replication of 1. Launch the reformat dialog:</p>
+<img src="/software/tut1/menu.png">
+<p>The top panel provides information about the source plate set, and the bottom panels requests information on the design of the destination plate set.  I will use sample replicates of 1 and target replicates of 4 i.e. all 4 quadrants of the 384 well plate coated with the same <a href="/software/layouts">target</a>). This requires that I define the <a href="/software/layouts/">layout</a> as 1S4T.</p>
+<img src="/software/tut1/reformatdialog.png">
+<p>Pressing OK I will get a new Plate Set #8, assuming no earlier modifications were made to the demo data. Navigate into PS-8 and note that there are 3 plates, 30-32, with 32 only half filled.  I am ready to load data.</p>
+<h2 id="Apply-barcode-IDs-to-plates-Accession-IDs-to-samples"><a href="#Apply-barcode-IDs-to-plates-Accession-IDs-to-samples" class="headerlink" title="Apply barcode IDs to plates, Accession IDs to samples"></a>Apply barcode IDs to plates, Accession IDs to samples</h2><p>Applying barcode and accession IDs is optional.  The purpose of these identifiers is to allow you to associate LIMS*Nucleus data with data in other systems. Start by highlighting the Plate Set of interest, PS-8 in this case, and follow the directions for importing <a href="/software/accessionids/">accession ids</a> and <a href="/software/barcodeids/">barcode ids</a>. Use the following data:</p>
+<table>
+<thead>
+<tr>
+<th>ID type</th>
+<th>File</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accession</td>
+<td><a href="/software/tut1/ps8-accessions.txt">ps8-accessions.txt</a></td>
+</tr>
+<tr>
+<td>barcode</td>
+<td><a href="/software/tut1/ps8-barcodes.txt">ps8-barcodes.tst</a></td>
+</tr>
+</tbody>
+</table>
+<p>Note that empty wells in the third plate do not have an entry in the acessions file.  A template for loading the accession IDs can be generated by exporting the underlying plate set data (plate set menu item: utilities/export/underlying data).  The columns of interest are “Order” and “Well” which must be relabeled “plate” and “well”.  Also include the accession as “accs.id”.</p>
+<img src="/software/tut1/view_accs_calc.png">
+<h2 id="Load-assay-data"><a href="#Load-assay-data" class="headerlink" title="Load assay data."></a>Load assay data.</h2><p>Download the demonstration tab delimitted data set <a href="/software/tut1/plates384x3_1S4T.txt">plates384x3_1S4T.txt</a> to your local drive.  The plate layout looks like:</p>
+<img src="/software/tut1/ggplot2.png">
+<p>and the response values look like:</p>
+<img src="/software/tut1/ggplot1.png">
+<p>This might be an ELISA assay showing a majority of responses less than 0.5. There is good reproducibility amongst the controls, with a good assay window.  With the destination plate set highlighted, select Utilities/Import assay data:</p>
+<img src="/software/tut1/menu2.png">
+<p>Fill in the dialog, substituting the path name with the path to the file on your computer:</p>
+<img src="/software/tut1/dialogimport.png">
+<p>I want hits automatically identified using a built in <a href="/software/algorithms/">algorithm</a> so I tick the box and select mean +3SD so that all responses greater than the mean of the background wells + 3 standard deviation units are considered a hit.  Because I am auto-identifiying hits, the add hit list dialog box will appear giving me the opportunity to name and describe the hit list.</p>
+<img src="/software/tut1/dialoghitlist.png">
+<h2 id="View-the-Assay-Run"><a href="#View-the-Assay-Run" class="headerlink" title="View the Assay Run"></a>View the Assay Run</h2><p>If I now open the AssayRun Viewer and highlight AR-6, I will see the associated hit list HL-7 in the right panel.  </p>
+<img src="/software/tut1/assayrun.png">
+<p>At the bottom of the left panel in the AssayRun Viewer I can press the plot button and see a scatter plot of the data, with controls color coded.</p>
+<img src="/software/tut1/scatter.png">
+<p>Note that at this stage I can generate a hit list if the hit list was not auto-generated on data import.  I have the opportunity to select hits algorithmically, use a slider to interactively select hits, or type in an absorbance threshold or number of desired hits.  Pressing the “Generate hit list” button will call up the previously viewed add hit list dialog.</p>
+<h2 id="View-the-Hit-List"><a href="#View-the-Hit-List" class="headerlink" title="View the Hit List"></a>View the Hit List</h2><p>To view a hit list, select the list in the right panel of the AssayRun Viewer and press the “View” button. Individual hits will appear in the left panel, and plate sets containing some or all of the hits, along with the count of hits, will appear in the right panel:</p>
+<img src="/software/tut1/hitlistview.png">
+<h2 id="Rearray"><a href="#Rearray" class="headerlink" title="Rearray"></a>Rearray</h2><p>At this point you are ready to rearry your hits into a new plate set for secondary assay or further processing.  Note that HL-7 contains 194 samples.  In our simplistic demonstration data set, it is obvious that the parental samples for our assay plate set are in plate set 6.  In real life processing, samples may get distributed across many plate sets.  Use the type and count fields to help determine an appropriate source of samples for rearray.  Assay plates are typically transient and not a source of material for rearraying.  You must establish type naming conventions for your plate set, for example archive plates or master/daughter/rearry plates contain samples while assay plates are transient.  In the demo data PS-6 is labeled “assay”, but should probably have been labeled master to provide an indication at this stage that the plates contain samples.</p>
+<p>The count field is to confirm that a particular plate set contains (or not) all the hits of interest. If no single plate set contains all hits, you may have to group plate sets.</p>
+<p>Highlight the plate set that will serve as the rearry source and press the “Rearry” button.  This will initiate the production of a new plate set that will contain hits only:</p>
+<img src="/software/tut1/rearray.png">
+<p>Provide the requested information and press “OK”.  The number of plates required will be automatically calculated and hits will be distributed in numerical order by column into the plates.  Since this is a rearray plate, and not an assay plate, the target is auto-assigned to DefaultQuadruplicates, which is inconsequential. To achieve the physical rearry in the lab a <a href="/software/rearray/">worklist</a> is generated and associated with the plate set. Indication that a plate set was generated by a worklist is the presence of the worklist ID in the “worklist” column in the plate set view.  Only plate sets generated by a rearray have an integer in the “worklist” column.  The worklist is permanently stored in the database and can be recalled by highlighting the plate set and selecting Utilities/Worklist on the menu bar.</p>
+<img src="/software/tut1/retrieveworklist.png">
+<p>The worklist will be exported to e.g. Microsoft Excel or LibreOffice Calc, depending on what your computer has associated with the .CSV extension:</p>
+<img src="/software/tut1/worklistcalc.png">
+<p>This worklist can be used with a liquid handling robot such as a Beckman Biomek, to perform the physical rearry.</p>
+<p><a href="/software/tut2/">Tutorial 2</a> is a repeat of the canonical workflow, this time using an assay plate layout that allows for duplicate samples. </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://labsolns.com/software/tut1/" data-id="ck87qb0kt004nlpaq2q2mrycq" data-title="Tutorial 1 - Canonical workflow" class="article-share-link">Share</a>
+      
+        <a href="http://labsolns.com/software/tut1/#disqus_thread" class="article-comment-link">Comments</a>
+      
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/software/tags/canonical/">canonical</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/software/tags/tutorial-1/">tutorial 1</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/software/tut2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Tutorial 2 - canonical workflow with sample replicates
+        
+      </div>
+    </a>
+  
+  
+    <a href="/software/targets/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Targets</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/software/categories/Developer/">Developer</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Download/">Download</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Entities/">Entities</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Features/">Features</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/File-Formats/">File Formats</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Layouts/">Layouts</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Overview/">Overview</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Tutorials/">Tutorials</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Viewers/">Viewers</a></li><li class="category-list-item"><a class="category-list-link" href="/software/categories/Workflows/">Workflows</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/GUI/">GUI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/PostgreSQL/">PostgreSQL</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/TOC/">TOC</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/accession-ids/">accession ids</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/administrator/">administrator</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/algorithms/">algorithms</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/assay-run/">assay run</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/assumptions/">assumptions</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/barcode-ids/">barcode ids</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/bug-fixes/">bug fixes</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/canonical/">canonical</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/client/">client</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/cloud/">cloud</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/codax/">codax</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/contents/">contents</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/data/">data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/data-analysis/">data analysis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/definitions/">definitions</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/developer/">developer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/download/">download</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/evaluation/">evaluation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/example-data/">example data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/export/">export</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/faqs/">faqs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/features/">features</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/file/">file</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/files-for-import/">files for import</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/filter/">filter</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/global/">global</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/group/">group</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/hit-list/">hit list</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/hits/">hits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/import/">import</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/initialize/">initialize</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/install/">install</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/installation/">installation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/javadocs/">javadocs</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/layout/">layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/layouts/">layouts</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/license/">license</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/limsnucleus-properties/">limsnucleus.properties</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/liquid-handling-robot/">liquid handling robot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/login/">login</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/monoliths/">monoliths</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/navigation/">navigation</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/overview/">overview</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/plate/">plate</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/plate-set/">plate set</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/postgres/">postgres</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/project/">project</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/properties/">properties</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/quadrants/">quadrants</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/query/">query</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/rearray/">rearray</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/reformat/">reformat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/register/">register</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/replicates/">replicates</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/replication/">replication</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/robot/">robot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/sample/">sample</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/sample-files/">sample files</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/scatterplot/">scatterplot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/schema/">schema</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/search/">search</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/security/">security</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/server/">server</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/simplifying-assumptions/">simplifying assumptions</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/split/">split</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/sql/">sql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/systems/">systems</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/target/">target</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/target-layout/">target layout</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/terminology/">terminology</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/threshold/">threshold</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/tutorial-1/">tutorial 1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/tutorial-2/">tutorial 2</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/tutorial-3/">tutorial 3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/tutorial-4/">tutorial 4</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/upgrade/">upgrade</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/user/">user</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/utilities/">utilities</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/versions/">versions</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/viewers/">viewers</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/webstart/">webstart</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/well/">well</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/workflows/">workflows</a></li><li class="tag-list-item"><a class="tag-list-link" href="/software/tags/worklist/">worklist</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/software/tags/GUI/" style="font-size: 10px;">GUI</a> <a href="/software/tags/Java/" style="font-size: 12.5px;">Java</a> <a href="/software/tags/PostgreSQL/" style="font-size: 12.5px;">PostgreSQL</a> <a href="/software/tags/TOC/" style="font-size: 10px;">TOC</a> <a href="/software/tags/accession-ids/" style="font-size: 10px;">accession ids</a> <a href="/software/tags/administrator/" style="font-size: 10px;">administrator</a> <a href="/software/tags/algorithms/" style="font-size: 12.5px;">algorithms</a> <a href="/software/tags/assay-run/" style="font-size: 10px;">assay run</a> <a href="/software/tags/assumptions/" style="font-size: 10px;">assumptions</a> <a href="/software/tags/barcode-ids/" style="font-size: 10px;">barcode ids</a> <a href="/software/tags/bug-fixes/" style="font-size: 10px;">bug fixes</a> <a href="/software/tags/canonical/" style="font-size: 10px;">canonical</a> <a href="/software/tags/client/" style="font-size: 12.5px;">client</a> <a href="/software/tags/cloud/" style="font-size: 10px;">cloud</a> <a href="/software/tags/codax/" style="font-size: 10px;">codax</a> <a href="/software/tags/contents/" style="font-size: 10px;">contents</a> <a href="/software/tags/data/" style="font-size: 12.5px;">data</a> <a href="/software/tags/data-analysis/" style="font-size: 10px;">data analysis</a> <a href="/software/tags/definitions/" style="font-size: 10px;">definitions</a> <a href="/software/tags/developer/" style="font-size: 10px;">developer</a> <a href="/software/tags/download/" style="font-size: 12.5px;">download</a> <a href="/software/tags/evaluation/" style="font-size: 12.5px;">evaluation</a> <a href="/software/tags/example-data/" style="font-size: 12.5px;">example data</a> <a href="/software/tags/export/" style="font-size: 10px;">export</a> <a href="/software/tags/faqs/" style="font-size: 10px;">faqs</a> <a href="/software/tags/features/" style="font-size: 10px;">features</a> <a href="/software/tags/file/" style="font-size: 10px;">file</a> <a href="/software/tags/files-for-import/" style="font-size: 10px;">files for import</a> <a href="/software/tags/filter/" style="font-size: 10px;">filter</a> <a href="/software/tags/global/" style="font-size: 10px;">global</a> <a href="/software/tags/group/" style="font-size: 12.5px;">group</a> <a href="/software/tags/hit-list/" style="font-size: 10px;">hit list</a> <a href="/software/tags/hits/" style="font-size: 12.5px;">hits</a> <a href="/software/tags/import/" style="font-size: 17.5px;">import</a> <a href="/software/tags/initialize/" style="font-size: 10px;">initialize</a> <a href="/software/tags/install/" style="font-size: 10px;">install</a> <a href="/software/tags/installation/" style="font-size: 20px;">installation</a> <a href="/software/tags/javadocs/" style="font-size: 10px;">javadocs</a> <a href="/software/tags/layout/" style="font-size: 12.5px;">layout</a> <a href="/software/tags/layouts/" style="font-size: 15px;">layouts</a> <a href="/software/tags/license/" style="font-size: 12.5px;">license</a> <a href="/software/tags/limsnucleus-properties/" style="font-size: 10px;">limsnucleus.properties</a> <a href="/software/tags/liquid-handling-robot/" style="font-size: 10px;">liquid handling robot</a> <a href="/software/tags/login/" style="font-size: 10px;">login</a> <a href="/software/tags/monoliths/" style="font-size: 12.5px;">monoliths</a> <a href="/software/tags/navigation/" style="font-size: 10px;">navigation</a> <a href="/software/tags/overview/" style="font-size: 10px;">overview</a> <a href="/software/tags/plate/" style="font-size: 12.5px;">plate</a> <a href="/software/tags/plate-set/" style="font-size: 12.5px;">plate set</a> <a href="/software/tags/postgres/" style="font-size: 12.5px;">postgres</a> <a href="/software/tags/project/" style="font-size: 12.5px;">project</a> <a href="/software/tags/properties/" style="font-size: 15px;">properties</a> <a href="/software/tags/quadrants/" style="font-size: 10px;">quadrants</a> <a href="/software/tags/query/" style="font-size: 10px;">query</a> <a href="/software/tags/rearray/" style="font-size: 12.5px;">rearray</a> <a href="/software/tags/reformat/" style="font-size: 17.5px;">reformat</a> <a href="/software/tags/register/" style="font-size: 10px;">register</a> <a href="/software/tags/replicates/" style="font-size: 12.5px;">replicates</a> <a href="/software/tags/replication/" style="font-size: 10px;">replication</a> <a href="/software/tags/robot/" style="font-size: 10px;">robot</a> <a href="/software/tags/sample/" style="font-size: 17.5px;">sample</a> <a href="/software/tags/sample-files/" style="font-size: 10px;">sample files</a> <a href="/software/tags/scatterplot/" style="font-size: 12.5px;">scatterplot</a> <a href="/software/tags/schema/" style="font-size: 12.5px;">schema</a> <a href="/software/tags/search/" style="font-size: 10px;">search</a> <a href="/software/tags/security/" style="font-size: 10px;">security</a> <a href="/software/tags/server/" style="font-size: 10px;">server</a> <a href="/software/tags/simplifying-assumptions/" style="font-size: 10px;">simplifying assumptions</a> <a href="/software/tags/split/" style="font-size: 12.5px;">split</a> <a href="/software/tags/sql/" style="font-size: 10px;">sql</a> <a href="/software/tags/systems/" style="font-size: 12.5px;">systems</a> <a href="/software/tags/target/" style="font-size: 17.5px;">target</a> <a href="/software/tags/target-layout/" style="font-size: 10px;">target layout</a> <a href="/software/tags/terminology/" style="font-size: 12.5px;">terminology</a> <a href="/software/tags/threshold/" style="font-size: 10px;">threshold</a> <a href="/software/tags/tutorial-1/" style="font-size: 10px;">tutorial 1</a> <a href="/software/tags/tutorial-2/" style="font-size: 10px;">tutorial 2</a> <a href="/software/tags/tutorial-3/" style="font-size: 10px;">tutorial 3</a> <a href="/software/tags/tutorial-4/" style="font-size: 10px;">tutorial 4</a> <a href="/software/tags/upgrade/" style="font-size: 10px;">upgrade</a> <a href="/software/tags/user/" style="font-size: 10px;">user</a> <a href="/software/tags/utilities/" style="font-size: 10px;">utilities</a> <a href="/software/tags/versions/" style="font-size: 10px;">versions</a> <a href="/software/tags/viewers/" style="font-size: 12.5px;">viewers</a> <a href="/software/tags/webstart/" style="font-size: 10px;">webstart</a> <a href="/software/tags/well/" style="font-size: 10px;">well</a> <a href="/software/tags/workflows/" style="font-size: 15px;">workflows</a> <a href="/software/tags/worklist/" style="font-size: 10px;">worklist</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/10/">October 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/09/">September 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/software/archives/2019/04/">April 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Laboratory Automation Solutions<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/software/toc" class="mobile-nav-link">TOC</a>
+  
+    <a href="/software/download" class="mobile-nav-link">Download</a>
+  
+    <a href="/software/contact" class="mobile-nav-link">Contact</a>
+  
+</nav>
+    
+<script>
+  var disqus_shortname = 'labsolns';
+  
+  var disqus_url = 'http://labsolns.com/software/tut1/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.async = true;
+    dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+
+
+<script src="/software/js/jquery-3.4.1.min.js"></script>
+
+
+  <script src="/software/fancybox/jquery.fancybox.min.js"></script>
+
+
+<script src="/software/js/script.js"></script>
+
+
+
+
+  </div>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="custom_mathjax_source">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
+
+

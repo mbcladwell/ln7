@@ -1,0 +1,21 @@
+;; Controller utilities definition of lnserver
+;; Please add your license header here.
+;; This file is generated automatically by GNU Artanis.
+(define-artanis-controller utilities) ; DO NOT REMOVE THIS LINE!!!
+
+(utilities-define properties
+  (lambda (rc)
+  "<h1>This is utilities#properties</h1><p>Find me in app/views/utilities/properties.html.tpl</p>"
+  ;; TODO: add controller method `properties'
+  ;; uncomment this line if you want to render view from template
+  ;; (view-render "properties" (the-environment))
+  ))
+
+(utilities-define setup
+  (lambda (rc)
+  "<h1>This is utilities#setup</h1><p>Find me in app/views/utilities/setup.html.tpl</p>"
+  ;; TODO: add controller method `setup'
+  ;; uncomment this line if you want to render view from template
+  ;; (view-render "setup" (the-environment))
+  ))
+
