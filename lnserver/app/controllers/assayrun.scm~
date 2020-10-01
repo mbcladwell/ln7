@@ -141,15 +141,3 @@
 	(body (string-concatenate (prep-hl-rows holder))))
     (view-render "gethlforarid" (the-environment))
   )))
-
-;; done before debug session established
-(define (prep-hl-rows a)
-  (fold (lambda (x prev)
-          (let (
-                (hit-list-sys-name (result-ref x "hitlist_sys_name"))
-		(hit-list-name (result-ref x "hitlist_name"))
-		(descr (result-ref x "descr"))
-		)
-            (cons (string-append "<tr><th><a href=\"/hitlist/getid?id=" (number->string (cdr (car x))) "\">" hit-list-sys-name "</a></th><th>" hit-list-name "</th><th>" descr "</th><tr>")
-		  prev)))
-        '() a))

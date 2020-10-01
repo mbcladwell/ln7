@@ -1,11 +1,10 @@
-;; Controller assayrun definition of lnserver
-;; Please add your license header here.
-;; This file is generated automatically by GNU Artanis.
-(define-artanis-controller assayrun) ; DO NOT REMOVE THIS LINE!!!
+(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) 
+	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print))
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra)
-	     (ice-9 textual-ports)(ice-9 rdelim))
+(load "./sys/extra.scm")
+(use-modules (lnserver sys extra))
 
+(define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndbn:tcp:192.168.1.11:5432"))
 
 (define (prep-ar-for-r a)
   (fold (lambda (x prev)
@@ -98,16 +97,17 @@
 ;; 3  mean-neg-3-sd
 
 
-(assayrun-define getid
-(lambda (rc)
+;; (assayrun-define getid
+(define (getid)		 
+;;(lambda (rc)
   (let* ((ret #f)
 	 (holder '())
 	 (help-topic "assayrun")
-	 (id  (get-from-qstr rc "id"))
+	 ;;(id  (get-from-qstr rc "id"))
+	 (id  "2")	 
 	 (infile (get-rand-file-name "ar" "txt"))
 	 (infile2 (get-rand-file-name "ar2" "txt"))
-	 (outfile (get-rand-file-name "ar" "png"))
-	 
+	 (outfile (get-rand-file-name "ar" "png"))	 
 	 (response "1")
 	 (threshold "3")
 	(dummy (dbi-query ciccio (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" id )))
@@ -118,11 +118,15 @@
 	(body (string-concatenate (prep-ar-rows holder)))
 	(dummy3 (get-assayrun-table-for-r id infile))
 	(dummy4 (get-assayrun-stats-for-r id infile2))
-	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R " infile " " infile2 " " outfile " " response  " " threshold )))
+	(r-command (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R " infile " " infile2 " " outfile " " response  " " threshold ))
+	(dummy5 (system r-command))
 	(outfile2 (string-append "\"../" outfile "\"")))
-    (view-render "getarid" (the-environment)))))
+    ;;    (view-render "getarid" (the-environment))
+    (pretty-print body)
+    ))
+;;)
 
-
+(getid)
 
 
 
@@ -141,15 +145,3 @@
 	(body (string-concatenate (prep-hl-rows holder))))
     (view-render "gethlforarid" (the-environment))
   )))
-
-;; done before debug session established
-(define (prep-hl-rows a)
-  (fold (lambda (x prev)
-          (let (
-                (hit-list-sys-name (result-ref x "hitlist_sys_name"))
-		(hit-list-name (result-ref x "hitlist_name"))
-		(descr (result-ref x "descr"))
-		)
-            (cons (string-append "<tr><th><a href=\"/hitlist/getid?id=" (number->string (cdr (car x))) "\">" hit-list-sys-name "</a></th><th>" hit-list-name "</th><th>" descr "</th><tr>")
-		  prev)))
-        '() a))

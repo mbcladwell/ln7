@@ -56,5 +56,5 @@
 (utilities-define help
 		  (lambda (rc)
 		    (let* ((topic (get-from-qstr rc "topic")))
-		    (redirect-to rc  (string-append "/software/" topic "/index.html") ))))
+		    (redirect-to rc  (string-append "../software/" topic "/index.html") ))))
 
