@@ -1,5 +1,6 @@
   (get "/sessions/get")
   (get "/target/gettrglyt")
+  (get "/sessions/getall")
   (get "/project/addaction")
   (get "/plateset/getps")
   (get "/plate/getpltforps")

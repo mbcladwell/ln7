@@ -1,0 +1,12 @@
+;; /gnu/store/0w76khfspfy8qmcpjya41chj3bgfcy0k-guile-3.0.4/bin/guile
+;; /gnu/store/jgl9d4axpavsv83z2f1z1himnkbsxxqj-guile-2.2.7/bin/guile
+
+(use-modules (srfi srfi-1)
+	     (dbi dbi) 
+	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print))
+
+(load "./sys/extra.scm")
+(use-modules (lnserver sys extra))
+
+(define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndbn:tcp:192.168.1.11:5432"))
+

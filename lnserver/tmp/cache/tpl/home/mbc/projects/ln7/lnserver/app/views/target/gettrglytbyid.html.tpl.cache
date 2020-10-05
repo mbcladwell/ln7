@@ -1,6 +1,7 @@
-(display "<!-- layout#getall view template of lnserver
+(display "<!-- hitlist#getid view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
+
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
@@ -37,9 +38,18 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
-<table><caption><h1>Plate Layouts</h1></caption><tr><th>ID</th><th>Name</th><th>Description</th><th>Format</th><th>Sample N</th><th>Target N</th><th>Edge?</th><th>N Controls</th><th>Unk N</th><th>Location</th><th>src/dest</th></tr>
+  <a href=\"/add\">Add a target</a>
+  <h3>
+  Targets for Target Layout ")(display  trg-lyt-sys-name )(display "</h3>
+  <h5>
+  Name: ")(display  trg-lyt-name )(display "<br><br>
+  Description: ")(display  trg-lyt-descr )(display "<br><br>
+  Replication: ")(display  reps )(display "<br><br>
+  </h5>
+<table><tr><th>ID</th><th>Project</th><th>Name</th><th>Quadrant</th><th>Description</th></tr>
   ")(display  body )(display "
 </table>
+
 
 ")(display "</div></html>")(display "
 ")

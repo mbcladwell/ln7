@@ -23,7 +23,7 @@ img {
   <a href="../target/gettrglyt">Targets</a>
   <a href="../utilities/setup">Utilities</a>
 
-<a href="../session/getall">Sessions</a>
+<a href="../sessions/getall">Sessions</a>
 <a href="../users/getall">Users</a>
 
   <a href="../utilities/help?topic=<%= help-topic %> ">HELP</a>

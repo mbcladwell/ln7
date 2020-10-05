@@ -12,3 +12,28 @@
   ;; (view-render "get" (the-environment))
   ))
 
+(define (prep-user-rows a)
+  (fold (lambda (x prev)
+          (let (
+                (lnuser_name (result-ref x "lnuser_name"))
+                (tags (result-ref x "tags"))
+		(descr (result-ref x "descr")))
+            (cons (string-append "<tr><th> <input type=\"radio\" id=\"" project_sys_name  "\" name=\"project-id\" value=\"" (number->string (cdr (car x)))   "\"></th><th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th><th>" project_name "</th><th>" descr "</th></tr>")
+		  prev)))
+        '() a))
+
+
+(users-define getall
+		(lambda (rc)
+    (let* ((help-topic "users")
+	   (ret #f)
+	   (holder '())
+	   (dummy (dbi-query ciccio  "select id, lnuser_name, tags from lnuser"  ))
+	   (ret (dbi-get_row ciccio))
+	   (dummy2 (while (not (equal? ret #f))     
+		     (set! holder (cons ret holder))		   
+		     (set! ret  (dbi-get_row ciccio))))
+	   (body (string-concatenate (prep-user-rows holder)))
+	   )
+      (view-render "getall" (the-environment))
+  )))
