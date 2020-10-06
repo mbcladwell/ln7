@@ -38,7 +38,7 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
-  <a href=\"sessions/getall\">Sessions</a>
+  
 <table><caption><h1>All Sessions</h1></caption><tr><th>Session</th><th>Updated</th><th>Name</th><th>Group</th></tr>
 ")(display  body )(display "
 </table>

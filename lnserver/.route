@@ -20,5 +20,6 @@
   (get "/hitlist/gethlbyid")
   (get "/project/getall")
   (get "/target/gettrglytbyid")
+  (get "/users/getall")
   (get "/target/getall")
   (get "/utilities/properties")
