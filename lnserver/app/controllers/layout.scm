@@ -118,3 +118,43 @@
 
 
 
+(layout-define select
+  (lambda (rc)
+    (let* (
+	  (file-name  (get-from-qstr rc "myfile"))
+	 (help-topic "layouts")
+
+	)
+   (view-render "select" (the-environment))
+  )))
+
+
+;; this needs the r wrangling code
+(layout-define import
+  (lambda (rc)
+    (let* ((help-topic "layouts")
+	  (infile  (get-from-qstr rc "myfile"))
+	  (spl-out (get-rand-file-name "lyt" "png"))
+	  (dummy (system (string-append "Rscript --vanilla ./rscripts/plot-review-layout.R " infile " " spl-out ))))
+   (view-render "viewlayout" (the-environment))
+  )))
+
+(layout-define updatedb
+  (lambda (rc)
+    (let* (
+	  (file-name  (get-from-qstr rc "submit"))
+	 (help-topic "layouts")
+
+	)
+   (view-render "success" (the-environment))
+  )))
+
+(layout-define success
+  (lambda (rc)
+    (let* (
+	  (file-name  (get-from-qstr rc "submit"))
+	 (help-topic "layouts")
+
+	)
+   (view-render "getall" (the-environment))
+  )))

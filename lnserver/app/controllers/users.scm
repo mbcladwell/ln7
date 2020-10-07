@@ -14,11 +14,12 @@
 
 (define (prep-user-rows a)
   (fold (lambda (x prev)
-          (let (
-                (lnuser_name (result-ref x "lnuser_name"))
+          (let ((id (get-c1 x))
+		(group-name (result-ref x "usergroup"))
+                (lnuser-name (result-ref x "lnuser_name"))
                 (tags (result-ref x "tags"))
-		(descr (result-ref x "descr")))
-            (cons (string-append "<tr><th> <input type=\"radio\" id=\"" project_sys_name  "\" name=\"project-id\" value=\"" (number->string (cdr (car x)))   "\"></th><th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th><th>" project_name "</th><th>" descr "</th></tr>")
+		)
+            (cons (string-append "<tr><th> <input type=\"radio\" id=\"" id  "\" name=\"id\" value=\"" id   "\"></th><th>" id   "</th><th> " group-name "</th><th> " lnuser-name "</th><th>" tags "</th></tr>")
 		  prev)))
         '() a))
 
@@ -28,7 +29,7 @@
     (let* ((help-topic "users")
 	   (ret #f)
 	   (holder '())
-	   (dummy (dbi-query ciccio  "select id, lnuser_name, tags from lnuser"  ))
+	   (dummy (dbi-query ciccio  "select lnuser.id, lnuser_groups.usergroup, lnuser_name, tags from lnuser, lnuser_groups where lnuser_groups.id = lnuser.usergroup_id ORDER BY lnuser.id"  ))
 	   (ret (dbi-get_row ciccio))
 	   (dummy2 (while (not (equal? ret #f))     
 		     (set! holder (cons ret holder))		   
@@ -36,4 +37,24 @@
 	   (body (string-concatenate (prep-user-rows holder)))
 	   )
       (view-render "getall" (the-environment))
+  )))
+
+
+(users-define add
+		(lambda (rc)
+		  (let* ((help-topic "user"))
+		    (view-render "add" (the-environment)))))
+
+
+(users-define addaction
+		(lambda (rc)
+		  (let* ((help-topic "users")
+			 (user-name (get-from-qstr rc "uname"))
+			 (tags (get-from-qstr rc "tags"))
+			 (pw (get-from-qstr rc "pw"))			 
+			 (group (get-from-qstr rc "group"))			 
+			 (insert-string (string-append "select new_user('"  user-name "', '" tags "', '" pw "', '" group "')"))
+			 (dummy (dbi-query ciccio insert-string))
+			 )
+		    (redirect-to rc "users/getall")
   )))

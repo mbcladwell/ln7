@@ -1,1 +1,0 @@
-assay.run.id	plate.order	well	response	bkgrnd.sub	norm	norm.pos	p.enhance	type

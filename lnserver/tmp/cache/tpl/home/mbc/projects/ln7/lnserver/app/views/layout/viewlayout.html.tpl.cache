@@ -1,6 +1,7 @@
-(display "<!-- layout#getall view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
+  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
@@ -37,10 +38,19 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
-<a href=\"select\">Import Layout</a>
-<table><caption><h1>Plate Layouts</h1></caption><tr><th>ID</th><th>Name</th><th>Description</th><th>Format</th><th>Sample N</th><th>Target N</th><th>Edge?</th><th>N Controls</th><th>Unk N</th><th>Location</th><th>src/dest</th></tr>
-  ")(display  body )(display "
-</table>
 
+  <h1>View/Import Layout</h1><br><br>
+  
+  
+  <p><h3>Sample Layout</h3></p>
+<img src=")(display  spl-out )(display " >
+  
+<form action=\"updatedb?myfile=\"")(display  infile )(display ">
+ <label for=\"myfile\">Continue with import of file  ")(display  infile )(display " ?:</label>
+  <input type=\"submit\" value=\"Yes\" >  
+</form> 
+<form action=\"getall\"> <input type=\"submit\" value=\"Cancel\"></form>  
+  
 ")(display "</div></html>")(display "
+
 ")

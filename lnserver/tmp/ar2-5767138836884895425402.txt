@@ -1,1 +1,0 @@
-response.type	max.response	min.response	mean.bkgrnd	std.dev.bkgrnd	 mean.pos	 stdev.pos	mean.neg.3.sd	mean.neg.2.sd	mean.pos.3.sd	 mean.pos.2.sd
