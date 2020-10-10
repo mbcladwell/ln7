@@ -8,9 +8,12 @@
   
   
   <p><h3>Sample Layout</h3></p>
-<img src=<%= spl-out %> >
+<img src=<%= spl-out2 %> >
   
 <form action="updatedb?myfile="<%= infile %>>
+
+
+
  <label for="myfile">Continue with import of file  <%= infile %> ?:</label>
   <input type="submit" value="Yes" >  
 </form> 

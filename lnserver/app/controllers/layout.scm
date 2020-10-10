@@ -122,20 +122,19 @@
   (lambda (rc)
     (let* (
 	  (file-name  (get-from-qstr rc "myfile"))
-	 (help-topic "layouts")
+	  (help-topic "layouts"))
+      (view-render "select" (the-environment)))))
 
-	)
-   (view-render "select" (the-environment))
-  )))
 
 
 ;; this needs the r wrangling code
-(layout-define import
+(layout-define viewlayout
   (lambda (rc)
     (let* ((help-topic "layouts")
 	  (infile  (get-from-qstr rc "myfile"))
 	  (spl-out (get-rand-file-name "lyt" "png"))
-	  (dummy (system (string-append "Rscript --vanilla ./rscripts/plot-review-layout.R " infile " " spl-out ))))
+	  (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out )))
+	  (spl-out2 (string-append "\"../" spl-out "\"")))
    (view-render "viewlayout" (the-environment))
   )))
 

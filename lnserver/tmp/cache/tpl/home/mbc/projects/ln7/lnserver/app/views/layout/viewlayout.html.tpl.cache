@@ -43,9 +43,12 @@ img {
   
   
   <p><h3>Sample Layout</h3></p>
-<img src=")(display  spl-out )(display " >
+<img src=")(display  spl-out2 )(display " >
   
 <form action=\"updatedb?myfile=\"")(display  infile )(display ">
+
+
+
  <label for=\"myfile\">Continue with import of file  ")(display  infile )(display " ?:</label>
   <input type=\"submit\" value=\"Yes\" >  
 </form> 
