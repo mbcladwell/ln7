@@ -10,11 +10,11 @@
   <p><h3>Sample Layout</h3></p>
 <img src=<%= spl-out2 %> >
   
-<form action="updatedb?myfile="<%= infile %>>
+<form action="updatedb?infile="<%= infile %>>
 
 
 
- <label for="myfile">Continue with import of file  <%= infile %> ?:</label>
+ <label for="myfile">Continue with import of file  <%= origfile %> ?:</label>
   <input type="submit" value="Yes" >  
 </form> 
 <form action="getall"> <input type="submit" value="Cancel"></form>  

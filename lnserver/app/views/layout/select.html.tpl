@@ -8,6 +8,7 @@
 
   <h1>Select Layout For Import</h1><br><br>
 
+   <input type="hidden" id="infile" name="infile" value= <%= infile %> >
   <form action="/layout/import?id=id$value">
 
  <label for="myfile">Select a layout file for import.</label>
@@ -28,8 +29,9 @@
 	 // var fname = file.name;
 	  
 	  if( numrows === 97 || numrows === 385 || numrows === 1537){
-	   var link ="viewlayout?myfile=";
-	  window.open( link.concat(file.name), "_top");
+	      var link ="viewlayout?origfile=";
+	      link=link.concat(myfile.files[0].name, "&infile=", document.getElementById('infile').value);
+	  window.open( link, "_top");
 	 // displayContents(contents);
     	  }else{
     	  var message1="Layout Import file must have 96, 384 or 1536 rows of data.\\n";

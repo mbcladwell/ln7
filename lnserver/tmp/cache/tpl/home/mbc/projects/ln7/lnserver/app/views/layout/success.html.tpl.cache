@@ -39,20 +39,15 @@ img {
 <div class=\"main\">
 ")(display "
 
-  <h1>View/Import Layout</h1><br><br>
-  
-  
-  <p><h3>Sample Layout</h3></p>
-<img src=")(display  spl-out2 )(display " >
-  
-<form action=\"updatedb?infile=\"")(display  infile )(display ">
+  <h1>Select Layout</h1><br><br>
 
+  <form action=\"/layout/import?id=id$value\">
 
-
- <label for=\"myfile\">Continue with import of file  ")(display  origfile )(display " ?:</label>
-  <input type=\"submit\" value=\"Yes\" >  
+ <label for=\"myfile\">Select import layout file:</label>
+<input type=\"file\" id=\"myfile\" name=\"myfile\"> 
+<br><br>
+  <input type=\"submit\" value=\"Submit\">
 </form> 
-<form action=\"getall\"> <input type=\"submit\" value=\"Cancel\"></form>  
   
 ")(display "</div></html>")(display "
 
