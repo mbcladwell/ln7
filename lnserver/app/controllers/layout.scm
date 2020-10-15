@@ -3,10 +3,11 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller layout) ; DO NOT REMOVE THIS LINE!!!
 
+;; https://web-artanis.com/docs/manual.html#org5cb8432
 ;; (add-to-load-path "/home/mbc/projects/ln4/")
 
 (use-modules (artanis artanis)(artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra)
-	      (ice-9 textual-ports)(ice-9 rdelim))
+	      (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors))
 
 (define (prep-lyt-rows a)
   (fold (lambda (x prev)
@@ -128,17 +129,52 @@
 
 
 
+
+;; this works
+(post "/upload" #:from-post 'bv
+      (lambda (rc)
+	(let*((help-topic "layouts")
+	     ;; (origfile (:from-post rc 'get  "origfile"))	     
+	     ;; (format (:from-post rc 'get "format"))
+	      (format "384")
+	      (a (utf8->string (rc-body rc)))
+	      (infile (get-rand-file-name "lyt" "txt"))
+	      (file-port (open-output-file infile))
+	      (dummy (display a file-port))
+	      (dummy2 (force-output file-port))
+	      (spl-out (get-rand-file-name "lyt" "png"))
+	      (spl-out2 (string-append "\"../" spl-out "\""))
+	    ;;  (origfile "test")
+	      (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out " " format )))
+	      )
+	    ;; (view-render "viewlayout" (the-environment) )
+	  #f
+	  )))
+ 
+  
+ (layout-define viewlayout 
+   (lambda (rc)
+     (let* ((help-topic "layouts")
+;;	    (:cookies-set! rc 'cc "sid" "123321")
+ 	    ;;(body-content (utf8->string (rc-body rc)))
+	    )
+    (view-render "viewlayout" (the-environment))
+   )))
+
+
+
 ;; this needs the r wrangling code
-(layout-define viewlayout
-  (lambda (rc)
-    (let* ((help-topic "layouts")
-	   (origfile (get-from-qstr rc "origfile"))
-	   (infile  (get-from-qstr rc "infile"))
-	   (spl-out (get-rand-file-name "lyt" "png"))
-	   (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out )))
-	   (spl-out2 (string-append "\"../" spl-out "\"")))
-   (view-render "viewlayout" (the-environment))
-  )))
+;; (layout-define viewlayout
+;;   (lambda (rc)
+;;     (let* ((help-topic "layouts")
+;; 	   (origfile (get-from-qstr rc "origfile"))
+;; 	   (infile  (get-from-qstr rc "infile"))
+;; 	   (spl-out (get-rand-file-name "lyt" "png"))
+;; 	   (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out )))
+;; 	   (spl-out2 (string-append "\"../" spl-out "\""))
+;; 	  (body-content (utf8->string (rc-body rc))))
+;;    (view-render "viewlayout" (the-environment))
+;;   )))
 
 (layout-define updatedb
   (lambda (rc)
@@ -159,3 +195,4 @@
 	)
    (view-render "getall" (the-environment))
   )))
+

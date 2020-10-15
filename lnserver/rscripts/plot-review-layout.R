@@ -5,20 +5,20 @@ rm(list=ls(all=TRUE))
 
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
-if (length(args) %in% c(0,1,3,4,5)) {
-  stop("Error: args required: input and output file", call=FALSE)
+if (length(args) %in% c(0,1,2,4,5)) {
+  stop("Error: args required: input, output file and format", call=FALSE)
 }
 
  ## getwd()
- ## infile <- "~/controls8scatteredNoEdge384.txt"
- ## spl.outfile <- "./out.png"
- ## d <- read.table( file = infile,   sep = "\t", header=TRUE)
+ ## infile <- "../tmp/lyt-1562457325090311990834.txt"
+ ## spl.outfile <- "../tmp/out.png"
+ ## d <- read.table( file = infile, skip=3, nrows=384, sep = "\t", header=TRUE)
 
 infile <- args[1]
 spl.outfile <- args[2]
-d <- read.table(file=args[1], sep="\t", header=TRUE)
+format <- as.numeric(args[3])
+d <- read.table(file=args[1],  skip=3, nrows=format, sep="\t", header=TRUE)
 
-format <- nrow(d)
 well.nums <-read.table( file = "rscripts/well_numbers_for_import.txt",   sep = "\t", header=TRUE)
 well.nums <- well.nums[well.nums$format==format,]
 

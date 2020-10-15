@@ -13,7 +13,7 @@
 
  <label for="myfile">Select a layout file for import.</label>
  <label for="myfile">The file must contain 96, 384, or 1536 rows of data.</label>
-<input type="file" id="myfile" name="myfile"> 
+<input type="file" accept=".txt" id="myfile" name="myfile"> 
 </form> 
   
 <script>
@@ -26,12 +26,18 @@
       reader.onload = function(e) {
 	  var contents = e.target.result;
 	  var numrows = lineCount(contents);
-	 // var fname = file.name;
+	  var format = numrows -1
+	  var fname = file.name;
 	  
 	  if( numrows === 97 || numrows === 385 || numrows === 1537){
-	      var link ="viewlayout?origfile=";
-	      link=link.concat(myfile.files[0].name, "&infile=", document.getElementById('infile').value);
-	  window.open( link, "_top");
+	        let formData = new FormData();
+                formData.append("contents", contents);
+        //        var link='/upload?format=' + format + "&origfile=" + fname;
+                  var link='/upload';
+                fetch(link, {method: "POST", body: formData});    
+                      
+	    
+	  window.open( '/layout/viewlayout', "_top");
 	 // displayContents(contents);
     	  }else{
     	  var message1="Layout Import file must have 96, 384 or 1536 rows of data.\\n";
