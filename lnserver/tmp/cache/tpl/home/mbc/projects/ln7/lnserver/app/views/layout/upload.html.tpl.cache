@@ -1,7 +1,7 @@
-(display "<!-- hitlist#getid view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-
+  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
@@ -38,18 +38,23 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
-  <a href=\"/target/add\">Add a target</a>
-  <h3>
-  Targets for Target Layout ")(display  trg-lyt-sys-name )(display "</h3>
-  <h5>
-  Name: ")(display  trg-lyt-name )(display "<br><br>
-  Description: ")(display  trg-lyt-descr )(display "<br><br>
-  Replication: ")(display  reps )(display "<br><br>
-  </h5>
-<table><tr><th>ID</th><th>Project</th><th>Name</th><th>Quadrant</th><th>Description</th></tr>
-  ")(display  body )(display "
-</table>
+
+  <h1>View/Import Layout</h1><br><br>
+  
+  
+  <p><h3>Sample Layout</h3></p>
+<img src=")(display  spl-out2 )(display " >
 
 
+<form action=\"updatedb?infile=\"")(display  infile )(display ">
+
+
+
+ <label for=\"myfile\">Continue with import of layout?:</label>
+  <input type=\"submit\" value=\"Yes\" >  
+</form> 
+<form action=\"getall\"> <input type=\"submit\" value=\"Cancel\"></form>  
+  
 ")(display "</div></html>")(display "
+
 ")

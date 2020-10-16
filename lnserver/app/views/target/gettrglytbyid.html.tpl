@@ -3,7 +3,7 @@
           This file is generated automatically by GNU Artanis. -->
 
 <@include header.tpl %>
-  <a href="/add">Add a target</a>
+  <a href="/target/add">Add a target</a>
   <h3>
   Targets for Target Layout <%= trg-lyt-sys-name %></h3>
   <h5>

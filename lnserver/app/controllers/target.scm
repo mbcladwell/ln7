@@ -20,18 +20,18 @@
         '() a))
 
 
-(target-define getall
-		(lambda (rc)
-		  (let* ((ret #f)
-			 (holder '())
-			 (help-topic "target")
-			 (dummy (dbi-query ciccio (string-append "select id, target_sys_name, project_id, target_name, descr, accs_id from target" )))
-			 (ret (dbi-get_row ciccio))
-			 (dummy2 (while (not (equal? ret #f))     
-				   (set! holder (cons ret holder))		   
-				   (set! ret  (dbi-get_row ciccio))))
-			 (body  (string-concatenate  (prep-trg-rows holder)) ))
-		    (view-render "getall" (the-environment)))))
+;; (target-define getall
+;; 		(lambda (rc)
+;; 		  (let* ((ret #f)
+;; 			 (holder '())
+;; 			 (help-topic "target")
+;; 			 (dummy (dbi-query ciccio (string-append "select id, target_sys_name, project_id, target_name, descr, accs_id from target" )))
+;; 			 (ret (dbi-get_row ciccio))
+;; 			 (dummy2 (while (not (equal? ret #f))     
+;; 				   (set! holder (cons ret holder))		   
+;; 				   (set! ret  (dbi-get_row ciccio))))
+;; 			 (body  (string-concatenate  (prep-trg-rows holder)) ))
+;; 		    (view-render "getall" (the-environment)))))
 
 
 (target-define getall
@@ -117,6 +117,9 @@
 				   (set! ret  (dbi-get_row ciccio))))
 			 (body  (string-concatenate  (prep-trglytbyid-rows holder)) ))
 		    (view-render "gettrglytbyid" (the-environment)))))
+
+
+
 
 (target-define add
 		(lambda (rc)

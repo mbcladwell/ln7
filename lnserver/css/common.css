@@ -332,3 +332,14 @@ tr:nth-child(even) {
 }
 
 a.current-page {color: #ffffff}
+
+
+
+form  { display: table;      }
+p     { display: table-row;  }
+label { display: table-cell; }
+input { display: table-cell; }
+
+
+
+

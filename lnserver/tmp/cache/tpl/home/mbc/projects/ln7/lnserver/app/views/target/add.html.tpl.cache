@@ -38,17 +38,49 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
-  <a href=\"/target/add\">Add a target</a>
-  <h3>
-  Targets for Target Layout ")(display  trg-lyt-sys-name )(display "</h3>
-  <h5>
-  Name: ")(display  trg-lyt-name )(display "<br><br>
-  Description: ")(display  trg-lyt-descr )(display "<br><br>
-  Replication: ")(display  reps )(display "<br><br>
-  </h5>
-<table><tr><th>ID</th><th>Project</th><th>Name</th><th>Quadrant</th><th>Description</th></tr>
-  ")(display  body )(display "
-</table>
+ 
+<h3>Add A Single Target</h3><br>
+
+<form action=\"/addsingle\">
+<p>
+<label for=\"prj\">Project:</label>
+ <input type=\"text\" id=\"prj\" name=\"prj\">
+</p>
+<p>
+<label for=\"tname\">Target Name:</label>
+ <input type=\"text\" id=\"tname\" name=\"tname\">
+</p>
+<p>
+<label for=\"desc\">Description:</label>
+<input type=\"text\" id=\"desc\" name=\"desc\"> 
+</p>
+<p>
+<label for=\"accs\">Accession ID:</label>
+<input type=\"text\" id=\"accs\" name=\"accs\">
+</p>
+<br>
+ <div>
+   <button>Submit</button>
+ </div>
+</form>
+
+<br><br>
+<hr>
+
+<h3>Bulk Target Upload</h3>
+<div>
+<form action=\"/addbulk\">
+ <label for=\"avatar\">Choose bulk target upload file:</label>
+
+<input type=\"file\"
+       id=\"avatar\" name=\"avatar\"
+       accept=\".txt, .csv\">
+</div>
+<br>
+ <div>
+   <button>Submit</button>
+ </div>
+
 
 
 ")(display "</div></html>")(display "

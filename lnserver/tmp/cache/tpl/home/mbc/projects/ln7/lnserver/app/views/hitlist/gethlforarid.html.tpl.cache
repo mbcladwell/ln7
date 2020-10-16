@@ -38,15 +38,7 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
-  <a href=\"/target/add\">Add a target</a>
-  <h3>
-  Targets for Target Layout ")(display  trg-lyt-sys-name )(display "</h3>
-  <h5>
-  Name: ")(display  trg-lyt-name )(display "<br><br>
-  Description: ")(display  trg-lyt-descr )(display "<br><br>
-  Replication: ")(display  reps )(display "<br><br>
-  </h5>
-<table><tr><th>ID</th><th>Project</th><th>Name</th><th>Quadrant</th><th>Description</th></tr>
+<table><caption><h1>Hit Lists for AR-")(display  id )(display "</h1></caption><tr><th>Hit List</th><th>Name</th><th>Description</th><th>N</th></tr>
   ")(display  body )(display "
 </table>
 
