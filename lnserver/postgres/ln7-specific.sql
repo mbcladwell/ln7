@@ -15,3 +15,9 @@ $BODY$
   LANGUAGE plpgsql VOLATILE;
 
 SELECT * FROM get_all_sessions();
+
+
+-- this is required if using the Artanis session manager
+-- script does it wrong: create table if not exists Sessions (sid varchar(32)  ,data text  ,expires varchar(29)  ,client varchar(39)  ,valid integer  ,PRIMARY KEY (sid)) engine=InnoDB;
+
+create table if not exists Sessions (sid varchar(32)  ,data text  ,expires varchar(29)  ,client varchar(39)  ,valid integer  ,PRIMARY KEY (sid));

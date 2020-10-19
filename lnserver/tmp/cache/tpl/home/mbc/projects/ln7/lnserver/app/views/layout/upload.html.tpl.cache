@@ -5,11 +5,13 @@
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
+
  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
     <title>LIMS*Nucleus </title>
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
     <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/common.css\" />
     
+
     </head>
 <!-- Side navigation -->
 <div class=\"sidenav\">
@@ -43,18 +45,22 @@ img {
   
   
   <p><h3>Sample Layout</h3></p>
-<img src=")(display  spl-out2 )(display " >
+<image src= ")(display  spl-out2 )(display "> 
+<br><br>
 
+")(display  format )(display "
 
-<form action=\"updatedb?infile=\"")(display  infile )(display ">
-
-
-
- <label for=\"myfile\">Continue with import of layout?:</label>
+<form action=\"updatedb\">
+<b> <p id=\"toi\"></p></b>
   <input type=\"submit\" value=\"Yes\" >  
 </form> 
-<form action=\"getall\"> <input type=\"submit\" value=\"Cancel\"></form>  
-  
+
+
+<form action=\"/projects/getall\"> 
+<input type=\"submit\" value=\"Cancel\">
+</form>  
+
+  <script src=\"/app/views/layout/upload.js\"></script>
 ")(display "</div></html>")(display "
 
 ")

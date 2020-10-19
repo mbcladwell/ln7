@@ -12,7 +12,7 @@
   
   <p><h3>Sample Layout</h3></p>
 
-
+<%= spl-out2 %>
 
 <form action="updatedb?infile=">
 

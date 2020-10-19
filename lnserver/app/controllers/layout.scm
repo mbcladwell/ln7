@@ -6,8 +6,9 @@
 ;; https://web-artanis.com/docs/manual.html#org5cb8432
 ;; (add-to-load-path "/home/mbc/projects/ln4/")
 
-(use-modules (artanis artanis)(artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra)
-	      (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors))
+(use-modules (artanis artanis)(artanis utils)(artanis irregex)	     
+	     (srfi srfi-1)(dbi dbi) (lnserver sys extra)
+	      (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors)(web uri)(ice-9 pretty-print))
 
 (define (prep-lyt-rows a)
   (fold (lambda (x prev)
@@ -119,47 +120,50 @@
 
 
 
-(layout-define select
+ (layout-define select
   (lambda (rc)
-    (let* (
-	  (file-name  (get-from-qstr rc "myfile"))
-	 (infile (get-rand-file-name "lyt" "txt"))
- 	  (help-topic "layouts"))
-      (view-render "select" (the-environment)))))
+    (let* ((help-topic "layouts"))
+      (view-render "select" (the-environment))
+      )))
 
 
-
-
+;; 
 ;; this works
-(post "/upload" #:from-post 'bv
+(post "/upload"  #:cookies '(names format infile )  #:from-post 'bv 
       (lambda (rc)
 	(let*((help-topic "layouts")
-	     ;; (origfile (:from-post rc 'get  "origfile"))	     
-	     ;; (format (:from-post rc 'get "format"))
-	      (format "384")
-	      (a (utf8->string (rc-body rc)))
 	      (infile (get-rand-file-name "lyt" "txt"))
-	      (file-port (open-output-file infile))
-	      (dummy (display a file-port))
-	      (dummy2 (force-output file-port))
 	      (spl-out (get-rand-file-name "lyt" "png"))
-	      (spl-out2 (string-append "\"../" spl-out "\""))
+ 	      (spl-out2 (string-append "\"../" spl-out "\""))
+	      (cookies  (rc-cookie rc))
+	      (a (utf8->string (rc-body rc)))
+	      (dummy (:cookies-set! rc 'infile "infile" infile))
+	      ;;(dummy2 (:cookies-set! rc 'spl-out2 "spl-out2" spl-out2))
+	      ;;(format  (:cookies-ref rc 'format "format"))
+	      (format  (:from-post rc 'get-vals "format"))
+	      ;;(format "384")
+	    ;;  (file-port (open-output-file infile))
+	    ;;  (dummy (display a file-port))
+	    ;;  (dummy2 (force-output file-port))
 	    ;;  (origfile "test")
-	      (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out " " format )))
+	    ;;  (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out " " format )))
 	      )
-	    ;; (view-render "viewlayout" (the-environment) )
-	  #f
+	  
+	 ;; (redirect-to rc (string->uri "/viewlayout"))
+	   (view-render "/upload" (the-environment))
+;;	  #f
 	  )))
  
   
- (layout-define viewlayout 
-   (lambda (rc)
-     (let* ((help-topic "layouts")
-;;	    (:cookies-set! rc 'cc "sid" "123321")
- 	    ;;(body-content (utf8->string (rc-body rc)))
-	    )
-    (view-render "viewlayout" (the-environment))
-   )))
+;;  (layout-define viewlayout 
+;;    (lambda (rc)
+;;      (let* ((help-topic "layouts")
+;; ;;	    (:cookies-set! rc 'cc "sid" "123321")
+;;  	    ;;(body-content (utf8->string (rc-body rc)))
+;; 	    (spl-out2 "blank")
+;; 	    )
+;;     (view-render "viewlayout" (the-environment))
+;;    )))
 
 
 

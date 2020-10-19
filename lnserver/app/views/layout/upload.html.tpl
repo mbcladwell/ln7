@@ -8,17 +8,21 @@
   
   
   <p><h3>Sample Layout</h3></p>
-<img src=<%= spl-out2 %> >
+<image src= <%= spl-out2 %>> 
+<br><br>
 
+<%= format %>
 
-<form action="updatedb?infile="<%= infile %>>
-
-
-
- <label for="myfile">Continue with import of layout?:</label>
+<form action="updatedb">
+<b> <p id="toi"></p></b>
   <input type="submit" value="Yes" >  
 </form> 
-<form action="getall"> <input type="submit" value="Cancel"></form>  
-  
+
+
+<form action="/projects/getall"> 
+<input type="submit" value="Cancel">
+</form>  
+
+  <script src="/app/views/layout/upload.js"></script>
 <@include footer.tpl %>
 

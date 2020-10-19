@@ -47,7 +47,7 @@ img {
   
   <p><h3>Sample Layout</h3></p>
 
-
+")(display  spl-out2 )(display "
 
 <form action=\"updatedb?infile=\">
 

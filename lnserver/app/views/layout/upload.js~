@@ -1,0 +1,4 @@
+const selectedFileCookie = document.cookie
+  .split('; ')
+  .find(row => row.startsWith('selected-file'))
+  .split('=')[1];
