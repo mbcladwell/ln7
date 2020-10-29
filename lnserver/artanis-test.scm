@@ -51,19 +51,32 @@
   (string->sha-256 (string-append passwd salt)))
 
 
-(define a '(((id . 1) (lnuser_name . ln_admin)) ((id . 2) (lnuser_name . ln_user)) ((id . 3) (lnuser_name . Peter)) ((id . 4) (lnuser_name . test)) ((id . 5) (lnuser_name . jkjkjkjkjk))))
 
-(map member '(id . 1) a)
 
-(find (eq? '(id . 1))  a)
+(define a '((("id" . 1) ("lnuser" . "ln_admin")) (("id" . 2) ("lnuser" . "ln_user"))(("id" . 3) ("lnuser" . "bozo"))))
 
-(define arow '((id . 1) (lnuser_name . ln_admin)))
 
-(define (get-name-for-id id rows)
-  (if (null? (cdr rows)) #f
-      (if  (= (cdaar rows) id) (cdadar rows)
-      (get-name-for-id id (cdr rows)))))
+(define anoq '(((id . 1) (lnuser . ln_admin)) ((id . 2) (lnuser . ln_user))((id . 3) (lnuser . bozo))))
 
-(get-name-for-id 4 a)
 
+(object->string anoq)
+
+
+(define (get-id-for-name name rows)
+  (if (and  (null? (cdr rows))  (string=?  (cdadar rows) name))
+      (number->string (cdaar rows))
+      (if (string=?  (cdadar rows) name)
+	   (number->string (cdaar rows))
+	   (get-id-for-name name (cdr rows)))))
+
+
+(get-id-for-name "bozo" a)
+(cdr a)
 (cdadar a)
+
+(cdaar a)
+
+
+(define b (cdr a))
+(string=? (cdadar b) "ln_user")
+(cdaar b)
