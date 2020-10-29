@@ -1,4 +1,4 @@
-<!-- login#auth view template of postest
+<!-- user#add view template of postest
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
 
@@ -36,8 +36,7 @@
 
   </head>
   <body>
-    <h1>login#auth</h1>
-    <p>Rendered from app/views/login/auth.html.tpl.</p>
-    <%= ret %>
+    <h1>user#add</h1>
+    <p>Rendered from app/views/user/add.html.tpl.</p>
   </body>
 </html>

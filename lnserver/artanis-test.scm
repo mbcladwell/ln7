@@ -3,7 +3,8 @@
 
 (use-modules (srfi srfi-1)
 	     (dbi dbi) 
-	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print))
+	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
+	     (artanis artanis)(artanis util))
 
 (load "./sys/extra.scm")
 
@@ -39,3 +40,30 @@
 	   ;;(body (string-concatenate (prep-session-rows holder)))
 	   )
       (pretty-print holder))
+
+
+
+(use-modules (artanis artanis)(artanis utils))
+
+(get-random-from-dev #:length 8 #:uppercase #f)
+
+(define (default-hmac passwd salt)
+  (string->sha-256 (string-append passwd salt)))
+
+
+(define a '(((id . 1) (lnuser_name . ln_admin)) ((id . 2) (lnuser_name . ln_user)) ((id . 3) (lnuser_name . Peter)) ((id . 4) (lnuser_name . test)) ((id . 5) (lnuser_name . jkjkjkjkjk))))
+
+(map member '(id . 1) a)
+
+(find (eq? '(id . 1))  a)
+
+(define arow '((id . 1) (lnuser_name . ln_admin)))
+
+(define (get-name-for-id id rows)
+  (if (null? (cdr rows)) #f
+      (if  (= (cdaar rows) id) (cdadar rows)
+      (get-name-for-id id (cdr rows)))))
+
+(get-name-for-id 4 a)
+
+(cdadar a)

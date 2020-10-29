@@ -1,4 +1,4 @@
-<!-- login#get-session-id view template of lnserver
+<!-- user#add view template of postest
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
 
@@ -36,7 +36,12 @@
 
   </head>
   <body>
-    <h1>login#get-session-id</h1>
-    <p>Rendered from app/views/login/get-session-id.html.tpl.</p>
+    <h1>lnuser#add</h1>
+    <p>Rendered from app/views/lnuser/add.html.tpl.</p>
+    <%= qstr %><br>
+    <%= name %><br>
+    <%= pwd %><br>
+    <%= sql %><br>
+    
   </body>
 </html>
