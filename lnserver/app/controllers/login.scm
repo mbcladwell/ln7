@@ -17,6 +17,19 @@
     (view-render "login" (the-environment))
   )))
 
+;; (post "/login/login"
+;;       #:from-post 'qstr
+;;   (lambda (rc)
+;;   "<h1>This is login#auth</h1><p>Find me in app/views/login/login.html.tpl</p>"
+;;   ;; TODO: add controller method `auth'
+;;   ;; uncomment this line if you want to render view from template
+;;   (let* ((login-failed (params rc "login_failed")))
+;;     (view-render "/login" (the-environment))
+;;   )))
+
+
+
+
 (define (get-salt)
 (get-random-from-dev #:length 8 #:uppercase #f))
 
@@ -32,12 +45,19 @@
 	   (number->string (cdaar rows))
 	   (get-id-for-name name (cdr rows)))))
 
+;; (define (get-id-for-name name rows)
+;;   (if (and  (null? (cdr rows))  (string=?  (object->string (cdadar rows)) name))
+;;       (number->string (cdaar rows))
+;;       (if (string=?  (object->string (cdadar rows)) name)
+;; 	   (number->string (cdaar rows))
+;; 	   (get-id-for-name name (cdr rows)))))
+
 
 (post "/auth"
       #:auth `(table person "lnuser" "passwd" ,default-hmac)
       #:session #t
       #:conn #t
-      #:cookies '(names userid user group requested-url ret)
+      #:cookies '(names userid user group requested-url sid ret)
       #:from-post 'qstr
       (lambda (rc)
 	(cond
@@ -47,12 +67,13 @@
 		(name (car (assoc-ref qstr "lnuser")))
 		(dummy (:cookies-set! rc 'user "user" name))
 		(sql "select id, lnuser from person")
-		(ret  (object->string (DB-get-all-rows (:conn rc sql))))  ;;this is in artanis/artanis/db.scm
+		(ret   (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
 		(dummy (:cookies-set! rc 'ret "ret" ret))
-	;;	(id (get-id-for-name name ret))
-;;		(dummy (:cookies-set! rc 'userid "userid" id))
+		(id (get-id-for-name name ret))
+		(dummy (:cookies-set! rc 'userid "userid" id))
 		(group "admin")
 		(dummy (:cookies-set! rc 'group "group" group))
+		(dummy (:cookies-set! rc 'sid "sid" (:cookies-ref rc "sid" sid)))
 		(requested-url "/login/login")
 		)
 	    (redirect-to rc requested-url)))

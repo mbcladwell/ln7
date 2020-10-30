@@ -13,6 +13,8 @@
  
     <h1>login#login</h1>
   <%= login-failed %>
+  
+  
     <p>Rendered from app/views/login/login.html.tpl.</p>
     <form action="/auth" method="post" >
    <input type="text" id="lnuser" name="lnuser"><br>

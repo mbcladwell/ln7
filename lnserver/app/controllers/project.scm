@@ -20,25 +20,47 @@
 
 
 
-(project-define getall
-		(lambda (rc)
-    (let* ((help-topic "project")
-	   (ret #f)
-	   (holder '())
-	   (dummy (dbi-query ciccio  "select id, project_sys_name, project_name, descr from project"  ))
-	   (ret (dbi-get_row ciccio))
-	   (dummy2 (while (not (equal? ret #f))     
-		     (set! holder (cons ret holder))		   
-		     (set! ret  (dbi-get_row ciccio))))
+;; (project-define getall
+;; 		(lambda (rc)
+;;     (let* ((help-topic "project")
+;; 	   (ret #f)
+;; 	   (holder '())
+;; 	   (dummy (dbi-query ciccio  "select id, project_sys_name, project_name, descr from project"  ))
+;; 	   (ret (dbi-get_row ciccio))
+;; 	   (dummy2 (while (not (equal? ret #f))     
+;; 		     (set! holder (cons ret holder))		   
+;; 		     (set! ret  (dbi-get_row ciccio))))
+;; 	   (body (string-concatenate (prep-project-rows holder)))
+;; 	   )
+;;       (view-render "getall" (the-environment))
+;;   )))
+
+(get "/project/getall" #:conn #t
+     (lambda (rc ) 
+	     (let* ( 
+		    (help-topic "project")
+	      ;;(ret #f)
+	   ;;(holder '())
+	   ;;(dummy (dbi-query ciccio  "select id, project_sys_name, project_name, descr from project"  ))
+	   ;;(ret (dbi-get_row ciccio))
+	   (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
+
+	  ;; (dummy2 (while (not (equal? ret #f))     
+	;;	     (set! holder (cons ret holder))		   
+	;;	     (set! ret  (dbi-get_row ciccio))))
 	   (body (string-concatenate (prep-project-rows holder)))
 	   )
-      (view-render "getall" (the-environment))
+      (view-render "/getall" (the-environment))
   )))
 
-(project-define add
-		(lambda (rc)
-		  (let* ((help-topic "project"))
-		    (view-render "add" (the-environment)))))
+
+(post "/project/add"
+     #:with-auth "/login?destination=/project/add"
+     #:from-post 'qstr
+     (lambda (rc)     
+       (let* ((help-topic "project"))
+	 (view-render "/add" (the-environment)))
+	  ))
 
 
 (project-define addaction

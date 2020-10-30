@@ -59,6 +59,9 @@
 (define anoq '(((id . 1) (lnuser . ln_admin)) ((id . 2) (lnuser . ln_user))((id . 3) (lnuser . bozo))))
 
 
+
+((("id" . 1) ("lnuser" . "ln_admin")) (("id" . 2) ("lnuser" . "ln_user")))
+
 (object->string anoq)
 
 
@@ -80,3 +83,16 @@
 (define b (cdr a))
 (string=? (cdadar b) "ln_user")
 (cdaar b)
+
+
+(define anoq '(((id . 1) (lnuser . ln_admin)) ((id . 2) (lnuser . ln_user))((id . 3) (lnuser . bozo))))
+
+
+(define (get-id-for-name name rows)
+  (if (and  (null? (cdr rows))  (string=?  (object->string (cdadar rows)) name))
+      (number->string (cdaar rows))
+      (if (string=?  (object->string (cdadar rows)) name)
+	   (number->string (cdaar rows))
+	   (get-id-for-name name (cdr rows)))))
+
+(get-id-for-name "ln_admin" anoq)
