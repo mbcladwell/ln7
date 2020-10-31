@@ -73,7 +73,7 @@
 		(dummy (:cookies-set! rc 'userid "userid" id))
 		(group "admin")
 		(dummy (:cookies-set! rc 'group "group" group))
-		(dummy (:cookies-set! rc 'sid "sid" (:cookies-ref rc "sid" sid)))
+	;;	(dummy (:cookies-set! rc 'sid "sid" (:cookies-ref rc "sid" sid)))
 		(requested-url "/login/login")
 		)
 	    (redirect-to rc requested-url)))

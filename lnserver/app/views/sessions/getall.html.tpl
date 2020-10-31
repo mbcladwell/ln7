@@ -4,9 +4,11 @@
   
 <@include header.tpl %>
   
-<table><caption><h1>All Sessions</h1></caption><tr><th>Session</th><th>Updated</th><th>Name</th><th>Group</th></tr>
+<table><caption><h1>All Sessions</h1></caption><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr>
 <%= body %>
 </table>
+<br><br>>
+  Active sessions in <font style="color:red">red</font><br><br>
 
 
 <@include footer.tpl %>

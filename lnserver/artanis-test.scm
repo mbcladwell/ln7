@@ -96,3 +96,18 @@
 	   (get-id-for-name name (cdr rows)))))
 
 (get-id-for-name "ln_admin" anoq)
+
+;; Sat, 31 Oct 2020 13:41:27 GMT
+
+(current-time)
+(define a (current-time))
+
+(define b (car (mktime (car (strptime  "%a, %d %b %Y %H:%M:%S %Z" "Sat, 31 Oct 2020 13:41:27 GMT")) "GMT")))
+
+(- b a)
+
+(use-modules (srfi srfi-19))
+(- (time-second (current-time)) b)
+
+
+       (if (< (- 22 20) 0) #t #f )

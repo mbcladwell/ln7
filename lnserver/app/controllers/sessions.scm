@@ -17,13 +17,19 @@
 
 (define (prep-session-rows a)
   (fold (lambda (x prev)
-          (let ((id (result-ref x "id"))
-		(updated (result-ref x "updated"))
-		(lnuser-name (result-ref x "lnuser_name"))
-		(usergroup (result-ref x "usergroup")))
+          (let* ((id (result-ref x "sid"))
+		(lnuser-name (result-ref x "lnuser"))
+		(usergroup (result-ref x "usergroup"))
+		(expires (result-ref x "expires"))
+		(expires-seconds (car (mktime (car (strptime  "%a, %d %b %Y %H:%M:%S %Z" expires)))))
+		(now (time-second (current-time)))
+		(expired? (if (< (- now expires-seconds) 0) #t #f ))
+		(expire-text (if expired? expires (string-append "<font style=\"color:red\">" expires "</font>" )))
+		)
 	      
-	      (cons (string-append "<tr><th>" id  "</th><th>" updated  "</th><th>" lnuser-name "</th><th>" usergroup "</th><tr>")
-		  prev)))
+	      (cons (string-append "<tr><th>" id  "</th><th>" lnuser-name "</th><th>" usergroup "</th><th>" expire-text  "</th><tr>")
+		    prev)
+	      ))
         '() a))
 
 
