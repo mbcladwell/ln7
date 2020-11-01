@@ -23,7 +23,7 @@
 		(expires (result-ref x "expires"))
 		(expires-seconds (car (mktime (car (strptime  "%a, %d %b %Y %H:%M:%S %Z" expires)))))
 		(now (time-second (current-time)))
-		(expired? (if (< (- now expires-seconds) 0) #t #f ))
+		(expired? (if (> (- now expires-seconds) 0) #t #f ))
 		(expire-text (if expired? expires (string-append "<font style=\"color:red\">" expires "</font>" )))
 		)
 	      
