@@ -14,3 +14,20 @@
 (string-split (caar a) #\tab)
 
 (with-input-from-file "/home/mbc/controls8scatteredNoEdge384.txt" read-line)
+
+
+(define (get-group-for-name name rows)
+  (if (and  (null? (cdr rows))  (string=?  (object->string (cdadar rows)) name))
+      (object->string (cdr (caddar rows)))
+      (if (string=?  (object->string (cdadar rows)) name)
+	   (object->string (cdr (caddar rows)))
+	   (get-group-for-name name (cdr rows)))))
+
+
+(define a '(((id . 1) (lnuser . ln_admin) (usergroup . admin)) ((id . 2) (lnuser . ln_user) (usergroup . user))))
+
+
+
+(get-group-for-name "ln_admin" a)
+
+(object->string (cdr (caddar a)))

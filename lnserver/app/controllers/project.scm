@@ -54,9 +54,9 @@
   )))
 
 
-(post "/project/add"
-     #:with-auth "/login?destination=/project/add"
-     #:from-post 'qstr
+(get "/project/add"
+     #:with-auth "/login/login?destination=/project/add"
+ ;;    #:from-post 'qstr
      (lambda (rc)     
        (let* ((help-topic "project"))
 	 (view-render "/add" (the-environment)))

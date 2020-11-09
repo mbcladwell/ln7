@@ -6,6 +6,8 @@
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(srfi srfi-19)(dbi dbi) (lnserver sys extra)
 	     (ice-9 pretty-print))
 
+(load "/home/mbc/Downloads/ssql-fixed.scm")
+
 (sessions-define get
   (lambda (rc)
   "<h1>This is sessions#get</h1><p>Find me in app/views/sessions/get.html.tpl</p>"
@@ -51,3 +53,6 @@
 			  )
 		     (view-render "getall" (the-environment))
 		     )))
+
+
+

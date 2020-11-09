@@ -1,17 +1,18 @@
-<!-- test#sessiontest view template of lnserver
+(display "<!-- test#sessiontest view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
 <html>
   <head>
-    <title><%= (current-appname) %>
+    <title>")(display  (current-appname) )(display "
     </title>
   </head>
   <body>
     <h1>test#logtest</h1>
     <p>Rendered from app/views/test/logtest.html.tpl.</p>
-  Current:  <%= current %><br>
-  SID:  <%= sidvar %><br>
-  Auth rc:  <%= auth-rc %><br>
+  Current:  ")(display  current )(display "<br>
+  SID:  ")(display  sidvar )(display "<br>
+  Auth rc:  ")(display  auth-rc )(display "<br>
     
   </body>
 </html>
+")
