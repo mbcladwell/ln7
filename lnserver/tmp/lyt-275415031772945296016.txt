@@ -1,4 +1,0 @@
------------------------------14685721617459277541133976303
-Content-Disposition: form-data; name="myfile"; filename="controls8scatteredNoEdge384.txt"
-Content-Type: text/plain
-

@@ -8,9 +8,9 @@
   </head>
   <body>
     <h1>test#cookietest</h1>
-    <p>Rendered from app/views/test/sessiontest.html.tpl.</p>
-   current: ")(display  new-session )(display "<br>
-   
+    <p>Rendered from app/views/test/cookietest.html.tpl.</p>
+
+   GetSID: ")(display  getsid )(display "<br>
  
     
   </body>

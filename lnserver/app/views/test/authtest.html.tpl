@@ -15,7 +15,8 @@
   <body>
     <h1>test#authtest</h1>
     <p>Rendered from app/views/test/authtest.html.tpl.</p>
-
-    <%= requested-url %><br>
+Author validated:<%= check-value%><br>
+    Requested URL:    <%= requested-url %><br>
+    Header sid: <%= header-sid %>
   </body>
 </html>

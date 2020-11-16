@@ -35,7 +35,7 @@ img {
   <a href=\"http://labsolns.com/software/toc\">TOC</a>
   <a href=\"mailto:info@labsolns.com\">Contact</a>
 
-  SID: ")(display  sid )(display "
+  
 </div>
 <div class=\"main\">
 ")(display "
@@ -47,14 +47,14 @@ img {
 </table>
 
 <p><h3>Sample Layout</h3></p>
-<img src=")(display  spl-out2 )(display " >
+<img src=")(display  spl-out2 )(display ">
 <p><h3>Sample Replication</h3></p>
 
-<img src=")(display  spl-rep-out2 )(display " >
+<img src=")(display  spl-rep-out2 )(display ">
 
 <p><h3>Target Replication</h3></p>
 
-<img src=")(display  trg-rep-out2 )(display " >
+<img src=")(display  trg-rep-out2 )(display ">
 
 
 

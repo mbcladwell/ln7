@@ -8,9 +8,9 @@
   </head>
   <body>
     <h1>test#cookietest</h1>
-    <p>Rendered from app/views/test/sessiontest.html.tpl.</p>
-   current: <%= new-session %><br>
-   
+    <p>Rendered from app/views/test/cookietest.html.tpl.</p>
+   Valid session?:  <%= valid-session %><br>
+   GetSID: <%= getsid %><br>
  
     
   </body>

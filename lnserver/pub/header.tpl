@@ -32,6 +32,6 @@ img {
   <a href="http://labsolns.com/software/toc">TOC</a>
   <a href="mailto:info@labsolns.com">Contact</a>
 
-  SID: <%= sid %>
+  
 </div>
 <div class="main">
