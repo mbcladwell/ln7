@@ -5,11 +5,13 @@
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
+
  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
     <title>LIMS*Nucleus </title>
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
     <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/common.css\" />
     
+
     </head>
 <!-- Side navigation -->
 <div class=\"sidenav\">
@@ -34,7 +36,7 @@ img {
   <a href=\"http://labsolns.com/software/toc\">TOC</a>
   <a href=\"mailto:info@labsolns.com\">Contact</a>
 
-  SID: ")(display  sid )(display "
+  
 </div>
 <div class=\"main\">
 ")(display "
@@ -42,22 +44,24 @@ img {
 <h3>Add A Single Target</h3><br>
 
 <form action=\"/addsingle\">
+
+
 <p>
-<label for=\"prj\">Project:</label>
- <input type=\"text\" id=\"prj\" name=\"prj\">
-</p>
+  <label for=\"prj\">Project:</label>
+  <select name=\"projects\" id=\"projects\">")(display  all-projects )(display " </select>
+</p><br>
 <p>
 <label for=\"tname\">Target Name:</label>
  <input type=\"text\" id=\"tname\" name=\"tname\">
-</p>
+</p><br>
 <p>
 <label for=\"desc\">Description:</label>
 <input type=\"text\" id=\"desc\" name=\"desc\"> 
-</p>
+</p><br>
 <p>
 <label for=\"accs\">Accession ID:</label>
 <input type=\"text\" id=\"accs\" name=\"accs\">
-</p>
+</p><br>
 <br>
  <div>
    <button>Submit</button>

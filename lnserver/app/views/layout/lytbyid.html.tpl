@@ -10,16 +10,13 @@
 </table>
 
 <p><h3>Sample Layout</h3></p>
-<img src=<%= spl-out2 %>>
+<p><img src=<%= spl-out2 %>></p>
 <p><h3>Sample Replication</h3></p>
 
-<img src=<%= spl-rep-out2 %>>
+<p><img src=<%= spl-rep-out2 %>></p>
 
 <p><h3>Target Replication</h3></p>
 
-<img src=<%= trg-rep-out2 %>>
-
-
-
+<p><img src=<%= trg-rep-out2 %>><p>
 
 <@include footer.tpl %>

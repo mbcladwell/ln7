@@ -1,113 +1,62 @@
 ;; /gnu/store/0w76khfspfy8qmcpjya41chj3bgfcy0k-guile-3.0.4/bin/guile
 ;; /gnu/store/jgl9d4axpavsv83z2f1z1himnkbsxxqj-guile-2.2.7/bin/guile
+;; /usr/lib/x86_64-linux-gnu/guile/3.0/bin/guile
 
 (use-modules (srfi srfi-1)
 	     (dbi dbi) 
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
-	     (artanis artanis)(artanis util))
+	     (artanis artanis))
 
 (load "./sys/extra.scm")
 
 
 (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:tcp:192.168.1.11:5432"))
 
+(define (mytest)
+  (let* ((help-topic "session")
+	 (ret #f)
+	 (holder '())
+	 (sql "select target.id, target.target_sys_name, target.descr, target_layout_name.project_id, target.target_name, target_layout.quad, target_layout_name_sys_name, target_layout_name_name, target_layout_name_desc, target_layout_name.reps from target_layout_name, target_layout, target WHERE target_layout.target_layout_name_id=target_layout_name.id AND target_layout.target_id=target.id AND target_layout_name.id='1'")
+	 (dummy (dbi-query ciccio  sql ))
+	 (ret (dbi-get_row ciccio))
+	 (dummy2 (while (not (equal? ret #f))
+		   ;;(pretty-print ret)
+		   (set! holder (cons ret holder))		   
+		   (set! ret  (dbi-get_row ciccio))))
+	  (trg-lyt-sys-name (result-ref holder "target_layout_name_sys_name"))
+	;; (body (string-concatenate (prep-session-rows holder)))
+	 )
+ ;;   (pretty-print trg-lyt-sys-name)))
+    (pretty-print (car holder))))
+ 
 
-(define (prep-session-rows a)
-  (fold (lambda (x prev)
-          (let ((id (get-c1 x))
-		(updated (get-c2 x))
-		(lnuser-name (result-ref x "lnuser_name"))
-		(usergroup (result-ref x "usergroup")))
-	      
-	      (cons (string-append "<tr><th><a href=\"/hitlist/gethlbyid?id=" id  "\">" updated "</a></th><th>" lnuser-name "</th><th>" usergroup "</th><tr>")
-		  prev)))
-        '() a))
+(mytest)
 
+(define a '((("project_sys_name" . "PRJ-1")) (("project_sys_name" . "PRJ-2")) (("project_sys_name" . "PRJ-3")) (("project_sys_name" . "PRJ-4")) (("project_sys_name" . "PRJ-5")) (("project_sys_name" . "PRJ-6")) (("project_sys_name" . "PRJ-7")) (("project_sys_name" . "PRJ-8")) (("project_sys_name" . "PRJ-9")) (("project_sys_name" . "PRJ-10")))
+)
 
-
-
-    (let* ((help-topic "session")
-	   (ret #f)
-	   (holder '())
-	   (dummy (dbi-query ciccio  "select lnsession.id, lnsession.updated, lnuser.lnuser_name, lnuser_groups.usergroup  from lnsession, lnuser, lnuser_groups where lnsession.lnuser_id=lnuser.id AND lnuser_groups.id=lnuser.usergroup_id"  ))
-	   (ret (dbi-get_row ciccio))
-	   (dummy2 (while (not (equal? ret #f))     
-		     (set! holder (cons ret holder))		   
-		     (set! ret  (dbi-get_row ciccio))
-		     (pretty-print ret)
-
-		     ))
-	   ;;(body (string-concatenate (prep-session-rows holder)))
-	   )
-      (pretty-print holder))
-
-
-
-(use-modules (artanis artanis)(artanis utils))
-
-(get-random-from-dev #:length 8 #:uppercase #f)
-
-(define (default-hmac passwd salt)
-  (string->sha-256 (string-append passwd salt)))
-
-
-
-
-(define a '((("id" . 1) ("lnuser" . "ln_admin")) (("id" . 2) ("lnuser" . "ln_user"))(("id" . 3) ("lnuser" . "bozo"))))
-
-
-(define anoq '(((id . 1) (lnuser . ln_admin)) ((id . 2) (lnuser . ln_user))((id . 3) (lnuser . bozo))))
-
-
-
-((("id" . 1) ("lnuser" . "ln_admin")) (("id" . 2) ("lnuser" . "ln_user")))
-
-(object->string anoq)
-
-
-(define (get-id-for-name name rows)
-  (if (and  (null? (cdr rows))  (string=?  (cdadar rows) name))
-      (number->string (cdaar rows))
-      (if (string=?  (cdadar rows) name)
-	   (number->string (cdaar rows))
-	   (get-id-for-name name (cdr rows)))))
-
-
-(get-id-for-name "bozo" a)
-(cdr a)
-(cdadar a)
+(result-ref a "project_sys_name")
 
 (cdaar a)
+(cdr a)
 
 
-(define b (cdr a))
-(string=? (cdadar b) "ln_user")
-(cdaar b)
+(define (extract-projects lst all-prj)
+  (if (null? (cdr lst))
+        (begin
+	 (set! all-prj (cons (string-append "<option value=\"" (cdaar lst) "\">"(cdaar lst) "</option>") all-prj))
+       all-prj)
+       (begin
+	 (set! all-prj (cons (string-append "<option value=\"" (cdaar lst) "\">"(cdaar lst) "</option>") all-prj))
+	 (extract-projects (cdr lst) all-prj)) ))
 
+(define all-projects '())
+(extract-projects a all-projects)
 
-(define anoq '(((id . 1) (lnuser . ln_admin)) ((id . 2) (lnuser . ln_user))((id . 3) (lnuser . bozo))))
+(define c '())
+(set! c (cons "2" c))
+(pair? c)
 
+ <option value="volvo">Volvo</option>
 
-(define (get-id-for-name name rows)
-  (if (and  (null? (cdr rows))  (string=?  (object->string (cdadar rows)) name))
-      (number->string (cdaar rows))
-      (if (string=?  (object->string (cdadar rows)) name)
-	   (number->string (cdaar rows))
-	   (get-id-for-name name (cdr rows)))))
-
-(get-id-for-name "ln_admin" anoq)
-
-;; Sat, 31 Oct 2020 13:41:27 GMT
-
-(current-time)
-(define a (current-time))
-
-(define b (car (mktime (car (strptime  "%a, %d %b %Y %H:%M:%S %Z" "Sat, 31 Oct 2020 13:41:27 GMT")) "GMT")))
-
-(- b a)
-
-(use-modules (srfi srfi-19))
-(- (time-second (current-time)) b)
-
-
-       (if (< (- 22 20) 0) #t #f )
+(substring "PRJ-10" 4)

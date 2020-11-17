@@ -15,16 +15,9 @@
 		  prev)))
         '() a))
 
-
-
-(define (get-assay-runs-for-prjid id)
-  (let* ((ret #f)
-	(holder '())
-	(dummy (dbi-query ciccio (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_set, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id =" id )))
-	(ret (dbi-get_row ciccio))
-	(dummy2 (while (not (equal? ret #f))     
-		  (set! holder (cons ret holder))		   
-		  (set! ret  (dbi-get_row ciccio)))))
+(define (get-assay-runs-for-prjid id rc)
+  (let* ((sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_set, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id =" id ))
+	(holder (DB-get-all-rows (:conn rc sql))))
 	 (string-concatenate (prep-ar-rows holder))))
 
 (define (prep-hl-for-prj-rows a)
@@ -43,34 +36,28 @@
         '() a))
 
 
-(define (get-hit-lists-for-prjid id)
-  (let* ((ret #f)
-	(holder '())
-	(dummy (dbi-query ciccio (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_type.assay_type_name, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n  FROM assay_run, plate_set, hit_list, assay_type WHERE assay_type.id=assay_run.assay_type_id AND hit_list.assay_run_id=assay_run.id  AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id =" id )))
-	(ret (dbi-get_row ciccio))
-	(dummy2 (while (not (equal? ret #f))     
-		  (set! holder (cons ret holder))		   
-		  (set! ret  (dbi-get_row ciccio)))))
-	 (string-concatenate (prep-hl-for-prj-rows holder))))
+(define (get-hit-lists-for-prjid id rc)
+  (let* ((sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_type.assay_type_name, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n  FROM assay_run, plate_set, hit_list, assay_type WHERE assay_type.id=assay_run.assay_type_id AND hit_list.assay_run_id=assay_run.id  AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id =" id ))
+	(holder (DB-get-all-rows (:conn rc sql))))
+	(string-concatenate (prep-hl-for-prj-rows holder))))
+
+
 
 ;;    (display holder)))
 
 ;; (get-hit-lists-for-prjid "1")
 
 (plateset-define getps
+		 (options #:conn #t)
 		 (lambda (rc)
-		   (let* ((ret #f)
-			  (holder '())
+		   (let* (
 			  (help-topic "plateset")
 			  (id  (get-from-qstr rc "id"))
-			  (dummy (dbi-query ciccio (string-append "select id, plate_set_sys_name, plate_set_name, descr from plate_set where project_id =" id )))
-			  (ret (dbi-get_row ciccio))
-			  (dummy2 (while (not (equal? ret #f))     
-				    (set! holder (cons ret holder))		   
-				    (set! ret  (dbi-get_row ciccio))))
+			  (sql (string-append "select id, plate_set_sys_name, plate_set_name, descr from plate_set where project_id =" id ))
+			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
-			  (assay-runs (get-assay-runs-for-prjid id))
-			  (hit-lists (get-hit-lists-for-prjid id))
+			  (assay-runs (get-assay-runs-for-prjid id rc))
+			  (hit-lists (get-hit-lists-for-prjid id rc))
 			  )      
 		     (view-render "getps" (the-environment))
 		     )))

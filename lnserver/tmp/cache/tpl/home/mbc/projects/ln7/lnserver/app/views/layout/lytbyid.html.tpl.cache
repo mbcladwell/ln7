@@ -47,17 +47,14 @@ img {
 </table>
 
 <p><h3>Sample Layout</h3></p>
-<img src=")(display  spl-out2 )(display ">
+<p><img src=")(display  spl-out2 )(display "></p>
 <p><h3>Sample Replication</h3></p>
 
-<img src=")(display  spl-rep-out2 )(display ">
+<p><img src=")(display  spl-rep-out2 )(display "></p>
 
 <p><h3>Target Replication</h3></p>
 
-<img src=")(display  trg-rep-out2 )(display ">
-
-
-
+<p><img src=")(display  trg-rep-out2 )(display "><p>
 
 ")(display "</div></html>")(display "
 ")

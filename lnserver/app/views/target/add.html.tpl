@@ -7,22 +7,24 @@
 <h3>Add A Single Target</h3><br>
 
 <form action="/addsingle">
+
+
 <p>
-<label for="prj">Project:</label>
- <input type="text" id="prj" name="prj">
-</p>
+  <label for="prj">Project:</label>
+  <select name="projects" id="projects"><%= all-projects %> </select>
+</p><br>
 <p>
 <label for="tname">Target Name:</label>
  <input type="text" id="tname" name="tname">
-</p>
+</p><br>
 <p>
 <label for="desc">Description:</label>
 <input type="text" id="desc" name="desc"> 
-</p>
+</p><br>
 <p>
 <label for="accs">Accession ID:</label>
 <input type="text" id="accs" name="accs">
-</p>
+</p><br>
 <br>
  <div>
    <button>Submit</button>

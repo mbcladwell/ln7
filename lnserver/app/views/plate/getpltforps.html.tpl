@@ -3,7 +3,7 @@
           This file is generated automatically by GNU Artanis. -->
 
 <@include header.tpl %>
-<table><caption><h1>Plates for PS-<%= id %></h1></caption><tr><th>Plate</th><th>Barcode</th></tr>
+<table><caption><h1>Plates for PS-<%= id %></h1></caption><tr><th>Plate</th><th>Plate Type</th><th>Barcode</th></tr>
   <%= body %>
 </table>
 <hr>
