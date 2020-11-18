@@ -6,9 +6,7 @@
  
 <h3>Add A Single Target</h3><br>
 
-<form action="/addsingle">
-
-
+<form action="/addsingle" method="get">
 <p>
   <label for="prj">Project:</label>
   <select name="projects" id="projects"><%= all-projects %> </select>
@@ -36,7 +34,7 @@
 
 <h3>Bulk Target Upload</h3>
 <div>
-<form action="/addbulk">
+<form action="/addbulk" method="post">
  <label for="avatar">Choose bulk target upload file:</label>
 
 <input type="file"

@@ -1,7 +1,7 @@
-(display "<!-- project#getall view template of lnserver
+(display "<!-- hitlist#getid view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-  
+
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
@@ -40,11 +40,10 @@ img {
 </div>
 <div class=\"main\">
 ")(display "
- <a href=\"user/add\">Add User</a>
-<table><caption><h1>All Users</h1></caption><tr><th><img src=\"../img/checkmark.png\" height=\"20\" width=\"20\"></th><th>ID</th><th>Group</th><th>Name</th><th>Tags</th></tr>
-")(display  body )(display "
+<table><caption><h1>Targets</h1></caption><tr><th>ID</th><th>Project</th><th>Name</th><th>Description</th><th>Accession</th></tr>
+  ")(display  body )(display "
 </table>
 
-")(display "</div></html>")(display "
 
+")(display "</div></html>")(display "
 ")

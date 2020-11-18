@@ -142,7 +142,7 @@
 
 ;;new_target(_project_id INTEGER, _trg_name varchar(30), _descr varchar(250), _accs_id varchar(30))
 
-(post "/addsingle" #:conn #t #:from-post 'qstr
+(get "/addsingle" #:conn #t 
 		(lambda (rc)
 		  (let* ((help-topic "target")
 			 (prj-name (get-from-qstr rc "projects"))
@@ -154,5 +154,52 @@
 			 (dummy (:conn rc sql))
 			 )
 		    (redirect-to rc "target/getall")
+  )))
+
+
+(define (extract-targets lst all-trgs)
+  (if (null? (cdr lst))
+        (begin
+	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">" (string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
+       all-trgs)
+       (begin
+	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">"(string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
+	 (extract-targets (cdr lst) all-trgs)) ))
+
+
+
+(target-define addtrglyt
+	       (options #:conn #t)
+	(lambda (rc)
+	  (let* ((help-topic "target")
+		 (sql  "select project_sys_name from project")
+		 (holder  (DB-get-all-rows (:conn rc sql)))
+		 (all-projects-pre '())			 
+		 (all-projects  (extract-projects holder all-projects-pre))
+		 (sql2  "select id, target_sys_name, target_name from target")
+		 (holder2    (DB-get-all-rows (:conn rc sql2)))
+		 (all-targets-pre '())			 
+		 (all-targets  (extract-targets holder2 all-targets-pre))
+		 )
+		    (view-render "addtrglyt" (the-environment)))))
+	       
+
+;; new_target_layout_name(_project_id INTEGER,  _trg_lyt_name varchar(30), _descr varchar(250), _reps INTEGER, q1_id INTEGER, q2_id INTEGER, q3_id INTEGER, q4_id INTEGER)
+(get "/addtrglytaction" #:conn #t 
+		(lambda (rc)
+		  (let* ((help-topic "target")
+			 (prj-name (get-from-qstr rc "projects"))
+			 (id (substring prj-name 4))
+			 (tlytname (get-from-qstr rc "tname"))
+			 (desc (get-from-qstr rc "desc"))
+			 (reps (get-from-qstr rc "reps"))
+			 (q1 (get-from-qstr rc "q1"))
+			 (q2 (get-from-qstr rc "q2"))
+			 (q3 (get-from-qstr rc "q3"))
+			 (q4 (get-from-qstr rc "q4"))
+			 (sql (string-append "select new_target_layout_name(" id ", '" tlytname "', '" desc "', '" reps "', '" q1 "', '" q2 "', '" q3 "', '" q4 "')")) 
+			 (dummy (:conn rc sql))
+			 )
+		    (redirect-to rc "target/gettrglyt")
   )))
      

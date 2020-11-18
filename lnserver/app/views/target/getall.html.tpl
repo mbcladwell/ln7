@@ -3,6 +3,8 @@
           This file is generated automatically by GNU Artanis. -->
 
 <@include header.tpl %>
+    <a href="/target/addlyt">Add target layout</a>
+
 <table><caption><h1>Targets</h1></caption><tr><th>ID</th><th>Project</th><th>Name</th><th>Description</th><th>Accession</th></tr>
   <%= body %>
 </table>

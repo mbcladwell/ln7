@@ -30,33 +30,27 @@
     (pretty-print (car holder))))
  
 
-(mytest)
-
-(define a '((("project_sys_name" . "PRJ-1")) (("project_sys_name" . "PRJ-2")) (("project_sys_name" . "PRJ-3")) (("project_sys_name" . "PRJ-4")) (("project_sys_name" . "PRJ-5")) (("project_sys_name" . "PRJ-6")) (("project_sys_name" . "PRJ-7")) (("project_sys_name" . "PRJ-8")) (("project_sys_name" . "PRJ-9")) (("project_sys_name" . "PRJ-10")))
-)
-
-(result-ref a "project_sys_name")
-
-(cdaar a)
-(cdr a)
 
 
-(define (extract-projects lst all-prj)
+
+(define a '(((id . 1) (target_sys_name . TRG-1) (target_name . Target1)) ((id . 2) (target_sys_name . TRG-2) (target_name . Target2)) ((id . 3) (target_sys_name . TRG-3) (target_name . Target3)) ((id . 4) (target_sys_name . TRG-4) (target_name . Target4)) ((id . 5) (target_sys_name . TRG-5) (target_name . muCD71)) ((id . 6) (target_sys_name . TRG-6) (target_name . huCD71)) ((id . 7) (target_sys_name . TRG-7) (target_name . cynoCD71)) ((id . 8) (target_sys_name . TRG-8) (target_name . BSA)) ((id . 9) (target_sys_name . TRG-9) (target_name . Lysozyme)) ((id . 10) (target_sys_name . TRG-10) (target_name . GAPDH)) ((id . 11) (target_sys_name . TRG-11) (target_name . ICAM4)) ((id . 12) (target_sys_name . TRG-12) (target_name . IL21R)) ((id . 13) (target_sys_name . TRG-13) (target_name . uiuiu)) ((id . 14) (target_sys_name . TRG-14) (target_name . hytgfr))))
+
+
+(define (extract-targets lst all-trgs)
   (if (null? (cdr lst))
         (begin
-	 (set! all-prj (cons (string-append "<option value=\"" (cdaar lst) "\">"(cdaar lst) "</option>") all-prj))
-       all-prj)
+	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">" (string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
+       all-trgs)
        (begin
-	 (set! all-prj (cons (string-append "<option value=\"" (cdaar lst) "\">"(cdaar lst) "</option>") all-prj))
-	 (extract-projects (cdr lst) all-prj)) ))
+	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">"(string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
+	 (extract-targets (cdr lst) all-trgs)) ))
 
-(define all-projects '())
-(extract-projects a all-projects)
+(define all-targets '())
+(extract-targets a all-targets)
 
-(define c '())
-(set! c (cons "2" c))
-(pair? c)
 
- <option value="volvo">Volvo</option>
+(cdaar a) ;;1
+(object->string (cdadar a)) ;;trg1
+(object->string (cdar (cddar a))) ;;
 
-(substring "PRJ-10" 4)
+(string-append (object->string (cdadar a)) " " (object->string (cdar (cddar a))))
