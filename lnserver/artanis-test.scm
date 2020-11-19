@@ -31,26 +31,44 @@
  
 
 
+(define reps "2")
+(define q1 "")
+(define q2 "")
+(define q3 "")
+(define q4 "")
+
+ (case reps
+	 ('("1") (set! q2 "q2")(set! q3 "q3")(set! q4 "q4") (pretty-print '(q2 q3 q4)))
+	 ('("2") (set! q2 "q2")(set! q3 "q1")(set! q4 "q2") (pretty-print '(q2 q3 q4)))
+	 ('("4") (set! q2 "q1")(set! q3 "q1")(set! q4 "q1") (pretty-print '(q2 q3 q4))))
+
+(cond
+ ((equal? reps "1") ((set! q2 "q2")(set! q3 "q3")(set! q4 "q4")  ))
+ ((equal? reps "2") ((set! q2 "q2")(set! q3 "q1")(set! q4 "q2")  ))
+ ((equal? reps "4") ((set! q2 "q1")(set! q3 "q1")(set! q4 "q1")  ))))
 
 
-(define a '(((id . 1) (target_sys_name . TRG-1) (target_name . Target1)) ((id . 2) (target_sys_name . TRG-2) (target_name . Target2)) ((id . 3) (target_sys_name . TRG-3) (target_name . Target3)) ((id . 4) (target_sys_name . TRG-4) (target_name . Target4)) ((id . 5) (target_sys_name . TRG-5) (target_name . muCD71)) ((id . 6) (target_sys_name . TRG-6) (target_name . huCD71)) ((id . 7) (target_sys_name . TRG-7) (target_name . cynoCD71)) ((id . 8) (target_sys_name . TRG-8) (target_name . BSA)) ((id . 9) (target_sys_name . TRG-9) (target_name . Lysozyme)) ((id . 10) (target_sys_name . TRG-10) (target_name . GAPDH)) ((id . 11) (target_sys_name . TRG-11) (target_name . ICAM4)) ((id . 12) (target_sys_name . TRG-12) (target_name . IL21R)) ((id . 13) (target_sys_name . TRG-13) (target_name . uiuiu)) ((id . 14) (target_sys_name . TRG-14) (target_name . hytgfr))))
+(cond
+ ((equal? reps "1") (let* ((q2 "q2")(q3 "q3")(q4 "q4")) #f  ))
+ ((equal? reps "2") (let* ((q2 "q2")(q3 "q1")(q4 "q2")) #f  ))
+ ((equal? reps "4") (let* ((q2 "q1")(q3 "q1")(q4 "q1")) #f  )))
 
 
-(define (extract-targets lst all-trgs)
-  (if (null? (cdr lst))
-        (begin
-	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">" (string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
-       all-trgs)
-       (begin
-	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">"(string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
-	 (extract-targets (cdr lst) all-trgs)) ))
-
-(define all-targets '())
-(extract-targets a all-targets)
-
-
-(cdaar a) ;;1
-(object->string (cdadar a)) ;;trg1
-(object->string (cdar (cddar a))) ;;
-
-(string-append (object->string (cdadar a)) " " (object->string (cdar (cddar a))))
+ (let* ((help-topic "target")
+			 (prj-name "PRJ-10")
+			 (id (substring prj-name 4))
+			 (tlytname "tlytname")
+			 (desc "desc")
+			 (reps "4")
+			 (q1 "t1")
+			 (q2 (cond ((equal? reps "1") "t2")
+				   ((equal? reps "2") "t1")
+				   ((equal? reps "4") "t1")))
+			 (q3 (cond ((equal? reps "1") "t3")
+				   ((equal? reps "2") "t1")
+				   ((equal? reps "4") "t1")))
+			 (q4 (cond ((equal? reps "1") "t4")
+				   ((equal? reps "2") "t2")
+				   ((equal? reps "4") "t1")))
+			 (sql (string-append "select new_target_layout_name(" id ", '" tlytname "', '" desc "', '" reps "', '" q1 "', '" q2 "', '" q3 "', '" q4 "')")))
+		    (pretty-print sql))

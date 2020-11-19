@@ -45,7 +45,7 @@
 
 
 (get "/project/add"
-     #:with-auth "/login/login?destination=/project/add"
+;;     #:with-auth "/login/login?destination=/project/add"
  ;;    #:from-post 'qstr
      (lambda (rc)     
        (let* ((help-topic "project"))
