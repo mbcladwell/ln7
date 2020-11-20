@@ -99,9 +99,9 @@
 
 
 (assayrun-define getid
+		 (options #:conn #t)
 (lambda (rc)
-  (let* ((ret #f)
-	 (holder '())
+  (let* (
 	 (help-topic "assayrun")
 	 (id  (get-from-qstr rc "id"))
 	 (infile (get-rand-file-name "ar" "txt"))
@@ -110,19 +110,32 @@
 	 
 	 (response "1")
 	 (threshold "3")
-	(dummy (dbi-query ciccio (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" id )))
-	(ret (dbi-get_row ciccio))
-	(dummy2 (while (not (equal? ret #f))     
-		  (set! holder (cons ret holder))		   
-		  (set! ret  (dbi-get_row ciccio))))
+	(sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" id ))
+	(holder (DB-get-all-rows (:conn rc sql)))
 	(body (string-concatenate (prep-ar-rows holder)))
-	(dummy3 (get-assayrun-table-for-r id infile))
-	(dummy4 (get-assayrun-stats-for-r id infile2))
-	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R " infile " " infile2 " " outfile " " response  " " threshold )))
+	(dummy3 (get-assayrun-table-for-r id (string-append "pub/" infile)))
+	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2)))
+	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 	(outfile2 (string-append "\"../" outfile "\"")))
     (view-render "getarid" (the-environment)))))
 
 
+(assayrun-define replot
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "assayrun")
+			  (id  (get-from-qstr rc "id"))
+			  (infile (get-from-qstr rc "infile"))
+			  (infile2 (get-from-qstr rc "infile2"))
+			  (outfile (get-rand-file-name "ar" "png"))	 
+			  (response (get-from-qstr rc "response"))
+			  (threshold (if (get-from-qstr rc "manthreshold") (get-from-qstr rc "manthreshold")(get-from-qstr rc "threshold")))
+			 ;; (rcommand infile)
+			 ;; (rcommand (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " "  ))
+			  (dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
+			  (outfile2 (string-append "\"../" outfile "\""))
+			  )
+		     (view-render "getarid" (the-environment)))))
 
 
 

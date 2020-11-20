@@ -59,7 +59,7 @@
 			 (id (substring prj-name 4))
 			 (tlytname "tlytname")
 			 (desc "desc")
-			 (reps "4")
+			 (reps "2")
 			 (q1 "t1")
 			 (q2 (cond ((equal? reps "1") "t2")
 				   ((equal? reps "2") "t1")
