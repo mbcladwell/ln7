@@ -23,7 +23,6 @@
   (get "/layout/getall")
   (get "/target/getall")
   (get "/users/addaction")
-  (get "/assayrun/replot")
   (get "/utilities/validate")
   (get "/target/add")
   (get "/project/addaction")

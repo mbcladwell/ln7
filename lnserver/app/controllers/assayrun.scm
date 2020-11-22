@@ -4,7 +4,7 @@
 (define-artanis-controller assayrun) ; DO NOT REMOVE THIS LINE!!!
 
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra)
-	     (ice-9 textual-ports)(ice-9 rdelim))
+	     (ice-9 textual-ports)(ice-9 rdelim)(web uri))
 
 
 (define (prep-ar-for-r a)
@@ -99,20 +99,25 @@
 
 
 (assayrun-define getid
-		 (options #:conn #t)
+		 (options #:conn #t #:cookies '(names id infile infile2 response threshold body))
 (lambda (rc)
   (let* (
 	 (help-topic "assayrun")
 	 (id  (get-from-qstr rc "id"))
+	 (dummy (:cookies-set! rc 'id "id" id))
 	 (infile (get-rand-file-name "ar" "txt"))
+	 (dummy (:cookies-set! rc 'infile "infile" infile))
 	 (infile2 (get-rand-file-name "ar2" "txt"))
-	 (outfile (get-rand-file-name "ar" "png"))
-	 
+	 (dummy (:cookies-set! rc 'infile2 "infile2" infile2))
+	 (outfile (get-rand-file-name "ar" "png"))	  
 	 (response "1")
+	 (dummy (:cookies-set! rc 'response "response" response))
 	 (threshold "3")
+	 (dummy (:cookies-set! rc 'threshold "threshold" threshold))
 	(sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" id ))
 	(holder (DB-get-all-rows (:conn rc sql)))
 	(body (string-concatenate (prep-ar-rows holder)))
+	(dummy (:cookies-set! rc 'body "body" body))
 	(dummy3 (get-assayrun-table-for-r id (string-append "pub/" infile)))
 	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2)))
 	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
@@ -120,22 +125,28 @@
     (view-render "getarid" (the-environment)))))
 
 
-(assayrun-define replot
+(get "/assayrun/replot"
+		  #:cookies '(names id infile infile2 response threshold body)
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "assayrun")
-			  (id  (get-from-qstr rc "id"))
-			  (infile (get-from-qstr rc "infile"))
-			  (infile2 (get-from-qstr rc "infile2"))
+		;;	  (id  (get-from-qstr rc "id"))
+		;;	  (infile (get-from-qstr rc "infile"))
+		;;	  (infile2 (get-from-qstr rc "infile2"))
+			  (id  (:cookies-ref rc 'id "id"))
+			  (infile (:cookies-ref rc 'infile "infile"))
+			  (infile2 (:cookies-ref rc 'infile2 "infile2"))
+			  (body (:cookies-ref rc 'body "body"))
 			  (outfile (get-rand-file-name "ar" "png"))	 
 			  (response (get-from-qstr rc "response"))
 			  (threshold (if (get-from-qstr rc "manthreshold") (get-from-qstr rc "manthreshold")(get-from-qstr rc "threshold")))
-			 ;; (rcommand infile)
-			 ;; (rcommand (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " "  ))
-			  (dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
+			  (rcommand infile)
+			 ;; (rcommand (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/"  infile " pub/"  infile2 " pub/" outfile " " response  " "  ))
+			 ;; (dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 			  (outfile2 (string-append "\"../" outfile "\""))
 			  )
-		     (view-render "getarid" (the-environment)))))
+	;;	     (view-render "getarid" (the-environment)))))
+	     (view-render "test" (the-environment)))))
 
 
 

@@ -34,8 +34,6 @@
       
 <p><input type="submit" value="Replot">
   </p>  
-    <input type="hidden" id="infile" name="infile" value=<%= infile %>>
-    <input type="hidden" id="infile2" name="infile2" value=<%= infile2 %>>
 </form>
 
 </div>

@@ -71,8 +71,6 @@ img {
       
 <p><input type=\"submit\" value=\"Replot\">
   </p>  
-    <input type=\"hidden\" id=\"infile\" name=\"infile\" value=")(display  infile )(display ">
-    <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=")(display  infile2 )(display ">
 </form>
 
 </div>
