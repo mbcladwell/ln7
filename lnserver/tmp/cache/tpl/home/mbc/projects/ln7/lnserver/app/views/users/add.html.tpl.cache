@@ -5,11 +5,13 @@
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
   <head>
+
  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
     <title>LIMS*Nucleus </title>
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
     <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/common.css\" />
     
+
     </head>
 <!-- Side navigation -->
 <div class=\"sidenav\">
@@ -34,21 +36,20 @@ img {
   <a href=\"http://labsolns.com/software/toc\">TOC</a>
   <a href=\"mailto:info@labsolns.com\">Contact</a>
 
-  SID: ")(display  sid )(display "
+  
 </div>
 <div class=\"main\">
 ")(display "
 
   <h1>Add a User</h1><br><br>
 
-  <form action=\"/users/addaction?name=uname$value&tags=tags$value&pw=pw$value&group=group$value\">
-  <label for=\"name\">User Name:</label>  <input type=\"text\" id=\"uname\" name=\"uname\" value=\"\"><br>
-  <label for=\"tags\">Tags:</label>  <input type=\"text\" id=\"tags\" name=\"tags\" value=\"\"><br>
-  <label for=\"pw\">Password:</label>  <input type=\"text\" id=\"pw\" name=\"pw\" value=\"\"><br>
-  <label for=\"group\">Group:</label>  <select name=\"group\" id=\"group\">
-  <option value=\"1\">Administrator</option>
-  <option value=\"2\">User</option>
-</select><br>
+  <form action=\"/users/addaction?name=uname$value&pw=pw$value&group=group$value\">
+<p>  <label for=\"name\">User Name:</label>  <input type=\"text\" id=\"uname\" name=\"uname\" value=\"\"></p>
+<p>  <label for=\"pw\">Password:</label>  <input type=\"text\" id=\"pw\" name=\"pw\" value=\"\"></p>
+<p>  <label for=\"group\">Group:</label>  <select name=\"group\" id=\"group\">
+                                        <option value=\"admin\">Administrator</option>
+                                         <option value=\"user\">User</option>
+                                         </select></p>
   <input type=\"submit\" value=\"Submit\">
 </form> 
 

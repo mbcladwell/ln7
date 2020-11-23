@@ -11,7 +11,9 @@
                 (plate_set_sys_name (result-ref x "plate_set_sys_name"))
                 (plate_set_name (result-ref x "plate_set_name"))
 		(descr (result-ref x "descr")))
-            (cons (string-append "<tr><th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th></tr>")
+            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" (number->string (cdr (car x)))   "\"></th>
+
+<th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th></tr>")
 		  prev)))
         '() a))
 

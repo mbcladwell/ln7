@@ -6,7 +6,6 @@
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(srfi srfi-19)(dbi dbi) (lnserver sys extra)
 	     (ice-9 pretty-print))
 
-(load "/home/mbc/Downloads/ssql-fixed.scm")
 
 (sessions-define get
   (lambda (rc)
@@ -26,9 +25,7 @@
 		(expires-seconds (car (mktime (car (strptime  "%a, %d %b %Y %H:%M:%S %Z" expires)))))
 		(now (time-second (current-time)))
 		(expired? (if (> (- now expires-seconds) 0) #t #f ))
-		(expire-text (if expired? expires (string-append "<font style=\"color:red\">" expires "</font>" )))
-		)
-	      
+		(expire-text (if expired? expires (string-append "<font style=\"color:red\">" expires "</font>" ))))      
 	      (cons (string-append "<tr><th>" id  "</th><th>" lnuser-name "</th><th>" usergroup "</th><th>" expire-text  "</th><tr>")
 		    prev)
 	      ))
@@ -37,18 +34,13 @@
 
 
 
-
+;; person_id must be populated
 (sessions-define getall
+		 (options #:conn #t)
 		 (lambda (rc)
 		   (let* ((help-topic "session")
-			  (ret #f)
-			  (holder '())
-			  (dummy (dbi-query ciccio  "select * from get_all_sessions()"  ))
-			  (ret (dbi-get_row ciccio))
-			  (dummy2 (while (not (equal? ret #f))
-				    ;;(pretty-print ret)
-				    (set! holder (cons ret holder))		   
-				    (set! ret  (dbi-get_row ciccio))))
+			  (sql  "select * from get_all_sessions()")
+			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body (string-concatenate (prep-session-rows holder)))
 			  )
 		     (view-render "getall" (the-environment))
