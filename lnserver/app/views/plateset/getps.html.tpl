@@ -4,8 +4,8 @@
  -->
 
 <@include header.tpl %>
-<form action="/plateset/edit?project-name$value">
-<p><table><caption><h1>Plate Sets for PRJ-<%= id %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th></tr>
+<form action="/plateset/editps?project-name$value" method="get">
+<p><table><caption><h1>Plate Sets for PRJ-<%= id %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th></tr>
   <%= body %>
 </table></p>
 <dev>
@@ -27,14 +27,15 @@
   </dev>
  <input type="submit" value="Submit">
 </form>
-<hr>
+<br>
+<p><img src="../img/separator.png" height="10" width="600" style="float:left"></p>
 
 <table><caption><h1>Assay Runs for PRJ-<%= id %></h1></caption><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr>
 <%= assay-runs %>
   
 </table>
-
-<hr>
+<br>
+<p><img src="../img/separator.png" height="10" width="600" style="float:left"></p>
 
 <table><caption><h1>Hit Lists for PRJ-<%= id %></h1></caption><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr>
 <%= hit-lists %>

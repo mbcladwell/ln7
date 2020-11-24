@@ -10,10 +10,15 @@
           (let (
                 (plate_set_sys_name (result-ref x "plate_set_sys_name"))
                 (plate_set_name (result-ref x "plate_set_name"))
-		(descr (result-ref x "descr")))
-            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" (number->string (cdr (car x)))   "\"></th>
+		(descr (result-ref x "descr"))
+		(type (result-ref x "plate_type_name"))
+		(numplates (get-c6 x))
+		(format  (get-c7 x))
+		(layout (get-c8 x))
+		)
+            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" (number->string (cdr (car x))) "onclick='handleChkbxClick();'\"></th>
 
-<th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th></tr>")
+<th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th></tr>")
 		  prev)))
         '() a))
 
@@ -55,7 +60,7 @@
 		   (let* (
 			  (help-topic "plateset")
 			  (id  (get-from-qstr rc "id"))
-			  (sql (string-append "select id, plate_set_sys_name, plate_set_name, descr from plate_set where project_id =" id ))
+			  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, descr, plate_type_name, num_plates, plate_format_id, plate_layout_name_id from plate_set, plate_type where plate_set.plate_type_id=plate_type.id AND plate_set.project_id =" id ))
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
 			  (assay-runs (get-assay-runs-for-prjid id rc))
@@ -64,3 +69,16 @@
 		     (view-render "getps" (the-environment))
 		     )))
 
+
+
+;; (plateset-define editps
+;; 	  (options #:conn #t)
+;; 	  (lambda (rc)
+;; 	    (case (get-from-qstr rc "buttons")
+;; 	      ("group" (let*(()
+;; 			     )
+;; 			 ))
+;; 	      ("reformat" #f)
+;; 	      ("importradio" #f)
+;; 	      ("exportradio" #f))
+;; 	    ))

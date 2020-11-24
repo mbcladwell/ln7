@@ -27,6 +27,8 @@ function getpsSelection(e) {
 } 
 }
 
+
+
 function getCheckedBoxes(chkboxName) {
   var checkboxes = document.getElementsByName(chkboxName);
   var checkboxesChecked = [];
@@ -41,5 +43,15 @@ function getCheckedBoxes(chkboxName) {
   return checkboxesChecked.length > 0 ? checkboxesChecked : null;
 }
 
+
+
 // Call as
 var checkedBoxes = getCheckedBoxes("plateset-id");
+
+
+function handleChkbxClick(){
+    document.getElementById("group").checked = false;
+    document.getElementById("reformat").checked = false;
+    document.getElementById("importradio").checked = false;
+    document.getElementById("exportradio").checked = false;
+}
