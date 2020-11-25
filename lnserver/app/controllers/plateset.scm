@@ -16,9 +16,7 @@
 		(format  (get-c7 x))
 		(layout (get-c8 x))
 		)
-            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" (number->string (cdr (car x))) "onclick='handleChkbxClick();'\"></th>
-
-<th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th></tr>")
+            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" (number->string (cdr (car x))) "\" onclick=\"handleChkbxClick()\"></th><th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th></tr>")
 		  prev)))
         '() a))
 
@@ -71,14 +69,30 @@
 
 
 
-;; (plateset-define editps
-;; 	  (options #:conn #t)
-;; 	  (lambda (rc)
-;; 	    (case (get-from-qstr rc "buttons")
-;; 	      ("group" (let*(()
-;; 			     )
-;; 			 ))
-;; 	      ("reformat" #f)
-;; 	      ("importradio" #f)
-;; 	      ("exportradio" #f))
-;; 	    ))
+(post "/editps"
+		  #:conn #t #:from-post 'qstr
+		 (lambda (rc)
+		   (cond 
+		    ((string=? (get-from-qstr rc "buttons") "group")
+		     (let*((sql (assoc-ref qstr "plateset-id"))
+			   (help-topic "group")
+				    )
+				(view-render "test" (the-environment))))
+		    ((string=? (get-from-qstr rc "buttons") "reformat")
+		     (let*((help-topic "reformat")
+			   (sql "in reformat")
+				    )
+				(view-render "test" (the-environment))))
+		    ((string=? (get-from-qstr rc "buttons") "importradio")
+		     (let*((help-topic "platesets")
+			   (sql "in impradio")
+				    )
+				(view-render "test" (the-environment))))
+		    ((string=? (get-from-qstr rc "buttons") "exportradio")
+		     (let*((sql "in expradio")
+			   (help-topic "export")
+				    )
+				(view-render "test" (the-environment)))))
+		   ))
+
+

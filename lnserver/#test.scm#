@@ -36,4 +36,4 @@
 (define c "a")
 
 
-(eqv? (string b) "a")
+(string=? b "a")

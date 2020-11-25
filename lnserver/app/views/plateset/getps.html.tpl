@@ -7,7 +7,7 @@
 <form action="/plateset/editps?project-name$value" method="get">
 <p><table><caption><h1>Plate Sets for PRJ-<%= id %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th></tr>
   <%= body %>
-</table></p>
+</table>
 <dev>
 <p>
   <input type="radio" id="group" name="buttons" value="group" onchange="getpsSelection(event)"><label for="group">Group</label></p>
@@ -17,7 +17,7 @@
  <option value="data">Assay data</option>  
   <option value="accessions">Accessions</option>
    <option value="barcodes">Barcodes</option>
-     </select></p><br></p>
+     </select></p><br>
 
 <p> <input type="radio" id="exportradio" name="buttons" value="exportradio" onchange="getpsSelection(event)"><label for="exportradio">Export</label>&nbsp;
     <select name="export" id="export" >
