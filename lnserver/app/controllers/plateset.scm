@@ -3,7 +3,7 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller plateset) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra))
+(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)(web uri) (lnserver sys extra)(ice-9 match))
 
 (define (prep-ps-for-prj-rows a)
   (fold (lambda (x prev)
@@ -69,30 +69,55 @@
 
 
 
-(post "/editps"
+;; (post "/plateset/editps"
+;; 		  #:conn #t #:from-post 'qstr
+;; 		 (lambda (rc)
+;; 		   (cond 
+;; 		    ((string=? (get-from-qstr rc "buttons") "group")
+;; 		     (let*((qstr (:from-post rc 'get))
+;; 			   (sql (assoc-ref qstr "plateset-id"))
+;; 			   (help-topic "group")
+;; 				    )
+;; 				(view-render "test" (the-environment))))
+;; 		    ((string=? (get-from-qstr rc "buttons") "reformat")
+;; 		     (let*((help-topic "reformat")
+;; 			   (sql "in reformat")
+;; 				    )
+;; 				(view-render "test" (the-environment))))
+;; 		    ((string=? (get-from-qstr rc "buttons") "importradio")
+;; 		     (let*((help-topic "platesets")
+;; 			   (sql "in impradio")
+;; 				    )
+;; 				(view-render "test" (the-environment))))
+;; 		    ((string=? (get-from-qstr rc "buttons") "exportradio")
+;; 		     (let*((sql "in expradio")
+;; 			   (help-topic "export")
+;; 				    )
+;; 				(view-render "test" (the-environment)))))
+;; 		   ))
+
+
+(post "/plateset/editps"
 		  #:conn #t #:from-post 'qstr
-		 (lambda (rc)
-		   (cond 
-		    ((string=? (get-from-qstr rc "buttons") "group")
-		     (let*((sql (assoc-ref qstr "plateset-id"))
-			   (help-topic "group")
-				    )
-				(view-render "test" (the-environment))))
-		    ((string=? (get-from-qstr rc "buttons") "reformat")
-		     (let*((help-topic "reformat")
-			   (sql "in reformat")
-				    )
-				(view-render "test" (the-environment))))
-		    ((string=? (get-from-qstr rc "buttons") "importradio")
-		     (let*((help-topic "platesets")
-			   (sql "in impradio")
-				    )
-				(view-render "test" (the-environment))))
-		    ((string=? (get-from-qstr rc "buttons") "exportradio")
-		     (let*((sql "in expradio")
-			   (help-topic "export")
-				    )
-				(view-render "test" (the-environment)))))
-		   ))
+		  (lambda (rc)
+		    (let* ((help-topic "group")
+			   (sql (:from-post rc 'get))
+	;;		   (sql (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  qstr)))
+		;;	    (sql (assoc-ref  qstr "plateset-id" ))
+			   
+			   )
+		      (view-render "test" (the-environment)))))
+		      
+
+		      
+		   ;; (cond 
+		   ;;  ((string=? (get-from-qstr rc "buttons") "group")
+		   ;;   (let*((qstr (:from-post rc 'get))
+		   ;; 	   (sql (assoc-ref qstr "plateset-id"))
+		   ;; 	   (help-topic "group")
+		   ;; 		    )
+		   ;; 		(view-render "test" (the-environment))))
+		   ;; ))
 
 
+;; ((plateset-id%5B%5D 1) (plateset-id%5B%5D 2) (buttons group) (import data) (export selected)) 

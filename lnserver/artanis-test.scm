@@ -37,38 +37,26 @@
 (define q3 "")
 (define q4 "")
 
- (case reps
-	 ('("1") (set! q2 "q2")(set! q3 "q3")(set! q4 "q4") (pretty-print '(q2 q3 q4)))
-	 ('("2") (set! q2 "q2")(set! q3 "q1")(set! q4 "q2") (pretty-print '(q2 q3 q4)))
-	 ('("4") (set! q2 "q1")(set! q3 "q1")(set! q4 "q1") (pretty-print '(q2 q3 q4))))
+(use-modules (ice-9 match)(SRFI-1 SRDI-1))
 
-(cond
- ((equal? reps "1") ((set! q2 "q2")(set! q3 "q3")(set! q4 "q4")  ))
- ((equal? reps "2") ((set! q2 "q2")(set! q3 "q1")(set! q4 "q2")  ))
- ((equal? reps "4") ((set! q2 "q1")(set! q3 "q1")(set! q4 "q1")  ))))
+(define a '((plateset-id 1) (plateset-id 2) (buttons group) (imp data) (exp selected)))
+(define b '(plateset-id 1))
+
+(define c '((plateset-id 1) (plateset-id 2)))
+
+ (match  b
+    (('plateset-id x)
+     x))
+
+(match a
+    (((plateset-id x) ...)   x))
+
+(match a
+  ((('(plateset-id) x) ...)   x))
 
 
-(cond
- ((equal? reps "1") (let* ((q2 "q2")(q3 "q3")(q4 "q4")) #f  ))
- ((equal? reps "2") (let* ((q2 "q2")(q3 "q1")(q4 "q2")) #f  ))
- ((equal? reps "4") (let* ((q2 "q1")(q3 "q1")(q4 "q1")) #f  )))
+ (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  a))
 
 
- (let* ((help-topic "target")
-			 (prj-name "PRJ-10")
-			 (id (substring prj-name 4))
-			 (tlytname "tlytname")
-			 (desc "desc")
-			 (reps "2")
-			 (q1 "t1")
-			 (q2 (cond ((equal? reps "1") "t2")
-				   ((equal? reps "2") "t1")
-				   ((equal? reps "4") "t1")))
-			 (q3 (cond ((equal? reps "1") "t3")
-				   ((equal? reps "2") "t1")
-				   ((equal? reps "4") "t1")))
-			 (q4 (cond ((equal? reps "1") "t4")
-				   ((equal? reps "2") "t2")
-				   ((equal? reps "4") "t1")))
-			 (sql (string-append "select new_target_layout_name(" id ", '" tlytname "', '" desc "', '" reps "', '" q1 "', '" q2 "', '" q3 "', '" q4 "')")))
-		    (pretty-print sql))
+((match-lambda (('hello (who)) who)) '(hello (world)))
+⇒ world

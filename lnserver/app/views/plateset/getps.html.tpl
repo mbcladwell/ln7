@@ -4,7 +4,7 @@
  -->
 
 <@include header.tpl %>
-<form action="/plateset/editps?project-name$value" method="get">
+<form action="/plateset/editps?project-name$value" method="post">
 <p><table><caption><h1>Plate Sets for PRJ-<%= id %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th></tr>
   <%= body %>
 </table>
@@ -13,14 +13,14 @@
   <input type="radio" id="group" name="buttons" value="group" onchange="getpsSelection(event)"><label for="group">Group</label></p>
  <p> <input type="radio" id="reformat" name="buttons" value="reformat" onchange="getpsSelection(event)"><label for="reformat">Reformat</label></p>
 <p> <input type="radio" id="importradio" name="buttons" value="importradio" onchange="getpsSelection(event)"><label for="importradio">Import</label>
-    <select name="import" id="import" onchange="getpsSelection(event)">
+    <select name="imp" id="imp" onchange="getpsSelection(event)">
  <option value="data">Assay data</option>  
   <option value="accessions">Accessions</option>
    <option value="barcodes">Barcodes</option>
      </select></p><br>
 
 <p> <input type="radio" id="exportradio" name="buttons" value="exportradio" onchange="getpsSelection(event)"><label for="exportradio">Export</label>&nbsp;
-    <select name="export" id="export" >
+    <select name="exp" id="exp" >
  <option value="selected">Selected rows this table</option>  
   <option value="under">Underlying data</option>
      </select></p><br> </p>
