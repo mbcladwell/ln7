@@ -37,16 +37,14 @@
 (define q3 "")
 (define q4 "")
 
-(use-modules (ice-9 match)(SRFI-1 SRDI-1))
+(use-modules (ice-9 match)(srfi srfi-1))
 
 (define a '((plateset-id 1) (plateset-id 2) (buttons group) (imp data) (exp selected)))
 (define b '(plateset-id 1))
 
 (define c '((plateset-id 1) (plateset-id 2)))
 
- (match  b
-    (('plateset-id x)
-     x))
+ (match  b (('plateset-id x) x))
 
 (match a
     (((plateset-id x) ...)   x))
@@ -56,7 +54,7 @@
 
 
  (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  a))
-
+((match-lambda (('plateset-id x) x)(_ #f))  (car a))
 
 ((match-lambda (('hello (who)) who)) '(hello (world)))
 ⇒ world

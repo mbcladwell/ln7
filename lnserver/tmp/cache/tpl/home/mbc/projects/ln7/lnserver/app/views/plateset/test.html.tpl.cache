@@ -43,8 +43,17 @@ img {
 
   <h1>Test</h1><br><br>
 
+qstr: ")(display  qstr )(display "<br>
+<br>
+(car qstr): ")(display  c )(display "
+<br>
 
-")(display  sql )(display "
+match-lambda c: ")(display  sql )(display "
+<br>
+'(plateset-id 1):")(display  b )(display "
+<br>
+match-lambda b: ")(display  b-val )(display "
+<br>
 
 
   

@@ -6,8 +6,17 @@
 
   <h1>Test</h1><br><br>
 
+qstr: <%= qstr %><br>
+<br>
+(car qstr): <%= c %>
+<br>
 
-<%= sql %>
+match-lambda c: <%= sql %>
+<br>
+'(plateset-id 1):<%= b %>
+<br>
+match-lambda b: <%= b-val %>
+<br>
 
 
   

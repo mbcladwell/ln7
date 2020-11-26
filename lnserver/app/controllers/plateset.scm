@@ -101,8 +101,13 @@
 		  #:conn #t #:from-post 'qstr
 		  (lambda (rc)
 		    (let* ((help-topic "group")
-			   (sql (:from-post rc 'get))
-	;;		   (sql (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  qstr)))
+			   (qstr  (:from-post rc 'get))
+			   (c (object->string (car qstr)))
+			   (sql ((match-lambda (('"plateset-id" x) x)(_ #f))  c))
+			   (b '("plateset-id" 1))
+			   (b-val ((match-lambda (("plateset-id" x) x)(_ #f))  b))
+		;;	   (sql  (map (match-lambda (('plateset-id x) x)(_ #f))  qstr))
+		;;	   (sql (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  qstr)))
 		;;	    (sql (assoc-ref  qstr "plateset-id" ))
 			   
 			   )
