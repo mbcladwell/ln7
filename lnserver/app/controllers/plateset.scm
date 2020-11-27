@@ -7,7 +7,7 @@
 
 (define (prep-ps-for-prj-rows a)
   (fold (lambda (x prev)
-          (let (
+          (let* (
                 (plate_set_sys_name (result-ref x "plate_set_sys_name"))
                 (plate_set_name (result-ref x "plate_set_name"))
 		(descr (result-ref x "descr"))
@@ -15,8 +15,9 @@
 		(numplates (get-c6 x))
 		(format  (get-c7 x))
 		(layout (get-c8 x))
+		(idval (string-append (number->string (cdr (car x))) "_" numplates "_" format "_" layout ))
 		)
-            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" (number->string (cdr (car x))) "\" onclick=\"handleChkbxClick()\"></th><th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th></tr>")
+            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></th><th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th></tr>")
 		  prev)))
         '() a))
 
@@ -102,13 +103,7 @@
 		  (lambda (rc)
 		    (let* ((help-topic "group")
 			   (qstr  (:from-post rc 'get))
-			   (c (object->string (car qstr)))
-			   (sql ((match-lambda (('"plateset-id" x) x)(_ #f))  c))
-			   (b '("plateset-id" 1))
-			   (b-val ((match-lambda (("plateset-id" x) x)(_ #f))  b))
-		;;	   (sql  (map (match-lambda (('plateset-id x) x)(_ #f))  qstr))
-		;;	   (sql (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  qstr)))
-		;;	    (sql (assoc-ref  qstr "plateset-id" ))
+			   (psids (string->list (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr))))
 			   
 			   )
 		      (view-render "test" (the-environment)))))

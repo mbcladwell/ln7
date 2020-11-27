@@ -58,3 +58,8 @@
 
 ((match-lambda (('hello (who)) who)) '(hello (world)))
 ⇒ world
+
+
+(define a (1_2_96_1 2_2_96_1))
+
+(string->list (object->string a)

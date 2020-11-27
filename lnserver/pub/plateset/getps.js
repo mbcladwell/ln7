@@ -48,7 +48,7 @@ function getCheckedBoxes(chkboxName) {
 // Call as
 var checkedBoxes = getCheckedBoxes("plateset-id");
 
-
+// clear all radio selections when a checkbox is clicked
 function handleChkbxClick(){
     document.getElementById("group").checked = false;
     document.getElementById("reformat").checked = false;

@@ -47,14 +47,14 @@ img {
 </table>
 <dev>
 <p>
-  <input type=\"radio\" id=\"group\" name=\"buttons\" value=\"group\" onchange=\"getpsSelection(event)\"><label for=\"group\">Group</label></p>
- <p> <input type=\"radio\" id=\"reformat\" name=\"buttons\" value=\"reformat\" onchange=\"getpsSelection(event)\"><label for=\"reformat\">Reformat</label></p>
+  <input type=\"radio\" id=\"group\" name=\"buttons\" value=\"group\" onchange=\"getpsSelection(event)\"><label for=\"group\">Group</label><label>(2 or more Plate Sets of the same format and layout)</label></p>
+ <p> <input type=\"radio\" id=\"reformat\" name=\"buttons\" value=\"reformat\" onchange=\"getpsSelection(event)\"><label for=\"reformat\">Reformat</label><label>(a single Plate Set)</label></p>
 <p> <input type=\"radio\" id=\"importradio\" name=\"buttons\" value=\"importradio\" onchange=\"getpsSelection(event)\"><label for=\"importradio\">Import</label>
     <select name=\"imp\" id=\"imp\" onchange=\"getpsSelection(event)\">
  <option value=\"data\">Assay data</option>  
   <option value=\"accessions\">Accessions</option>
    <option value=\"barcodes\">Barcodes</option>
-     </select></p><br>
+     </select></p><br><br>
 
 <p> <input type=\"radio\" id=\"exportradio\" name=\"buttons\" value=\"exportradio\" onchange=\"getpsSelection(event)\"><label for=\"exportradio\">Export</label>&nbsp;
     <select name=\"exp\" id=\"exp\" >
