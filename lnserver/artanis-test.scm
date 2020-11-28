@@ -3,7 +3,9 @@
 ;; /usr/lib/x86_64-linux-gnu/guile/3.0/bin/guile
 
 (use-modules (srfi srfi-1)
-	     (dbi dbi) 
+	     (dbi dbi)
+	     (ice-9 match)
+	     (web uri)
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
 	     (artanis artanis))
 
@@ -39,27 +41,15 @@
 
 (use-modules (ice-9 match)(srfi srfi-1))
 
-(define a '((plateset-id 1) (plateset-id 2) (buttons group) (imp data) (exp selected)))
-(define b '(plateset-id 1))
 
-(define c '((plateset-id 1) (plateset-id 2)))
+(define z '(1-2-96-1 2-2-96-1))
 
- (match  b (('plateset-id x) x))
-
-(match a
-    (((plateset-id x) ...)   x))
-
-(match a
-  ((('(plateset-id) x) ...)   x))
+(define a (object->string z))
 
 
- (delete #f (map (match-lambda (('plateset-id x) x)(_ #f))  a))
-((match-lambda (('plateset-id x) x)(_ #f))  (car a))
+(define a '((("id" . 7) ("name" . "8 controls col 12")) (("id" . 1) ("name" . "4 controls col 12"))))
+(cdr a)
 
-((match-lambda (('hello (who)) who)) '(hello (world)))
-⇒ world
+(define b '(("id" . 7) ("name" . "8 controls col 12")))
 
-
-(define a (1_2_96_1 2_2_96_1))
-
-(string->list (object->string a)
+(cdadr b)

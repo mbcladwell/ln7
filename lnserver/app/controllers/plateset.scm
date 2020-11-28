@@ -15,7 +15,7 @@
 		(numplates (get-c6 x))
 		(format  (get-c7 x))
 		(layout (get-c8 x))
-		(idval (string-append (number->string (cdr (car x))) "_" numplates "_" format "_" layout ))
+		(idval (string-append (number->string (cdr (car x))) "+" numplates "+" format "+" layout ))
 		)
             (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></th><th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th></tr>")
 		  prev)))
@@ -103,10 +103,19 @@
 		  (lambda (rc)
 		    (let* ((help-topic "group")
 			   (qstr  (:from-post rc 'get))
-			   (psids (string->list (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr))))
-			   
+			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
+			   (b (map uri-decode  a))
+			   (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+			   (c (map string-append (circular-list "PS-") (map car start) ))
+			   (d (map string-append c (circular-list " (")  ))
+			   (ps-num-text (map string-append d (map cadr start) (circular-list ");")))
+			   (tot-plates (apply + (map string->number (map cadr start))))
+			   (format-equal? (apply equal? (map caddr start)))
+			   (layout-equal? (apply equal? (map cadddr start)))
 			   )
-		      (view-render "test" (the-environment)))))
+		      (if (and format-equal? layout-equal?)
+			  (view-render "test" (the-environment))
+			  (view-render "error" (the-environment))))))
 		      
 
 		      
@@ -121,3 +130,31 @@
 
 
 ;; ((plateset-id%5B%5D 1) (plateset-id%5B%5D 2) (buttons group) (import data) (export selected)) 
+
+
+(define (extract-sample-layouts lst all-slayouts)
+   (if (null? (cdr lst))
+       (begin
+	 (set! all-slayouts (cons (string-append "<option value=\"" (number->string (cdaar lst)) "\">"(cdadar lst) "</option>") all-slayouts))
+       all-slayouts)
+       (begin
+	 (set! all-slayouts (cons (string-append "<option value=\"" (number->string (cdaar lst)) "\">"  (cdadar lst) "</option>") all-slayouts))
+	 (extract-sample-layouts (cdr lst) all-slayouts)) ))
+
+
+
+(plateset-define add
+		 (options #:conn #t)
+		 (lambda (rc)
+		   (let* ((help-topic "plateset")
+			  (format (get-from-qstr rc "format"))
+			  (type (get-from-qstr rc "type"))
+			  (sql (string-append "select id, name from plate_layout_name WHERE plate_format_id =" format))
+			  (holder (object->string (DB-get-all-rows (:conn rc sql))))
+			  (sample-layout-pre '())
+			  (sample-layouts (extract-sample-layouts holder sample-layout-pre))
+			  
+			  
+			  )      
+		     (view-render "test" (the-environment))
+		     )))

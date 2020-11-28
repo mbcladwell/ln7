@@ -4,11 +4,14 @@
   
 <@include header.tpl %>
 
-  <h1>Test</h1><br><br>
+  <h1>Error!</h1><br><br>
 
-psids: <%= holder %><br>
-<br>
-<%= sample-layouts %>
+When grouping Plate Sets, all plate set formats and layouts must be the same.
+
+Formats equal: <%= format-equal? =%>
+
+Layouts equal: <%= layout-equal? =%>
+
   
 <@include footer.tpl %>
 

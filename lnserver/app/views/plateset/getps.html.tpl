@@ -4,6 +4,7 @@
  -->
 
 <@include header.tpl %>
+  <a href="/plateset/add?format=96&type=master">Add Plate Set</a>
 <form action="/plateset/editps?project-name$value" method="post">
 <p><table><caption><h1>Plate Sets for PRJ-<%= id %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th></tr>
   <%= body %>

@@ -17,6 +17,7 @@
   (get "/target/addtrglyt")
   (get "/plateset/getps")
   (get "/login/login")
+  (get "/plateset/add")
   (get "/utilities/setup")
   (get "/layout/getall")
   (get "/target/getall")
