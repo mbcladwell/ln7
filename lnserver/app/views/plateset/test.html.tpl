@@ -8,7 +8,14 @@
 
 psids: <%= holder %><br>
 <br>
+
+<br>
 <%= sample-layouts %>
-  
+<br>
+<%= sql2 %>
+<br>
+<%= holder2 %>
+<br>
+<%= target-layouts %>
 <@include footer.tpl %>
 

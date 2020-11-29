@@ -32,9 +32,7 @@
                                          </select> </p><br>
   </p><br>
  <p> <label for="target">Target Layout:</label> <select name="format" id="format">
-                                      <option value="96">96</option>
-                                         <option value="384">384</option>
-                                         <option value="1536">1536</option>
+                                     <%= target-layouts %>
                                          </select> </p><br>
   </p><br>
  
