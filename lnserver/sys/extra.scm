@@ -26,6 +26,8 @@
 	    get-c15
 	    get-c16
 	    get-c17
+	    dropdown-contents-with-id
+	    dropdown-contents-no-id
 	    ))
 
 (use-modules (artanis artanis)(artanis utils) (ice-9 local-eval) (srfi srfi-1)
@@ -159,3 +161,27 @@
    (string-append "{" step2 "},")
 ))
 
+(define (dropdown-contents-with-id in out)
+  ;;in: ((("id" . 7) ("name" . "8 controls col 12")) (("id" . 1) ("name" . "4 controls col 12")))
+  ;;out starts as '()
+  ;;provides integer as value of selection
+   (if (null? (cdr in))
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (number->string (cdaar in)) "\">"(cdadar in) "</option>") out))
+       out)
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (number->string (cdaar in)) "\">"  (cdadar in) "</option>") out))
+	 (dropdown-contents-with-id (cdr in) out)) ))
+
+
+
+(define (dropdown-contents-no-id in out)
+  ;;in: ((("id" . 7) ("name" . "8 controls col 12")) (("id" . 1) ("name" . "4 controls col 12")))
+  ;;out starts as '()
+   (if (null? (cdr in))
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (cdadar in) "\">"(cdadar in) "</option>") out))
+       out)
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (cdadar in) "\">"  (cdadar in) "</option>") out))
+	 (dropdown-contents-with-id (cdr in) out)) ))

@@ -132,16 +132,6 @@
 ;; ((plateset-id%5B%5D 1) (plateset-id%5B%5D 2) (buttons group) (import data) (export selected)) 
 
 
-(define (extract-sample-layouts lst all-slayouts)
-   (if (null? (cdr lst))
-       (begin
-	 (set! all-slayouts (cons (string-append "<option value=\"" (number->string (cdaar lst)) "\">"(cdadar lst) "</option>") all-slayouts))
-       all-slayouts)
-       (begin
-	 (set! all-slayouts (cons (string-append "<option value=\"" (number->string (cdaar lst)) "\">"  (cdadar lst) "</option>") all-slayouts))
-	 (extract-sample-layouts (cdr lst) all-slayouts)) ))
-
-
 
 (plateset-define add
 		 (options #:conn #t)
@@ -150,9 +140,9 @@
 			  (format (get-from-qstr rc "format"))
 			  (type (get-from-qstr rc "type"))
 			  (sql (string-append "select id, name from plate_layout_name WHERE plate_format_id =" format))
-			  (holder (object->string (DB-get-all-rows (:conn rc sql))))
+			  (holder  (DB-get-all-rows (:conn rc sql)))
 			  (sample-layout-pre '())
-			  (sample-layouts (extract-sample-layouts holder sample-layout-pre))
+			  (sample-layouts  (dropdown-contents-with-id holder sample-layout-pre))
 			  
 			  
 			  )      

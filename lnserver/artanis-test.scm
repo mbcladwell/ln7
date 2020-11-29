@@ -53,3 +53,38 @@
 (define b '(("id" . 7) ("name" . "8 controls col 12")))
 
 (cdadr b)
+
+(define (dropdown-contents-with-id in out)
+  ;;in: ((("id" . 7) ("name" . "8 controls col 12")) (("id" . 1) ("name" . "4 controls col 12")))
+  ;;out starts as '()
+  ;;provides integer as value of selection
+   (if (null? (cdr in))
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (number->string (cdaar in)) "\">"(cdadar in) "</option>") out))
+       out)
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (number->string (cdaar in)) "\">"  (cdadar in) "</option>") out))
+	 (dropdown-contents-with-id (cdr in) out)) ))
+
+
+(define a '(( ("name" . "8 controls col 12") ("name" . "4 controls col 12"))))
+
+
+
+(define (dropdown-contents-no-id in out)
+  ;;in: ((("id" . 7) ("name" . "8 controls col 12")) (("id" . 1) ("name" . "4 controls col 12")))
+  ;;out starts as '()
+   (if (null? (cdr in))
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (cdadar in) "\">"(cdadar in) "</option>") out))
+       out)
+       (begin
+	 (set! out (cons (string-append "<option value=\"" (cdadar in) "\">"  (cdadar in) "</option>") out))
+	 (dropdown-contents-with-id (cdr in) out)) ))
+
+
+
+(define my-out '())
+(dropdown-contents-no-id a my-out )
+
+(cdadar a)
