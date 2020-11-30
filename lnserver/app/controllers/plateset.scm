@@ -60,7 +60,7 @@
 		   (let* (
 			  (help-topic "plateset")
 			  (id  (get-from-qstr rc "id"))
-			  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, descr, plate_type_name, num_plates, plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" id ))
+			  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" id ))
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
 			  (assay-runs (get-assay-runs-for-prjid id rc))
@@ -152,6 +152,13 @@
 
 			 (holder2  (DB-get-all-rows (:conn rc sql2)))
 			  (target-layout-pre '())
-			  (target-layouts  (dropdown-contents-with-id holder2 target-layout-pre))			  
+			  (target-layouts  (dropdown-contents-with-id holder2 target-layout-pre))
+			  
+			 (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
+			 (holder3  (DB-get-all-rows (:conn rc sql3)))
+			  (plate-types-pre '())
+			  (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
+			 (trg-desc "(for assay plates only)")
+			  
 			  )      
-		     (view-render "test" (the-environment)))))
+		     (view-render "add" (the-environment)))))

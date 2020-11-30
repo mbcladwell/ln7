@@ -54,31 +54,20 @@ img {
                                          <option value=\"384\">384</option>
                                          <option value=\"1536\">1536</option>
                                          </select> </p><br>
- <p> <label for=\"format\">Plate Type:</label>
-  <select name=\"format\" id=\"format\">
-                                      <option value=\"assay\">assay</option>
-                                         <option value=\"rearray\">rearray</option>
-                                         <option value=\"master\">master</option>
-                                         <option value=\"daughter\">daughter</option>
-                                         <option value=\"archive\">archive</option>
-                                         <option value=\"replicate\">replicate</option>
+ <p> <label for=\"type\">Plate Type:</label>
+  <select name=\"type\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "
                                          </select> </p><br>
  <p> <label for=\"sample\">Sample Layout:</label> 
- <select name=\"format\" id=\"format\"> ")(display  sample-layouts )(display "
-                                      
-                                         </select> </p><br>
-  </p><br>
- <p> <label for=\"target\">Target Layout:</label> <select name=\"format\" id=\"format\">
-                                      <option value=\"96\">96</option>
-                                         <option value=\"384\">384</option>
-                                         <option value=\"1536\">1536</option>
-                                         </select> </p><br>
-  </p><br>
+ <select name=\"sample\" id=\"sample\"> ")(display  sample-layouts )(display " </select> </p><br>
+  
+<p> <label for=\"target-layout\">Target Layout:</label>
+  <select name=\"target-layout\" id=\"target-layout\"  onchange=\"targetSelection(event)\"> ")(display  target-layouts )(display "  </select> <label for=\"target-desc\">")(display  trg-desc )(display "</label> </p><br>
+  
  
   <input type=\"submit\" value=\"Submit\">
 </form> 
 
-
+<script src=\"addps.js\"></script>
   
 ")(display "</div></html>")(display "
 
