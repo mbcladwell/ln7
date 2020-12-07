@@ -1,31 +1,40 @@
 function getpsSelection(e) {
     
     switch( e.target.value) {
-  case "group":
-	document.getElementById("import").disabled = true;
-	document.getElementById("export").disabled = true;
+  case "edit":
+	document.getElementById("imp").disabled = true;
+	document.getElementById("exp").disabled = true;
+	if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ) {window.alert("Please select (only) one plate set to edit!");}
+    break;
+
+    case "group":
+	document.getElementById("imp").disabled = true;
+	document.getElementById("exp").disabled = true;
 	if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length < 2 ) {window.alert("Please select two or more plate sets!");}
     break;
   case "reformat":
-	document.getElementById("import").disabled = true;
-	document.getElementById("export").disabled = true;
+	document.getElementById("imp").disabled = true;
+	document.getElementById("exp").disabled = true;
 	if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ) {window.alert("Please select (only) one plate set!");}
     break;
   
   case "importradio":
-	document.getElementById("import").disabled = false;
-	document.getElementById("export").disabled = true;
+	document.getElementById("imp").disabled = false;
+	document.getElementById("exp").disabled = true;
+	if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ) {window.alert("Please select (only) one plate set to associate data with!");}
     break;
   case "exportradio":
-	document.getElementById("import").disabled = true;
-	document.getElementById("export").disabled = false;
+	document.getElementById("imp").disabled = true;
+	document.getElementById("exp").disabled = false;
+	if(getCheckedBoxes("plateset-id") == null  ) {window.alert("Please select at least  one plate set for data export!");}
 
 	break;
   
   default:
     // code block
-} 
+    }
 }
+
 
 
 
@@ -50,6 +59,7 @@ var checkedBoxes = getCheckedBoxes("plateset-id");
 
 // clear all radio selections when a checkbox is clicked
 function handleChkbxClick(){
+    document.getElementById("edit").checked = false;
     document.getElementById("group").checked = false;
     document.getElementById("reformat").checked = false;
     document.getElementById("importradio").checked = false;

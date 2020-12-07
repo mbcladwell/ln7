@@ -44,5 +44,6 @@ img {
   ")(display  body )(display "
 </table>
 
-")(display "</div></html>")(display "
+")(display "</body></html>
+")(display "
 ")

@@ -6,6 +6,7 @@
 	     (dbi dbi)
 	     (ice-9 match)
 	     (web uri)
+	     (srfi srfi-19)   ;; date time
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
 	     (artanis artanis))
 
@@ -84,7 +85,9 @@
 
 
 
-(define my-out '())
-(dropdown-contents-no-id a my-out )
-
-(cdadar a)
+(define start '((1 2 96 1) (2 2 96 1)))
+(map object->string start)
+      (c (map string-append (circular-list "PS-") (map car start) ))
+      (d (map string-append c (circular-list " (")  ))
+      (ps-num-text (car (map string-append d (map cadr start) (circular-list ");"))))
+	

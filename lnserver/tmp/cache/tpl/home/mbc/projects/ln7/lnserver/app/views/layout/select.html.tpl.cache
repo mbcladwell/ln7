@@ -59,6 +59,7 @@ img {
 <script src=\"/app/views/layout/select.js\"></script>
   
   
-")(display "</div></html>")(display "
+")(display "</body></html>
+")(display "
 
 ")

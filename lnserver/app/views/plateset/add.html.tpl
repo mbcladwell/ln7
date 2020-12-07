@@ -25,8 +25,7 @@
   
 <p> <label for="target-layout">Target Layout:</label>
   <select name="target-layout" id="target-layout"  onchange="targetSelection(event)"> <%= target-layouts %>  </select> <label for="target-desc"><%= trg-desc %></label> </p><br>
-  
- 
+   
   <input type="submit" value="Submit">
 </form> 
 

@@ -47,6 +47,7 @@ img {
 </table>
  <input type=\"submit\" value=\"Edit Project\">
 </form>
-")(display "</div></html>")(display "
+")(display "</body></html>
+")(display "
 
 ")

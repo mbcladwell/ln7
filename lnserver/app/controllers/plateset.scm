@@ -3,7 +3,9 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller plateset) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)(web uri) (lnserver sys extra)(ice-9 match))
+(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)(web uri)
+	     (srfi srfi-19)   ;; date time
+	     (lnserver sys extra)(ice-9 match))
 
 (define (prep-ps-for-prj-rows a)
   (fold (lambda (x prev)
@@ -103,20 +105,30 @@
 		  #:conn #t #:from-post 'qstr
 		  (lambda (rc)
 		    (let* ((help-topic "group")
+			   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (qstr  (:from-post rc 'get))
 			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
 			   (b (map uri-decode  a))
 			   (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
 			   (c (map string-append (circular-list "PS-") (map car start) ))
 			   (d (map string-append c (circular-list " (")  ))
-			   (ps-num-text (map string-append d (map cadr start) (circular-list ");")))
+			   (ps-num-text (car (map string-append d (map cadr start) (circular-list ");"))))
 			   (tot-plates (apply + (map string->number (map cadr start))))
 			   (format-equal? (apply equal? (map caddr start)))
 			   (layout-equal? (apply equal? (map cadddr start)))
+			   (format (car (map caddr start)))
+			   (lyt-id (car (map cadddr start)))
+			   (sql2 (string-append "SELECT name, descr from plate_layout_name where id =" lyt-id))
+			   (holder2    (car  (DB-get-all-rows (:conn rc sql2))))
+			   (lyt-txt (string-append  (cdar  holder2)  "; "  (cdadr  holder2)) )			     			   
+			   (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
+			   (holder3  (DB-get-all-rows (:conn rc sql3)))
+			   (plate-types-pre '())
+			   (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
 			   )
 		      (if (and format-equal? layout-equal?)
-			  (view-render "test" (the-environment))
-			  (view-render "error" (the-environment))))))
+			  (view-render "groupps" (the-environment))
+			  (view-render "grouperror" (the-environment))))))
 		      
 
 		      
@@ -150,15 +162,15 @@
 				    (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " project-id "  OR project_id IS NULL )")   
 				    (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " project-id " AND reps = " (number->string reps) ") OR (project_id IS NULL AND reps = " (number->string reps) ")")))
 
-			 (holder2  (DB-get-all-rows (:conn rc sql2)))
+			  (holder2  (DB-get-all-rows (:conn rc sql2)))
 			  (target-layout-pre '())
 			  (target-layouts  (dropdown-contents-with-id holder2 target-layout-pre))
 			  
-			 (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
-			 (holder3  (DB-get-all-rows (:conn rc sql3)))
+			  (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
+			  (holder3  (DB-get-all-rows (:conn rc sql3)))
 			  (plate-types-pre '())
 			  (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
-			 (trg-desc "(for assay plates only)")
+			  (trg-desc "(for assay plates only)")
 			  
 			  )      
 		     (view-render "add" (the-environment)))))
