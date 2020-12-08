@@ -2,20 +2,14 @@
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
   
-<@include header.tpl %>
+<html></body>
 
   <h1>Test</h1><br><br>
 
-psids: <%= holder %><br>
-<br>
+  cookies: <%= cookies %><br>
+  acook:  <%= acook %><br>
+</body></html>
 
-<br>
-<%= sample-layouts %>
-<br>
-<%= sql2 %>
-<br>
-<%= holder2 %>
-<br>
-<%= target-layouts %>
-<@include footer.tpl %>
+
+
 

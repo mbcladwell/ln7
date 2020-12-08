@@ -6,7 +6,7 @@
 <@include header.tpl %>
   <a href="/plateset/add?format=96&type=master">Add Plate Set</a>
 <form action="/plateset/editps" method="post">
-<p><table><caption><h1>Plate Sets for PRJ-<%= id %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr>
+<p><table><caption><h1>Plate Sets for PRJ-<%= prjid %></h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr>
   <%= body %>
 </table><br>
 <dev>
@@ -33,14 +33,14 @@
 <br>
 <p><img src="../img/separator.png" height="10" width="600" style="float:left"></p>
 
-<table><caption><h1>Assay Runs for PRJ-<%= id %></h1></caption><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr>
+<table><caption><h1>Assay Runs for PRJ-<%= prjid %></h1></caption><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr>
 <%= assay-runs %>
   
 </table>
 <br>
 <p><img src="../img/separator.png" height="10" width="600" style="float:left"></p>
 
-<table><caption><h1>Hit Lists for PRJ-<%= id %></h1></caption><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr>
+<table><caption><h1>Hit Lists for PRJ-<%= prjid %></h1></caption><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr>
 <%= hit-lists %>
   
 </table>

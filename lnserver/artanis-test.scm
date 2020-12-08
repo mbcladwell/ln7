@@ -87,7 +87,32 @@
 
 (define start '((1 2 96 1) (2 2 96 1)))
 (map object->string start)
-      (c (map string-append (circular-list "PS-") (map car start) ))
-      (d (map string-append c (circular-list " (")  ))
-      (ps-num-text (car (map string-append d (map cadr start) (circular-list ");"))))
-	
+
+
+(define a '((psname oioi) (descr iooioio) (totplates 4) (type 6) (format 96) (lytid 1)))
+(define a '(psname oioi))
+
+
+
+(car (delete #f (map (match-lambda (('psname x) x)(_ #f))  qstr)))
+
+           (map (match-lambda (('psname x) x))  a)
+
+
+(get "/test-endpoint" #:mime #t
+     (lambda (rc)
+       (display "Something here")
+       (newline)
+
+       (let ([port (open-socket-for-uri "http://127.0.0.1:3000/other-endpoint")])
+	 (fcntl port F_SETFL (logior O_NONBLOCK (fcntl port F_GETFD 0)))
+	 
+	 (receive (headers body)
+             (http-get "http://127.0.0.1:3000/other-endpoint" #:port port)
+           (display "JSON: ")
+           (display (utf8->string body))
+           (newline))
+	 )
+       
+       (:mime rc '(("this is the " . "first endpoint we call")))))
+

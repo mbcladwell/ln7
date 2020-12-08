@@ -51,16 +51,23 @@ img {
     <p>  <label for=\"name\">New Plate Set Name:</label>  <input type=\"text\" id=\"psname\" name=\"psname\" value=\"\"></p><br>
  <p> <label for=\"descr\">New Plate Set Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\" value=\"\"></p><br>
 
-    <p> <label for=\"psid-num\">Plate Set ID (# plates):</label> &nbsp")(display  ps-num-text )(display "</p><br>
-    <p> <label for=\"tot-pl\">Total number of plates:</label>&nbsp&nbsp")(display  tot-plates )(display "</p><br>
+<p> <label for=\"psid-num\">Plate Set ID (# plates):</label> &nbsp")(display  ps-num-text )(display "</p><br>
+
+<p> <label for=\"tot-pl\">Total number of plates:</label>&nbsp&nbsp")(display  tot-plates )(display "</p><br>
+<input type=\"hidden\" id=\"totplates\" name=\"totplates\" value=")(display  tot-plates )(display ">
     
-      <p> <label for=\"type\">Plate Type:</label>&nbsp
+      <p> <label for=\"type\">Plate Type:</label>
   <select name=\"type\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "
                                          </select> </p><br>
 
-    <p> <label for=\"format\">Plate Format:</label>&nbsp")(display  format )(display "</p><br>
-<p> <label for=\"sample\">Sample Layout:</label>&nbsp ")(display  lyt-txt )(display "</p><br>
-  <input type=\"submit\" value=\"Confirm and submit\">
+<p> <label for=\"format\">Plate Format:</label>")(display  format )(display "</p><br>
+<input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
+
+<p> <label for=\"sample\">Sample Layout:</label> ")(display  lyt-txt )(display "</p><br>
+
+<input type=\"hidden\" id=\"lytid\" name=\"lytid\" value=")(display  lyt-id )(display ">
+
+<input type=\"submit\" value=\"Confirm and submit\">
 </form> 
 
   
