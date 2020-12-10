@@ -7,7 +7,7 @@
   <h1>Test</h1><br><br>
 
   cookies: <%= cookies %><br>
-  acook:  <%= acook %><br>
+  acookie:  <%= acookie %><br>
 </body></html>
 
 

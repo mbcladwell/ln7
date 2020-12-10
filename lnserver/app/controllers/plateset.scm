@@ -216,19 +216,17 @@
 (plateset-define testadd
 		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
-		   (let* (
-			  (dummy (:cookies-set! rc 'prjid "prjid" "1000"))
+		   (let* ((dummy (:cookies-set! rc 'prjid "prjid" "1000"))
 			  (cookies (rc-cookie rc))
-			  (acook (:cookies-ref rc 'prjid "prjid")))
+			  (acookie (:cookies-ref rc 'prjid "prjid")))
 			    (view-render "test" (the-environment)))))
 
 (plateset-define testdelete
 		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
-		   (let* (
-			  (dummy (:cookies-remove! rc "prjid"))
+		   (let* ((dummy (:cookies-remove! rc "prjid"))
 			  (cookies (rc-cookie rc))
-			  (acook (:cookies-ref rc 'prjid "prjid")))
+			  (acookie (:cookies-ref rc 'prjid "prjid")))
 			    (view-render "test" (the-environment)))))
 
 
@@ -237,5 +235,5 @@
 		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
 		   (let* ((cookies (rc-cookie rc))
-			  (acook (:cookies-ref rc 'prjid "prjid")))
+			  (acookie (:cookies-ref rc 'prjid "prjid")))
 			  (view-render "test" (the-environment)))))

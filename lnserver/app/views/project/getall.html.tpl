@@ -4,7 +4,7 @@
   
 <@include header.tpl %>
   <a href="/project/add">Add Project</a>
-  <form action="/project/edit?project-name$value">
+  <form action="/project/edit">
 <table><caption><h1>All Projects</h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Project</th><th>Name</th><th>Description</th></tr>
 <%= body %>
 </table>

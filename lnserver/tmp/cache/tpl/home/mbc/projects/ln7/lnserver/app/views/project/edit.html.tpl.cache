@@ -13,6 +13,7 @@
     
 
     </head>
+    <body>
 <!-- Side navigation -->
 <div class=\"sidenav\">
 <style>
@@ -36,25 +37,24 @@ img {
   <a href=\"http://labsolns.com/software/toc\">TOC</a>
   <a href=\"mailto:info@labsolns.com\">Contact</a>
 
-  SID: ")(display  sid )(display "
+  
 </div>
 <div class=\"main\">
 ")(display "
 
-  <h1>Edit Project PRJ-")(display  id )(display "</h1><br><br>
+  <h1>Edit Project PRJ-")(display  prjid )(display "</h1><br><br>
 
 
-  <form action=\"/project/editaction?id=id$value&name=pname$value&description=descr$value\">
-  <label for=\"name\">Project Name:</label>  <input type=\"text\" id=\"pname\" name=\"pname\" value= ")(display  name )(display " ><br>
-  <label for=\"descr\">Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\" value= ")(display  descr )(display " ><br><br>
+  <form action=\"/project/editaction\">
+ <p> <label for=\"name\">Project Name:</label>  <input type=\"text\" id=\"pname\" name=\"pname\" value= ")(display  name )(display " > </p><br>
+  <p> <label for=\"descr\">Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\" value= ")(display  descr )(display " > </p><br>
+<p>  <input id=\"prjid\" name=\"prjid\" type=\"hidden\" value=")(display  prjid )(display ">  </p>
   <input type=\"submit\" value=\"Submit\">
-  <p style=\"visibility: hidden;\">
- <input type=\"text\" id=\"id\" name=\"id\" value= ")(display  id )(display " >
-   </p>
 </form> 
 
 
   
-")(display "</div></html>")(display "
+")(display "</div></body></html>
+")(display "
 
 ")

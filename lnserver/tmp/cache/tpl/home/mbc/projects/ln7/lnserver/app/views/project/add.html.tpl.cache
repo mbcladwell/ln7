@@ -13,6 +13,7 @@
     
 
     </head>
+    <body>
 <!-- Side navigation -->
 <div class=\"sidenav\">
 <style>
@@ -51,6 +52,7 @@ img {
 
 
   
-")(display "</div></html>")(display "
+")(display "</div></body></html>
+")(display "
 
 ")

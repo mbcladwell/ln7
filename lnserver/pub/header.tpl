@@ -9,6 +9,7 @@
     
 
     </head>
+    <body>
 <!-- Side navigation -->
 <div class="sidenav">
 <style>
