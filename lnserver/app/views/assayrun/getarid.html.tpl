@@ -36,5 +36,16 @@
   </p>  
 </form>
 
+
+<br>
+<p><img src="../img/separator.png" height="10" width="600" style="float:left"></p>
+
+<table><caption><h1>Hit Lists for AR-<%= id %></h1></caption><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr>
+<%= hit-lists %>
+  
+</table>
+
+
+
 </div>
 <@include footer.tpl %>

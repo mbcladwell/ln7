@@ -13,6 +13,7 @@
     
 
     </head>
+    <body>
 <!-- Side navigation -->
 <div class=\"sidenav\">
 <style>
@@ -36,7 +37,7 @@ img {
   <a href=\"http://labsolns.com/software/toc\">TOC</a>
   <a href=\"mailto:info@labsolns.com\">Contact</a>
 
-  SID: ")(display  sid )(display "
+  
 </div>
 <div class=\"main\">
 ")(display "
@@ -45,5 +46,6 @@ img {
 </table>
 
 
-")(display "</div></html>")(display "
+")(display "</div></body></html>
+")(display "
 ")

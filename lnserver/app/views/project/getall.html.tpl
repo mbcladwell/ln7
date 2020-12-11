@@ -5,10 +5,17 @@
 <@include header.tpl %>
   <a href="/project/add">Add Project</a>
   <form action="/project/edit">
-<table><caption><h1>All Projects</h1></caption><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Project</th><th>Name</th><th>Description</th></tr>
-<%= body %>
+<table id="prjtable" class="stripe"><caption><h1>All Projects</h1></caption><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Project</th><th>Name</th><th>Description</th></tr></thead><tbody>
+    <%= body %>
+    </tbody>
 </table>
  <input type="submit" value="Edit Project">
 </form>
-<@include footer.tpl %>
+
+  <script>
+  $(document).ready(function() {
+    $('#prjtable').DataTable();
+} );
+</script>
+  <@include footer.tpl %>
 

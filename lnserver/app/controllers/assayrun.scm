@@ -98,6 +98,29 @@
 ;; 3  mean-neg-3-sd
 
 
+(define (prep-hl-for-ar-rows a)
+  (fold (lambda (x prev)
+          (let ((id (get-c1 x))
+                (assay-run-sys-name (result-ref x "assay_run_sys_name"))
+                (assay-run-name (result-ref x "assay_run_name"))
+		(assay-type-name (result-ref x "assay_type_name"))
+		(hit-list-sys-name (result-ref x "hitlist_sys_name"))
+		(hit-list-name (result-ref x "hitlist_name"))
+		(descr (result-ref x "descr"))
+		(nhits (get-c8 x))
+		)
+	      (cons (string-append "<tr><th><a href=\"/hitlist/gethlforarid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th>" hit-list-sys-name "</th><th>" hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
+		  prev)))
+        '() a))
+
+
+
+(define (get-hit-lists-for-arid id rc)
+  (let* ((sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_type.assay_type_name, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n  FROM assay_run, plate_set, hit_list, assay_type WHERE assay_type.id=assay_run.assay_type_id AND hit_list.assay_run_id=assay_run.id  AND assay_run.plate_set_id=plate_set.id AND assay_run.id =" id ))
+	(holder (DB-get-all-rows (:conn rc sql))))
+	(string-concatenate (prep-hl-for-ar-rows holder))))
+
+
 (assayrun-define getid
 		 (options #:conn #t #:cookies '(names id infile infile2 response threshold body))
 (lambda (rc)
@@ -121,7 +144,10 @@
 	(dummy3 (get-assayrun-table-for-r id (string-append "pub/" infile)))
 	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2)))
 	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
-	(outfile2 (string-append "\"../" outfile "\"")))
+	(outfile2 (string-append "\"../" outfile "\""))
+	(hit-lists (get-hit-lists-for-arid id rc))
+
+	)
     (view-render "getarid" (the-environment)))))
 
 
