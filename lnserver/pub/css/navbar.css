@@ -32,9 +32,10 @@ a[data-toggle="collapse"] {
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
-    
-
+    margin: 10px;
+    padding: 18px;
 }
+
 
 p {
     font-family: 'Poppins', sans-serif;

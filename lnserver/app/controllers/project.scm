@@ -16,13 +16,16 @@
 		(descr (result-ref x "descr")))
             (cons (string-append "<tr><th> <input type=\"radio\" id=\"" project_sys_name  "\" name=\"prjid\" value=\"" (number->string (cdr (car x)))   "\"></th>
 
-<th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\" class=\"btn btn-primary btn-lg active\" role=\"button\" aria-pressed=\"true\">" project_sys_name "</a></th>
+<th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th>
+
 
 <th>" project_name "</th><th>" descr "</th></tr>")
 		  prev)))
         '() a))
 
-;; ;;<th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th>
+
+;; <th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\" class=\"btn btn-primary btn-sm active\" role=\"button\" aria-pressed=\"true\">" project_sys_name "</a></th>
+;; <th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th>
 
 
 ;; (project-define getall

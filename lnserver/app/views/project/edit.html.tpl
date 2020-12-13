@@ -8,13 +8,17 @@
 
 
   <form action="/project/editaction">
- <p> <label for="name">Project Name:</label>  <input type="text" id="pname" name="pname" value= <%= name %> > </p><br>
-  <p> <label for="descr">Description:</label>  <input type="text" id="descr" name="descr" value= <%= descr %> > </p><br>
-<p>  <input id="prjid" name="prjid" type="hidden" value=<%= prjid %>>  </p>
-  <input type="submit" value="Submit">
+    <div class="form-group">
+      <label for="name">Project Name:</label>  <input type="text" class="form-control" id="pname" name="pname" value= <%= name %> > 
+</div>
+
+<div class="form-group">
+<label for="descr">Description:</label>  <input type="text" class="form-control" id="descr" name="descr" value= <%= descr %> > 
+</div>
+<input id="prjid" name="prjid" type="hidden" value=<%= prjid %>>
+
+
+<button type="submit" class="btn btn-primary">Submit</button>
 </form> 
-
-
   
 <@include footer.tpl %>
-
