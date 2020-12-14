@@ -4,7 +4,7 @@
   
 <@include header.tpl %>
 
-  <h1>Add a Plate Set</h1><br><br>
+  <h1>Add a Plate Set To Project PRJ-</h1><br><br>
 
   <form action="/plateset/addaction?name=pname$value&description=descr$value">
 <p>  <label for="name">Plate Set Name:</label>  <input type="text" id="psname" name="psname" value=""></p><br>

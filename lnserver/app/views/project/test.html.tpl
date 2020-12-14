@@ -7,8 +7,8 @@
   <h1>Test</h1><br><br>
 
 
-<%= holder %>
-<%= descr %>
+<%= qstr %>
+
 
   
 <@include footer.tpl %>

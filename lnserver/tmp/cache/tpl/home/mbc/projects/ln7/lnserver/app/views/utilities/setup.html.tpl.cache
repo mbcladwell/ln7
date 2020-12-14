@@ -12,13 +12,16 @@
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
         <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
       <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
+ <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/buttons.datatables.min.css\" />
 
 	
    
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../jQuery-3.3.1/jquery-3.3.1.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.html5.min.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/dataTables.bootstrap4.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -38,17 +41,75 @@
   </div>
  <ul>
     <li class=\"active\">
-                <a href=\"#projectSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Project</a>
+                <a href=\"#projectSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Projects</a>
                 <ul class=\"collapse list-unstyled\" id=\"projectSubmenu\">
                     <li>
                         <a href=\"/project/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"#\" onclick=\"document.getElementById('edit_form').submit(); return false;\">Edit</a>
+		      <a href=\"#\" onclick=\"editProject()\">Edit</a>
                     </li>
                     <li>
                         <a href=\"/project/add\">Add</a>
                     </li>
+                </ul>
+            </li>
+    <li class=\"active\">
+                <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
+                <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
+                    <li>
+                        <a href=\"\">for PRJ-</a>
+                    </li>
+                    <li>                    
+		      <a href=\"/plateset/add?format=96&type=master\">Add to PRJ-</a>
+                    </li>
+                    <li>                    
+		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
+                    </li>
+                    <li>
+                        <a href=\"#\" onclick=\"groupPlateSet()\" >Group</a>
+                    </li>
+                    <li>
+                        <a href=\"#\"  onclick=\"reformatPlateSet()\">Reformat</a>
+                    </li>
+
+
+   <li class=\"active\">
+                <a href=\"#importPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Import</a>
+                <ul class=\"collapse list-unstyled\" id=\"importPlatesetSubmenu\">
+
+		    
+		    <li>
+                        <a href=\"/project/add\">Assay Data</a>
+                    </li>
+		    <li>
+                        <a href=\"/project/add\">Accessions</a>
+                    </li>
+		    <li>
+                        <a href=\"/project/add\">Barcodes</a>
+                    </li>
+
+
+		</ul>
+   </li>
+
+   <li class=\"active\">
+                <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
+                <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
+
+		    
+		    <li>
+                        <a href=\"/project/add\">Selected Rows</a>
+                    </li>
+		    <li>
+                        <a href=\"/project/add\">Underlying Data</a>
+                    </li>
+
+		</ul>
+   </li>
+
+   
+
                 </ul>
             </li>
    
@@ -59,10 +120,7 @@
                         <a href=\"/layout/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"#\" onclick=\"document.getElementById('edit_form').submit(); return false;\">Edit</a>
-                    </li>
-                    <li>
-                        <a href=\"/project/add\">Add</a>
+		      <a href=\"upload\">Import</a>
                     </li>
                 </ul>
             </li>
@@ -71,27 +129,42 @@
                 <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
                 <ul class=\"collapse list-unstyled\" id=\"targetSubmenu\">
                     <li>
-                        <a href=\"/target/gettrglyt\">All</a>
+                        <a href=\"/target/gettrglyt\">All Target Layouts</a>
                     </li>
                     <li>                    
-		      <a href=\"#\" onclick=\"document.getElementById('edit_form').submit(); return false;\">Edit</a>
+		      <a href=\"/target/addtrglyt\">Add Target Layout</a>
                     </li>
                     <li>
-                        <a href=\"/project/add\">Add</a>
+                        <a href=\"/target/getall\">All Targets</a>
+                    </li>
+                    <li>
+                        <a href=\"/target/add\">Add Target</a>
+                    </li>
+                </ul>
+            </li>
+   <li class=\"active\">
+                <a href=\"#utilsSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Utilities</a>
+                <ul class=\"collapse list-unstyled\" id=\"utilsSubmenu\">
+                    <li>
+                        <a href=\"../utilities/setup\">Connection</a>
+                    </li>
+                    <li>                    
+		      <a href=\"../sessions/getall\" >Sessions</a>
+                    </li>
+                    <li>
+                        <a href=\"../users/getall\">Users</a>
                     </li>
                 </ul>
             </li>
   
-  <li><a href=\"../utilities/setup\">Utilities</a></li>
-
-<li><a href=\"../sessions/getall\">Sessions</a></li>
-<li><a href=\"../users/getall\">Users</a></li>
-
- <li> <a href=\"../utilities/help?topic=")(display  help-topic )(display " \">HELP</a></li>
-  <li><a href=\"http://labsolns.com/software/toc\">TOC</a></li>
-  <li><a href=\"mailto:info@labsolns.com\">Contact</a></li>
+     
+ <li class=\"active\"> <a href=\"../utilities/help?topic=")(display  help-topic )(display " \">HELP</a></li>
+  <li class=\"active\"><a href=\"http://labsolns.com/software/toc\">TOC</a></li>
+  <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>
   </nav>
+
+  
 
 <div id=\"content\">
 
@@ -109,7 +182,9 @@
 ")(display "</div>
 </div>
  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
-   
+
+<script src=\"../js/menufunctions.js\"></script>
+
 <script>
 $(document).ready(function () {
 

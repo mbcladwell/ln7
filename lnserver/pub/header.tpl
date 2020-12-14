@@ -12,10 +12,10 @@
 
 	
    
-    <script type="text/javascript" charset="utf8" src="../jQuery-3.3.1/jquery-3.3.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="../js/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="../Bootstrap-4-4.1.1/js/bootstrap.js"></script>
- <script type="text/javascript" charset="utf8" src="../DataTables-1.10.22/js/dataTables.bootstrap4.js"></script>
     <script type="text/javascript" charset="utf8" src="../DataTables-1.10.22/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="../js/buttons.dataTables.min.js"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -41,11 +41,69 @@
                         <a href="/project/getall">All</a>
                     </li>
                     <li>                    
-		      <a href="#" onclick="document.getElementById('edit_form').submit(); return false;">Edit</a>
+		      <a href="#" onclick="editProject()">Edit</a>
                     </li>
                     <li>
                         <a href="/project/add">Add</a>
                     </li>
+                </ul>
+            </li>
+    <li class="active">
+                <a href="#platesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Plate Sets</a>
+                <ul class="collapse list-unstyled" id="platesetSubmenu">
+                    <li>
+                        <a href="">for PRJ-</a>
+                    </li>
+                    <li>                    
+		      <a href="/plateset/add?format=96&type=master">Add to PRJ-</a>
+                    </li>
+                    <li>                    
+		      <a href="#" onclick="editPlateSet()">Edit</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="groupPlateSet()" >Group</a>
+                    </li>
+                    <li>
+                        <a href="#"  onclick="reformatPlateSet()">Reformat</a>
+                    </li>
+
+
+   <li class="active">
+                <a href="#importPlatesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Import</a>
+                <ul class="collapse list-unstyled" id="importPlatesetSubmenu">
+
+		    
+		    <li>
+                        <a href="/project/add">Assay Data</a>
+                    </li>
+		    <li>
+                        <a href="/project/add">Accessions</a>
+                    </li>
+		    <li>
+                        <a href="/project/add">Barcodes</a>
+                    </li>
+
+
+		</ul>
+   </li>
+
+   <li class="active">
+                <a href="#exportPlatesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Export</a>
+                <ul class="collapse list-unstyled" id="exportPlatesetSubmenu">
+
+		    
+		    <li>
+                        <a href="/project/add">Selected Rows</a>
+                    </li>
+		    <li>
+                        <a href="/project/add">Underlying Data</a>
+                    </li>
+
+		</ul>
+   </li>
+
+   
+
                 </ul>
             </li>
    
@@ -56,10 +114,7 @@
                         <a href="/layout/getall">All</a>
                     </li>
                     <li>                    
-		      <a href="#" onclick="document.getElementById('edit_form').submit(); return false;">Edit</a>
-                    </li>
-                    <li>
-                        <a href="/project/add">Add</a>
+		      <a href="/layout/select">Import</a>
                     </li>
                 </ul>
             </li>
@@ -68,13 +123,16 @@
                 <a href="#targetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Targets</a>
                 <ul class="collapse list-unstyled" id="targetSubmenu">
                     <li>
-                        <a href="/target/gettrglyt">All</a>
+                        <a href="/target/gettrglyt">All Target Layouts</a>
                     </li>
                     <li>                    
-		      <a href="#" onclick="document.getElementById('edit_form').submit(); return false;">Edit</a>
+		      <a href="/target/addtrglyt">Add Target Layout</a>
                     </li>
                     <li>
-                        <a href="/project/add">Add</a>
+                        <a href="/target/getall">All Targets</a>
+                    </li>
+                    <li>
+                        <a href="/target/add">Add Target</a>
                     </li>
                 </ul>
             </li>
@@ -87,18 +145,30 @@
                     <li>                    
 		      <a href="../sessions/getall" >Sessions</a>
                     </li>
-                    <li>
-                        <a href="../users/getall">Users</a>
-                    </li>
+		    <li class="active">
+                      <a href="#usersSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Users</a>
+                      <ul class="collapse list-unstyled" id="usersSubmenu">
+   
+			<li>
+                          <a href="../users/getall">All Users</a>
+			</li>
+			<li>
+                          <a href="../users/add">Add User</a>
+			</li>
+
+		      </ul>
+		    </li>
                 </ul>
             </li>
   
      
- <li class="active"> <a href="../utilities/help?topic=<%= help-topic %> ">HELP</a></li>
-  <li class="active"><a href="http://labsolns.com/software/toc">TOC</a></li>
+ <li class="active"> <a href="../help/<%= help-topic %> ">HELP</a></li>
+  <li class="active"><a href="../help/toc">TOC</a></li>
   <li class="active"><a href="mailto:info@labsolns.com">Contact</a></li>
 </ul>
   </nav>
 
-<div id="content" style="margin:20;padding:20">
+  
+
+<div id="content">
 

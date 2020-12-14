@@ -6,7 +6,6 @@
 
   <h1>Edit Project PRJ-<%= prjid %></h1><br><br>
 
-
   <form action="/project/editaction">
     <div class="form-group">
       <label for="name">Project Name:</label>  <input type="text" class="form-control" id="pname" name="pname" value= <%= name %> > 

@@ -65,8 +65,9 @@
 		(options #:conn #t)
 		(lambda (rc)
 		  (let* ((help-topic "project")
+			;; (qstr  (:from-post rc 'get))
 			 (prj-name (get-from-qstr rc "pname"))
-			 (descr (get-from-qstr rc "descr"))
+		       	 (descr (get-from-qstr rc "descr"))
 			 (sid "99999")
 			 (sql (string-append "select new_project('"  descr "', '" prj-name "', '" sid "')"))
 			 (dummy (:conn rc sql))
@@ -75,7 +76,7 @@
   )))
 
 (project-define edit
-		(options #:conn #t)
+		(options #:conn #t )
 		(lambda (rc)
 		  (let* ((help-topic "project")			
 			 (prjid (get-from-qstr rc "prjid"))

@@ -7,9 +7,13 @@
   <h1>Add a Project</h1><br><br>
 
   <form action="/project/addaction?name=pname$value&description=descr$value">
-<p>  <label for="name">Project Name:</label>  <input type="text" id="pname" name="pname" value=""></p><br>
- <p> <label for="descr">Description:</label>  <input type="text" id="descr" name="descr" value=""></p><br><br>
-  <input type="submit" value="Submit">
+      <div class="form-group">
+	<label for="name">Project Name:</label>  <input type="text" class="form-control" id="pname" name="pname" value="">
+</div>
+	  <div class="form-group">
+	    <label for="descr">Description:</label>  <input type="text" class="form-control" id="descr" name="descr" value="">
+	    </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
 </form> 
 
 

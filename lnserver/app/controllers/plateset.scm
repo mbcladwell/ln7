@@ -102,7 +102,7 @@
 ;; 		   ))
 
 
-(post "/plateset/editps"
+(post "/plateset/group"
 		  #:conn #t #:from-post 'qstr
 		  (lambda (rc)
 		    (let* ((help-topic "group")
