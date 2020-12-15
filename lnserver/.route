@@ -25,6 +25,7 @@
   (get "/utilities/validate")
   (get "/target/add")
   (get "/project/addaction")
+  (get "/plateset/editaction")
   (get "/plateset/testdelete")
   (get "/project/edit")
   (get "/users/getall")

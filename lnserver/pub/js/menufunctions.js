@@ -1,57 +1,49 @@
 function editProject(){
-
-if(getCheckedBoxes("prjid") == null || getCheckedBoxes("prjid").length > 1 ){
-       window.alert("Please select (only) one project set to edit!");}
-        else {
+    if(getCheckedBoxes("prjid") == null || getCheckedBoxes("prjid").length > 1 ){
+	window.alert("Please select (only) one project set to edit!");}
+    else {
         document.getElementById('edit_project_form').submit(); return false;
-        }
-
+    }
 }
-
-
 
 function editPlateSet(){
-
-if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
-       window.alert("Please select (only) one plate set to edit!");}
-        else {
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
+	window.alert("Please select (only) one plate set to edit!");}
+    else {
         document.getElementById('edit_psform').submit(); return false;
-        }
-
+    }
 }
 
-
 function groupPlateSet(){
-
-if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length < 2 ){
-       window.alert("Please select two or more plate sets!");}
-        else {
-        document.getElementById('edit_psform').submit(); return false;
-        }
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length < 2 ){
+	window.alert("Please select two or more plate sets!");}
+    else {
+        window.location="/plateset/group";
+    }
 }
 
 function reformatPlateSet(){
-if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
-       window.alert("Please select (only) one plate set!");}
-        else {
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
+	window.alert("Please select (only) one plate set!");}
+    else {
         document.getElementById('edit_psform').submit(); return false;
-        }
+    }
 }
 
 function importPlateSet(){
-if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
-       window.alert("Please select (only) one plate set to associate data with!");}
-        else {
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
+	window.alert("Please select (only) one plate set to associate data with!");}
+    else {
         document.getElementById('edit_psform').submit(); return false;
-        }
+    }
 }
 
 function exportPlateSet(){
-if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
-       window.alert("Please select at least  one plate set for data export!");}
-        else {
-        document.getElementById('edit_psform').submit(); return false;
-        }
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
+	window.alert("Please select at least  one plate set for data export!");}
+    else {
+        window.location= "/plateset/group";
+    }
 }
 
 

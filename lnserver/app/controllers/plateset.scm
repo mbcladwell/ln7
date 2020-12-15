@@ -74,32 +74,40 @@
 
 
 
-;; (post "/plateset/editps"
-;; 		  #:conn #t #:from-post 'qstr
-;; 		 (lambda (rc)
-;; 		   (cond 
-;; 		    ((string=? (get-from-qstr rc "buttons") "group")
-;; 		     (let*((qstr (:from-post rc 'get))
-;; 			   (sql (assoc-ref qstr "plateset-id"))
-;; 			   (help-topic "group")
-;; 				    )
-;; 				(view-render "test" (the-environment))))
-;; 		    ((string=? (get-from-qstr rc "buttons") "reformat")
-;; 		     (let*((help-topic "reformat")
-;; 			   (sql "in reformat")
-;; 				    )
-;; 				(view-render "test" (the-environment))))
-;; 		    ((string=? (get-from-qstr rc "buttons") "importradio")
-;; 		     (let*((help-topic "platesets")
-;; 			   (sql "in impradio")
-;; 				    )
-;; 				(view-render "test" (the-environment))))
-;; 		    ((string=? (get-from-qstr rc "buttons") "exportradio")
-;; 		     (let*((sql "in expradio")
-;; 			   (help-topic "export")
-;; 				    )
-;; 				(view-render "test" (the-environment)))))
-;; 		   ))
+(post "/plateset/editps"
+		  #:conn #t #:from-post 'qstr
+		  (lambda (rc)
+		    (let* ((help-topic "plateset")	
+			   (qstr  (:from-post rc 'get))
+			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
+			   (b (map uri-decode  a))
+			   ;;javascript prevents the selection of more than one plateset
+			   (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+			   (psid (caar start))
+			   (sql (string-append "select plate_set_name, descr from plate_set where id=" psid ))
+			   (holder   (car (DB-get-all-rows (:conn rc sql))))
+			   (descr  (object->string (cdadr holder)))
+			   (name (object->string (cdar holder)))
+			  )
+				(view-render "edit" (the-environment))
+		   )))
+
+
+(plateset-define editaction
+		(options #:conn #t #:cookies '(names prjid sid))
+		(lambda (rc)
+		  (let* ((help-topic "plateset")
+			 (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (ps-name (get-from-qstr rc "psname"))
+			 (descr (get-from-qstr rc "descr"))
+			 (psid (get-from-qstr rc "psid"))			 
+			 (sql (string-append "UPDATE plate_set SET plate_set_name='" ps-name "', descr='" descr "' WHERE id=" psid))
+			 (dummy (:conn rc sql))
+			 )
+;;		    (view-render "test" (the-environment))
+		    (redirect-to rc (string-append "plateset/getps?id="  prjid))
+  )))
+
 
 
 (post "/plateset/group"
@@ -133,17 +141,6 @@
 		      
 
 		      
-		   ;; (cond 
-		   ;;  ((string=? (get-from-qstr rc "buttons") "group")
-		   ;;   (let*((qstr (:from-post rc 'get))
-		   ;; 	   (sql (assoc-ref qstr "plateset-id"))
-		   ;; 	   (help-topic "group")
-		   ;; 		    )
-		   ;; 		(view-render "test" (the-environment))))
-		   ;; ))
-
-
-;; ((plateset-id%5B%5D 1) (plateset-id%5B%5D 2) (buttons group) (import data) (export selected)) 
 
 
 

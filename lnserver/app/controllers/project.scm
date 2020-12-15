@@ -47,6 +47,7 @@
      (lambda (rc ) 
        (let* ( 
 	      (help-topic "project")
+	      (prjid "1")
 	      (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
 	      (body (string-concatenate (prep-project-rows holder))))
 	 (view-render "/getall" (the-environment)))))

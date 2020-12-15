@@ -6,8 +6,9 @@
 
   <h1>Test</h1><br><br>
 
-  cookies: <%= cookies %><br>
-  acookie:  <%= acookie %><br>
+  cookies: <%= qstr %><br>
+  <%= a %><br>
+  <%= c %>
 </body></html>
 
 

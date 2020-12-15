@@ -6,7 +6,7 @@
 <@include header.tpl %>
   <h2>Plate Sets for PRJ-<%= prjid %></h2>
 <form action="/plateset/editps" method="post" id="edit_psform">
-  <table id="pstable" class="display table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
+  <table id="pstable" class="table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
   <tbody>  <%= body %> </tbody>
 </table>
 </form>
