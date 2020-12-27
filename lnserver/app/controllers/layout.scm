@@ -74,19 +74,13 @@
 
 
 (layout-define getall
+	       (options #:conn #t)
   (lambda (rc)
-    (let* ((ret #f)
-	 (holder '())
-	 (help-topic "layouts")
-	(dummy (dbi-query ciccio  "select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name"))
-	(ret (dbi-get_row ciccio))
-	(dummy2 (while (not (equal? ret #f))     
-		  (set! holder (cons ret holder))		   
-		  (set! ret  (dbi-get_row ciccio))
-		  ))
-	(body (string-concatenate (prep-lyt-rows holder))))
-   (view-render "getall" (the-environment))
-  )))
+    (let* ((help-topic "layouts")
+	   (sql  "select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name")
+	   (holder  (DB-get-all-rows (:conn rc sql)))
+	   (body (string-concatenate (prep-lyt-rows holder))))
+   (view-render "getall" (the-environment)))))
 
 
 (layout-define lytbyid

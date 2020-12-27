@@ -170,7 +170,7 @@
             </li>
   
      
- <li class=\"active\"> <a href=\"../help/")(display  help-topic )(display ">HELP</a></li>
+ <li class=\"active\"> <a href=\"../help/")(display  help-topic )(display " \">HELP</a></li>
   <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>

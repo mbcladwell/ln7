@@ -15,9 +15,7 @@
 
   <script>
 $(document).ready(function() {
-    $('#prjtable').DataTable()});
-       
-    
+    $('#prjtable').DataTable()}); 
 </script>
 
   <@include footer.tpl %>
