@@ -116,7 +116,7 @@
 
 
 
-(define (load-bulk-target-file f)
+(define (get-sql-bulk-target-file f)
   (if (access? f R_OK)
       (let* (
 	     (my-port (open-input-file f))
@@ -125,7 +125,7 @@
 	     (message "")
 	     (ret (read-line my-port))
 	     (header (string-split ret #\tab))
-	     (dummy (if (and (string=? (car header) "project")
+	     (result (if (and (string=? (car header) "project")
 			     (string=? (cadr header) "target")
 			     (string=? (caddr header) "description")
 			     (string=? (cadddr header) "accession")) 			
@@ -135,12 +135,24 @@
 					   (set! holder (cons (string-split ret #\tab) holder))
 					   (set! ret (read-line my-port))))
 				 (holder2 (string-concatenate (map process-list-of-rows holder)))
-				 (sel-str (string-append "select bulk_target_upload('{" (xsubstring holder2 0 (- (string-length holder2) 1))  "}')" )) ;;trim the final comma
-				 (dummy3 (dbi-query ciccio sel-str)))
-			    (set! message (string-append "import complete:  " sel-str)))			  
-		    (set! message "Invalid bulk target import file format"))))
-	message)))	 
-		   
+				 (sql (string-append "select bulk_target_upload('{" (xsubstring holder2 0 (- (string-length holder2) 1))  "}')" ))) ;;trim the final comma
+				 
+			    sql))))
+	result)
+      #f))
+
+
+(post "/addbulk" #:conn #t #:from-post 'qstr
+		(lambda (rc)
+		  (let* ((help-topic "target")
+			 ;;(f (get-from-qstr rc "customFile"))
+			 (f "/home/mbc/targets200.txt")
+			 (sql (get-sql-bulk-target-file f ))
+			 (dummy (:conn rc sql))
+			 )
+		    (redirect-to rc "target/getall" )
+  )))
+
 
 ;;new_target(_project_id INTEGER, _trg_name varchar(30), _descr varchar(250), _accs_id varchar(30))
 
@@ -155,17 +167,17 @@
 			 (sql (string-append "select new_target(" id ", '" tname "', '" desc "', '" accs "')"))			 
 			 (dummy (:conn rc sql))
 			 )
-		    (redirect-to rc "target/getall")
+		    (rediret-to rc "target/getall")
   )))
 
 
 (define (extract-targets lst all-trgs)
   (if (null? (cdr lst))
         (begin
-	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">" (string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
+	 (set! all-trgs (cons (string-append "<option value=" (object->string (cdaar lst)) ">" (string-append  (cdadar lst) " "  (cdar (cddar lst))) "</option>") all-trgs))
        all-trgs)
        (begin
-	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">"(string-append (object->string (cdadar lst)) " " (object->string (cdar (cddar lst)))) "</option>") all-trgs))
+	 (set! all-trgs (cons (string-append "<option value=\"" (object->string (cdaar lst)) "\">"(string-append  (cdadar lst) " "  (cdar (cddar lst))) "</option>") all-trgs))
 	 (extract-targets (cdr lst) all-trgs)) ))
 
 
@@ -209,3 +221,12 @@
 			 (dummy (:conn rc sql)))
 		    (redirect-to rc "target/gettrglyt" ))))
      
+(get "/addbulk" #:conn #t 
+		(lambda (rc)
+		  (let* ((help-topic "target")
+			 (sql (string-append "select new_target(" id ", '" tname "', '" desc "', '" accs "')"))			 
+			 (dummy (:conn rc sql))
+			 )
+		    (redirect-to rc "target/getall")
+  )))
+

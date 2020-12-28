@@ -177,12 +177,17 @@
 <div id=\"content\">
 
 ")(display "
-    
+<div class=\"container\">    
 <h1>Targets</h1>
 <table id=\"lyttable\" class=\"display table table-striped table-bordered\"><thead><tr><th>ID</th><th>Project</th><th>Name</th><th>Description</th><th>Accession</th></tr></thead>
  <tbody> ")(display  body )(display "</tbody>
 </table>
+</div>
+ <script>          
+$(document).ready(function() {
+    $('#lyttable').DataTable()});
 
+</script>
 
 ")(display "</div>
 </div>

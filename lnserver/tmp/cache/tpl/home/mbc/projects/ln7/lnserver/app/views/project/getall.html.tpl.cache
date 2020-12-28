@@ -189,9 +189,7 @@
 
   <script>
 $(document).ready(function() {
-    $('#prjtable').DataTable()});
-       
-    
+    $('#prjtable').DataTable()}); 
 </script>
 
   ")(display "</div>

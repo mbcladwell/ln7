@@ -3,7 +3,9 @@
           This file is generated automatically by GNU Artanis. -->
 
 <@include header.tpl %>
- 
+
+  <div class="container">
+
 <h3>Add A Single Target</h3><br>
 
 <form action="/addsingle" method="get">
@@ -27,10 +29,11 @@
    <button  type="submit" class="btn btn-primary">Submit</button>
  </div>
 </form>
-
+</div>
 <br><br>
 <hr>
 
+<div class="container">
 <h3>Bulk Target Upload</h3>
 
 <form action="/addbulk" method="post">
@@ -47,5 +50,16 @@
  </div>
 
 </form>
+</div>
+
+
+<script>
+  document.querySelector('.custom-file-input').addEventListener('change',function(e){
+  var fileName = document.getElementById("customFile").files[0].name;
+  var nextSibling = e.target.nextElementSibling
+  nextSibling.innerText = fileName
+})
+
+</script>
 
 <@include footer.tpl %>
