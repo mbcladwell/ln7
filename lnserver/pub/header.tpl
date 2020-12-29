@@ -131,9 +131,18 @@
                     <li>
                         <a href="/target/getall">All Targets</a>
                     </li>
-                    <li>
-                        <a href="/target/add">Add Target</a>
-                    </li>
+
+		    <li class="active">
+                      <a href="#trgaddSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Add Target</a>
+                      <ul class="collapse list-unstyled" id="trgaddSubmenu">		    
+			<li>
+                          <a href="/target/addsingle">Single</a>
+			</li>
+			<li>
+                          <a href="/target/addbulk">Bulk</a>
+			</li>
+		      </ul>
+		    </li>		    
                 </ul>
             </li>
    <li class="active">
@@ -162,7 +171,7 @@
             </li>
   
      
- <li class="active"> <a href="../help/<%= help-topic %> ">HELP</a></li>
+ <li class="active"> <a href="http://www.labsolns.com/software/<%= help-topic %> ">HELP</a></li>
   <li class="active"><a href="../help/toc">TOC</a></li>
   <li class="active"><a href="mailto:info@labsolns.com">Contact</a></li>
 </ul>

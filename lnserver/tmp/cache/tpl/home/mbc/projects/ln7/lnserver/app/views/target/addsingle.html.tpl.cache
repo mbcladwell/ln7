@@ -189,51 +189,30 @@
 
   <div class=\"container\">
 
-<h3>Add A Single Target</h3><br>
+    <h3>Add A Single Target</h3><br>
 
-<form action=\"/addsingle\" method=\"get\">
-   <div class=\"form-group\">
-  <label for=\"prj\">Project:</label><select name=\"projects\"  class=\"form-control\" id=\"projects\">")(display  all-projects )(display " </select>
-</div>
+    <form action=\"/addsingleaction\" method=\"get\">
+      <div class=\"form-group\">
+	<label for=\"prj\">Project:</label><select name=\"projects\"  class=\"form-control\" id=\"projects\">")(display  all-projects )(display " </select>
+      </div>
 
-  <div class=\"form-group\">
-    <label for=\"tname\">Target Name:</label><input type=\"text\"  class=\"form-control\" id=\"tname\" name=\"tname\">
-</div>
+      <div class=\"form-group\">
+	<label for=\"tname\">Target Name:</label><input type=\"text\"  class=\"form-control\" id=\"tname\" name=\"tname\">
+      </div>
+      
+      <div class=\"form-group\">
+	<label for=\"desc\">Description:</label><input type=\"text\"  class=\"form-control\" id=\"desc\" name=\"desc\"> 
+      </div>
 
-  <div class=\"form-group\">
-<label for=\"desc\">Description:</label><input type=\"text\"  class=\"form-control\" id=\"desc\" name=\"desc\"> 
-</div>
-
-  <div class=\"form-group\">
-<label for=\"accs\">Accession ID:</label><input type=\"text\"  class=\"form-control\"   id=\"accs\" name=\"accs\">
-</div>
-<br>
- <div>
-   <button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
- </div>
-</form>
-</div>
-<br><br>
-<hr>
-
-<div class=\"container\">
-<h3>Bulk Target Upload</h3>
-
-<form action=\"/addbulk\" method=\"post\">
-
- 
-
-<div class=\"custom-file\">
-  <input type=\"file\" class=\"custom-file-input\" accept=\".txt, .csv\" id=\"customFile\">
-  <label class=\"custom-file-label\" for=\"customFile\">Choose bulk target upload file</label>
-</div><br><br>
-
-<div>
-   <button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
- </div>
-
-</form>
-</div>
+      <div class=\"form-group\">
+	<label for=\"accs\">Accession ID:</label><input type=\"text\"  class=\"form-control\"   id=\"accs\" name=\"accs\">
+      </div>
+      <br>
+      <div>
+	<button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
+      </div>
+    </form>
+  </div>
 
 
 <script>

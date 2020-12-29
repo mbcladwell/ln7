@@ -175,7 +175,7 @@
             </li>
   
      
- <li class=\"active\"> <a href=\"../help/")(display  help-topic )(display " \">HELP</a></li>
+ <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
   <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>
@@ -187,53 +187,43 @@
 
 ")(display "
 
+
+
   <div class=\"container\">
+    <h3>Bulk Target Upload</h3>
 
-<h3>Add A Single Target</h3><br>
+    Import a tab delimitted, 4 column file with header:<br><br>
+<pre>
+project	target	description	accession
+1	DYSF		8291
+1	FKRP		79147
+1	LAMA2		3908
+1	TGFB2		7042
+1	FSHMD1B		2490
+1	SYNE1		23345
+.
+.
+.
+</pre>
 
-<form action=\"/addsingle\" method=\"get\">
-   <div class=\"form-group\">
-  <label for=\"prj\">Project:</label><select name=\"projects\"  class=\"form-control\" id=\"projects\">")(display  all-projects )(display " </select>
-</div>
+Description is optional. Note that in the above example there are 2 tabs between the target and accession to signify that the description is empty e.g. the first row is:<br><br>
+<pre>1&#60;tab>DYSF&#60;tab>&#60;tab>8291<br></pre>
 
-  <div class=\"form-group\">
-    <label for=\"tname\">Target Name:</label><input type=\"text\"  class=\"form-control\" id=\"tname\" name=\"tname\">
-</div>
-
-  <div class=\"form-group\">
-<label for=\"desc\">Description:</label><input type=\"text\"  class=\"form-control\" id=\"desc\" name=\"desc\"> 
-</div>
-
-  <div class=\"form-group\">
-<label for=\"accs\">Accession ID:</label><input type=\"text\"  class=\"form-control\"   id=\"accs\" name=\"accs\">
-</div>
-<br>
- <div>
-   <button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
- </div>
-</form>
-</div>
-<br><br>
-<hr>
-
-<div class=\"container\">
-<h3>Bulk Target Upload</h3>
-
-<form action=\"/addbulk\" method=\"post\">
-
- 
-
-<div class=\"custom-file\">
-  <input type=\"file\" class=\"custom-file-input\" accept=\".txt, .csv\" id=\"customFile\">
-  <label class=\"custom-file-label\" for=\"customFile\">Choose bulk target upload file</label>
-</div><br><br>
-
-<div>
-   <button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
- </div>
-
-</form>
-</div>
+The file must end on the last row of data i.e. no final carriage return.<br>
+      
+    <form action=\"/addbulkaction\" method=\"post\">
+      
+      <div class=\"custom-file\">
+	<input type=\"file\" class=\"custom-file-input\" accept=\".txt, .csv\" id=\"customFile\">
+	<label class=\"custom-file-label\" for=\"customFile\">Choose bulk target upload file</label>
+      </div><br><br>
+      
+      <div>
+	<button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
+      </div>
+      
+    </form>
+  </div>
 
 
 <script>

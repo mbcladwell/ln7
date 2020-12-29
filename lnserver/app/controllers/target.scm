@@ -24,7 +24,7 @@
 (target-define getall
 	       (options #:conn #t)
 		(lambda (rc)
-		  (let* ((help-topic "target")
+		  (let* ((help-topic "targets")
 			 (sql (string-append "select id, target_sys_name, project_id, target_name, descr, accs_id from target" ))
 			 (holder (DB-get-all-rows (:conn rc sql)))
 			 (body  (string-concatenate  (prep-trg-rows holder)) ))
@@ -81,7 +81,7 @@
 (target-define gettrglytbyid
 	       (options #:conn #t)
 		(lambda (rc)
-		  (let* ( (help-topic "target")
+		  (let* ( (help-topic "targets")
 			 (id  (get-from-qstr rc "id"))
 			 (sql (string-append "select target.id, target.target_sys_name, target.descr, target_layout_name.project_id, target.target_name, target_layout.quad, target_layout_name_sys_name, target_layout_name_name, target_layout_name_desc, target_layout_name.reps, target.accs_id from target_layout_name, target_layout, target WHERE target_layout.target_layout_name_id=target_layout_name.id AND target_layout.target_id=target.id AND target_layout_name.id=" id))
 			 (holder (DB-get-all-rows (:conn rc sql)))
@@ -103,16 +103,6 @@
 	 (set! all-prj (cons (string-append "<option value=\"" (cdaar lst) "\">"  (cdaar lst) "</option>") all-prj))
 	 (extract-projects (cdr lst) all-prj)) ))
 
-
-(target-define add
-	        (options #:conn #t)
-		(lambda (rc)
-		  (let* ((help-topic "target")
-			 (sql  "select project_sys_name from project")
-			 (holder  (DB-get-all-rows (:conn rc sql)))
-			 (all-projects-pre '())			 
-			 (all-projects  (extract-projects holder all-projects-pre)))
-		    (view-render "add" (the-environment)))))
 
 
 
@@ -142,23 +132,41 @@
       #f))
 
 
-(post "/addbulk" #:conn #t #:from-post 'qstr
+(post "/addbulkaction" #:conn #t #:from-post 'qstr
 		(lambda (rc)
-		  (let* ((help-topic "target")
+		  (let* ((help-topic "targets")
 			 ;;(f (get-from-qstr rc "customFile"))
 			 (f "/home/mbc/targets200.txt")
 			 (sql (get-sql-bulk-target-file f ))
 			 (dummy (:conn rc sql))
 			 )
 		    (redirect-to rc "target/getall" )
-  )))
+		    )))
+
+
+(target-define addbulk
+	        (options #:conn #t)
+		(lambda (rc)
+		  (let* ((help-topic "targets"))
+			
+		    (view-render "addbulk" (the-environment)))))
+
+;; (get "/addbulk" #:conn #t 
+;; 		(lambda (rc)
+;; 		  (let* ((help-topic "target")
+;; 			 (sql (string-append "select new_target(" id ", '" tname "', '" desc "', '" accs "')"))			 
+;; 			 (dummy (:conn rc sql))
+;; 			 )
+;; 		    (redirect-to rc "target/getall")
+;;   )))
+
 
 
 ;;new_target(_project_id INTEGER, _trg_name varchar(30), _descr varchar(250), _accs_id varchar(30))
 
-(get "/addsingle" #:conn #t 
+(get "/addsingleaction" #:conn #t 
 		(lambda (rc)
-		  (let* ((help-topic "target")
+		  (let* ((help-topic "targets")
 			 (prj-name (get-from-qstr rc "projects"))
 			 (id (substring prj-name 4))
 			 (tname (get-from-qstr rc "tname"))
@@ -167,8 +175,21 @@
 			 (sql (string-append "select new_target(" id ", '" tname "', '" desc "', '" accs "')"))			 
 			 (dummy (:conn rc sql))
 			 )
-		    (rediret-to rc "target/getall")
+		    (redirect-to rc "target/getall")
   )))
+
+
+(target-define addsingle
+	        (options #:conn #t)
+		(lambda (rc)
+		  (let* ((help-topic "targets")
+			 (sql  "select project_sys_name from project")
+			 (holder  (DB-get-all-rows (:conn rc sql)))
+			 (all-projects-pre '())			 
+			 (all-projects  (extract-projects holder all-projects-pre)))
+		    (view-render "addsingle" (the-environment)))))
+
+
 
 
 (define (extract-targets lst all-trgs)
@@ -201,7 +222,7 @@
 ;; new_target_layout_name(_project_id INTEGER,  _trg_lyt_name varchar(30), _descr varchar(250), _reps INTEGER, q1_id INTEGER, q2_id INTEGER, q3_id INTEGER, q4_id INTEGER)
 (get "/addtrglytaction?" #:conn #t 
 		(lambda (rc)
-		  (let* ((help-topic "target")
+		  (let* ((help-topic "targets")
 			 (prj-name (get-from-qstr rc "projects"))
 			 (id (substring prj-name 4))
 			 (tlytname (get-from-qstr rc "tlytname"))
@@ -221,12 +242,4 @@
 			 (dummy (:conn rc sql)))
 		    (redirect-to rc "target/gettrglyt" ))))
      
-(get "/addbulk" #:conn #t 
-		(lambda (rc)
-		  (let* ((help-topic "target")
-			 (sql (string-append "select new_target(" id ", '" tname "', '" desc "', '" accs "')"))			 
-			 (dummy (:conn rc sql))
-			 )
-		    (redirect-to rc "target/getall")
-  )))
 
