@@ -1,8 +1,6 @@
-<!-- project#add view template of lnserver
-          Please add your license header here.
-          This file is generated automatically by GNU Artanis.         
-        https://www.w3schools.com/js/js_htmldom_eventlistener.asp  
-   
+<!-- 
+   select.js puts an event listener on "myfile" and validates the file
+Then submit must be pressed to process
    <input type="hidden" id="" name="outfile" value=  >
            -->
 
@@ -30,7 +28,14 @@
 
 
 
-
+ <script>
+            $('#myfile').on('change',function(){
+                //get the file name
+                var fileName = $(this).val();
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            })
+        </script>
 
 
   

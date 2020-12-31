@@ -26,11 +26,11 @@
 	      document.cookie = 'selected-file=' +  file.name + expires + "; path=/";
 	 
 	 
-	  //window.open( '/layout/viewlayout', "_top");
-	 // displayContents(contents);
+	  window.open( '/layout/viewlayout', "_top");
+	 displayContents(contents);
     	  }else{
     	  var message1="Layout Import file must have 96, 384 or 1536 rows of data.\n";
-    	  var message2 = numrows.toString();
+    	  var message2 = format.toString();
     	  var message3 = " row(s) were found. Please try again.";
     	  var message4 = message1.concat(message2, message3);
 	  window.alert(message4);

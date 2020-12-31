@@ -3,7 +3,8 @@
           This file is generated automatically by GNU Artanis. -->
   
 <@include header.tpl %>
-
+ <div class="container">
+ 
   <h1>Add a Project</h1><br><br>
 
   <form action="/project/addaction?name=pname$value&description=descr$value">
@@ -15,7 +16,7 @@
 	    </div>
   <button type="submit" class="btn btn-primary">Submit</button>
 </form> 
-
+</div>
 
   
 <@include footer.tpl %>

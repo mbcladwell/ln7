@@ -142,15 +142,15 @@
 	  )))
  
   
-;;  (layout-define viewlayout 
-;;    (lambda (rc)
-;;      (let* ((help-topic "layouts")
-;; ;;	    (:cookies-set! rc 'cc "sid" "123321")
-;;  	    ;;(body-content (utf8->string (rc-body rc)))
-;; 	    (spl-out2 "blank")
-;; 	    )
-;;     (view-render "viewlayout" (the-environment))
-;;    )))
+ (layout-define viewlayout 
+   (lambda (rc)
+     (let* ((help-topic "layouts")
+;;	    (:cookies-set! rc 'cc "sid" "123321")
+ 	    (spl-out2  (rc-body rc))
+	  ;;  (spl-out2 "blank")
+	    )
+    (view-render "viewlayout" (the-environment))
+   )))
 
 
 

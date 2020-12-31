@@ -3,7 +3,8 @@
           This file is generated automatically by GNU Artanis. -->
   
 <@include header.tpl %>
-
+ <div class="container">
+ 
   <h1>Edit Project PRJ-<%= prjid %></h1><br><br>
 
   <form action="/project/editaction">
@@ -19,5 +20,5 @@
 
 <button type="submit" class="btn btn-primary">Submit</button>
 </form> 
-  
+ </div> 
 <@include footer.tpl %>
