@@ -203,14 +203,14 @@
 <div class=\"btn-group\" role=\"group\" aria-label=\"mygroup\">
    <label for=\"mygroup\">Continue with import of layout?:</label>
 
-  <button type=\"submit\" class=\"btn btn-secondary\">Yes</button>
+  <button type=\"submit\" class=\"btn btn-secondary\" action=\"updatedb?infile=\">Yes</button>
   <button type=\"submit\" class=\"btn btn-secondary\" action=\"getall\">Cancel</button>
 </div>
   
   <p><h3>Sample Layout</h3></p>
 
 ")(display  spl-out2 )(display "
-
+  
   </div>
 ")(display "</div>
 </div>

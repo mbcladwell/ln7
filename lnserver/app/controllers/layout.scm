@@ -142,11 +142,12 @@
 	  )))
  
   
- (layout-define viewlayout 
+;; (layout-define viewlayout 
+(post "/viewlayout"  #:cookies '(names format infile )  #:from-post 'bv
    (lambda (rc)
      (let* ((help-topic "layouts")
 ;;	    (:cookies-set! rc 'cc "sid" "123321")
- 	    (spl-out2  (rc-body rc))
+ 	    (spl-out2 (utf8->string (rc-body rc)))
 	  ;;  (spl-out2 "blank")
 	    )
     (view-render "viewlayout" (the-environment))

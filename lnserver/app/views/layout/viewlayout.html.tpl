@@ -27,7 +27,7 @@
   <p><h3>Sample Layout</h3></p>
 
 <%= spl-out2 %>
-
+  
   </div>
 <@include footer.tpl %>
 

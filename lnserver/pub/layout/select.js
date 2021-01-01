@@ -8,26 +8,29 @@
 	  var contents = e.target.result;
 	  var numrows = lineCount(contents);
 	  var format = numrows -1
-	  document.getElementById("format2").value = format.toString();
+	//  document.getElementById("format2").value = format.toString();
 	  
 	  if( numrows === 97 || numrows === 385 || numrows === 1537){
 	        let formData = new FormData();
                 formData.append("contents", contents);
+                document.getElementById("myText").innerHTML = contents;
         //        var link='/upload?format=' + format + "&origfile=" + fname;
-                //  var link='/upload';
-               // fetch(link, {method: "POST", body: formData});    
-              var d = new Date();
-	      d.setTime(d.getTime() + (60*60*1000));
-	      var expires = "; expires="+ d.toUTCString();
+        
+                //  var link='/layout/viewlayout';
+               //fetch(link, {method: "PUT", body: formData});
+       	  
+              //var d = new Date();
+	      //d.setTime(d.getTime() + (60*60*1000));
+	     // var expires = "; expires="+ d.toUTCString();
 	    //  document.cookie = 'infile=' +  document.getElementById('infile');
 	    //  document.cookie = 'spl-out=' +  document.getElementById('spl-out');
 	      
-	      document.cookie = 'format=' +  format + expires + "; path=/";
-	      document.cookie = 'selected-file=' +  file.name + expires + "; path=/";
+	      //document.cookie = 'format=' +  format + expires + "; path=/";
+	      //document.cookie = 'selected-file=' +  file.name + expires + "; path=/";
 	 
 	 
-	  window.open( '/layout/viewlayout', "_top");
-	 displayContents(contents);
+	 // window.open( '/layout/viewlayout', "_top");
+	// displayContents(contents);
     	  }else{
     	  var message1="Layout Import file must have 96, 384 or 1536 rows of data.\n";
     	  var message2 = format.toString();
@@ -39,13 +42,12 @@
       reader.readAsText(file);
   }
   
-  
-  
   function displayContents(contents) {
       var element = document.getElementById('file-content');
       element.innerHTML = contents;
   }
-
+ 
+ 
  
   function lineCount( text ) {
       var nLines = 0;
