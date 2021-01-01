@@ -113,41 +113,68 @@
       (view-render "select" (the-environment))
       )))
 
-
-;; 
 ;; this works
-(post "/upload"  #:cookies '(names format infile )  #:from-post 'bv 
+;; (post "/upload"  #:cookies '(names format infile )  #:from-post 'bv 
+;;       (lambda (rc)
+;; 	(let*((help-topic "layouts")
+;; 	      (infile (get-rand-file-name "lyt" "txt"))
+;; 	      (spl-out (get-rand-file-name "lyt" "png"))
+;;  	      (spl-out2 (string-append "\"../" spl-out "\""))
+;; 	      (cookies  (rc-cookie rc))
+;; 	      (a (utf8->string (rc-body rc)))
+;; 	      (dummy (:cookies-set! rc 'infile "infile" infile))
+;; 	      ;;(dummy2 (:cookies-set! rc 'spl-out2 "spl-out2" spl-out2))
+;; 	      ;;(format  (:cookies-ref rc 'format "format"))
+;; 	      (format  (:from-post rc 'get-vals "format"))
+;; 	      ;;(format "384")
+;; 	    ;;  (file-port (open-output-file infile))
+;; 	    ;;  (dummy (display a file-port))
+;; 	    ;;  (dummy2 (force-output file-port))
+;; 	    ;;  (origfile "test")
+;; 	    ;;  (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out " " format )))
+;; 	      )
+	  
+;; 	 ;; (redirect-to rc (string->uri "/viewlayout"))
+;; 	   (view-render "/upload" (the-environment))
+;; ;;	  #f
+;; 	  )))
+
+
+(post "/upload"  #:cookies '(names format infile )  #:from-post 'qstr 
       (lambda (rc)
 	(let*((help-topic "layouts")
 	      (infile (get-rand-file-name "lyt" "txt"))
 	      (spl-out (get-rand-file-name "lyt" "png"))
  	      (spl-out2 (string-append "\"../" spl-out "\""))
 	      (cookies  (rc-cookie rc))
-	      (a (utf8->string (rc-body rc)))
-	      (dummy (:cookies-set! rc 'infile "infile" infile))
+ 	      (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
+ 	      (format (:from-post rc 'get-vals "format2"))
+	     ;; (a (utf8->string (rc-body rc)))
+	     ;; (dummy (:cookies-set! rc 'infile "infile" infile))
 	      ;;(dummy2 (:cookies-set! rc 'spl-out2 "spl-out2" spl-out2))
 	      ;;(format  (:cookies-ref rc 'format "format"))
-	      (format  (:from-post rc 'get-vals "format"))
+	      ;;(format  (:from-post rc 'get-vals "format"))
 	      ;;(format "384")
-	    ;;  (file-port (open-output-file infile))
-	    ;;  (dummy (display a file-port))
-	    ;;  (dummy2 (force-output file-port))
+	      (file-port (open-output-file infile))
+	      (dummy (display a file-port))
+	      (dummy2 (force-output file-port))
 	    ;;  (origfile "test")
 	    ;;  (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-review-layout.R " infile " " spl-out " " format )))
+	      (dummy (system (string-append "Rscript --vanilla ../rscripts/plot-review-layout.R " infile " " spl-out " " format )))
 	      )
 	  
-	 ;; (redirect-to rc (string->uri "/viewlayout"))
-	   (view-render "/upload" (the-environment))
+	 ;; (redirect-to rc  "/layout/viewlayout")
+	   (view-render "viewlayout" (the-environment))
 ;;	  #f
 	  )))
  
   
-;; (layout-define viewlayout 
-(post "/viewlayout"  #:cookies '(names format infile )  #:from-post 'bv
+ (layout-define viewlayout 
+;;(post "/viewlayout"  #:cookies '(names format infile )  #:from-post 'qstr
    (lambda (rc)
      (let* ((help-topic "layouts")
-;;	    (:cookies-set! rc 'cc "sid" "123321")
- 	    (spl-out2 (utf8->string (rc-body rc)))
+	    ;;	    (:cookies-set! rc 'cc "sid" "123321")
+ 	    ;;(spl-out2 (:from-post rc 'get-vals "datatransfer"))
 	  ;;  (spl-out2 "blank")
 	    )
     (view-render "viewlayout" (the-environment))

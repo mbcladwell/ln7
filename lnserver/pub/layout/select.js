@@ -8,12 +8,17 @@
 	  var contents = e.target.result;
 	  var numrows = lineCount(contents);
 	  var format = numrows -1
-	//  document.getElementById("format2").value = format.toString();
 	  
 	  if( numrows === 97 || numrows === 385 || numrows === 1537){
-	        let formData = new FormData();
-                formData.append("contents", contents);
-                document.getElementById("myText").innerHTML = contents;
+	     //   let formData = new FormData();
+             //   formData.append("contents", contents);
+             var str1 = "<div><br><label for=\"myfile\">File contents (truncated):</label></div><pre>";
+             var str2 = contents.substring(0,50)
+             var str3 = ". . .</pre>";
+             document.getElementById("myText").innerHTML = str1.concat(str2, str3);
+             document.getElementById("datatransfer").value = contents;
+	     document.getElementById("format2").value = format.toString();
+               
         //        var link='/upload?format=' + format + "&origfile=" + fname;
         
                 //  var link='/layout/viewlayout';
