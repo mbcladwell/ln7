@@ -15,9 +15,10 @@ if (length(args) %in% c(0,1,2,4,5)) {
  ## d <- read.table( file = infile, skip=3, nrows=384, sep = "\t", header=TRUE)
 
 infile <- args[1]
+## spl.outfile <- paste0("../pub/", args[2])
 spl.outfile <- args[2]
 format <- as.numeric(args[3])
-d <- read.table(file=args[1],  skip=3, nrows=format, sep="\t", header=TRUE)
+d <- read.table(file=args[1],  nrows=format, sep="\t", header=TRUE)
 
 well.nums <-read.table( file = "rscripts/well_numbers_for_import.txt",   sep = "\t", header=TRUE)
 well.nums <- well.nums[well.nums$format==format,]

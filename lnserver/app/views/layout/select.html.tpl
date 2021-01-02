@@ -8,7 +8,7 @@ Then submit must be pressed to process
   <div class="container">
     <h1>Select Layout For Import</h1><br>
 
-    <form action="/upload" method="POST">
+    <form action="/viewlayout" method="POST">
       <div>
 	<label for="myfile">Select a layout file for import.</label><br>
 	<label for="myfile">The file must be tab delimitted text with a header and contain 96, 384, or 1536 rows of data.</label><br>
