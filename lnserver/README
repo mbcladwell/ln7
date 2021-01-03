@@ -2,3 +2,18 @@ http://localhost:3000/assayrun/getid?id=1
 
 /gnu/store/jgl9d4axpavsv83z2f1z1himnkbsxxqj-guile-2.2.7/bin/guile
 
+
+## Examples
+
+* layout.scm
+ recursion with returned variable or list
+ read a file and parse from server
+ 
+ * target.scm
+ 
+
+
+## todo
+
+when importing layout, the generated layouts have quotes around the description - remove
+

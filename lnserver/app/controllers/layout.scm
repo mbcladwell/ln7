@@ -113,23 +113,33 @@
       (view-render "select" (the-environment))
       )))
 
-(define (count what list)
-  ;;note you must set counter=0 in the let
-  ;; works with list of strings ("1" "1" "1" "5")
-   (if (null? (cdr list))
-       (if (equal? what  (car list)) (set! counter (+ counter 1)))	
-       ((if (equal? what (car list)) (set! counter (+ counter 1)))
-	(count what (cdr list)))))
+(define cs (char-set #\space #\tab #\newline #\return))
 
-(define (get-types lst)
-  ;;from the layout text extracts the second columns of types as a list
-  ;;must set holder '()
-  (if (null? (cdr lst))
-      (set! holder (cons (cdr (string-split (caar lst) #\tab)) holder))
-      (let ((c (set! holder (cons (cdr (string-split (caar lst) #\tab)) holder))))
-	(get-types (cdr lst)))))
+(define (get-types lst holder)
+  ;; get the second column of types
+  ;; an element looks like ("1\t5\r") trim the \r; split on \t
+  (cond
+   ((null? (cdr lst))
+    (set! holder (cons  (cdr (string-split (string-trim-both (caar lst) cs) #\tab))  holder))
+     holder)
+   ((cdr lst)
+    (set! holder (cons (cdr (string-split (string-trim-both (caar lst) cs) #\tab))  holder))
+    (get-types (cdr lst) holder))
+    (else #f)))
 
-  
+(define (count what list counter)
+  ;;count the string elements
+  ;;input is ("1" "1" "1")
+  (cond
+   ((null? (cdr list))
+    (if (equal? what  (car list)) (set! counter (+ counter 1)) #f)
+    counter)
+   ((cdr list)
+    (if (equal? what (car list)) (set! counter (+ counter 1)) #f)
+    (count what (cdr list) counter))
+   (else #f)))
+
+
  (post "/viewlayout"   #:from-post 'qstr 
    (lambda (rc)
      (let* ((help-topic "layouts")
@@ -139,24 +149,16 @@
 	    (cookies  (rc-cookie rc))
  	    (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
 	    (b (map list (cdr (string-split a #\newline))))
-	    (holder '())
-	    (dummy (get-types b))
-	    (all-types (apply append holder))
-	    (counter 0)
-	    (dummy (count "1" all-types))
-	    (nunk counter)
-	    (counter 0)
-	    (dummy (count "2" all-types))
-	    (n2 counter)
-	    (counter 0)
-	    (dummy (count "3" all-types))
-	    (n3 counter)
-	    (counter 0)
-	    (dummy (count "4" all-types))
-	    (n4 counter)
+	    (holder (get-types b '()))
+	    (all-types (apply append holder))	   
+	    (nunks (count "1" all-types 0))
+	    (n2 (count "2" all-types 0))
+	    (n3 (count "3" all-types 0))
+	    (n4 (count "4" all-types 0))
+	    (nedge (count "5" all-types 0))
 	    (ncontrols (+ n2 n3 n4))
  	    (format (:from-post rc 'get-vals "format2"))
-	    (file-port (open-output-file infile))
+	    (file-port (open-output-file (string-append "pub/" infile)))
 	    (dummy (display a file-port))
 	    (dummy2 (force-output file-port))
 	    (dummy (system (string-append "Rscript --vanilla rscripts/plot-review-layout.R pub/" infile " pub/" spl-out " " format ))))
@@ -165,24 +167,68 @@
 
 
 
+ (define (prep-sql-suffix list sqlsuffix)
+  ;;input is (88\t90\r)
+  (cond
+   ((null? (cdr list))
+    (set! sqlsuffix (string-append sqlsuffix "(" (string-trim-both (caar list) cs) ", " (string-trim-both  (cadar list) cs)  ", 1, 1) "))
+    sqlsuffix)
+   ((cdr list)
+    (set! sqlsuffix (string-append sqlsuffix "(" (string-trim-both  (caar list) cs) ", " (string-trim-both  (cadar list) cs)  ", 1, 1), "))
+    (prep-sql-suffix (cdr list) sqlsuffix))
+   (else #f)))
 
-(layout-define updatedb
+
+(define (get-sql-layout-file f)
+  (if (access? f R_OK)
+      (let* (
+	     (my-port (open-input-file f))
+	     (ret #f)
+	     (holder '())
+	     (message "")
+	     (ret (read-line my-port))
+	     (header (string-split ret #\tab))
+	     (result (if (and (string=? (string-trim-both (car header) cs) "well")
+			     (string=? (string-trim-both (cadr header) cs) "type"))
+			  (let* (
+				 (ret (read-line my-port))
+				 (dummy2 (while (not (eof-object? ret))
+					   (set! holder (cons (string-split ret #\tab) holder))
+					   (set! ret (read-line my-port))))
+				 (holder2 (prep-sql-suffix holder "")))		     
+			    holder2))))	
+	result)
+      #f))
+
+
+(post "/updatedb"  #:conn #t #:from-post 'qstr 
   (lambda (rc)
-    (let* (
-	  (file-name  (get-from-qstr rc "submit"))
-	 (help-topic "layouts")
-
+    (let* ((help-topic "layouts")
+	  (infile (uri-decode (:from-post rc 'get-vals "infile")))
+	  (format  (:from-post rc 'get-vals "format"))
+	  (lytname (:from-post rc 'get-vals "lytname"))
+	  (descr (:from-post rc 'get-vals "descr"))
+	  (contloc (:from-post rc 'get-vals "contloc"))
+	  (nunks  (:from-post rc 'get-vals "nunks"))
+	  (ncontrols  (:from-post rc 'get-vals "ncontrols"))
+	  (nedge (:from-post rc 'get-vals "nedge"))
+	  (sql "TRUNCATE TABLE import_plate_layout")
+	  (dummy (:conn rc sql))
+	  (sqlsuffix (get-sql-layout-file (string-append "pub/" infile)))
+	  (sqlprefix "INSERT INTO import_plate_layout (well_by_col, well_type_id, replicates, target) VALUES ")
+	  (sql (string-append sqlprefix sqlsuffix))
+	  (dummy (:conn rc sql))
+	  (sql (string-append "SELECT create_layout_records('" lytname "', '" descr "', '" contloc "', " ncontrols ", " nunks ", " format ", " nedge ")"))
+	  (dummy (:conn rc sql))
+	  (dummy (sleep 5))
 	)
-   (view-render "success" (the-environment))
+   (redirect-to rc "/layout/getall" )
   )))
 
-(layout-define success
-  (lambda (rc)
-    (let* (
-	  (file-name  (get-from-qstr rc "submit"))
-	 (help-topic "layouts")
 
-	)
-   (view-render "getall" (the-environment))
-  )))
 
+;; (layout-define success
+;; 	       (lambda (rc)
+;; 		 (let* ((help-topic "layouts"))		   
+;;  (view-render "success" (the-environment)))
+;; 	       ))

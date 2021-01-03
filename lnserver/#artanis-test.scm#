@@ -76,15 +76,17 @@
 
 
  (define (prep-sql-suffix list sqlsuffix)
-  ;;
   ;;input is (88\t90\r)
   (cond
    ((null? (cdr list))
-    (string-append "(" (number->string (caar list)) ", " (number->string (cadr list))  ", 1, 1) ")
+    (set! sqlsuffix (string-append sqlsuffix "(" (number->string (caar list)) ", " (number->string (cadar list))  ", 1, 1) "))
     sqlsuffix)
    ((cdr list)
-    (string-append "(" (number->string (caar list)) ", " (number->string (cadr list))  ", 1, 1), ")
+    (set! sqlsuffix (string-append sqlsuffix "(" (number->string (caar list)) ", " (number->string (cadar list))  ", 1, 1), "))
     (prep-sql-suffix (cdr list) sqlsuffix))
    (else #f)))
 
  (prep-sql-suffix a "")
+
+
+ (cadr (cadar a))

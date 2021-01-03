@@ -6,13 +6,29 @@
 
   <h1>Select Layout</h1><br><br>
 
-  <form action="/layout/import?id=id$value">
 
- <label for="myfile">Select import layout file:</label>
-<input type="file" id="myfile" name="myfile"> 
-<br><br>
-  <input type="submit" value="Submit">
-</form> 
+    <input  class="btn btn-primary" id="importButton" name="importButton" type="submit" value="Import Layout" onclick="myFunction()" >  
+
+
+    
+<button class="btn btn-primary" type="button" id="loadingButton" name="loadingButton" enabled>
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>
+  Loading...
+</button>
+
+<script>
+  document.getElementById("importButton").style.display = "inline";
+  document.getElementById("loadingButton").style.display = "none";
   
-<@include footer.tpl %>
+  function myFunction() {
+      var x = document.getElementById("importButton");
+      x.style.display = "none";
+      var y = document.getElementById("loadingButton");
+      y.style.display = "inline";
+} 
+    </script>
+
+
+    
+    <@include footer.tpl %>
 

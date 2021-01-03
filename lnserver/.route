@@ -4,7 +4,6 @@
   (get "/hitlist/gethlbyid")
   (get "/project/editaction")
   (get "/assayrun/getid")
-  (get "/layout/updatedb")
   (get "/layout/success")
   (get "/target/addbulk")
   (get "/target/gettrglyt")

@@ -12,6 +12,7 @@
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
         <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
       <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
+<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\">
 
 	
    

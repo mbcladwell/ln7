@@ -16,6 +16,7 @@
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
         <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
       <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
+<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\">
 
 	
    
@@ -195,48 +196,68 @@
   <p><h3>Sample Layout</h3></p>
  
   <image src= ")(display  spl-out2 )(display ">
-
-")(display  a )(display "
-
     
-    <form action=\"updatedb\">
+    <form action=\"updatedb\" method=\"POST\">
       <div class=\"form-row\">
 	<div class=\"form-group col-md-6\">
 	  <label for=\"lytname\">Layout Name</label>
-	  <input type=\"text\" class=\"form-control\" id=\"lytname\" placeholder=\"Name\">
+	  <input type=\"text\" class=\"form-control\" id=\"lytname\" name=\"lytname\" placeholder=\"Enter layout name\">
 	</div>
 	<div class=\"form-group col-md-6\">
 	  <label for=\"descr\">Description</label>
-	  <input type=\"text\" class=\"form-control\" id=\"descr\" placeholder=\"Description\">
+	  <input type=\"text\" class=\"form-control\" id=\"descr\" name=\"descr\" value=\"1S1T\">
 	</div>
       </div>
 
       <div class=\"form-row\">
 	<div class=\"form-group col-md-6\">
 	  <label for=\"contloc\">Control Location</label>
-	  <input type=\"text\" class=\"form-control\" id=\"contloc\" value=\"1S1T\">
+	  <input type=\"text\" class=\"form-control\" id=\"contloc\" name=\"contloc\" placeholder=\"Enter controls location\">
 	</div>
       </div>
       <div class=\"form-row\">
 	<div class=\"form-group col-md-12\">
-	  <label for=\"numunk\">Number unknowns:</label>
-	  <label for=\"numcon\">Number controls:</label>
-	  <label for=\"format\">Format: ")(display  format )(display "</label>
-
-
+	  <label for=\"numunk\">Number unknowns:&nbsp")(display  nunks )(display "</label>&nbsp&nbsp&nbsp
+	  <label for=\"numcon\">Number controls:&nbsp")(display  ncontrols )(display "</label>&nbsp&nbsp&nbsp
+	  <label for=\"numcon\">Number edge:&nbsp")(display  nedge )(display "</label>&nbsp&nbsp&nbsp
+	  <label for=\"format\">Format:&nbsp ")(display  format )(display "</label>
 
 	</div>
 	</div>
-      
 
+ <input type=\"hidden\" id=\"infile\" name=\"infile\" value=")(display  infile )(display ">
+ <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
+ <input type=\"hidden\" id=\"nunks\" name=\"nunks\" value=")(display  nunks )(display ">
+ <input type=\"hidden\" id=\"ncontrols\" name=\"ncontrols\" value=")(display  ncontrols )(display ">
+ <input type=\"hidden\" id=\"nedge\" name=\"nedge\" value=")(display  nedge )(display ">
 
       
- <label for=\"myfile\">Continue with import of layout?:</label>
-  <input type=\"submit\" value=\"Import\" >  
+ <input  class=\"btn btn-primary\" id=\"importButton\" name=\"importButton\" type=\"submit\" value=\"Import Layout\" onclick=\"myFunction()\" >
+
 </form> 
 
+ <button class=\"btn btn-primary\" type=\"button\" id=\"loadingButton\" name=\"loadingButton\" enabled>
+  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\" ></span>
+  Loading...
+</button>
+
+
     
-  </div>
+</div>
+
+<script>
+  document.getElementById(\"importButton\").style.display = \"inline\";
+  document.getElementById(\"loadingButton\").style.display = \"none\";
+  
+  function myFunction() {
+      var x = document.getElementById(\"importButton\");
+      x.style.display = \"none\";
+      var y = document.getElementById(\"loadingButton\");
+      y.style.display = \"inline\";
+} 
+    </script>
+
+
 ")(display "</div>
 </div>
  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
