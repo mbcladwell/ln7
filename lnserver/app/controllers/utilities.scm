@@ -8,14 +8,11 @@
 (define (process-item x) (string-append "<tr><th>"(car x) "</th><th>" (cadr x) "</th></tr>"))
 
 
-(utilities-define properties
-  (lambda (rc)
-  "<h1>This is utilities#properties</h1><p>Find me in app/views/utilities/properties.html.tpl</p>"
-  ;; TODO: add controller method `properties'
-  ;; uncomment this line if you want to render view from template
-  ;; (view-render "properties" (the-environment))
-  ))
+(define (get-key cust-id email )
+  (string->md5 (string-append cust-id email "lnsDFoKytr")))
 
+(define (validate-key cust_id cust_email cust_key)
+  (equal? (get-key cust_id cust_email) cust_key))
 
 
 (utilities-define setup

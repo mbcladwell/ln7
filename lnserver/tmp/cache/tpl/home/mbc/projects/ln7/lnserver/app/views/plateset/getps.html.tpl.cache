@@ -14,6 +14,7 @@
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
         <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
       <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
+<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\">
 
 	
    
@@ -136,9 +137,18 @@
                     <li>
                         <a href=\"/target/getall\">All Targets</a>
                     </li>
-                    <li>
-                        <a href=\"/target/add\">Add Target</a>
-                    </li>
+
+		    <li class=\"active\">
+                      <a href=\"#trgaddSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Add Target</a>
+                      <ul class=\"collapse list-unstyled\" id=\"trgaddSubmenu\">		    
+			<li>
+                          <a href=\"/target/addsingle\">Single</a>
+			</li>
+			<li>
+                          <a href=\"/target/addbulk\">Bulk</a>
+			</li>
+		      </ul>
+		    </li>		    
                 </ul>
             </li>
    <li class=\"active\">
@@ -167,7 +177,7 @@
             </li>
   
      
- <li class=\"active\"> <a href=\"../help/")(display  help-topic )(display " \">HELP</a></li>
+ <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
   <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>

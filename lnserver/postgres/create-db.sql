@@ -1188,7 +1188,8 @@ DECLARE
    dest_id INTEGER;
    edge INTEGER;
 dest_layout_ids INTEGER[];
-dest_layout_descr VARCHAR[] := '{\"1S4T\",\"2S2T\",\"2S4T\",\"4S1T\",\"4S2T\"}';
+-- dest_layout_descr VARCHAR[] := '{\"1S4T\",\"2S2T\",\"2S4T\",\"4S1T\",\"4S2T\"}';
+dest_layout_descr VARCHAR[] := '{1S4T,2S2T,2S4T,4S1T,4S2T}';
 dest_format INTEGER;
 i INTEGER;
 

@@ -6,8 +6,9 @@
 
   <h1>Test</h1><br><br>
 
-
-<%= sql %>
+<br><br>  <%= id %>
+<br><br>  <%= format %>
+<br><br><%= sql %>
 
 
   

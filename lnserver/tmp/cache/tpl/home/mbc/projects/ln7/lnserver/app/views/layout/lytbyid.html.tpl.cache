@@ -12,6 +12,7 @@
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
         <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
       <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
+<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\">
 
 	
    
@@ -117,7 +118,7 @@
                         <a href=\"/layout/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"upload\">Import</a>
+		      <a href=\"/layout/select\">Import</a>
                     </li>
                 </ul>
             </li>
@@ -134,9 +135,18 @@
                     <li>
                         <a href=\"/target/getall\">All Targets</a>
                     </li>
-                    <li>
-                        <a href=\"/target/add\">Add Target</a>
-                    </li>
+
+		    <li class=\"active\">
+                      <a href=\"#trgaddSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Add Target</a>
+                      <ul class=\"collapse list-unstyled\" id=\"trgaddSubmenu\">		    
+			<li>
+                          <a href=\"/target/addsingle\">Single</a>
+			</li>
+			<li>
+                          <a href=\"/target/addbulk\">Bulk</a>
+			</li>
+		      </ul>
+		    </li>		    
                 </ul>
             </li>
    <li class=\"active\">
@@ -165,8 +175,8 @@
             </li>
   
      
- <li class=\"active\"> <a href=\"../utilities/help?topic=")(display  help-topic )(display " \">HELP</a></li>
-  <li class=\"active\"><a href=\"http://labsolns.com/software/toc\">TOC</a></li>
+ <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
+  <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>
   </nav>
@@ -177,16 +187,12 @@
 
 ")(display "
 
+  <div class=\"container\">
   <h2>Plate Layouts for Source LYT-")(display  id )(display "</h2>
 <table id=\"lyttable\" class=\"display table table-striped table-bordered\"><thead><tr><th>ID</th><th>Name</th><th>Description</th><th>Format</th><th>Sample N</th><th>Target N</th><th>Edge?</th><th>N Controls</th><th>Unk N</th><th>Location</th><th>src/dest</th></tr></thead>
 
  <tbody> ")(display  body )(display "</tbody>
 </table>
-  <script>          
-$(document).ready(function() {
-    $('#lyttable').DataTable()});
-
-</script>
 
 <p><h3>Sample Layout</h3></p>
 <p><img src=")(display  spl-out2 )(display "></p>
@@ -197,6 +203,14 @@ $(document).ready(function() {
 <p><h3>Target Replication</h3></p>
 
 <p><img src=")(display  trg-rep-out2 )(display "><p>
+</div>
+
+
+      <script>          
+$(document).ready(function() {
+    $('#lyttable').DataTable()});
+
+</script>
 
 ")(display "</div>
 </div>

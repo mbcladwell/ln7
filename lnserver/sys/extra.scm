@@ -1,11 +1,8 @@
 (define-module (lnserver sys extra)
   #:export (get-rand-file-name
-	    ciccio
-	    ln-properties
 	    sid
 	    nopwd-conn
 	    ln-version
-	    properties-filename
 	    prep-ar-rows
 	    process-pg-row-element
 	    process-list-of-rows
@@ -46,20 +43,20 @@
 (define ln-version "0.1.0-042020")
 
 ;; default for elephant-sql
-(define ln-properties '(("sslmode" #f)
-			("init" #f)
-			("dbname" "klohymim")
-			("port" "5432")
-			("host" "raja.db.elephantsql.com")
-			("source" "test")
-			("connuser" "klohymim")
-			("connpassword" "hwc3v4_rbkT-1EL2KI-JBaqFq0thCXM_")
-			("user" "ln_admin")
-			("password" "welcome")
-			("help-url-prefix" "127.0.0.1/software/")))
+;; (define ln-properties '(("sslmode" #f)
+;; 			("init" #f)
+;; 			("dbname" "klohymim")
+;; 			("port" "5432")
+;; 			("host" "raja.db.elephantsql.com")
+;; 			("source" "test")
+;; 			("connuser" "klohymim")
+;; 			("connpassword" "hwc3v4_rbkT-1EL2KI-JBaqFq0thCXM_")
+;; 			("user" "ln_admin")
+;; 			("password" "welcome")
+;; 			("help-url-prefix" "127.0.0.1/software/")))
 
 
-(define properties-filename (string-append (getcwd) "/limsnucleus.properties"))
+;; (define properties-filename (string-append (getcwd) "/limsnucleus.properties"))
 
 ;; (define properties-filename (string-append (getcwd) "/home/projects/ln4/lnserver/limsnucleus.properties"))
 
@@ -78,19 +75,19 @@
 
 ;; (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:socket:192.168.1.11:5432"))
 
-(define ciccio (dbi-open "postgresql" (string-append 
-				       (car (assoc-ref ln-properties "connuser")) ":"
-				       (car (assoc-ref ln-properties "connpassword")) ":"
-				       (car (assoc-ref ln-properties "dbname")) ":socket:"
-				       (car (assoc-ref ln-properties "host")) ":"
-				       (car (assoc-ref ln-properties "port")))))
+;; (define ciccio (dbi-open "postgresql" (string-append 
+;;				       (car (assoc-ref ln-properties "connuser")) ":"
+;;				       (car (assoc-ref ln-properties "connpassword")) ":"
+;;				       (car (assoc-ref ln-properties "dbname")) ":socket:"
+;;				       (car (assoc-ref ln-properties "host")) ":"
+;;				       (car (assoc-ref ln-properties "port")))))
 
 ;; for display on login page
-(define nopwd-conn  (string-append  
-		     (car (assoc-ref ln-properties "connuser")) ":"
-		     (car (assoc-ref ln-properties "dbname")) ":socket:"
-		     (car (assoc-ref ln-properties "host")) ":"
-		     (car (assoc-ref ln-properties "port"))))
+;;(define nopwd-conn  (string-append  
+;;		     (car (assoc-ref ln-properties "connuser")) ":"
+;;		     (car (assoc-ref ln-properties "dbname")) ":socket:"
+;;		     (car (assoc-ref ln-properties "host")) ":"
+;;		     (car (assoc-ref ln-properties "port"))))
 
 ;; session id
 (define sid "0")

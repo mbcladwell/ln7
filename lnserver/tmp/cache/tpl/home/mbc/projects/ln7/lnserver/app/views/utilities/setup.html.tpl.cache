@@ -12,14 +12,12 @@
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
         <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
       <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
- <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/buttons.datatables.min.css\" />
+<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\">
 
 	
    
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.html5.min.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
- <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/dataTables.bootstrap4.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
    
@@ -120,7 +118,7 @@
                         <a href=\"/layout/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"upload\">Import</a>
+		      <a href=\"/layout/select\">Import</a>
                     </li>
                 </ul>
             </li>
@@ -137,9 +135,18 @@
                     <li>
                         <a href=\"/target/getall\">All Targets</a>
                     </li>
-                    <li>
-                        <a href=\"/target/add\">Add Target</a>
-                    </li>
+
+		    <li class=\"active\">
+                      <a href=\"#trgaddSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Add Target</a>
+                      <ul class=\"collapse list-unstyled\" id=\"trgaddSubmenu\">		    
+			<li>
+                          <a href=\"/target/addsingle\">Single</a>
+			</li>
+			<li>
+                          <a href=\"/target/addbulk\">Bulk</a>
+			</li>
+		      </ul>
+		    </li>		    
                 </ul>
             </li>
    <li class=\"active\">
@@ -151,15 +158,25 @@
                     <li>                    
 		      <a href=\"../sessions/getall\" >Sessions</a>
                     </li>
-                    <li>
-                        <a href=\"../users/getall\">Users</a>
-                    </li>
+		    <li class=\"active\">
+                      <a href=\"#usersSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Users</a>
+                      <ul class=\"collapse list-unstyled\" id=\"usersSubmenu\">
+   
+			<li>
+                          <a href=\"../users/getall\">All Users</a>
+			</li>
+			<li>
+                          <a href=\"../users/add\">Add User</a>
+			</li>
+
+		      </ul>
+		    </li>
                 </ul>
             </li>
   
      
- <li class=\"active\"> <a href=\"../utilities/help?topic=")(display  help-topic )(display " \">HELP</a></li>
-  <li class=\"active\"><a href=\"http://labsolns.com/software/toc\">TOC</a></li>
+ <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
+  <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>
   </nav>

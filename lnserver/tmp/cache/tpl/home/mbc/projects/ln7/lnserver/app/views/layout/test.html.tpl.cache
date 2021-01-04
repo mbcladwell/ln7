@@ -1,7 +1,7 @@
-(display "<!-- hitlist#getid view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-
+  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -187,18 +187,15 @@
 <div id=\"content\">
 
 ")(display "
+
+  <h1>Test</h1><br><br>
+
+<br><br>  ")(display  id )(display "
+<br><br>  ")(display  format )(display "
+<br><br>")(display  sql )(display "
+
+
   
-  <h1>Target Layouts</h1>
-<table id=\"trglyttable\" class=\"display table table-striped table-bordered\"><thead><tr><th>ID</th><th>Layout</th><th>Name</th><th>Description</th><th>Replication</th></tr></thead>
- <tbody> ")(display  body )(display "</tbody>
-</table>
-  <script>          
-$(document).ready(function() {
-    $('#trglyttable').DataTable()});
-
-</script>
-
-
 ")(display "</div>
 </div>
  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
@@ -219,4 +216,5 @@ $(document).ready(function () {
 
 </html>
 ")(display "
+
 ")
