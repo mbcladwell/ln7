@@ -11,6 +11,7 @@ http://localhost:3000/assayrun/getid?id=1
  
  * target.scm
  
+ assoc-ref to pull out a value by key (assoc-ref holder "cust_id")
 
 
 ## todo

@@ -1,4 +1,4 @@
-(display "<!-- project#getall view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
   
@@ -187,15 +187,17 @@
 <div id=\"content\">
 
 ")(display "
+
+  <h1>Registration</h1><br><br>
+
+Successful registration
+  <br><br>  ")(display  holder )(display "
+ 
+<br><br>")(display  vcust-id )(display "
+<br><br>")(display  sql2 )(display "
+
+
   
-<table><caption><h1>All Sessions</h1></caption><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr>
-")(display  body )(display "
-</table>
-<br><br>
-
-Active sessions in <font style=\"color:red\">red</font><br><br>
-
-
 ")(display "</div>
 </div>
  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>

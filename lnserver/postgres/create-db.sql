@@ -2,6 +2,18 @@
 -- users------------------------------------------------------
 -- INSERT INTO lnuser ( lnuser_name, tags, usergroup_id, password) VALUES ('klohymim', 'NA', 2, 'hwc3v4_rbkT-1EL2KI-JBaqFq0thCXM_');
 
+
+DROP TABLE IF EXISTS config CASCADE;
+create table config
+        (id SERIAL,
+	 help_url_prefix VARCHAR(250),
+	version VARCHAR(20),		 
+	cust_id VARCHAR(250),
+	cust_key varchar(250),
+	cust_email VARCHAR(250));
+
+INSERT INTO config(help_url_prefix) VALUES ('labsolns.com/software/');
+
 -- added for artanis
 DROP TABLE IF EXISTS person CASCADE;
 create table person

@@ -6,7 +6,8 @@
 
   <h1>Test</h1><br><br>
 
-<br><br>  <%= id %>
+  <br><br>  <%= isreg? %>
+ 
 <br><br><%= sql %>
 
 

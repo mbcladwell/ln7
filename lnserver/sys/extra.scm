@@ -25,6 +25,8 @@
 	    get-c17
 	    dropdown-contents-with-id
 	    dropdown-contents-no-id
+	    whitechars
+	    stripfix
 	    ))
 
 (use-modules (artanis artanis)(artanis utils) (ice-9 local-eval) (srfi srfi-1)
@@ -61,16 +63,16 @@
 ;; (define properties-filename (string-append (getcwd) "/home/projects/ln4/lnserver/limsnucleus.properties"))
 
 
-(if (access? properties-filename R_OK)
-    (let* ((props-file properties-filename)
-	   (my-port (open-input-file props-file))
-	   (ret #f)
-	   (holder '())
-	   (ret (read-line my-port))
-	   (dummy2 (while (not (eof-object? ret))
-		     (set! holder (cons (string-split ret #\=) holder))
-		     (set! ret (read-line my-port)))))
-      (set! ln-properties holder)))
+;; (if (access? properties-filename R_OK)
+;;     (let* ((props-file properties-filename)
+;; 	   (my-port (open-input-file props-file))
+;; 	   (ret #f)
+;; 	   (holder '())
+;; 	   (ret (read-line my-port))
+;; 	   (dummy2 (while (not (eof-object? ret))
+;; 		     (set! holder (cons (string-split ret #\=) holder))
+;; 		     (set! ret (read-line my-port)))))
+;;       (set! ln-properties holder)))
 
 
 ;; (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:socket:192.168.1.11:5432"))
@@ -128,7 +130,8 @@
 ;;                             {"3", "DYdF",  "8293", ""},
 ;;                             {"4", "DYSt",  ""}}')" 
 
-
+(define white-chars (char-set #\space #\tab #\newline #\return))
+(define (stripfix x) (uri-decode (string-trim-both x white-chars) ))
 
 (define (prep-ar-rows a)
   (fold (lambda (x prev)

@@ -4,10 +4,15 @@
   
 <@include header.tpl %>
 
-  <h1>Test</h1><br><br>
+  <h1>Registration</h1><br><br>
 
-<br><br>  <%= id %>
-<br><br><%= sql %>
+  Successful registration
+
+  
+  <br><br>  <%= holder %>
+ 
+<br><br><%= vcust %>
+<br><br><%= sql2 %>
 
 
   

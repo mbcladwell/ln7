@@ -4,9 +4,11 @@
   
 <@include header.tpl %>
 
-  <h1>Test</h1><br><br>
+  <h1>Registration</h1><br><br>
 
-<br><br>  <%= id %>
+Failed registration
+  <br><br>  <%= isreg? %>
+ 
 <br><br><%= sql %>
 
 

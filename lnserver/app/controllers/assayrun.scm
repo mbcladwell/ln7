@@ -3,7 +3,8 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller assayrun) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra)
+(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)
+	     (lnserver sys extra)
 	     (ice-9 textual-ports)(ice-9 rdelim)(web uri))
 
 

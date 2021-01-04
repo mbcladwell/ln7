@@ -150,7 +150,7 @@
                 <a href="#utilsSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Utilities</a>
                 <ul class="collapse list-unstyled" id="utilsSubmenu">
                     <li>
-                        <a href="../utilities/setup">Connection</a>
+                        <a href="../utilities/register">Register</a>
                     </li>
                     <li>                    
 		      <a href="../sessions/getall" >Sessions</a>

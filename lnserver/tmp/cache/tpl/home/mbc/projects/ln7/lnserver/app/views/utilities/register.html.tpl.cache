@@ -1,7 +1,6 @@
-(display "<!-- project#getall view template of lnserver
+(display "<!-- utilities#setup view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -187,15 +186,46 @@
 <div id=\"content\">
 
 ")(display "
-  
-<table><caption><h1>All Sessions</h1></caption><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr>
-")(display  body )(display "
-</table>
-<br><br>
 
-Active sessions in <font style=\"color:red\">red</font><br><br>
+<div class=\"container\">
+<h1>Register</h1>
+
+<form action=\"/registeraction\" method=\"post\">
+  <div class=\"container\">
+    <div class=\"row\">
+      
+	<div class=\"form-group\">
+	  <label for=\"prj\">Customer ID:</label>
+	  <input type=\"text\" id=\"custid\" class=\"form-control\" name=\"custid\"  placeholder=\"e.g. 16fjkhwF2rkdbwogqLdHZG4fb87jUxtJBU\">
+	
+      </div>
+       
+    </div>
+    <div class=\"row\">
+    	<div class=\"form-group\">
+	  <label for=\"custkey\">Customer key:</label>
+	  <input type=\"text\" id=\"custkey\" class=\"form-control\" name=\"custkey\" placeholder=\"e.g. c1f400d8222fbe8b1fec6c24cccf14a2\">
+	
+      </div>
+       
+    </div>
+    <div class=\"row\">
+    	<div class=\"form-group\">
+	  <label for=\"email\">email:</label><input type=\"text\" id=\"email\" class=\"form-control\" name=\"email\" placeholder=\"user@acme.com\"> 
+	
+      </div>
+     
+    </div>
+ <div>
+   <button class=\"btn btn-primary\">Register</button>
+ </div>
+ </div>
+</form>
 
 
+
+
+</div>
 ")(display "</div>
 </div>
  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
@@ -216,5 +246,4 @@ $(document).ready(function () {
 
 </html>
 ")(display "
-
 ")
