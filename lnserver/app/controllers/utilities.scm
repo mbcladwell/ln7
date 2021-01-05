@@ -19,34 +19,49 @@
 (post "/registeraction"  #:from-post 'qstr #:conn #t
 		  (lambda (rc)
 		    (let* ((help-topic "register")
-			   (sql "select cust_id from config where id=1")
-			   (emptyreg? (equal? "" (cdaar (DB-get-all-rows (:conn rc sql)))))
 			   (cust-id (stripfix (:from-post rc 'get-vals "custid")))
 			   (cust-key (stripfix (:from-post rc 'get-vals "custkey")))
 			   (email (stripfix (:from-post rc 'get-vals "email")))
-			   (validkey? (validate-key cust-id email cust-key))
-			   (sql2 (string-append "UPDATE config SET cust_id='" cust-id "', cust_key= '" cust-key "', cust_email='" email "' WHERE id=1"))
-			   (dummy (if (and emptyreg? validkey?) (:conn rc sql2) #f))
- 			   (sql3 "select cust_id, cust_key, cust_email from config where id=1")
-			   (holder (car (DB-get-all-rows (:conn rc sql3))))
-			   (vcust (assoc-ref holder "cust_id"))
-			   (vkey (assoc-ref holder "cust_key"))
-			   (vemail (assoc-ref holder "cust_email"))
-			   )			    		      	      		 
-			 (view-render "isreg" (the-environment)))
-			 ))
-			
-		
-		      
-  
+			   (validkey? (validate-key cust-id email cust-key)))
+		      (if validkey?
+			  (let*((sql (string-append "UPDATE config SET cust_id='" cust-id "', cust_key= '" cust-key "', cust_email='" email "' WHERE id=1"))
+				(dummy  (:conn rc sql))
+				(sql2 "select cust_id, cust_key, cust_email,version from config where id=1")
+				(holder (car (DB-get-all-rows (:conn rc sql2))))
+				(vcust (assoc-ref holder "cust_id"))
+				(vkey (assoc-ref holder "cust_key"))
+				(vemail (assoc-ref holder "cust_email"))
+				(version (assoc-ref holder "version"))
+				 (alltext (string-append "Customer ID:&nbsp;" vcust "\n\n"
+							 "Registration key:&nbsp;" vkey  "\n\n"
+							 "Email:&nbsp;" vemail "\n\n"
+							 "Version:&nbsp;" version))
+				)
+			  (view-render "isreg" (the-environment)))
+			  (view-render "failreg" (the-environment))))))
+			  
 
 
 (utilities-define register
+		  (options #:conn #t)
 		  (lambda (rc)
-		    (let* (
-			   (help-topic "register"))			    
-		    (view-render "register" (the-environment)))
-  ))
+		    (let* ((help-topic "register")
+			   (sql "select cust_id from config where id=1")
+			   (emptyreg? (equal? "" (cdaar (DB-get-all-rows (:conn rc sql))))))
+		      (if emptyreg?
+			  (view-render "register" (the-environment))
+			  (let* ((sql "select cust_id, cust_key, cust_email, version from config where id=1")
+				 (holder (car (DB-get-all-rows (:conn rc sql))))
+				 (vcust (assoc-ref holder "cust_id"))
+				 (vkey (assoc-ref holder "cust_key"))
+				 (vemail (assoc-ref holder "cust_email"))
+				 (version (assoc-ref holder "version"))
+				 (alltext (string-append "Customer ID:&nbsp;" vcust "\n\n"
+							 "Registration key:&nbsp;" vkey  "\n\n"
+							 "Email:&nbsp;" vemail "\n\n"
+							 "Version:&nbsp;" version)))			    
+			    (view-render "isreg" (the-environment)))))))
+
 
 (utilities-define login
 		  (lambda (rc)

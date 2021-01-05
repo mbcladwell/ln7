@@ -21,6 +21,7 @@
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -188,16 +189,29 @@
 
 ")(display "
 
-  <h1>Registration</h1><br><br>
+  <div class=\"container\">
+  <h1>Registration</h1><br>
 
-Successful registration
-  <br><br>  ")(display  holder )(display "
- 
-<br><br>")(display  vcust-id )(display "
-<br><br>")(display  sql2 )(display "
+  This copy of LIMS*Nucleus is registered&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br>
+<form>
+  <div class=\"input-group\">
+    <div class=\"form-group w-100\">
+      <textarea  id=\"copy-input\" name=\"copy-input\" aria-label=\"With textarea\" rows=\"8\" class=\"form-control\">")(display  alltext )(display "</textarea>
+    </div>
+    <span class=\"input-group-btn\">
+      <button class=\"btn btn-primary\" type=\"button\" id=\"copy-button\"
+              data-toggle=\"tooltip\" data-placement=\"button\"   data-clipboard-target=\"#copy-input\"
 
+              title=\"Copy to Clipboard\">
+        Copy
+      </button>
+    </span>
+  </div>
+</form>
 
-  
+<script>
+new ClipboardJS('.btn');
+ </script>
 ")(display "</div>
 </div>
  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>

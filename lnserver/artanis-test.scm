@@ -24,7 +24,7 @@ create table config
 	cust_key varchar(250),
 	cust_email VARCHAR(250));
 
-INSERT INTO config(help_url_prefix) VALUES ('labsolns.com/software/');
+INSERT INTO config(help_url_prefix, version) VALUES ('labsolns.com/software/','0.1.0-042020');
 
 
 INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALUES ('labsolns.com/software/','0.1.0-042020','16fjkhwF2rkdbwogqLdHZG4fb87jUxtJBU','c1f400d8992fbe8b1fec6c54cccf14a3', 'info@labsolns.com');
@@ -37,3 +37,5 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 
 
 (eq? #t a)
+
+ln-version

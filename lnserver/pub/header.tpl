@@ -17,6 +17,7 @@
     <script type="text/javascript" charset="utf8" src="../Bootstrap-4-4.1.1/js/bootstrap.js"></script>
     <script type="text/javascript" charset="utf8" src="../DataTables-1.10.22/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="../js/buttons.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="../js/clipboard.min.js"></script>
    
     <title>LIMS*Nucleus </title>
     

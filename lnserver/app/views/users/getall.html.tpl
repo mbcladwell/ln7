@@ -3,12 +3,13 @@
           This file is generated automatically by GNU Artanis. -->
   
 <@include header.tpl %>
-  
+  <div class="container">
+
   <h2>All Users</h2>
-<table id="userstable" class="display table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>ID</th><th>Group</th><th>Name</th></tr></thead>
+<table id="userstable" class="display table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>ID</th><th>Group</th><th>Name</th><th>Email</th></tr></thead>
 <tbody><%= body %></body>
 </table>
-
+</div>
   <script>          
 $(document).ready(function() {
     $('#userstable').DataTable()});

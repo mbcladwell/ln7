@@ -147,6 +147,8 @@
 		  prev)))
         '() a))
 
+;;
+
 ;; these two methods help create a Postgres array
 ;; for Postgres
 (define (process-pg-row-element x)

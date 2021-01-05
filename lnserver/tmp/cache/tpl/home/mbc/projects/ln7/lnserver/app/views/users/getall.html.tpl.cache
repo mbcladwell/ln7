@@ -21,6 +21,7 @@
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -154,7 +155,7 @@
                 <a href=\"#utilsSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Utilities</a>
                 <ul class=\"collapse list-unstyled\" id=\"utilsSubmenu\">
                     <li>
-                        <a href=\"../utilities/setup\">Connection</a>
+                        <a href=\"../utilities/register\">Register</a>
                     </li>
                     <li>                    
 		      <a href=\"../sessions/getall\" >Sessions</a>
@@ -187,12 +188,13 @@
 <div id=\"content\">
 
 ")(display "
-  
+  <div class=\"container\">
+
   <h2>All Users</h2>
-<table id=\"userstable\" class=\"display table table-striped table-bordered\"><thead><tr><th><img src=\"../img/checkmark.png\" height=\"20\" width=\"20\"></th><th>ID</th><th>Group</th><th>Name</th></tr></thead>
+<table id=\"userstable\" class=\"display table table-striped table-bordered\"><thead><tr><th><img src=\"../img/checkmark.png\" height=\"20\" width=\"20\"></th><th>ID</th><th>Group</th><th>Name</th><th>Email</th></tr></thead>
 <tbody>")(display  body )(display "</body>
 </table>
-
+</div>
   <script>          
 $(document).ready(function() {
     $('#userstable').DataTable()});

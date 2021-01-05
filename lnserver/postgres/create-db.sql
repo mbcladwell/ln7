@@ -21,12 +21,13 @@ create table person
 	lnuser varchar(250),
 	passwd varchar(250),
 	salt varchar(250),
+	email VARCHAR(250),
 	usergroup VARCHAR(250));
 
 -- password is 'welcome' for both
-insert into person (lnuser, passwd, salt, usergroup)
-        VALUES ('ln_admin','1d52114553ae31b3','a39b69e5fd79854b','admin'),
-               ('ln_user','ca6468f6ff4a82e6','e999f4c34635f943','user');
+insert into person (lnuser, passwd, salt, email, usergroup)
+        VALUES ('ln_admin','1d52114553ae31b3','a39b69e5fd79854b', 'info@labsolns.com', 'admin'),
+               ('ln_user','ca6468f6ff4a82e6','e999f4c34635f943', '','user');
 
 
 

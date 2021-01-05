@@ -4,6 +4,7 @@
  -->
 
 <@include header.tpl %>
+  <div class="container">
   <h2>Plate Sets for PRJ-<%= prjid %></h2>
 <form action="/plateset/editps" method="post" id="edit_psform">
   <table id="pstable" class="table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
@@ -11,11 +12,8 @@
 </table>
 </form>
 <br>
-  <script>          
-$(document).ready(function() {
-    $('#pstable').DataTable()});
 
-</script>
+
 
 <hr>
 <h2>Assay Runs for PRJ-<%= prjid %></h2>
@@ -23,10 +21,7 @@ $(document).ready(function() {
   <tbody><%= assay-runs %></tbody>
 </table>
 
-  <script>          
-$(document).ready(function() {
-    $('#artable').DataTable()});
-</script>
+
 <br>
 <hr>
 <h2>Hit Lists for PRJ-<%= prjid %></h2>
@@ -37,12 +32,22 @@ $(document).ready(function() {
 </table>
 
 
-  <script>          
+<script>          
+
+$(document).ready(function() {
+    $('#pstable').DataTable()});
+
+    
+$(document).ready( function () {
+  var table = $('#artable').DataTable();
+} );
+
+   
 $(document).ready(function() {
     $('#hltable').DataTable()});
 
 </script>
 
-
+</div>
  
 <@include footer.tpl %>

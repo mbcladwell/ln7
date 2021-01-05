@@ -21,6 +21,7 @@
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -187,14 +188,21 @@
 <div id=\"content\">
 
 ")(display "
-  
-<table><caption><h1>All Sessions</h1></caption><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr>
-")(display  body )(display "
+
+  <div class=\"container\">
+  <h1>All Sessions</h1>
+<table id=\"sesstable\"><thead><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr></thead>
+<tbody>")(display  body )(display "</tbody>
 </table>
-<br><br>
 
 Active sessions in <font style=\"color:red\">red</font><br><br>
+</div>
 
+  <script>          
+$(document).ready(function() {
+    $('#sesstable').DataTable()});
+
+</script>
 
 ")(display "</div>
 </div>
