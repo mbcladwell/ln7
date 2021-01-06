@@ -11,18 +11,27 @@
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
-        <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
-      <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
- <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/buttons.datatables.min.css\" />
+ <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/bootstrap-4.5.3.min.css\" />
 
-	
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/> 
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/> 
+
+
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.slim.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/bootstrap-4.5.3.bundle.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
+
+<script type=\"text/javascript\" src=\"../JSZip-2.5.0/jszip.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/pdfmake.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/vfs_fonts.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/dataTables.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
+      	
    
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.html5.min.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
- <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/dataTables.bootstrap4.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -48,7 +57,7 @@
                         <a href=\"/project/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"#\" onclick=\"document.getElementById('edit_form').submit(); return false;\">Edit</a>
+		      <a href=\"#\" onclick=\"editProject()\">Edit</a>
                     </li>
                     <li>
                         <a href=\"/project/add\">Add</a>
@@ -121,10 +130,7 @@
                         <a href=\"/layout/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"#\" onclick=\"document.getElementById('edit_form').submit(); return false;\">Edit</a>
-                    </li>
-                    <li>
-                        <a href=\"/project/add\">Add</a>
+		      <a href=\"/layout/select\">Import</a>
                     </li>
                 </ul>
             </li>
@@ -133,34 +139,56 @@
                 <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
                 <ul class=\"collapse list-unstyled\" id=\"targetSubmenu\">
                     <li>
-                        <a href=\"/target/gettrglyt\">All</a>
+                        <a href=\"/target/gettrglyt\">All Target Layouts</a>
                     </li>
                     <li>                    
-		      <a href=\"#\" onclick=\"document.getElementById('edit_form').submit(); return false;\">Edit</a>
+		      <a href=\"/target/addtrglyt\">Add Target Layout</a>
                     </li>
                     <li>
-                        <a href=\"/project/add\">Add</a>
+                        <a href=\"/target/getall\">All Targets</a>
                     </li>
+
+		    <li class=\"active\">
+                      <a href=\"#trgaddSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Add Target</a>
+                      <ul class=\"collapse list-unstyled\" id=\"trgaddSubmenu\">		    
+			<li>
+                          <a href=\"/target/addsingle\">Single</a>
+			</li>
+			<li>
+                          <a href=\"/target/addbulk\">Bulk</a>
+			</li>
+		      </ul>
+		    </li>		    
                 </ul>
             </li>
    <li class=\"active\">
                 <a href=\"#utilsSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Utilities</a>
                 <ul class=\"collapse list-unstyled\" id=\"utilsSubmenu\">
                     <li>
-                        <a href=\"../utilities/setup\">Connection</a>
+                        <a href=\"../utilities/register\">Register</a>
                     </li>
                     <li>                    
 		      <a href=\"../sessions/getall\" >Sessions</a>
                     </li>
-                    <li>
-                        <a href=\"../users/getall\">Users</a>
-                    </li>
+		    <li class=\"active\">
+                      <a href=\"#usersSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Users</a>
+                      <ul class=\"collapse list-unstyled\" id=\"usersSubmenu\">
+   
+			<li>
+                          <a href=\"../users/getall\">All Users</a>
+			</li>
+			<li>
+                          <a href=\"../users/add\">Add User</a>
+			</li>
+
+		      </ul>
+		    </li>
                 </ul>
             </li>
   
      
- <li class=\"active\"> <a href=\"../utilities/help?topic=")(display  help-topic )(display " \">HELP</a></li>
-  <li class=\"active\"><a href=\"http://labsolns.com/software/toc\">TOC</a></li>
+ <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
+  <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>
   </nav>
@@ -170,56 +198,82 @@
 <div id=\"content\">
 
 ")(display "
+<div class=\"container\">
   
-
-  <table><caption><h1>Assay Run AR-")(display  id )(display "</h1></caption>
-  <tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr>
-
-  ")(display  body )(display "
-</table>
-<p>
+  <h2>Assay Run AR-")(display  id )(display "</h2>
+  <table id=\"artable\" class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
+    <tbody>")(display  body )(display "</tbody>
+  </table>
+<div class=\"row\">
 <img src=")(display  outfile2 )(display " align=\"left\">
-</p>
-<div>
-<form action=\"replot\" method=\"get\" >
-<p><tr><th>Response:</th><th>
+</div>
+<form action=\"replot\" method=\"POST\" >
 
-<select id=\"response\" name=\"response\">
-  <option value=\"0\">Background Subtracted</option>
-  <option value=\"1\">Normalized</option>
-  <option value=\"2\">Norm to Positive</option>
-  <option value=\"3\">% enhanced</option>
-</select></p><br>
+  <div class=\"row\">
+    <div class=\"col\">
+      <div class=\"form-group\">
+	<label for=\"response\">Response:</label><select name=\"response\"  class=\"form-control\" id=\"response\">
+	  <option value=\"0\">Background Subtracted</option>
+	  <option value=\"1\">Normalized</option>
+	  <option value=\"2\">Normalized to Positive Controls</option>
+	  <option value=\"3\">% enhanced</option>
+	</select>
+      </div>
+    </div>
+    <div class=\"col\">
+      <div class=\"form-group\">
+	<label for=\"threshold\">Threshold - algorithmic:</label><select name=\"threshold\"  class=\"form-control\" id=\"threshold\">
+	  <option value=\"1\">mean(pos)</option>
+	  <option value=\"2\">mean(neg) + 2SD</option>
+	  <option value=\"3\">mean(neg) + 3SD</option>
+	</select>
+      </div>
+    </div>
+  </div>
 
-<p> Threshold - algorithmic:
-<select id=\"threshold\" name=\"threshold\">
-  <option value=\"1\">mean(pos)</option>
-  <option value=\"2\">mean(neg) + 2SD</option>
-  <option value=\"3\">mean(neg) + 3SD</option>
-</select>  &nbsp;&nbsp;  OR manually enter:<input type=\"text\" id=\"manthreshold\" name=\"manthreshold\">
-</p>
-      
-<p><input type=\"submit\" value=\"Replot\">
-  </p>  
+  <div class=\"row\">
+    <div class=\"col\">
+    </div>
+    <div class=\"col\">
+      <div class=\"form-group\">
+	<label for=\"manthreshold\">OR manually enter:</label><input type=\"text\" id=\"manthreshold\" name=\"manthreshold\">
+      </div>
+    </div>      
+  </div>
+
+  <input type=\"hidden\" id=\"infile\" name=\"infile\" value=&quot;")(display  infile )(display "&quot; >
+  <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=&quot;")(display  infile2 )(display "&quot; >
+  <input type=\"hidden\" id=\"id\" name=\"id\" value=&quot;")(display  id )(display "&quot; >
+  <input type=\"hidden\" id=\"body\" name=\"body\" value=&quot;")(display  body-encode )(display "&quot; >
+ <input type=\"hidden\" id=\"body\" name=\"body\" value=&quot;")(display  hit-lists-encode )(display "&quot; >
+
+  <input type=\"submit\"  class=\"btn btn-primary\" value=\"Replot\">
+   
 </form>
 
-
-<br>
-<p><img src=\"../img/separator.png\" height=\"10\" width=\"600\" style=\"float:left\"></p>
-
-<table><caption><h1>Hit Lists for AR-")(display  id )(display "</h1></caption><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr>
-")(display  hit-lists )(display "
-  
+<hr>
+<h2>Hit Lists for AR-")(display  id )(display "</h2>
+<table id=\"hltable\" class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
+<tbody>")(display  hit-lists )(display "</tbody>
 </table>
 
-
-
 </div>
+
+<script>          
+$(document).ready(function() {
+    $('#artable').DataTable();
+} );
+  
+$(document).ready(function() {
+    $('#hltable').DataTable();
+} );
+
+</script>
+
 ")(display "</div>
 </div>
- <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
 
-<script src=\"../js/menufunctions.js\"></script>
+
 
 <script>
 $(document).ready(function () {

@@ -13,8 +13,20 @@ http://localhost:3000/assayrun/getid?id=1
  
  assoc-ref to pull out a value by key (assoc-ref holder "cust_id")
 
+* hidden data
+
+view layout select
+      <input type="hidden" id="infile" name="infile" value=&quot;<%= infile %>&quot; >
+
+
+ * from post data
+ 
+ layout.scm
+ (uri-decode (:from-post rc 'get-vals "datatransfer")))
 
 ## todo
 
-when importing layout, the generated layouts have quotes around the description - remove
+
+
+
 

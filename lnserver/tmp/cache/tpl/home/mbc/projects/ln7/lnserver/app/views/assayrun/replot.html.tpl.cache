@@ -1,7 +1,7 @@
-(display "<!-- project#add view template of lnserver
+(display "<!-- assayrun#getforpsid view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-  
+
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -198,14 +198,69 @@
 <div id=\"content\">
 
 ")(display "
-
-  <h1>Test</h1><br><br>
-
-
-")(display  rcommand )(display "
-
-
+<div class=\"container\">
   
+  <h2>Assay Run AR-")(display  id )(display "</h2>
+  <table id=\"artable\" class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
+    <tbody>")(display  body )(display "</tbody>
+  </table>
+<div class=\"row\">
+<img src=")(display  outfile2 )(display " align=\"left\">
+</div>
+<form action=\"replot\" method=\"POST\" >
+
+  <div class=\"row\">
+    <div class=\"col\">
+      <div class=\"form-group\">
+	<label for=\"response\">Response:</label><select name=\"response\"  class=\"form-control\" id=\"response\">
+	  <option value=\"0\">Background Subtracted</option>
+	  <option value=\"1\">Normalized</option>
+	  <option value=\"2\">Normalized to Positive Controls</option>
+	  <option value=\"3\">% enhanced</option>
+	</select>
+      </div>
+    </div>
+    <div class=\"col\">
+      <div class=\"form-group\">
+	<label for=\"threshold\">Threshold - algorithmic:</label><select name=\"threshold\"  class=\"form-control\" id=\"threshold\">
+	  <option value=\"1\">mean(pos)</option>
+	  <option value=\"2\">mean(neg) + 2SD</option>
+	  <option value=\"3\">mean(neg) + 3SD</option>
+	</select>
+      </div>
+    </div>
+  </div>
+
+  <div class=\"row\">
+    <div class=\"col\">
+    </div>
+    <div class=\"col\">
+      <div class=\"form-group\">
+	<label for=\"manthreshold\">OR manually enter:</label><input type=\"text\" id=\"manthreshold\" name=\"manthreshold\">
+      </div>
+    </div>      
+  </div>
+
+  <input type=\"hidden\" id=\"infile\" name=\"infile\" value=&quot;")(display  infile )(display "&quot; >
+  <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=&quot;")(display  infile2 )(display "&quot; >
+  <input type=\"hidden\" id=\"id\" name=\"id\" value=&quot;")(display  id )(display "&quot; >
+  <input type=\"hidden\" id=\"body\" name=\"body\" value=&quot;")(display  body-encode )(display "&quot; >
+
+  <input type=\"submit\"  class=\"btn btn-primary\" value=\"Replot\">
+   
+</form>
+
+
+</div>
+
+<script>          
+$(document).ready(function() {
+    $('#artable').DataTable();
+} );
+  
+
+</script>
+
 ")(display "</div>
 </div>
 
@@ -225,5 +280,4 @@ $(document).ready(function () {
 
 </html>
 ")(display "
-
 ")

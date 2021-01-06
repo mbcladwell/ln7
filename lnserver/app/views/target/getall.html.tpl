@@ -11,7 +11,8 @@
 </div>
  <script>          
 $(document).ready(function() {
-    $('#lyttable').DataTable()});
+    $('#lyttable').DataTable();
+});
 
 </script>
 

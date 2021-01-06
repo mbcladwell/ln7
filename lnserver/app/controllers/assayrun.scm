@@ -4,7 +4,7 @@
 (define-artanis-controller assayrun) ; DO NOT REMOVE THIS LINE!!!
 
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)
-	     (lnserver sys extra)
+	     (lnserver sys extra)(rnrs bytevectors)
 	     (ice-9 textual-ports)(ice-9 rdelim)(web uri))
 
 
@@ -46,16 +46,10 @@
 
 
 
-(define (get-assayrun-table-for-r id data-file-name)
-  (let* ((ret #f)
-	 (holder '())
-	 (table-header (string-append "assay.run.id\tplate.order\twell\tresponse\tbkgrnd.sub\tnorm\tnorm.pos\tp.enhance\ttype\n"))
-	 (dummy (dbi-query ciccio  (string-append "select assay_run_id, plate_order, well, response, bkgrnd_sub, norm, norm_pos, p_enhance, well_type.name from assay_result, assay_run, well_numbers, plate_layout_name, plate_layout, well_type where plate_layout_name.id=plate_layout.plate_layout_name_id AND plate_layout_name.plate_format_id=well_numbers.plate_format AND plate_layout.well_type_id=well_type.id AND plate_layout.well_by_col=assay_result.well AND assay_result.assay_run_id=assay_run.id AND assay_run.plate_layout_name_id=plate_layout_name.id AND well_numbers.by_row=assay_result.well AND assay_run_id=" id)))
-	 (ret (dbi-get_row ciccio))
-	 (dummy2 (while (not (equal? ret #f))     
-		  (set! holder (cons ret holder))		   
-		  (set! ret  (dbi-get_row ciccio))
-		  ))
+(define (get-assayrun-table-for-r id data-file-name rc)
+  (let* ((table-header (string-append "assay.run.id\tplate.order\twell\tresponse\tbkgrnd.sub\tnorm\tnorm.pos\tp.enhance\ttype\n"))
+	 (sql  (string-append "select assay_run_id, plate_order, well, response, bkgrnd_sub, norm, norm_pos, p_enhance, well_type.name from assay_result, assay_run, well_numbers, plate_layout_name, plate_layout, well_type where plate_layout_name.id=plate_layout.plate_layout_name_id AND plate_layout_name.plate_format_id=well_numbers.plate_format AND plate_layout.well_type_id=well_type.id AND plate_layout.well_by_col=assay_result.well AND assay_result.assay_run_id=assay_run.id AND assay_run.plate_layout_name_id=plate_layout_name.id AND well_numbers.by_row=assay_result.well AND assay_run_id=" id))
+	 (holder (DB-get-all-rows (:conn rc sql)))
 	 (body (string-append table-header (string-concatenate (prep-ar-for-r holder))))
 	 (p  (open-output-file data-file-name)))
     (begin
@@ -72,16 +66,9 @@
 
 
 
-(define (get-assayrun-stats-for-r id data-file-name)
-  (let* ((ret #f)
-	(holder '())
-	(table-header (string-append "response.type\tmax.response\tmin.response\tmean.bkgrnd\tstd.dev.bkgrnd\t mean.pos\t stdev.pos\tmean.neg.3.sd\tmean.neg.2.sd\tmean.pos.3.sd\t mean.pos.2.sd\n"))
-	(dummy (dbi-query ciccio  (string-append "select response_type,  max_response, min_response, mean_bkgrnd, std_dev_bkgrnd,  mean_pos,  stdev_pos, mean_neg_3_sd, mean_neg_2_sd, mean_pos_3_sd,  mean_pos_2_sd from assay_run_stats where assay_run_id=" id)))
-	(ret (dbi-get_row ciccio))
-	(dummy2 (while (not (equal? ret #f))     
-		  (set! holder (cons ret holder))		   
-		  (set! ret  (dbi-get_row ciccio))
-		  ))
+(define (get-assayrun-stats-for-r id data-file-name rc)
+  (let* ((table-header (string-append "response.type\tmax.response\tmin.response\tmean.bkgrnd\tstd.dev.bkgrnd\t mean.pos\t stdev.pos\tmean.neg.3.sd\tmean.neg.2.sd\tmean.pos.3.sd\t mean.pos.2.sd\n"))
+	(holder (DB-get-all-rows (:conn rc  (string-append "select response_type,  max_response, min_response, mean_bkgrnd, std_dev_bkgrnd,  mean_pos,  stdev_pos, mean_neg_3_sd, mean_neg_2_sd, mean_pos_3_sd,  mean_pos_2_sd from assay_run_stats where assay_run_id=" id))))
 	(body (string-append table-header (string-concatenate (prep-ar-stats-for-r holder))))
 	(p  (open-output-file data-file-name)))
     (begin
@@ -128,65 +115,58 @@
   (let* (
 	 (help-topic "assayrun")
 	 (id  (get-from-qstr rc "id"))
-	 (dummy (:cookies-set! rc 'id "id" id))
 	 (infile (get-rand-file-name "ar" "txt"))
-	 (dummy (:cookies-set! rc 'infile "infile" infile))
 	 (infile2 (get-rand-file-name "ar2" "txt"))
-	 (dummy (:cookies-set! rc 'infile2 "infile2" infile2))
 	 (outfile (get-rand-file-name "ar" "png"))	  
 	 (response "1")
-	 (dummy (:cookies-set! rc 'response "response" response))
 	 (threshold "3")
-	 (dummy (:cookies-set! rc 'threshold "threshold" threshold))
 	(sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" id ))
 	(holder (DB-get-all-rows (:conn rc sql)))
 	(body (string-concatenate (prep-ar-rows holder)))
+	(body-encode (string->utf8 body))
 	(dummy (:cookies-set! rc 'body "body" body))
-	(dummy3 (get-assayrun-table-for-r id (string-append "pub/" infile)))
-	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2)))
+	(dummy3 (get-assayrun-table-for-r id (string-append "pub/" infile) rc))
+	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2) rc))
 	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 	(outfile2 (string-append "\"../" outfile "\""))
 	(hit-lists (get-hit-lists-for-arid id rc))
-
+	(hit-lists-encode (string->utf8 hit-lists))
 	)
     (view-render "getarid" (the-environment)))))
 
 
-(get "/assayrun/replot"
-		  #:cookies '(names id infile infile2 response threshold body)
+(post "/assayrun/replot" #:from-post 'qstr
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "assayrun")
-		;;	  (id  (get-from-qstr rc "id"))
-		;;	  (infile (get-from-qstr rc "infile"))
-		;;	  (infile2 (get-from-qstr rc "infile2"))
-			  (id  (:cookies-ref rc 'id "id"))
-			  (infile (:cookies-ref rc 'infile "infile"))
-			  (infile2 (:cookies-ref rc 'infile2 "infile2"))
-			  (body (:cookies-ref rc 'body "body"))
+			  (id  (stripfix (:from-post rc 'get-vals "id")))
+			  (infile (stripfix (:from-post rc 'get-vals "infile")))
+			  (infile2 (stripfix (:from-post rc 'get-vals "infile2")))
+			  (body-encode  (:from-post rc 'get-vals "body")) ;;body of the ar table
+			  (body-encode (utf8->string body))
+			  (hit-lists (:from-post rc 'get-vals "hit-lists"))
 			  (outfile (get-rand-file-name "ar" "png"))	 
-			  (response (get-from-qstr rc "response"))
-			  (threshold (if (get-from-qstr rc "manthreshold") (get-from-qstr rc "manthreshold")(get-from-qstr rc "threshold")))
-			  (rcommand infile)
+			  (response (stripfix (:from-post rc 'get-vals "response")))
+			  (threshold (if (stripfix (:from-post rc 'get-vals "manthreshold")) (stripfix (:from-post rc 'get-vals "manthreshold"))(stripfix (:from-post rc 'get-vals "threshold"))))
+			;;  (rcommand infile)
 			 ;; (rcommand (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/"  infile " pub/"  infile2 " pub/" outfile " " response  " "  ))
-			 ;; (dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
+			  (dummy (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 			  (outfile2 (string-append "\"../" outfile "\""))
 			  )
-	;;	     (view-render "getarid" (the-environment)))))
-	     (view-render "test" (the-environment)))))
+		     (view-render "replot" (the-environment)))))
+	   ;;  (view-render "test" (the-environment)))))
 
 
 
 ;; not finished maybe not used
 (define (get-hl-for-ar-id arid )
   (lambda (rc)
- (let* ( (help-topic "hitlist")
+ (let* ((help-topic "hitlist")
 	 ;;(id  (get-from-qstr rc "id"))
-	(sql (string-append "select id, hitlist_sys_name, hitlist_name, descr FROM hit_list WHERE  assay_run_id =" arid )))
-	(holder (DB-get-all-rows(:conn rc sql))
+	(sql (string-append "select id, hitlist_sys_name, hitlist_name, descr FROM hit_list WHERE  assay_run_id =" arid ))
+	(holder (DB-get-all-rows(:conn rc sql)))
 	(body (string-concatenate (prep-hl-rows holder))))
-    (view-render "gethlforarid" (the-environment))
-  )))
+    (view-render "gethlforarid" (the-environment)))))
 
 ;; done before debug session established
 (define (prep-hl-rows a)

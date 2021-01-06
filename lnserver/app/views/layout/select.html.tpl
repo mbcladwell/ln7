@@ -31,8 +31,7 @@ Then submit must be pressed to process
     </form>
 
     <span id="myText"></span>
-    
-    
+     
 
     <script>
       $('#myfile').on('change',function(){

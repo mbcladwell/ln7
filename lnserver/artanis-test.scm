@@ -9,7 +9,9 @@
 	     (artanis utils)(artanis irregex)
 	     (srfi srfi-19)   ;; date time
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
-	     (artanis artanis))
+	     (artanis artanis)
+	     (ice-9 string-fun) ;; string-replace-substring
+	     (rnrs bytevectors))
 
 (load "./sys/extra.scm")
 
@@ -39,3 +41,19 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 (eq? #t a)
 
 ln-version
+
+(string-replace-substring (bytevector->u8-list (string->utf8 "help")) " " ";")
+
+(define mylist (bytevector->u8-list (string->utf8 "help")))
+
+(define (html-encode lst result)
+  (if (null? (cdr lst)) result
+      ((set! result (string-append result (number->string (car lst)) ";"))
+      (html-encode (cdr lst) result))))
+
+(html-encode mylist "")
+
+
+
+((set! result (string-append result (number->string (car lst)) ";"))
+       result)
