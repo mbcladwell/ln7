@@ -43,23 +43,18 @@ if(response ==3)data <- d[,c(2,3,8,9)]
 ## 2  mean-neg-2-sd
 ## 3  mean-neg-3-sd
 
-if(threshold %in% c("a","b","c")){
-	if(threshold =="a"){
-    		threshold.text <- "> mean(pos)"
-   		threshold <- d2[d2$response.type==response, "mean.pos" ]
-    	}
-	if(threshold =="b"){
-    		threshold.text <- "mean(neg) + 2SD"
-    		threshold <- d2[d2$response.type==response, "mean.neg.2.sd" ]
-    	}
-	if(threshold =="c"){
-    		threshold.text <- "mean(neg) + 3SD"
-    		threshold <- d2[d2$response.type==response, "mean.neg.3.sd" ]
-	}
-	}else{
-    		threshold.text <- "manual"
+if(threshold =="a"){
+    threshold.text <- "> mean(pos)"
+    threshold <- d2[d2$response.type==response, "mean.pos" ]
+    }
+if(threshold =="b"){
+    threshold.text <- "mean(neg) + 2SD"
+    threshold <- d2[d2$response.type==response, "mean.neg.2.sd" ]
+    }
+if(threshold =="c"){
+    threshold.text <- "mean(neg) + 3SD"
+    threshold <- d2[d2$response.type==response, "mean.neg.3.sd" ]
 }
-
 
 names(data) <- c("plate","well","response","type")
 data <- data[order(data$response),]

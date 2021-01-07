@@ -19,16 +19,12 @@
 
 
 (hitlist-define gethlforarid
+		(options #:conn #t)
   (lambda (rc)
-    (let* ((ret #f)
-	   (holder '())
-	   (help-topic "hitlist")
+    (let* ((help-topic "hitlist")
 	   (id  (get-from-qstr rc "id")) ;; assay-run id
-	   (dummy (dbi-query ciccio (string-append "select id, hitlist_sys_name, hitlist_name, descr, n from hit_list where assay_run_id =" id )))
-	   (ret (dbi-get_row ciccio))
-	   (dummy2 (while (not (equal? ret #f))     
-		     (set! holder (cons ret holder))		   
-		     (set! ret  (dbi-get_row ciccio))))
+	   (sql (string-append "select id, hitlist_sys_name, hitlist_name, descr, n from hit_list where assay_run_id =" id ))
+	   (holder (DB-get-all-rows (:conn rc sql)))
 	   (body  (string-concatenate  (prep-hl-for-ar-rows holder)) ))  
       (view-render "gethlforarid" (the-environment))
       )))
@@ -47,16 +43,12 @@
 
 
 (hitlist-define gethlbyid
+		(options #:conn #t)
 		(lambda (rc)
-		  (let* ((ret #f)
-			 (holder '())
-			 (help-topic "hitlist")
+		  (let* ((help-topic "hitlist")
 			 (id  (get-from-qstr rc "id")) ;; hit-list id
-			 (dummy (dbi-query ciccio (string-append "select sample.id, sample.sample_sys_name, sample.project_id, sample.accs_id  from hit_list, sample, hit_sample where sample.id=hit_sample.sample_id AND hit_list.id=hit_sample.hitlist_id AND hitlist_id =" id )))
-			 (ret (dbi-get_row ciccio))
-			 (dummy2 (while (not (equal? ret #f))     
-				   (set! holder (cons ret holder))		   
-				   (set! ret  (dbi-get_row ciccio))))
+			 (sql (string-append "select sample.id, sample.sample_sys_name, sample.project_id, sample.accs_id  from hit_list, sample, hit_sample where sample.id=hit_sample.sample_id AND hit_list.id=hit_sample.hitlist_id AND hitlist_id =" id ))
+			 (holder (DB-get-all-rows (:conn rc sql)))
 			 (body  (string-concatenate  (prep-hl-rows holder)) ))
 		    (view-render "gethlbyid" (the-environment)))))
 

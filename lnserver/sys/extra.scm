@@ -3,7 +3,6 @@
 	    sid
 	    nopwd-conn
 	    ln-version
-	    prep-ar-rows
 	    process-pg-row-element
 	    process-list-of-rows
 	    get-c1
@@ -25,8 +24,12 @@
 	    get-c17
 	    dropdown-contents-with-id
 	    dropdown-contents-no-id
+	    prep-ar-rows
 	    whitechars
 	    stripfix
+	    htmlify
+	    dehtmlify
+	    addquotes
 	    ))
 
 (use-modules (artanis artanis)(artanis utils) (ice-9 local-eval) (srfi srfi-1)
@@ -44,24 +47,6 @@
 
 (define ln-version "0.1.0-042020")
 
-;; default for elephant-sql
-;; (define ln-properties '(("sslmode" #f)
-;; 			("init" #f)
-;; 			("dbname" "klohymim")
-;; 			("port" "5432")
-;; 			("host" "raja.db.elephantsql.com")
-;; 			("source" "test")
-;; 			("connuser" "klohymim")
-;; 			("connpassword" "hwc3v4_rbkT-1EL2KI-JBaqFq0thCXM_")
-;; 			("user" "ln_admin")
-;; 			("password" "welcome")
-;; 			("help-url-prefix" "127.0.0.1/software/")))
-
-
-;; (define properties-filename (string-append (getcwd) "/limsnucleus.properties"))
-
-;; (define properties-filename (string-append (getcwd) "/home/projects/ln4/lnserver/limsnucleus.properties"))
-
 
 ;; (if (access? properties-filename R_OK)
 ;;     (let* ((props-file properties-filename)
@@ -75,23 +60,6 @@
 ;;       (set! ln-properties holder)))
 
 
-;; (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:socket:192.168.1.11:5432"))
-
-;; (define ciccio (dbi-open "postgresql" (string-append 
-;;				       (car (assoc-ref ln-properties "connuser")) ":"
-;;				       (car (assoc-ref ln-properties "connpassword")) ":"
-;;				       (car (assoc-ref ln-properties "dbname")) ":socket:"
-;;				       (car (assoc-ref ln-properties "host")) ":"
-;;				       (car (assoc-ref ln-properties "port")))))
-
-;; for display on login page
-;;(define nopwd-conn  (string-append  
-;;		     (car (assoc-ref ln-properties "connuser")) ":"
-;;		     (car (assoc-ref ln-properties "dbname")) ":socket:"
-;;		     (car (assoc-ref ln-properties "host")) ":"
-;;		     (car (assoc-ref ln-properties "port"))))
-
-;; session id
 (define sid "0")
 
 (define browse-history '())
@@ -133,19 +101,6 @@
 (define white-chars (char-set #\space #\tab #\newline #\return))
 (define (stripfix x) (uri-decode (string-trim-both x white-chars) ))
 
-(define (prep-ar-rows a)
-  (fold (lambda (x prev)
-          (let (
-                (assay-run-sys-name (result-ref x "assay_run_sys_name"))
-		(assay-run-name (result-ref x "assay_run_name"))
-		(descr (result-ref x "descr"))
-		(assay-type-name (result-ref x "assay_type_name"))
-		(sys-name (result-ref x "sys_name"))
-		(name (result-ref x "name"))
-		)
-            (cons (string-append "<tr><th><a href=\"/assayrun/getid?id=" (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" descr "</th><th>" assay-type-name "</th><th>" sys-name "</th><th>" name "</th><tr>")
-		  prev)))
-        '() a))
 
 ;;
 
@@ -175,6 +130,20 @@
 	 (set! out (cons (string-append "<option value=\"" (number->string (cdaar in)) "\">"  (cdadar in) "</option>") out))
 	 (dropdown-contents-with-id (cdr in) out)) ))
 
+(define (prep-ar-rows a)
+  (fold (lambda (x prev)
+          (let* (
+                (assay-run-sys-name (result-ref x "assay_run_sys_name"))
+		(assay-run-name (result-ref x "assay_run_name"))
+		(descr (result-ref x "descr"))
+		(assay-type-name (result-ref x "assay_type_name"))
+		(sys-name (result-ref x "sys_name"))
+		(lytid (substring sys-name 4))
+		(name (result-ref x "name"))
+		)
+            (cons (string-append "<tr><th><a href=\"/assayrun/getid?id=" (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" descr "</th><th>" assay-type-name "</th><th><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></th><th>" name "</th><tr>")
+		  prev)))
+        '() a))
 
 
 (define (dropdown-contents-no-id in out)
@@ -187,3 +156,33 @@
        (begin
 	 (set! out (cons (string-append "<option value=\"" (cdadar in) "\">"  (cdadar in) "</option>") out))
 	 (dropdown-contents-with-id (cdr in) out)) ))
+
+;; convert html to a manageable string for passing back and forth
+;; from server; must not have characters like < > /
+
+(define (string->blist x)
+  ;; "a few words" -> (97 32 102 101 119 32 119 111 114 100 115)
+  (bytevector->u8-list (string->utf8 x)))
+
+
+(define (html-encode lst result)
+  ;; (97 32 102 101 119 -> "97%2032%20102%20101%2011...."
+  (if (null? (cdr lst))
+      (let* ((result (string-append result (number->string (car lst)))))       
+       result)
+      (let* ((result (string-append result (number->string (car lst)) "+")))
+	(html-encode (cdr lst) result))))
+      
+
+(define (htmlify x)
+  (let*((a (string->blist x))
+	(b (html-encode a "")))
+	b))
+
+(define (dehtmlify x)
+(utf8->string (u8-list->bytevector (map string->number (string-split (uri-decode x) #\+)))))
+
+(define (addquotes x)
+  (string-append "\"" x "\""))
+
+

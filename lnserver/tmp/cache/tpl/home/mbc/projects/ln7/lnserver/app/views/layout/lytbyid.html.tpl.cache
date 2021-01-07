@@ -10,16 +10,27 @@
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
-        <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
-      <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
-<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css\">
+ <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/bootstrap-4.5.3.min.css\" />
 
-	
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/> 
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/> 
+
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
+
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.slim.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/dataTables.bootstrap4.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/bootstrap-4.5.3.bundle.min.js\"></script>
+
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
+<script type=\"text/javascript\" src=\"../JSZip-2.5.0/jszip.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/pdfmake.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/vfs_fonts.js\"></script>
+      	
    
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -153,7 +164,7 @@
                 <a href=\"#utilsSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Utilities</a>
                 <ul class=\"collapse list-unstyled\" id=\"utilsSubmenu\">
                     <li>
-                        <a href=\"../utilities/setup\">Connection</a>
+                        <a href=\"../utilities/register\">Register</a>
                     </li>
                     <li>                    
 		      <a href=\"../sessions/getall\" >Sessions</a>
@@ -214,9 +225,8 @@ $(document).ready(function() {
 
 ")(display "</div>
 </div>
- <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
 
-<script src=\"../js/menufunctions.js\"></script>
+
 
 <script>
 $(document).ready(function () {

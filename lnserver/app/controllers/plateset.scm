@@ -24,6 +24,9 @@
 		  prev)))
         '() a))
 
+
+
+
 (define (get-assay-runs-for-prjid id rc)
   (let* ((sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_set, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id =" id ))
 	(holder (DB-get-all-rows (:conn rc sql))))
@@ -31,18 +34,21 @@
 
 (define (prep-hl-for-prj-rows a)
   (fold (lambda (x prev)
-          (let ((id (get-c1 x))
+          (let* ((id (get-c1 x))
                 (assay-run-sys-name (result-ref x "assay_run_sys_name"))
                 (assay-run-name (result-ref x "assay_run_name"))
 		(assay-type-name (result-ref x "assay_type_name"))
 		(hit-list-sys-name (result-ref x "hitlist_sys_name"))
+		(hit-list-id (substring hit-list-sys-name 3))
 		(hit-list-name (result-ref x "hitlist_name"))
 		(descr (result-ref x "descr"))
 		(nhits (get-c8 x))
 		)
-	      (cons (string-append "<tr><th><a href=\"/hitlist/gethlforarid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th>" hit-list-sys-name "</th><th>" hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
-		  prev)))
+	      (cons (string-append "<tr><th><a href=\"/assayrun/getid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th><a href=\"/hitlist/gethlbyid?id=" hit-list-id  "\">" hit-list-sys-name "</a></th><th>" hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
+		    prev)
+	      ))
         '() a))
+
 
 
 (define (get-hit-lists-for-prjid id rc)
@@ -141,9 +147,6 @@
 		      
 
 		      
-
-
-
 (plateset-define add
 		 (options #:conn #t)
 		 (lambda (rc)

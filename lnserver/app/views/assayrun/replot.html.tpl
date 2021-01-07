@@ -38,6 +38,7 @@
 
   <div class="row">
     <div class="col">
+  <input type="submit"  class="btn btn-primary" value="Replot">
     </div>
     <div class="col">
       <div class="form-group">
@@ -46,14 +47,19 @@
     </div>      
   </div>
 
-  <input type="hidden" id="infile" name="infile" value=&quot;<%= infile %>&quot; >
-  <input type="hidden" id="infile2" name="infile2" value=&quot;<%= infile2 %>&quot; >
-  <input type="hidden" id="id" name="id" value=&quot;<%= id %>&quot; >
-  <input type="hidden" id="body" name="body" value=&quot;<%= body-encode %>&quot; >
+  <input type="hidden" id="infile" name="infile" value=<%= infile %> >
+  <input type="hidden" id="infile2" name="infile2" value=<%= infile2 %> >
+  <input type="hidden" id="id" name="id" value=<%= id %> >
+  <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encode %> >
+ <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encode %> >
 
-  <input type="submit"  class="btn btn-primary" value="Replot">
    
 </form>
+<hr>
+<h2>Hit Lists for AR-<%= id %></h2>
+<table id="hltable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
+<tbody><%= hit-lists %></tbody>
+</table>
 
 
 </div>
@@ -63,6 +69,10 @@ $(document).ready(function() {
     $('#artable').DataTable();
 } );
   
+  
+$(document).ready(function() {
+    $('#hltable').DataTable();
+} );
 
 </script>
 
