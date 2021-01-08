@@ -90,13 +90,13 @@
 
 		    
 		    <li>
-                        <a href=\"/project/add\">Assay Data</a>
+                        <a href=\"importPlateSetData()\">Assay Data</a>
                     </li>
 		    <li>
-                        <a href=\"/project/add\">Accessions</a>
+                        <a href=\"/plateset/impacc\">Accessions</a>
                     </li>
 		    <li>
-                        <a href=\"/project/add\">Barcodes</a>
+                        <a href=\"/plateset/impbc\">Barcodes</a>
                     </li>
 
 

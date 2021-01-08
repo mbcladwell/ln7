@@ -30,7 +30,7 @@ function reformatPlateSet(){
     }
 }
 
-function importPlateSet(){
+function importPlateSetData(){
     if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
 	window.alert("Please select (only) one plate set to associate data with!");}
     else {

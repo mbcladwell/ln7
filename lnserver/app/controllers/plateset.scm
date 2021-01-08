@@ -211,7 +211,50 @@
 		      (view-render "test" (the-environment))
 		      
 		      )))
-		      
+
+
+(plateset-define impdata
+		 (options #:conn #t #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "plateset")
+			  )      
+		     (view-render "impdata" (the-environment))
+		     )))
+
+
+(post "/impdataaction"  #:conn #t #:from-post 'qstr
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "plateset")
+			  (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
+			  (b (map list (cdr (string-split a #\newline))))
+			    
+			  )      
+		     (view-render "test" (the-environment))
+		     )))
+
+
+(plateset-define impacc
+		 (options #:conn #t #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "plateset")
+			  )      
+		     (view-render "impacc" (the-environment))
+		     )))
+
+(plateset-define impbc
+		 (options #:conn #t #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "plateset")
+			  )      
+		     (view-render "impbc" (the-environment))
+		     )))
+
+
+
 
 (plateset-define testadd
 		 (options #:cookies '(names prjid sid))
