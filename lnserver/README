@@ -24,6 +24,8 @@ view layout select
  layout.scm
  (uri-decode (:from-post rc 'get-vals "datatransfer")))
  
+ (cond construct
+ 
  * quotes
  
  getarid.html.tpl  use addquotes when passing a variable value=<%= body-encode %> >

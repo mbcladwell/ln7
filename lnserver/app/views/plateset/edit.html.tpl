@@ -4,6 +4,7 @@
   
 <@include header.tpl %>
 
+  <div class="container">
   <h1>Edit Plate Set PS-<%= psid %></h1><br><br>
 
   <form action="/plateset/editaction">
@@ -19,5 +20,5 @@
 
 <button type="submit" class="btn btn-primary">Submit</button>
 </form> 
-  
+  </div>
 <@include footer.tpl %>

@@ -6,8 +6,10 @@
 
   <h1>Test</h1><br><br>
 
-  <%= a %><br>
-  <%= b %>
+  <%= activity %><br>
+  <%= b %><br>
+  
+ 
 </body></html>
 
 

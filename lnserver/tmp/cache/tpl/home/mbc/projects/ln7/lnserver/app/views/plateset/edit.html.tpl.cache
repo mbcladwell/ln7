@@ -90,7 +90,7 @@
 
 		    
 		    <li>
-                        <a href=\"importPlateSetData()\">Assay Data</a>
+                        <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
                     </li>
 		    <li>
                         <a href=\"/plateset/impacc\">Accessions</a>
@@ -199,6 +199,7 @@
 
 ")(display "
 
+  <div class=\"container\">
   <h1>Edit Plate Set PS-")(display  psid )(display "</h1><br><br>
 
   <form action=\"/plateset/editaction\">
@@ -214,7 +215,7 @@
 
 <button type=\"submit\" class=\"btn btn-primary\">Submit</button>
 </form> 
-  
+  </div>
 ")(display "</div>
 </div>
 

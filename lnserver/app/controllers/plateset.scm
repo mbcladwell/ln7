@@ -5,7 +5,9 @@
 
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)(web uri)
 	     (srfi srfi-19)   ;; date time
-	     (lnserver sys extra)(ice-9 match))
+	     (lnserver sys extra)(ice-9 match)
+	     (srfi srfi-11) ;; let-values
+	     )
 
 (define (prep-ps-for-prj-rows a)
   (fold (lambda (x prev)
@@ -83,19 +85,38 @@
 (post "/plateset/editps"
 		  #:conn #t #:from-post 'qstr
 		  (lambda (rc)
-		    (let* ((help-topic "plateset")	
-			   (qstr  (:from-post rc 'get))
-			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
-			   (b (map uri-decode  a))
+		    (let*-values ((help-topic "plateset")	
+			   ;;(qstr  (:from-post rc 'get))
+			  ;; (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
+			  ;; (b (map uri-decode  a))
+			  ;; (a   (:from-post rc 'get-vals "plateset-id"))
+			   (b  (list (uri-decode (:from-post rc 'get-vals "plateset-id"))))
+			   (activity (:from-post rc 'get-vals "activity"))
+			   (dummy (cond
+				   ((equal? activity "edit")
+				    (let*-values((start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+					  (psid (caar start))
+					  (sql (string-append "select plate_set_name, descr from plate_set where id=" psid ))
+					  (holder   (car (DB-get-all-rows (:conn rc sql))))
+					  (descr  (object->string (cdadr holder)))
+					  (name (object->string (cdar holder)))
+					  (poi "edit")
+					  )
+				      poi)
+				    )
+				   ((equal? activity "group")
+				    #f
+				    )
+				   ((equal? activity "reformat")
+				    #f
+				    )
+				   (else #f))
+				   )
 			   ;;javascript prevents the selection of more than one plateset
-			   (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
-			   (psid (caar start))
-			   (sql (string-append "select plate_set_name, descr from plate_set where id=" psid ))
-			   (holder   (car (DB-get-all-rows (:conn rc sql))))
-			   (descr  (object->string (cdadr holder)))
-			   (name (object->string (cdar holder)))
-			  )
-				(view-render "edit" (the-environment))
+			   
+			   )
+		     ;; (view-render "test" (the-environment))
+		      (view-render poi (the-environment))
 		   )))
 
 

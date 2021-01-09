@@ -91,7 +91,7 @@
 
 		    
 		    <li>
-                        <a href=\"importPlateSetData()\">Assay Data</a>
+                        <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
                     </li>
 		    <li>
                         <a href=\"/plateset/impacc\">Accessions</a>
