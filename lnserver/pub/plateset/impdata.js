@@ -7,9 +7,10 @@
       reader.onload = function(e) {
 	  var contents = e.target.result;
 	  var numrows = lineCount(contents);
-	  var format = numrows -1
+	  var found_rows = numrows -1
+	  var rows_needed =  document.getElementById("rows-needed").value;
 	  
-	  if( format % 96 === 0 ){
+	  if( rows_needed == found_rows ){
 	     //   let formData = new FormData();
              //   formData.append("contents", contents);
              var str1 = "<div><br><label for=\"myfile\">File contents (truncated):</label></div><pre>";
@@ -22,11 +23,13 @@
 	 // window.open( '/layout/viewlayout', "_top");
 	// displayContents(contents);
     	  }else{
-    	  var message1="Plate Set data import file must have a multiple of 96 rows of data.\n";
-    	  var message2 = format.toString();
-    	  var message3 = " row(s) were found. Please try again.";
-    	  var message4 = message1.concat(message2, message3);
-	  window.alert(message4);
+    	  var message1="Plate Set data import file must have ";
+       	  var message2 = rows_needed.toString();
+    	  var message3 = " rows of data.\n" 
+    	  var message4 = found_rows.toString();    	  
+    	  var message5 = "row(s) were found. Please try again.";
+    	  var message6 = message1.concat(message2, message3, message4, message5);
+	  window.alert(message6);
              }
       };
       reader.readAsText(file);

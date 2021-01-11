@@ -30,6 +30,10 @@ view layout select
  
  getarid.html.tpl  use addquotes when passing a variable value=<%= body-encode %> >
 
+* passing variables back and forth with uri-decode and object->string
+  plateset.scm import assay data
+
+
 ## todo
 
 

@@ -92,7 +92,7 @@ Then submit must be pressed to process
 
 		    
 		    <li>
-                        <a href=\"/plateset/impdata\">Assay Data</a>
+                        <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
                     </li>
 		    <li>
                         <a href=\"/plateset/impacc\">Accessions</a>
@@ -201,13 +201,15 @@ Then submit must be pressed to process
 
 ")(display "
   <div class=\"container\">
-    <h2>Select Data File For Import into PS-</h2><br>
+    <h2>Select Data File For Import into PS-")(display  psid )(display " </h2><br>
 
-    <form action=\"/impdataaction\" method=\"POST\">
+    <form action=\"/plateset/impdataaction\" method=\"POST\">
       <div>
 	<label for=\"myfile\">Select a data file for import.</label><br>
-	<label for=\"myfile\">The file must be tab delimitted text with a header and contain a multiple of 96 rows of data.</label><br>
-	<label for=\"myfile\">Required format:</label>
+	<label for=\"myfile\">The file must be tab delimitted text with a header.</label><br>
+	<label for=\"myfile\"> PS-")(display  psid )(display " contains ")(display  num-plates )(display " plates in ")(display  format )(display " well format requiring ")(display  rows-needed )(display " rows of data.</label><br>
+	
+	<label for=\"myfile\">Required file format:</label>
       </div>
 
       <pre>plate	well	response
@@ -223,7 +225,17 @@ Then submit must be pressed to process
       </div><br><br>
       <button type=\"submit\" class=\"btn btn-primary\">Submit</button><br>      
       <input type=\"hidden\" id=\"datatransfer\" name=\"datatransfer\" >
-      <input type=\"hidden\" id=\"format2\" name=\"format2\" >
+      <input type=\"hidden\" id=\"psid\" name=\"psid\" value=")(display  psid )(display ">
+      <input type=\"hidden\" id=\"num-plates\" name=\"num-plates\" value=")(display  num-plates )(display ">
+      <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
+      <input type=\"hidden\" id=\"rows-needed\" name=\"rows-needed\" value=")(display  rows-needed )(display ">
+      <input type=\"hidden\" id=\"descr\" name=\"descr\" value=")(display  descr )(display ">
+      <input type=\"hidden\" id=\"ps-descr\" name=\"ps-descr\" value=")(display  ps-descr )(display ">
+      <input type=\"hidden\" id=\"control-loc\" name=\"control-loc\" value=")(display  control-loc )(display ">
+      <input type=\"hidden\" id=\"lyt-sys-name\" name=\"lyt-sys-name\" value=")(display  lyt-sys-name )(display ">
+      <input type=\"hidden\" id=\"lyt-name\" name=\"lyt-name\" value=")(display  lyt-name )(display ">
+   
+      
     </form>
 
     <span id=\"myText\"></span>

@@ -85,7 +85,7 @@
 (post "/plateset/editps"
 		  #:conn #t #:from-post 'qstr
 		  (lambda (rc)
-		    (let*-values ((help-topic "plateset")	
+		    (let* ((help-topic "plateset")	
 			   ;;(qstr  (:from-post rc 'get))
 			  ;; (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
 			  ;; (b (map uri-decode  a))
@@ -100,9 +100,9 @@
 					  (holder   (car (DB-get-all-rows (:conn rc sql))))
 					  (descr  (object->string (cdadr holder)))
 					  (name (object->string (cdar holder)))
-					  (poi "edit")
+					  
 					  )
-				      poi)
+				       #f)
 				    )
 				   ((equal? activity "group")
 				    #f
@@ -110,13 +110,17 @@
 				   ((equal? activity "reformat")
 				    #f
 				    )
-				   (else #f))
+				   (else
+				    (view-render  "test" (the-environment) )))
 				   )
 			   ;;javascript prevents the selection of more than one plateset
 			   
 			   )
-		     ;; (view-render "test" (the-environment))
-		      (view-render poi (the-environment))
+		      (cond
+		       ((equal? activity "edit")
+			(view-render "edit" (the-environment))
+			)
+		       (else #f))		     
 		   )))
 
 
@@ -244,17 +248,6 @@
 		     )))
 
 
-(post "/impdataaction"  #:conn #t #:from-post 'qstr
-		 (lambda (rc)
-		   (let* (
-			  (help-topic "plateset")
-			  (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
-			  (b (map list (cdr (string-split a #\newline))))
-			    
-			  )      
-		     (view-render "test" (the-environment))
-		     )))
-
 
 (plateset-define impacc
 		 (options #:conn #t #:cookies '(names prjid sid))
@@ -301,3 +294,91 @@
 		   (let* ((cookies (rc-cookie rc))
 			  (acookie (:cookies-ref rc 'prjid "prjid")))
 			  (view-render "test" (the-environment)))))
+
+
+
+   
+
+(post "/plateset/impassdatadb"  #:conn #t #:from-post 'qstr
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "plateset")
+			  ;;(filename (:from-post rc 'get-vals "myfile"))
+			  (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
+			  (b (map list (cdr (string-split a #\newline))))
+			  (psid (:from-post rc 'get-vals "psid"))
+			  (num-plates (:from-post rc 'get-vals "numplates"))
+			  (format (:from-post rc 'get-vals "format"))
+			 ;; (rows-needed (:from-post rc 'get-vals "rows-needed"))
+			  (assay-descr (:from-post rc 'get-vals "assay-descr"))
+			  (ps-descr (uri-decode (:from-post rc 'get-vals "ps-descr")))
+			  (control-loc (uri-decode (:from-post rc 'get-vals "control-loc")))
+			  (assay-name (:from-post rc 'get-vals "assayname"))
+			  (assay-type (:from-post rc 'get-vals "assay-type"))
+			  (sql (string-append "SELECT id from assay_type where assay_type_name =" assay-type))
+			  (assay-type-id (DB-get-all-rows (:conn rc sql)))
+			  (lyt-sys-name (uri-decode (:from-post rc 'get-vals "lyt-sys-name")))
+			  (plt-lyt-name-id (substring lyt-sys-name 3))
+			  (session-id "1")
+			  (sql2 (string-append "SELECT new_assay_run(" assay-name ", " assay-descr  ", " assay-type-id ", " psid ", " plt-lyt-name-id ", " session-id ")"))
+		  	 ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
+			  )
+		     
+		   ;;  (view-render "impdassdatadb" (the-environment))
+		    (view-render "test" (the-environment))
+		     )))
+
+
+
+(post "/plateset/impdataaction"  #:conn #t #:from-post 'qstr
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "plateset")
+			  (filename (:from-post rc 'get-vals "myfile"))
+			  (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
+			  (b (map list (cdr (string-split a #\newline))))
+			  (psid (:from-post rc 'get-vals "psid"))
+			  (num-plates (:from-post rc 'get-vals "num-plates"))
+			  (format (:from-post rc 'get-vals "format"))
+			  (rows-needed (:from-post rc 'get-vals "rows-needed"))
+			  (descr (:from-post rc 'get-vals "descr"))
+			  (ps-descr (uri-decode (:from-post rc 'get-vals "ps-descr")))
+			  (control-loc (uri-decode (:from-post rc 'get-vals "control-loc")))
+			  (lyt-sys-name (:from-post rc 'get-vals "lyt-sys-name"))
+			  (lyt-name (uri-decode (:from-post rc 'get-vals "lyt-name")))			  
+		  	 (lyt-txt (string-append lyt-sys-name ";" lyt-name ))
+			  )
+		     
+		     (view-render "impdataaction" (the-environment))
+		  ;;   (view-render "test" (the-environment))
+		     )))
+
+
+
+(post "/plateset/importpsdata"
+		  #:conn #t #:from-post 'qstr
+		  (lambda (rc)
+		    (let* ((help-topic "plateset")	
+			   (all-ps-ids  (list (uri-decode (:from-post rc 'get-vals "plateset-id")))) ;;these are the checked ps-ids - should be only one
+			   (activity (:from-post rc 'get-vals "activity"))
+			  ;; (filename (:from-post rc 'get-vals "myfile"))
+			  
+			   (start (map string-split all-ps-ids (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+			   (psid (caar start))
+			   (sql (string-append "select plate_set.plate_set_name, plate_set.descr AS plate_set_descr, plate_set.num_plates, plate_set.plate_format_id, plate_set.plate_layout_name_id,  plate_layout_name.name AS lyt_name, plate_layout_name.descr,  plate_layout_name.control_loc,  plate_layout_name.sys_name from plate_set, plate_layout_name where plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.id=" psid ))
+			   (holder   (car (DB-get-all-rows (:conn rc sql))))
+			   (descr (assoc-ref holder "descr"))
+			   (format (assoc-ref holder "plate_format_id"))
+			   (name (object->string (assoc-ref holder "plate_set_name")))
+			   (lyt-name  (object->string (assoc-ref holder "lyt_name")))
+			   (lyt-sys-name (assoc-ref holder "sys_name"))
+			   (ps-descr (uri-decode (object->string (assoc-ref holder "plate_set_descr"))))
+			   (num-plates (assoc-ref holder "num_plates"))
+			   (control-loc (assoc-ref holder "control_loc"))
+			   (rows-needed (* num-plates format))
+			   )
+			(view-render "impdata" (the-environment))
+		;;	(view-render "test" (the-environment))
+				     
+		   )))
+

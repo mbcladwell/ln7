@@ -6,13 +6,15 @@ Then submit must be pressed to process
 
 <@include header.tpl %>
   <div class="container">
-    <h2>Select Data File For Import into PS-</h2><br>
+    <h2>Select Data File For Import into PS-<%= psid %> </h2><br>
 
-    <form action="/impdataaction" method="POST">
+    <form action="/plateset/impdataaction" method="POST">
       <div>
 	<label for="myfile">Select a data file for import.</label><br>
-	<label for="myfile">The file must be tab delimitted text with a header and contain a multiple of 96 rows of data.</label><br>
-	<label for="myfile">Required format:</label>
+	<label for="myfile">The file must be tab delimitted text with a header.</label><br>
+	<label for="myfile"> PS-<%= psid %> contains <%= num-plates %> plates in <%= format %> well format requiring <%= rows-needed %> rows of data.</label><br>
+	
+	<label for="myfile">Required file format:</label>
       </div>
 
       <pre>plate	well	response
@@ -28,7 +30,17 @@ Then submit must be pressed to process
       </div><br><br>
       <button type="submit" class="btn btn-primary">Submit</button><br>      
       <input type="hidden" id="datatransfer" name="datatransfer" >
-      <input type="hidden" id="format2" name="format2" >
+      <input type="hidden" id="psid" name="psid" value=<%= psid %>>
+      <input type="hidden" id="num-plates" name="num-plates" value=<%= num-plates %>>
+      <input type="hidden" id="format" name="format" value=<%= format %>>
+      <input type="hidden" id="rows-needed" name="rows-needed" value=<%= rows-needed %>>
+      <input type="hidden" id="descr" name="descr" value=<%= descr %>>
+      <input type="hidden" id="ps-descr" name="ps-descr" value=<%= ps-descr %>>
+      <input type="hidden" id="control-loc" name="control-loc" value=<%= control-loc %>>
+      <input type="hidden" id="lyt-sys-name" name="lyt-sys-name" value=<%= lyt-sys-name %>>
+      <input type="hidden" id="lyt-name" name="lyt-name" value=<%= lyt-name %>>
+   
+      
     </form>
 
     <span id="myText"></span>
