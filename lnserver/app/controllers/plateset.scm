@@ -7,6 +7,7 @@
 	     (srfi srfi-19)   ;; date time
 	     (lnserver sys extra)(ice-9 match)
 	     (srfi srfi-11) ;; let-values
+	     (ice-9 textual-ports)(ice-9 rdelim)
 	     )
 
 (define (prep-ps-for-prj-rows a)
@@ -296,35 +297,97 @@
 			  (view-render "test" (the-environment)))))
 
 
+(define (transfer-data-to-server d)
+  ;;this accepts a data transfer e.g. (:from-post rc 'get-vals "datatransfer")
+  ;;which must be uri-decoded
+  ;;the datatransfer is read by javascript on the client
+  (let* (
+	 (a (uri-decode d))
+	;; (b (map list (cdr (string-split a #\newline))))
+	 (temp-f (string-append "pub/" (get-rand-file-name "rnd" "txt")))
+	 (p  (open-output-file temp-f))
+	 (dummy (begin
+		  (put-string p a )
+		  (force-output p))))
+    temp-f))
 
-   
+
+
+(define (process-ar-row lst results arid)
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (string-append results "(" (number->string arid) ", " (caar lst) ", " (cadar lst) ", "  (caddar lst)   ")" ))
+       results)
+       (begin
+	 (set! results (string-append results "("  (number->string arid) ", " (caar lst) ", " (cadar lst) ", "  (caddar lst)   ")," ))
+	 (process-ar-row (cdr lst) results arid)) ))
+
+    
+(define (get-sql-assay-results-file f arid)
+  ;;for processing the tab delimitted file on the server
+  (if (access? f R_OK)
+      (let* (
+	     (my-port (open-input-file f))
+	     (ret #f)
+	     (holder '())
+	     (message "")
+	     (ret (stripfix (read-line my-port)))
+	     (header (string-split ret #\tab))
+	     (result (let* (
+			    (ret (read-line my-port))
+			    (dummy2 (while (not (eof-object? ret))
+				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
+					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
+				      (set! ret  (read-line my-port))))
+			    (holder2 (process-ar-row holder "" arid))
+			    (sql (string-append "INSERT INTO assay_result_pre (assay_run_id, plate_order, well, response) VALUES " holder2)))	 
+				 sql)))
+	     result)
+      #f))
+
+
+;; (if (and (string=? (car header) "plate")
+;; 			     (string=? (cadr header) "well")
+;; 			     (string=? (caddr header) "response"))
+
 
 (post "/plateset/impassdatadb"  #:conn #t #:from-post 'qstr
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
 			  ;;(filename (:from-post rc 'get-vals "myfile"))
-			  (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
-			  (b (map list (cdr (string-split a #\newline))))
+			 ;; (a (:from-post rc 'get-vals "datatransfer"))
+			  ;;(b (map list (cdr (string-split a #\newline))))
+			  (datafile (uri-decode (:from-post rc 'get-vals "datafile")))
 			  (psid (:from-post rc 'get-vals "psid"))
 			  (num-plates (:from-post rc 'get-vals "numplates"))
 			  (format (:from-post rc 'get-vals "format"))
 			 ;; (rows-needed (:from-post rc 'get-vals "rows-needed"))
 			  (assay-descr (:from-post rc 'get-vals "assay-descr"))
 			  (ps-descr (uri-decode (:from-post rc 'get-vals "ps-descr")))
-			  (control-loc (uri-decode (:from-post rc 'get-vals "control-loc")))
+			  (control-loc (uri-decode (:from-post rc 'get-vals "controlloc")))
 			  (assay-name (:from-post rc 'get-vals "assayname"))
 			  (assay-type (:from-post rc 'get-vals "assay-type"))
-			  (sql (string-append "SELECT id from assay_type where assay_type_name =" assay-type))
-			  (assay-type-id (DB-get-all-rows (:conn rc sql)))
-			  (lyt-sys-name (uri-decode (:from-post rc 'get-vals "lyt-sys-name")))
-			  (plt-lyt-name-id (substring lyt-sys-name 3))
+			  (sql (string-append "SELECT id from assay_type where assay_type_name ='" assay-type "'"))
+			  (assay-type-id (object->string (cdaar (DB-get-all-rows (:conn rc sql)))))
+			  (lyt-sys-name (uri-decode (:from-post rc 'get-vals "lytsysname")))
+			  (plt-lyt-name-id  (substring lyt-sys-name 4))
+			  (algorithm (:from-post rc 'get-vals "algorithm"))
+			  (hl-name (:from-post rc 'get-vals "hlname"))
+			  (hl-descr (:from-post rc 'get-vals "hldescr"))
 			  (session-id "1")
-			  (sql2 (string-append "SELECT new_assay_run(" assay-name ", " assay-descr  ", " assay-type-id ", " psid ", " plt-lyt-name-id ", " session-id ")"))
-		  	 ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
+			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", " session-id ")"))
+		  	  ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
+			  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
+			  ;;(assay-run-id 10)
+			  (sql3 (get-sql-assay-results-file datafile assay-run-id))
+			  (dummy (:conn rc sql3))
+			  (sql4 (string-append "SELECT process_assay_run_data( " (number->string assay-run-id)  ")"))
+			  (dummy (:conn rc sql4))
+			  (dummy (sleep 5))
 			  )
 		     
-		   ;;  (view-render "impdassdatadb" (the-environment))
+		    ;; (view-render "impdassdatadb" (the-environment))
 		    (view-render "test" (the-environment))
 		     )))
 
@@ -335,8 +398,9 @@
 		   (let* (
 			  (help-topic "plateset")
 			  (filename (:from-post rc 'get-vals "myfile"))
-			  (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
-			  (b (map list (cdr (string-split a #\newline))))
+			  (a (:from-post rc 'get-vals "datatransfer"))
+			  ;;(b (map list (cdr (string-split a #\newline))))
+			  (temp-file (transfer-data-to-server a))
 			  (psid (:from-post rc 'get-vals "psid"))
 			  (num-plates (:from-post rc 'get-vals "num-plates"))
 			  (format (:from-post rc 'get-vals "format"))
@@ -350,7 +414,7 @@
 			  )
 		     
 		     (view-render "impdataaction" (the-environment))
-		  ;;   (view-render "test" (the-environment))
+		     ;;(view-render "test" (the-environment))
 		     )))
 
 
@@ -381,4 +445,5 @@
 		;;	(view-render "test" (the-environment))
 				     
 		   )))
+
 

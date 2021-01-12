@@ -34,6 +34,9 @@ view layout select
   plateset.scm import assay data
 
 
+* read files and check for blank lines
+
+
 ## todo
 
 

@@ -201,83 +201,102 @@
   <div class=\"container\">
   <h1>Import Data for PS-")(display  psid )(display "</h1>
   
-    <br><br>
+    <br>
     <form action=\"impassdatadb\" method=\"POST\">
       <div class=\"form-row\">
 	<div class=\"form-group col-md-12\">
-	 <label for=\"ps-description\">Plate set description:&nbsp;")(display  ps-descr )(display "</label>
+	  <label for=\"ps-description\">Plate set description:&nbsp;<b>")(display  ps-descr )(display "</b></label>
 	</div>
-    </div>
- <div class=\"form-row\">
-<div class=\"form-group col-md-6\">
- <label for=\"format\">Format:&nbsp ")(display  format )(display "</label>
-</div>
+      </div>
+      <div class=\"form-row\">
 	<div class=\"form-group col-md-6\">
-	  <label for=\"numplates\">Number of plates:&nbsp")(display  num-plates )(display "</label>&nbsp&nbsp&nbsp
-	
-</div>
- </div>    
- <div class=\"form-row\">
-   <div class=\"form-group col-md-6\">
-     <label for=\"lytname\">Assay Run Name</label>
-     <input type=\"text\" class=\"form-control\" id=\"assayname\" name=\"assayname\" placeholder=\"Enter assay name\">
-   </div>
-   <div class=\"form-group col-md-6\">
-     <label for=\"descr\">Assay Run Description</label>
-     <input type=\"text\" class=\"form-control\" id=\"assay-descr\" name=\"assay-descr\" placeholder=\"Enter assay description\">
-   </div>
- </div>
- <div class=\"form-row\">	
-   <div class=\"form-group col-md-6\">
-     <label for=\"assay-type\">Assay type:</label>
-     <select class=\"custom-select\" id=\"assay-type\">
-       <option selected>Choose...</option>
-       <option value=\"Elisa\">Elisa</option>
-       <option value=\"Octet\">Octet</option>
-       <option value=\"SNP\">SNP</option>
-       <option value=\"hc\">HCS</option>
-       <option value=\"HTRF\">HTRF</option>
-       <option value=\"FACS\">FACS</option>
-     </select>
-   </div>
-   <div class=\"form-group col-md-6\">
-     <label for=\"algorithm\">Auto Hit Selection Algorithm:</label>
-     <select class=\"custom-select\" id=\"algorithm\">
-       <option selected>None</option>
-       <option value=\"Elisa\">Top N</option>
-       <option value=\"Octet\">mean(background) + 2SD</option>
-       <option value=\"SNP\">mean(background) + 3SD</option>
-       <option value=\"hc\">>0% enhanced</option>
-      
-     </select>
-   </div>
+	  <label for=\"format\">Format:&nbsp <b> ")(display  format )(display "</b></label>
+	</div>
+	<div class=\"form-group col-md-6\">
+	  <label for=\"numplates\">Number of plates:&nbsp<b>")(display  num-plates )(display "</b></label>	  
+	</div>
+      </div>
+
+
   <!-- ComboItem[] algorithmTypes = new ComboItem[]{ new ComboItem(4,\">0% enhanced\"), new ComboItem(3,\"mean(background) + 3SD\"), new ComboItem(2,\"mean(background) + 2SD\"), new ComboItem(1,\"Top N\")}; -->
- </div>
  
- <div class=\"form-row\">
-   <div class=\"form-group col-md-12\">
-     <label for=\"layout\">Plate Layout:&nbsp")(display  lyt-txt )(display "</label>&nbsp&nbsp&nbsp
-     <label for=\"contolsloc\">Control location:&nbsp")(display  control-loc )(display "</label>&nbsp&nbsp&nbsp   
-   </div>
- </div>
-
- <div class=\"form-row\">
-   <div class=\"form-group col-md-12\">
-     <label for=\"layout\">Data file name:&nbsp")(display  filename )(display "</label>&nbsp&nbsp&nbsp
-   </div>
- </div>
+ 
+      <div class=\"form-row\">
+	<div class=\"form-group col-md-6\">
+	  <label for=\"layout\">Plate Layout:&nbsp<b>")(display  lyt-txt )(display "</b></label>&nbsp&nbsp&nbsp
+	</div>
+	<div class=\"form-group col-md-6\">   
+	  <label for=\"contolsloc\">Control location:&nbsp<b>")(display  control-loc )(display "</b></label>&nbsp&nbsp&nbsp   
+	</div>
+      </div>
+      <div class=\"form-row\">
+	<div class=\"form-group col-md-12\">
+	  <label for=\"layout\">Data file name:&nbsp<b>")(display  filename )(display "</b></label>&nbsp&nbsp&nbsp
+	</div>
+      </div>
 
  
- <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
- <input type=\"hidden\" id=\"lytsysname\" name=\"lytsysname\" value=")(display  lyt-sys-name )(display ">
- <input type=\"hidden\" id=\"controlloc\" name=\"controlloc\" value=")(display  control-loc )(display ">
- <input type=\"hidden\" id=\"nplates\" name=\"numplates\" value=")(display  num-plates )(display ">
-<input type=\"hidden\" id=\"filebane\" name=\"filename\" value=")(display  filename )(display ">
+      <div class=\"form-row\">
+	<div class=\"form-group col-md-6\">
+	  <label for=\"lytname\">Assay Run Name</label>
+	  <input type=\"text\" class=\"form-control\" id=\"assayname\" name=\"assayname\" placeholder=\"Enter assay name\">
+	</div>
 
+    
+	<div class=\"form-group col-md-6\">
+	  <label for=\"descr\">Assay Run Description</label>
+	  <input type=\"text\" class=\"form-control\" id=\"assay-descr\" name=\"assay-descr\" placeholder=\"Enter assay description\">
+	</div>
+      </div>
+      <div class=\"form-row\">	
+	<div class=\"form-group col-md-6\">
+	  <label for=\"assay-type\">Assay type:</label>
+	  <select class=\"custom-select\" id=\"assay-type\" name=\"assay-type\">
+	    <option selected>Choose...</option>
+	    <option value=\"ELISA\">ELISA</option>
+	    <option value=\"Octet\">Octet</option>
+	    <option value=\"SNP\">SNP</option>
+	    <option value=\"HCS\">HCS</option>
+	    <option value=\"HTRF\">HTRF</option>
+	    <option value=\"FACS\">FACS</option>
+	  </select>
+	</div>
+	<div class=\"form-group col-md-6\">
+	  <label for=\"algorithm\">Auto Hit Selection Algorithm:</label>
+	  <select class=\"custom-select\" id=\"algorithm\" name=\"algorithm\" onchange=\"algSelection(event)\">
+	    <option value=\"0\" selected>None</option>
+	    <option value=\"1\">Top N</option>
+	    <option value=\"2\">mean(background) + 2SD</option>
+	    <option value=\"3\">mean(background) + 3SD</option>
+	    <option value=\"4\">>0% enhanced</option>
+	  </select>
+	</div>
+      </div>
+      <div class=\"form-row\">
+	<div class=\"form-group col-md-6\">
+	  <label for=\"hlname\" id=\"labelhlname\" name=\"labelhlname\">Hit List Name</label>
+	  <input type=\"text\" class=\"form-control\" id=\"hlname\" name=\"hlname\" placeholder=\"\" enabled=\"false\">
+	</div>
+	<div class=\"form-group col-md-6\">
+	  <label for=\"hldescr\" id=\"labelhldescr\" =\"labelhldescr\">Hit List Description</label>
+	  <input type=\"text\" class=\"form-control\" id=\"hldescr\" name=\"hldescr\" placeholder=\"\">
+	</div>
+      </div>
+ 
+      <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
+      <input type=\"hidden\" id=\"lytsysname\" name=\"lytsysname\" value=")(display  lyt-sys-name )(display ">
+      <input type=\"hidden\" id=\"controlloc\" name=\"controlloc\" value=")(display  control-loc )(display ">
+      <input type=\"hidden\" id=\"numplates\" name=\"numplates\" value=")(display  num-plates )(display ">
+      <input type=\"hidden\" id=\"filename\" name=\"filename\" value=")(display  filename )(display ">
+      <input type=\"hidden\" id=\"psid\" name=\"psid\" value=")(display  psid )(display ">
+      <input type=\"hidden\" id=\"ps-descr\" name=\"ps-descr\" value=")(display  ps-descr )(display ">
+      <input type=\"hidden\" id=\"datafile\" name=\"datafile\" value=")(display  temp-file )(display ">
       
- <input  class=\"btn btn-primary\" id=\"importButton\" name=\"importButton\" type=\"submit\" value=\"Import Data\" onclick=\"myFunction()\" >
-
-</form> 
+      
+      <div class=\"form-row\">
+	<input  class=\"btn btn-primary\" id=\"importButton\" name=\"importButton\" type=\"submit\" value=\"Import Data\" onclick=\"myFunction()\" >
+      </div>
+    </form> 
 
  <button class=\"btn btn-primary\" type=\"button\" id=\"loadingButton\" name=\"loadingButton\" enabled>
   <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\" ></span>
@@ -287,6 +306,40 @@
 
     
 </div>
+
+  <script>
+
+    document.getElementById(\"hlname\").disabled = true;
+    document.getElementById(\"hldescr\").disabled = true;
+
+    function algSelection(e) {   
+	switch( e.target.value) {
+	case \"0\":
+	    document.getElementById(\"hlname\").disabled = true;
+	    document.getElementById(\"hlname\").placeholder = \"\";
+	    document.getElementById(\"hldescr\").disabled = true;
+	    document.getElementById(\"hldescr\").placeholder = \"\";
+	    break;
+	default:
+	    document.getElementById(\"hlname\").disabled = false;
+	    document.getElementById(\"hlname\").placeholder = \"Enter hit list name\";
+	    document.getElementById(\"hldescr\").disabled = false;   
+	    document.getElementById(\"hldescr\").placeholder = \"Enter hit list description\";
+	} 
+    }
+    
+    document.getElementById(\"importButton\").style.display = \"inline\";
+    document.getElementById(\"loadingButton\").style.display = \"none\";
+  
+  
+  function myFunction() {
+      var x = document.getElementById(\"importButton\");
+      x.style.display = \"none\";
+      var y = document.getElementById(\"loadingButton\");
+      y.style.display = \"inline\";
+} 
+    </script>
+
 
 ")(display "</div>
 </div>
@@ -307,17 +360,4 @@ $(document).ready(function () {
 
 </html>
 ")(display "
-<script>
-  document.getElementById(\"importButton\").style.display = \"inline\";
-  document.getElementById(\"loadingButton\").style.display = \"none\";
-  
-  function myFunction() {
-      var x = document.getElementById(\"importButton\");
-      x.style.display = \"none\";
-      var y = document.getElementById(\"loadingButton\");
-      y.style.display = \"inline\";
-} 
-    </script>
-
-
 ")
