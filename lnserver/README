@@ -35,6 +35,11 @@ view layout select
 
 
 * read files and check for blank lines
+         plateset.scm
+         
+* create an array for postgres
+
+  extra.scm
 
 
 ## todo

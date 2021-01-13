@@ -9,7 +9,9 @@
   
   
   <%= datafile %><br><br>
-  <%= sql3 %>
+  <%= threshold %><br><br>
+  <%= hl-name %><br><br>
+  
 
 	
  	

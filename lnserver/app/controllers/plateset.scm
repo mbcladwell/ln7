@@ -344,11 +344,51 @@
 				 sql)))
 	     result)
       #f))
-
-
 ;; (if (and (string=? (car header) "plate")
 ;; 			     (string=? (cadr header) "well")
 ;; 			     (string=? (caddr header) "response"))
+
+
+;; select  well_sample.sample_id
+;; FROM assay_result, assay_run, plate_layout_name, plate_set, plate, plate_plate_set, well_numbers, well, well_sample
+;; WHERE assay_result.norm > 0.33
+;; AND assay_run.plate_set_id = plate_set.id
+;; AND assay_run.plate_layout_name_id = plate_layout_name.id
+;; AND assay_run.id=assay_result.assay_run_id
+;; AND assay_result.plate_order = plate_plate_set.plate_order
+;; AND assay_result.well = well.by_col
+;; AND plate_set.plate_layout_name_id = plate_layout_name.id
+;; AND plate_set.plate_format_id = well_numbers.plate_format
+;; AND plate_set.id = plate_plate_set.plate_set_id
+;; AND plate_plate_set.plate_id = plate.id
+;; AND plate.id = well.plate_id
+;; AND well.by_col = well_numbers.by_col
+;; AND well_sample.well_id =  well_numbers.by_col
+;; AND assay_result.assay_run_id =1
+;; ORDER BY sample_id;
+
+(define (process-list-into-pgarray lst results)
+  ;; results is a string like "'{"2" "3" "4"}'" note the single quotes
+ (if (null? (cdr lst))
+        (begin
+	 (set! results  (string-append results "\"" (number->string (cdar lst)) "\"" ))
+       (string-append "'{" results  "}'"))
+       (begin
+	 (set! results  (string-append results "\"" (number->string (cdar lst)) "\","  ))
+	 (process-list-into-pgarray (cdr lst) results)) ))
+
+  
+
+
+(define (make-topN-hitlist name descr numhits arid sid rc)
+  (let* ((sql (string-append "SELECT  well_sample.sample_id FROM assay_result, assay_run, plate_layout_name, plate_layout, plate_set, plate, plate_plate_set, well_numbers, well, well_sample WHERE assay_run.plate_set_id = plate_set.id AND assay_run.plate_layout_name_id = plate_layout_name.id AND assay_run.id=assay_result.assay_run_id AND assay_result.plate_order = plate_plate_set.plate_order AND assay_result.well = well.by_col AND plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.plate_format_id = well_numbers.plate_format AND plate_layout.well_by_col=well.by_col AND plate_set.id = plate_plate_set.plate_set_id AND plate_plate_set.plate_id = plate.id AND plate.id = well.plate_id AND well.by_col = well_numbers.by_col AND well_sample.well_id =  well.id AND well.by_col=well_numbers.by_col AND plate_layout_name.id= plate_layout.plate_layout_name_id AND plate_layout.well_type_id=1 AND assay_result.assay_run_id = " (number->string arid) " ORDER BY assay_result.norm limit " numhits))
+	 (all-hit-ids  (DB-get-all-rows(:conn rc sql)))
+	 (a (map car all-hit-ids))	 
+	 (results (process-list-into-pgarray a ""))
+	 )
+    results
+    ))
+
 
 
 (post "/plateset/impassdatadb"  #:conn #t #:from-post 'qstr
@@ -378,18 +418,81 @@
 			  (session-id "1")
 			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", " session-id ")"))
 		  	  ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
-			  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
-			  ;;(assay-run-id 10)
-			  (sql3 (get-sql-assay-results-file datafile assay-run-id))
-			  (dummy (:conn rc sql3))
+		;;	  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
+			  (assay-run-id 2)
+		;;	  (sql3 (get-sql-assay-results-file datafile assay-run-id))
+		;;	  (dummy (:conn rc sql3))
 			  (sql4 (string-append "SELECT process_assay_run_data( " (number->string assay-run-id)  ")"))
-			  (dummy (:conn rc sql4))
-			  (dummy (sleep 5))
+		;;	  (dummy (:conn rc sql4))
+		;;	  (dummy (sleep 5))
+			  (threshold (cond
+				      ((equal? algorithm "1")  ;;Top N
+				       (let* ((numhits (:from-post rc 'get-vals "nhits"))
+					      (pgarray (make-topN-hitlist hl-name hl-descr numhits assay-run-id session-id rc))
+					      (sql (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  numhits ", " (number->string assay-run-id) ", " session-id ", " pgarray ")" ))
+					      (dummy (:conn rc sql))
+					      )
+					 #f)										
+				       )
+				      ((equal? algorithm "2")  ;; mean(background) + 2SD
+				       (let* ((sql5 (string-append "SELECT mean_neg_2_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
+					      )     
+					 (cdaar (DB-get-all-rows (:conn rc sql5))))
+				       )
+				      ((equal? algorithm "3")  ;; mean(background) + 3SD
+				       (let* ((sql5 (string-append "SELECT mean_neg_3_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id ))))     
+					 (cdaar (DB-get-all-rows (:conn rc sql5))))
+				       )
+				      ((equal? algorithm "4") ;; >0% enhanced
+				       (let* ((sql5 (string-append "SELECT mean_pos FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id ))))     
+					 (cdaar (DB-get-all-rows (:conn rc sql5))))
+				   	 )
+				       
+				      (else #f)
+				      )
+				     )			  
 			  )
 		     
 		    ;; (view-render "impdassdatadb" (the-environment))
 		    (view-render "test" (the-environment))
 		     )))
+
+
+
+ ;; String insertSql = "SELECT new_hit_list ( ?, ?, ?, ?, ?, ?);";
+ ;;      PreparedStatement insertPs =
+ ;;          conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+ ;;      insertPs.setString(1, _name);
+ ;;      insertPs.setString(2, _description);
+ ;;      insertPs.setInt(3, _num_hits);
+ ;;      insertPs.setInt(4, _assay_run_id);
+ ;;      insertPs.setInt(5, session_id);
+ ;;      insertPs.setArray(6, conn.createArrayOf("INTEGER", hit_list));
+
+
+;; CREATE OR REPLACE FUNCTION new_hit_list(_name VARCHAR(250), _descr VARCHAR(250), _num_hits INTEGER, _assay_run_id INTEGER, _sessions_id VARCHAR(32), hit_list integer[])
+;;   RETURNS void AS
+;; $BODY$
+;; DECLARE
+;;  hl_id INTEGER;
+;;  hl_sys_name VARCHAR(10);
+;;  s_id INTEGER;
+;; BEGIN
+
+
+;;   INSERT INTO hit_list(hitlist_name, descr, n, assay_run_id, sessions_id)
+;;    VALUES (_name, _descr, _num_hits, _assay_run_id, _sessions_id)
+;;    RETURNING id INTO hl_id;
+
+;;     UPDATE hit_list SET hitlist_sys_name = 'HL-'|| hl_id WHERE id=hl_id;
+    
+;; FOR i IN 1.._num_hits loop
+;;  INSERT INTO hit_sample(hitlist_id, sample_id)VALUES(hl_id, hit_list[i]);
+;; END LOOP;
+
+;; END;
+;; $BODY$
+;;   LANGUAGE plpgsql VOLATILE;
 
 
 

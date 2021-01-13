@@ -275,14 +275,24 @@
       <div class=\"form-row\">
 	<div class=\"form-group col-md-6\">
 	  <label for=\"hlname\" id=\"labelhlname\" name=\"labelhlname\">Hit List Name</label>
-	  <input type=\"text\" class=\"form-control\" id=\"hlname\" name=\"hlname\" placeholder=\"\" enabled=\"false\">
+	  <input type=\"text\" class=\"form-control\" id=\"hlname\" name=\"hlname\" placeholder=\"\">
 	</div>
 	<div class=\"form-group col-md-6\">
 	  <label for=\"hldescr\" id=\"labelhldescr\" =\"labelhldescr\">Hit List Description</label>
 	  <input type=\"text\" class=\"form-control\" id=\"hldescr\" name=\"hldescr\" placeholder=\"\">
 	</div>
       </div>
- 
+
+
+            <div class=\"form-row\">
+	<div class=\"form-group col-md-6\">
+	</div>
+	<div class=\"form-group col-md-6\">
+	  <label for=\"nhits\" id=\"labelnhits\" name=\"labelnhits\">Number of desired hits:</label>
+	  <input type=\"text\" class=\"form-control\" id=\"nhits\" name=\"nhits\" placeholder=\"\">
+	</div>
+      </div>
+
       <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
       <input type=\"hidden\" id=\"lytsysname\" name=\"lytsysname\" value=")(display  lyt-sys-name )(display ">
       <input type=\"hidden\" id=\"controlloc\" name=\"controlloc\" value=")(display  control-loc )(display ">
@@ -319,12 +329,24 @@
 	    document.getElementById(\"hlname\").placeholder = \"\";
 	    document.getElementById(\"hldescr\").disabled = true;
 	    document.getElementById(\"hldescr\").placeholder = \"\";
+	    document.getElementById(\"nhits\").disabled = true;
+	    document.getElementById(\"nhits\").placeholder = \"\";
+	    break;
+	case \"1\":
+	    document.getElementById(\"hlname\").disabled = false;
+	    document.getElementById(\"hlname\").placeholder = \"Enter hit list name\";
+	    document.getElementById(\"hldescr\").disabled = false;   
+	    document.getElementById(\"hldescr\").placeholder = \"Enter hit list description\";
+	    document.getElementById(\"nhits\").disabled = false;   
+	    document.getElementById(\"nhits\").placeholder = \"Enter number of desired hits\";
 	    break;
 	default:
 	    document.getElementById(\"hlname\").disabled = false;
 	    document.getElementById(\"hlname\").placeholder = \"Enter hit list name\";
 	    document.getElementById(\"hldescr\").disabled = false;   
 	    document.getElementById(\"hldescr\").placeholder = \"Enter hit list description\";
+	    document.getElementById(\"nhits\").disabled = true;
+	    document.getElementById(\"nhits\").placeholder = \"\";
 	} 
     }
     
