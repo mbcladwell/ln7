@@ -3,7 +3,8 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller plateset) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi)(web uri)
+(use-modules (artanis utils)(artanis irregex)(artanis cookie)
+	     (srfi srfi-1)(dbi dbi)(web uri)
 	     (srfi srfi-19)   ;; date time
 	     (lnserver sys extra)(ice-9 match)
 	     (srfi srfi-11) ;; let-values
@@ -239,64 +240,6 @@
 		      )))
 
 
-(plateset-define impdata
-		 (options #:conn #t #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (
-			  (help-topic "plateset")
-			  )      
-		     (view-render "impdata" (the-environment))
-		     )))
-
-
-
-(plateset-define impacc
-		 (options #:conn #t #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (
-			  (help-topic "plateset")
-			  )      
-		     (view-render "impacc" (the-environment))
-		     )))
-
-(plateset-define impbc
-		 (options #:conn #t #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (
-			  (help-topic "plateset")
-			  )      
-		     (view-render "impbc" (the-environment))
-		     )))
-
-
-
-
-(plateset-define testadd
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* ((dummy (:cookies-set! rc 'prjid "prjid" "1000"))
-			  (cookies (rc-cookie rc))
-			  (acookie (:cookies-ref rc 'prjid "prjid")))
-			    (view-render "test" (the-environment)))))
-
-(plateset-define testdelete
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* ((dummy (:cookies-remove! rc "prjid"))
-			  (cookies (rc-cookie rc))
-			  (acookie (:cookies-ref rc 'prjid "prjid")))
-			    (view-render "test" (the-environment)))))
-
-
-
-(plateset-define test
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* ((cookies (rc-cookie rc))
-			  (acookie (:cookies-ref rc 'prjid "prjid")))
-			  (view-render "test" (the-environment)))))
-
-
 (define (transfer-data-to-server d)
   ;;this accepts a data transfer e.g. (:from-post rc 'get-vals "datatransfer")
   ;;which must be uri-decoded
@@ -349,24 +292,6 @@
 ;; 			     (string=? (caddr header) "response"))
 
 
-;; select  well_sample.sample_id
-;; FROM assay_result, assay_run, plate_layout_name, plate_set, plate, plate_plate_set, well_numbers, well, well_sample
-;; WHERE assay_result.norm > 0.33
-;; AND assay_run.plate_set_id = plate_set.id
-;; AND assay_run.plate_layout_name_id = plate_layout_name.id
-;; AND assay_run.id=assay_result.assay_run_id
-;; AND assay_result.plate_order = plate_plate_set.plate_order
-;; AND assay_result.well = well.by_col
-;; AND plate_set.plate_layout_name_id = plate_layout_name.id
-;; AND plate_set.plate_format_id = well_numbers.plate_format
-;; AND plate_set.id = plate_plate_set.plate_set_id
-;; AND plate_plate_set.plate_id = plate.id
-;; AND plate.id = well.plate_id
-;; AND well.by_col = well_numbers.by_col
-;; AND well_sample.well_id =  well_numbers.by_col
-;; AND assay_result.assay_run_id =1
-;; ORDER BY sample_id;
-
 (define (process-list-into-pgarray lst results)
   ;; results is a string like "'{"2" "3" "4"}'" note the single quotes
  (if (null? (cdr lst))
@@ -378,10 +303,18 @@
 	 (process-list-into-pgarray (cdr lst) results)) ))
 
   
-
+(define (make-threshold-hitlist threshold arid rc)
+(let* ((sql (string-append "SELECT  well_sample.sample_id FROM assay_result, assay_run, plate_layout_name, plate_layout, plate_set, plate, plate_plate_set, well_numbers, well, well_sample WHERE assay_run.plate_set_id = plate_set.id AND assay_run.plate_layout_name_id = plate_layout_name.id AND assay_run.id=assay_result.assay_run_id AND assay_result.plate_order = plate_plate_set.plate_order AND assay_result.well = well.by_col AND plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.plate_format_id = well_numbers.plate_format AND plate_layout.well_by_col=well.by_col AND plate_set.id = plate_plate_set.plate_set_id AND plate_plate_set.plate_id = plate.id AND plate.id = well.plate_id AND well.by_col = well_numbers.by_col AND well_sample.well_id =  well.id AND well.by_col=well_numbers.by_col AND plate_layout_name.id= plate_layout.plate_layout_name_id AND plate_layout.well_type_id=1 AND assay_result.assay_run_id = " (number->string arid) " AND assay_result.norm > " (number->string threshold)  " ORDER BY assay_result.norm"))
+       (all-hit-ids  (DB-get-all-rows(:conn rc sql)))
+       (numhits (length all-hit-ids))
+       (a (map car all-hit-ids))	 
+       (results (process-list-into-pgarray a ""))
+	 )
+    (list numhits results)
+    ))
 
 (define (make-topN-hitlist name descr numhits arid sid rc)
-  (let* ((sql (string-append "SELECT  well_sample.sample_id FROM assay_result, assay_run, plate_layout_name, plate_layout, plate_set, plate, plate_plate_set, well_numbers, well, well_sample WHERE assay_run.plate_set_id = plate_set.id AND assay_run.plate_layout_name_id = plate_layout_name.id AND assay_run.id=assay_result.assay_run_id AND assay_result.plate_order = plate_plate_set.plate_order AND assay_result.well = well.by_col AND plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.plate_format_id = well_numbers.plate_format AND plate_layout.well_by_col=well.by_col AND plate_set.id = plate_plate_set.plate_set_id AND plate_plate_set.plate_id = plate.id AND plate.id = well.plate_id AND well.by_col = well_numbers.by_col AND well_sample.well_id =  well.id AND well.by_col=well_numbers.by_col AND plate_layout_name.id= plate_layout.plate_layout_name_id AND plate_layout.well_type_id=1 AND assay_result.assay_run_id = " (number->string arid) " ORDER BY assay_result.norm limit " numhits))
+  (let* ((sql (string-append "SELECT  well_sample.sample_id FROM assay_result, assay_run, plate_layout_name, plate_layout, plate_set, plate, plate_plate_set, well_numbers, well, well_sample WHERE assay_run.plate_set_id = plate_set.id AND assay_run.plate_layout_name_id = plate_layout_name.id AND assay_run.id=assay_result.assay_run_id AND assay_result.plate_order = plate_plate_set.plate_order AND assay_result.well = well.by_col AND plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.plate_format_id = well_numbers.plate_format AND plate_layout.well_by_col=well.by_col AND plate_set.id = plate_plate_set.plate_set_id AND plate_plate_set.plate_id = plate.id AND plate.id = well.plate_id AND well.by_col = well_numbers.by_col AND well_sample.well_id =  well.id AND well.by_col=well_numbers.by_col AND plate_layout_name.id= plate_layout.plate_layout_name_id AND plate_layout.well_type_id=1 AND assay_result.assay_run_id = " (number->string arid) " ORDER BY assay_result.norm limit "  numhits))
 	 (all-hit-ids  (DB-get-all-rows(:conn rc sql)))
 	 (a (map car all-hit-ids))	 
 	 (results (process-list-into-pgarray a ""))
@@ -418,43 +351,51 @@
 			  (session-id "1")
 			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", " session-id ")"))
 		  	  ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
-		;;	  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
-			  (assay-run-id 2)
-		;;	  (sql3 (get-sql-assay-results-file datafile assay-run-id))
-		;;	  (dummy (:conn rc sql3))
+			  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
+			 ;; (assay-run-id 2)
+			  (sql3 (get-sql-assay-results-file datafile assay-run-id))
+			  (dummy (:conn rc sql3))
 			  (sql4 (string-append "SELECT process_assay_run_data( " (number->string assay-run-id)  ")"))
-		;;	  (dummy (:conn rc sql4))
-		;;	  (dummy (sleep 5))
+			  (dummy (:conn rc sql4))
+			  (dummy (sleep 5))
 			  (threshold (cond
 				      ((equal? algorithm "1")  ;;Top N
 				       (let* ((numhits (:from-post rc 'get-vals "nhits"))
 					      (pgarray (make-topN-hitlist hl-name hl-descr numhits assay-run-id session-id rc))
 					      (sql (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  numhits ", " (number->string assay-run-id) ", " session-id ", " pgarray ")" ))
 					      (dummy (:conn rc sql))
-					      )
-					 #f)										
-				       )
+					      )	 #f) )
+				      
 				      ((equal? algorithm "2")  ;; mean(background) + 2SD
-				       (let* ((sql5 (string-append "SELECT mean_neg_2_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
-					      )     
-					 (cdaar (DB-get-all-rows (:conn rc sql5))))
-				       )
-				      ((equal? algorithm "3")  ;; mean(background) + 3SD
-				       (let* ((sql5 (string-append "SELECT mean_neg_3_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id ))))     
-					 (cdaar (DB-get-all-rows (:conn rc sql5))))
-				       )
-				      ((equal? algorithm "4") ;; >0% enhanced
-				       (let* ((sql5 (string-append "SELECT mean_pos FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id ))))     
-					 (cdaar (DB-get-all-rows (:conn rc sql5))))
-				   	 )
+				       (let* ((sql (string-append "SELECT mean_neg_2_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
+					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
+					      (results (make-threshold-hitlist threshold assay-run-id rc))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " session-id ", "  (cadr results) ")" ))
+					      (dummy (:conn rc sql2))
+					      )
+					 #f   ))
 				       
-				      (else #f)
-				      )
-				     )			  
-			  )
+				      ((equal? algorithm "3")  ;; mean(background) + 3SD
+				       (let* ((sql (string-append "SELECT mean_neg_3_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
+					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
+					      (results (make-threshold-hitlist threshold assay-run-id rc))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " session-id ", "  (cadr results) ")" ))
+					      (dummy (:conn rc sql2))
+					      )
+					 #f   ))
+				      
+				      ((equal? algorithm "4") ;; >0% enhanced
+				       (let* ((sql (string-append "SELECT mean_pos FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))     
+					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
+					      (results (make-threshold-hitlist threshold assay-run-id rc))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " session-id ", "  (cadr results) ")" ))
+					      (dummy (:conn rc sql2)))
+					      					      
+					 #f   ))					 
+				      (else #f))))
 		     
-		    ;; (view-render "impdassdatadb" (the-environment))
-		    (view-render "test" (the-environment))
+		     (redirect-to rc (string-append "plate/getpltforps?id" psid))
+		   ;; (view-render "test" (the-environment))
 		     )))
 
 
@@ -549,4 +490,89 @@
 				     
 		   )))
 
+
+
+
+(plateset-define cset
+		 (options #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* ((dummy (:cookies-set! rc 'prjid "prjid" "1000"))
+			  (result "empty")
+			  (cookies (rc-cookie rc)))
+		     (view-render "test" (the-environment)))))
+
+
+(plateset-define check
+		 (lambda (rc)
+		   (let* (			  			 
+			  (result (:cookies-check rc "prjid"))			 
+			  (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+(plateset-define ref
+		 (lambda (rc)
+		   (let* (			  			 
+			  (result (:cookies-ref rc 'prjid "prjid"))
+			  (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+
+ (plateset-define haskey
+		 (lambda (rc)
+		   (let* (
+			  (cookies (rc-cookie rc))
+			  (result (cookie-has-key? cookies "prjid"))
+			 )
+		     (view-render "test" (the-environment)))))
+
+
+(plateset-define remove
+		 (options #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (			  
+			  (cookies (rc-cookie rc))
+			  (dummy (:cookies-remove! rc "prjid"))
+			  (result "empty")
+			  )
+			    (view-render "test" (the-environment)))))
+
+
+
+
+;; (plateset-define addcookie
+;; 		 (options #:cookies '(names prjid sid))
+;; 		 (lambda (rc)
+;; 		   (let* (
+;; 			  (dummy (:cookies-set! rc 'prjid "prjid" "1000"))
+;; 			  (cookcheck (:cookies-check rc "prjid"))
+;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
+;; 			  (cookies (rc-cookie rc))
+;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))
+;; 			 )
+;; 		     (view-render "test" (the-environment)))))
+
+
+;; (plateset-define check
+;; 		 (lambda (rc)
+;; 		   (let* (			  			 
+;; 			  (cookcheck (:cookies-check rc "prjid"))			 
+;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
+;; 			  (cookies (rc-cookie rc))
+;; 			   (cookhaskey (cookie-has-key? cookies "prjid"))
+;; 			  )
+;; 		     (view-render "test" (the-environment)))))
+
+;; (plateset-define delete
+;; 		 (options #:cookies '(names prjid sid))
+;; 		 (lambda (rc)
+;; 		   (let* (			  
+;; 			  (dummy (:cookies-remove! rc 'prjid))
+;; 			  (cookcheck (:cookies-check rc "prjid"))
+;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
+;; 			  (cookies (rc-cookie rc))
+;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))			  
+;; 			  )
+;; 			    (view-render "test" (the-environment)))))
 

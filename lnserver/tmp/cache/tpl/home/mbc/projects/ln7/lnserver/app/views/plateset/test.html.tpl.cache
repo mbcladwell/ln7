@@ -7,10 +7,7 @@
   <h1>Test</h1><br><br>
 
   
-  
-  ")(display  datafile )(display "<br><br>
-  ")(display  threshold )(display "<br><br>
-  ")(display  hl-name )(display "<br><br>
+  result: ")(display  threshold )(display "<br>
   
 
 	

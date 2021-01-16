@@ -7,10 +7,7 @@
   <h1>Test</h1><br><br>
 
   
-  
-  <%= datafile %><br><br>
-  <%= threshold %><br><br>
-  <%= hl-name %><br><br>
+  result: <%= threshold %><br>
   
 
 	

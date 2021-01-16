@@ -11,18 +11,27 @@
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
-        <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.css\" />
-      <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../DataTables-1.10.22/css/jquery.dataTables.css\" />
- <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/buttons.datatables.min.css\" />
+ <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/bootstrap-4.5.3.min.css\" /> 
 
-	
+  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/> 
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/> 
+
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
+
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.slim.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/dataTables.bootstrap4.min.js\"></script>
+    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/bootstrap-4.5.3.bundle.min.js\"></script>
+
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
+<script type=\"text/javascript\" src=\"../JSZip-2.5.0/jszip.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/pdfmake.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/vfs_fonts.js\"></script>
+      	
    
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.html5.min.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.js\"></script>
- <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/dataTables.bootstrap4.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../DataTables-1.10.22/js/jquery.dataTables.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/buttons.dataTables.min.js\"></script>
    
     <title>LIMS*Nucleus </title>
     
@@ -81,13 +90,13 @@
 
 		    
 		    <li>
-                        <a href=\"/project/add\">Assay Data</a>
+                        <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
                     </li>
 		    <li>
-                        <a href=\"/project/add\">Accessions</a>
+                        <a href=\"/plateset/impacc\">Accessions</a>
                     </li>
 		    <li>
-                        <a href=\"/project/add\">Barcodes</a>
+                        <a href=\"/plateset/impbc\">Barcodes</a>
                     </li>
 
 
@@ -121,7 +130,7 @@
                         <a href=\"/layout/getall\">All</a>
                     </li>
                     <li>                    
-		      <a href=\"upload\">Import</a>
+		      <a href=\"/layout/select\">Import</a>
                     </li>
                 </ul>
             </li>
@@ -136,31 +145,50 @@
 		      <a href=\"/target/addtrglyt\">Add Target Layout</a>
                     </li>
                     <li>
-                        <a href=\"/project/add\">All Targets</a>
+                        <a href=\"/target/getall\">All Targets</a>
                     </li>
-                    <li>
-                        <a href=\"/project/add\">Add Target</a>
-                    </li>
+
+		    <li class=\"active\">
+                      <a href=\"#trgaddSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Add Target</a>
+                      <ul class=\"collapse list-unstyled\" id=\"trgaddSubmenu\">		    
+			<li>
+                          <a href=\"/target/addsingle\">Single</a>
+			</li>
+			<li>
+                          <a href=\"/target/addbulk\">Bulk</a>
+			</li>
+		      </ul>
+		    </li>		    
                 </ul>
             </li>
    <li class=\"active\">
                 <a href=\"#utilsSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Utilities</a>
                 <ul class=\"collapse list-unstyled\" id=\"utilsSubmenu\">
                     <li>
-                        <a href=\"../utilities/setup\">Connection</a>
+                        <a href=\"../utilities/register\">Register</a>
                     </li>
                     <li>                    
 		      <a href=\"../sessions/getall\" >Sessions</a>
                     </li>
-                    <li>
-                        <a href=\"../users/getall\">Users</a>
-                    </li>
+		    <li class=\"active\">
+                      <a href=\"#usersSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Users</a>
+                      <ul class=\"collapse list-unstyled\" id=\"usersSubmenu\">
+   
+			<li>
+                          <a href=\"../users/getall\">All Users</a>
+			</li>
+			<li>
+                          <a href=\"../users/add\">Add User</a>
+			</li>
+
+		      </ul>
+		    </li>
                 </ul>
             </li>
   
      
- <li class=\"active\"> <a href=\"../utilities/help?topic=")(display  help-topic )(display " \">HELP</a></li>
-  <li class=\"active\"><a href=\"http://labsolns.com/software/toc\">TOC</a></li>
+ <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
+  <li class=\"active\"><a href=\"../help/toc\">TOC</a></li>
   <li class=\"active\"><a href=\"mailto:info@labsolns.com\">Contact</a></li>
 </ul>
   </nav>
@@ -171,38 +199,82 @@
 
 ")(display "
 
-  <h1>Add a Plate Set</h1><br><br>
+  <div class=\"container\">
+  <h2>Add a Plate Set To Project PRJ-</h2>
 
-  <form action=\"/plateset/addaction?name=pname$value&description=descr$value\">
-<p>  <label for=\"name\">Plate Set Name:</label>  <input type=\"text\" id=\"psname\" name=\"psname\" value=\"\"></p><br>
- <p> <label for=\"descr\">Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\" value=\"\"></p><br>
- <p> <label for=\"numplates\">Number of Plates:</label>  <input type=\"text\" id=\"numplates\" name=\"numplates\" value=\"\"></p><br>
+  <form action=\"/plateset/addaction?name=pname$value&description=descr$value\" method=\"get\">
+ <div class=\"form-group\">   
+    <label for=\"name\">Plate Set Name:</label>  <input type=\"text\"  class=\"form-control\" id=\"psname\" name=\"psname\" value=\"\">
+ </div>
+ <div class=\"form-group\">   
+   <label for=\"descr\">Description:</label>  <input type=\"text\"  class=\"form-control\" id=\"descr\" name=\"descr\" value=\"\">
+ </div>
+ <div class=\"form-row\">
+ <div class=\"form-group  col-md-6\">   
+   <label for=\"numplates\">Number of Plates:</label>  <input type=\"text\"  class=\"form-control\"  id=\"numplates\" name=\"numplates\" value=\"\">
+ </div>
+ <div class=\"form-group col-md-6\">
+   <label for=\"format\">Plate Format:</label>
+   <select name=\"format\"  class=\"custom-select\" id=\"format\">
+     <option value=\"96\">96</option>
+     <option value=\"384\">384</option>
+     <option value=\"1536\">1536</option>
+   </select>
+ </div>
+ </div>
+ <div class=\"form-row\">
+   <div class=\"form-group col-md-6\">
+     <label for=\"type\">Plate Type:</label>
+     <select name=\"type\"  class=\"custom-select\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "</select> 
+   </div>
+   <div class=\"form-group col-md-6\">
+     <label for=\"sample\">Sample Layout:</label> 
+     <select name=\"sample\"  class=\"custom-select\" id=\"sample\"> ")(display  sample-layouts )(display " </select>
+   </div>
+ </div>
  
- <p> <label for=\"format\">Plate Format:</label>
-  <select name=\"format\" id=\"format\">
-                                      <option value=\"96\">96</option>
-                                         <option value=\"384\">384</option>
-                                         <option value=\"1536\">1536</option>
-                                         </select> </p><br>
- <p> <label for=\"type\">Plate Type:</label>
-  <select name=\"type\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "
-                                         </select> </p><br>
- <p> <label for=\"sample\">Sample Layout:</label> 
- <select name=\"sample\" id=\"sample\"> ")(display  sample-layouts )(display " </select> </p><br>
-  
-<p> <label for=\"target-layout\">Target Layout:</label>
-  <select name=\"target-layout\" id=\"target-layout\"  onchange=\"targetSelection(event)\"> ")(display  target-layouts )(display "  </select> <label for=\"target-desc\">")(display  trg-desc )(display "</label> </p><br>
-   
-  <input type=\"submit\" value=\"Submit\">
+ <div class=\"form-row\">
+   <label for=\"target-layout\">Target Layout:</label>    <label for=\"target-desc\">")(display  trg-desc )(display "</label> 
+   <select name=\"target-layout\"  class=\"custom-select\" id=\"target-layout\"  onchange=\"targetSelection(event)\"> ")(display  target-layouts )(display "  </select>
+ </div>
+
+ <div class=\"form-row\">
+    <div class=\"form-group col-md-6\">
+   <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\" id=\"importButton\" name=\"importButton\" enabled>
+    </div>
+    </div>
 </form> 
 
-<script src=\"addps.js\"></script>
+   <button class=\"btn btn-primary\" type=\"button\" id=\"loadingButton\" name=\"loadingButton\" enabled>
+  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\" ></span>
+  Loading...
+</button>
+
+
   
+</div>
+  
+<script>
+    document.getElementById(\"importButton\").style.display = \"inline\";
+    document.getElementById(\"loadingButton\").style.display = \"none\";
+  
+  
+  function myFunction() {
+      var x = document.getElementById(\"importButton\");
+      x.style.display = \"none\";
+      var y = document.getElementById(\"loadingButton\");
+      y.style.display = \"inline\";
+} 
+</script>
+
+
+<script src=\"addps.js\"></script>
+
+
 ")(display "</div>
 </div>
- <script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js\" integrity=\"sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q\" crossorigin=\"anonymous\"></script>
 
-<script src=\"../js/menufunctions.js\"></script>
+
 
 <script>
 $(document).ready(function () {
