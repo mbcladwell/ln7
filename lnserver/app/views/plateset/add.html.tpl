@@ -39,7 +39,7 @@
  </div>
  
  <div class="form-row">
-   <label for="target-layout">Target Layout:</label>    <label for="target-desc"><%= trg-desc %></label> 
+   <label for="target-layout">Target Layout:</label> &nbsp;&nbsp;&nbsp;   <label for="target-desc"><%= trg-desc %></label> 
    <select name="target-layout"  class="custom-select" id="target-layout"  onchange="targetSelection(event)"> <%= target-layouts %>  </select>
  </div>
 
@@ -61,15 +61,25 @@
   
 <script>
     document.getElementById("importButton").style.display = "inline";
-    document.getElementById("loadingButton").style.display = "none";
-  
+    document.getElementById("loadingButton").style.display = "none"; 
   
   function myFunction() {
       var x = document.getElementById("importButton");
       x.style.display = "none";
       var y = document.getElementById("loadingButton");
       y.style.display = "inline";
-} 
+  }
+
+  var temp = <%= format %>;
+  var mySelect = document.getElementById('format');
+
+  for(var i, j = 0; i = mySelect.options[j]; j++) {
+      if(i.value == temp) {
+          mySelect.selectedIndex = j;
+          break;
+      }
+  }
+    
 </script>
 
 

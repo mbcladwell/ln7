@@ -234,7 +234,7 @@
  </div>
  
  <div class=\"form-row\">
-   <label for=\"target-layout\">Target Layout:</label>    <label for=\"target-desc\">")(display  trg-desc )(display "</label> 
+   <label for=\"target-layout\">Target Layout:</label> &nbsp;&nbsp;&nbsp;   <label for=\"target-desc\">")(display  trg-desc )(display "</label> 
    <select name=\"target-layout\"  class=\"custom-select\" id=\"target-layout\"  onchange=\"targetSelection(event)\"> ")(display  target-layouts )(display "  </select>
  </div>
 
@@ -264,7 +264,19 @@
       x.style.display = \"none\";
       var y = document.getElementById(\"loadingButton\");
       y.style.display = \"inline\";
-} 
+  }
+
+
+  var temp = ")(display  format )(display ";
+  var mySelect = document.getElementById('format');
+
+  for(var i, j = 0; i = mySelect.options[j]; j++) {
+      if(i.value == temp) {
+          mySelect.selectedIndex = j;
+          break;
+      }
+  }
+    
 </script>
 
 

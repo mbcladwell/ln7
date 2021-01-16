@@ -44,14 +44,7 @@ switch(document.getElementById("format").value ) {
 }
 
 
-var temp = <%= format %>;
-var mySelect = document.getElementById('format');
 
-for(var i, j = 0; i = mySelect.options[j]; j++) {
-    if(i.value == temp) {
-        mySelect.selectedIndex = j;
-        break;
-    }
 }
 
 
