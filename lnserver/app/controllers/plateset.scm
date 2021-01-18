@@ -488,10 +488,11 @@
 			(view-render "impdata" (the-environment))
 		;;	(view-render "test" (the-environment))
 				     
-		   )))
+			)))
 
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; client
 
 (plateset-define cset
 		 (options #:cookies '(names prjid sid))
@@ -501,16 +502,8 @@
 			  (cookies (rc-cookie rc)))
 		     (view-render "test" (the-environment)))))
 
-
-(plateset-define check
-		 (lambda (rc)
-		   (let* (			  			 
-			  (result (:cookies-check rc "prjid"))			 
-			  (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
 (plateset-define ref
+		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
 		   (let* (			  			 
 			  (result (:cookies-ref rc 'prjid "prjid"))
@@ -518,15 +511,17 @@
 			  )
 		     (view-render "test" (the-environment)))))
 
-
- (plateset-define haskey
+(plateset-define value 
+		 (options #:cookies #t)
 		 (lambda (rc)
-		   (let* (
+		   (let* (			  			 
+			  (result (:cookies-value rc  "prjid"))
 			  (cookies (rc-cookie rc))
-			  (result (cookie-has-key? cookies "prjid"))
-			 )
+			  )
 		     (view-render "test" (the-environment)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; server
 
 (plateset-define remove
 		 (options #:cookies '(names prjid sid))
@@ -537,6 +532,27 @@
 			  (result "empty")
 			  )
 			    (view-render "test" (the-environment)))))
+
+(plateset-define check
+		 (options #:cookies #t)
+		 (lambda (rc)
+		   (let* (			  			 
+			  (result (:cookies-check rc "prjid"))			 
+			  (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+
+ (plateset-define haskey
+		 (options #:cookies #t)
+		 (lambda (rc)
+		   (let* (
+			  (cookies (rc-cookie rc))
+			  (result (cookie-has-key? cookies "prjid"))
+			 )
+		     (view-render "test" (the-environment)))))
+
+
 
 
 

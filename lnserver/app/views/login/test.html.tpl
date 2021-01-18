@@ -6,14 +6,8 @@
 
   <h1>Test</h1><br><br>
 
+ results: <%= results %>
   
-  cookies: <%= cookies %><br>
-  result: <%= result %><br>
-  
-
-	
- 	
- 
 </body></html>
 
 

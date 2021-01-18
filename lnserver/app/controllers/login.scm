@@ -4,13 +4,16 @@
 
 (define-artanis-controller login) ; DO NOT REMOVE THIS LINE!!!
 
+(use-modules (lnserver sys extra))
+
 ;;(use-modules (artanis artanis)(artanis utils)(artanis irregex)
 ;;	     ((rnrs) #:select (define-record-type))	     
-;;	     (srfi srfi-1)(dbi dbi) (lnserver sys extra)
+;;	     (srfi srfi-1)(dbi dbi) 
 ;;	     (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors)
 ;;	     (web uri)(ice-9 pretty-print))
 
 (login-define login
+	      (options #:cookies #t)
   (lambda (rc)
   "<h1>This is login#auth</h1><p>Find me in app/views/login/login.html.tpl</p>"
   ;; TODO: add controller method `auth'
@@ -20,13 +23,6 @@
     (view-render "login" (the-environment))
   )))
 
-
-(define (get-salt)
-(get-random-from-dev #:length 8 #:uppercase #f))
-
-
-(define (my-hmac passwd salt)
-  (substring (string->sha-256 (string-append passwd salt)) 0 16))
 
 
 (define (get-id-for-name name rows)
@@ -76,16 +72,30 @@
 
 
 ;; this works
+
+;; (post "/auth"
+;;  #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+;;  #:session #t
+;;  #:cookies '(names userid)
+;;  (lambda (rc)
+;;    (cond
+;;     ((:session rc 'check) "auth ok (session)")
+;;     ((:auth rc)
+;;      (:session rc 'spawn)
+;;      "auth ok")
+;;     (else (redirect-to rc "/login/login?login_failed=true")))))
+
+
 (post "/auth"
- #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
- #:session #t
- #:cookies '(names userid)
- (lambda (rc)
-   (cond
-    ((:session rc 'check) "auth ok (session)")
-    ((:auth rc)
-     (:session rc 'spawn)
-     "auth ok")
-    (else (redirect-to rc "/login/login?login_failed=true")))))
+      #:cookies #t
+      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+      #:session #t
+      (lambda (rc)
+	(let* (
+	       ;; (check (:session rc 'check)))
+	       (results (:auth rc)))
+	  ;; (spawn (:session rc 'spawn)))	  
+	  (view-render "test" (the-environment))
+     )))
 
 

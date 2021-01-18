@@ -1,6 +1,8 @@
 (define-module (lnserver sys extra)
   #:export (get-rand-file-name
 	    sid
+	    get-salt
+	    my-hmac
 	    nopwd-conn
 	    ln-version
 	    process-pg-row-element
@@ -186,3 +188,9 @@
   (string-append "\"" x "\""))
 
 
+(define (get-salt)
+(get-random-from-dev #:length 8 #:uppercase #f))
+
+
+(define (my-hmac passwd salt)
+  (substring (string->sha-256 (string-append passwd salt)) 0 16))

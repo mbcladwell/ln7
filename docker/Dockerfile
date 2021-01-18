@@ -21,3 +21,13 @@ ENTRYPOINT ["/bin/nano" "ENTRY"]
 
 
 # docker run --rm -p 6543:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data limsnrun
+
+
+
+# mbc@HP8300:~$ su
+# Password: 
+# root@HP8300:/home/mbc# mkdir /sys/fs/cgroup/systemd
+# root@HP8300:/home/mbc# mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+# root@HP8300:/home/mbc# exit
+# mbc@HP8300:~$ docker run --rm -p 6543:5432 -v $HOME/docker/volumes/limssrv:/var/lib/postgresql/data limsn-srv
+

@@ -256,8 +256,7 @@
   
 <script>
     document.getElementById(\"importButton\").style.display = \"inline\";
-    document.getElementById(\"loadingButton\").style.display = \"none\";
-  
+    document.getElementById(\"loadingButton\").style.display = \"none\"; 
   
   function myFunction() {
       var x = document.getElementById(\"importButton\");
@@ -265,7 +264,6 @@
       var y = document.getElementById(\"loadingButton\");
       y.style.display = \"inline\";
   }
-
 
   var temp = ")(display  format )(display ";
   var mySelect = document.getElementById('format');

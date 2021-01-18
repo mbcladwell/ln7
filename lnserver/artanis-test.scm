@@ -44,20 +44,4 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 ln-version
 
 
-
-(define a '((2 96 0.004 ) (2 95 0.2 ) (2 94 0.611 ) (2 93 0.633 ) (2 92 0.0304191944349324 ) (2 91 0.413638579585479 ) (2 90 0.276386615511721 ) (2 89 0.436560343612436 ) (2 88 0.221652143668975 ) (2 87 0.368845292531106 ) (2 86 0.39595564907588 ) (2 85 0.296420968580512 ) (2 84 0.402837993183001 ) (2 83 0.288142553388534 ) (2 82 0.402243824871786 ) (2 81 0.344443627282312 ) (2 80 0.662580748794217 ) (2 79 0.309382861013891 ) (2 78 0.267412366636968 ) (2 77 0.121968052736661 ) (2 76 0.42941348449024 ) (2 75 0.300148693313444 ) (2 74 0.179006743775054 )))
-
-
-(define (process-ar-row lst results)
-  (if (null? (cdr lst))
-        (begin
-	 (set! results  (string-append results "(" (object->string (caar lst)) ", " (object->string (cadar a)) ", "  (object->string (caddar a))   ")" ))
-       results)
-       (begin
-	 (set! results (string-append results "(" (object->string (caar lst)) ", " (object->string (cadar a)) ", "  (object->string (caddar a))   ")," ))
-	 (process-ar-row (cdr lst) results)) ))
-
-(process-ar-row a "")
-
-
-(object->string a)
+(get-salt)

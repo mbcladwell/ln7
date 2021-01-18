@@ -1,4 +1,4 @@
-<!-- project#add view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
   
@@ -6,16 +6,11 @@
 
   <h1>Test</h1><br><br>
 
+ results: ")(display  results )(display "
   
-  cookies: <%= cookies %><br>
-  result: <%= result %><br>
-  
-
-	
- 	
- 
 </body></html>
 
 
 
 
+")
