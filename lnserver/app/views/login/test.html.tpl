@@ -6,8 +6,10 @@
 
   <h1>Test</h1><br><br>
 
- results: <%= results %>
-  
+ sid: <%= sid %> <br><br>
+
+ results: <%= name %> <br><br>
+ 
 </body></html>
 
 

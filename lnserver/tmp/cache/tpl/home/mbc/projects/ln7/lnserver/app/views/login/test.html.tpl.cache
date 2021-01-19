@@ -6,8 +6,10 @@
 
   <h1>Test</h1><br><br>
 
- results: ")(display  results )(display "
-  
+ sid: ")(display  sid )(display " <br><br>
+
+ results: ")(display  name )(display " <br><br>
+ 
 </body></html>
 
 

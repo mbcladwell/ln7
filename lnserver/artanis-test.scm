@@ -11,10 +11,9 @@
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
 	     (artanis artanis)
 	     (ice-9 string-fun) ;; string-replace-substring
-	     (rnrs bytevectors))
+	     (rnrs bytevectors)
+	     (lnserver sys extra))
 	    
-
-(load "../../sys/extra.scm")
 
 (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:tcp:192.168.1.11:5432"))
 
@@ -44,4 +43,16 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 ln-version
 
 
-(get-salt)
+(define (get-salt)
+(get-random-from-dev #:length 8 #:uppercase #f))
+
+(define a  (get-salt))
+
+(my-hmac "demo" a)
+
+(supports-source-properties? my-hmac)
+
+
+('demo','97f8647f1067346d','55ecb01c50cb1ae1', '','user')
+
+(pretty-print (my-hmac "demo" a))

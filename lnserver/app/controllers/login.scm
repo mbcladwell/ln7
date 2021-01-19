@@ -41,37 +41,40 @@
 	   (get-group-for-name name (cdr rows)))))
 
 
-;; (post "/auth"
-;;  #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-;;  #:session #t
-;;  #:conn #t
-;;  #:cookies '(names userid user group requested-url sid ret)    
-;;  #:from-post 'qstr
-;;  (lambda (rc)
-;;    (cond
-;;     ((:session rc 'check)
-;;      (let* ((dest (:from-post rc 'get "destination"))
-;; 	    (requested-url  (if dest dest "/project/getall")))
-;;        (redirect-to rc requested-url)))
-;;     ((:auth rc)
-;;      (let* (
-;; 	    (sidvar (:session rc 'spawn))
-;; 	;;   (dummy (:cookies-set! rc 'sid "sid" sidvar))
-;; 	   (name (:from-post rc 'get "lnuser"))
-;; 	   (dummy (:cookies-set! rc 'user "user" name))
-;; 	   (sql "select id, lnuser, usergroup from person")
-;; 	   (ret  (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
-;; 	   (id (get-id-for-name name ret))
-;; 	   (group (get-group-for-name name ret))
-;; 	   (dummy (:cookies-set! rc 'userid "userid" id))
-;; 	   (dummy (:cookies-set! rc 'group "group" group))
-;; 	   (dest (:from-post rc 'get "destination"))
-;; 	   (requested-url  (if dest dest  "/project/getall")) )
-;;        (redirect-to rc requested-url)))
-;;     (else (redirect-to rc "/login/login?login_failed=Login_Failed!")))))
+(post "/auth"
+ #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+ #:session #t
+ #:conn #t
+ #:cookies #t ;; '(names userid lnuser group requested-url sid ret)    
+  #:from-post 'qstr
+ (lambda (rc)
+   (cond
+    ((:session rc 'check)
+     (let* ((dest (:from-post rc 'get "destination"))
+	    (requested-url  (if dest dest "/project/getall")))
+       (redirect-to rc requested-url)))
+    ((:auth rc)
+     (let* (	    
+	    (sid (:cookies-value rc "sid")) ;;this won't work - not in client yet
+	    (name (:from-post rc 'get "lnuser"))
+	    
+	    (dummy (:cookies-set! rc 'lnuser "lnuser" name))
+	    )
+	  ;;  (sql "select id, lnuser, usergroup from person")
+	  ;;  (ret  (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
+	  ;;  (id (get-id-for-name name ret))
+	  ;;  (group (get-group-for-name name ret))
+	  ;;  (dummy (:cookies-set! rc 'userid "userid" id))
+	  ;;  (dummy (:cookies-set! rc 'group "group" group))
+	  ;; (dest (:from-post rc 'get "destination"))
+	  ;; (requested-url  (if dest dest  "/project/getall")) )
+       ;;(redirect-to rc requested-url)
+       (view-render "test" (the-environment))
+       ))
+    (else (redirect-to rc "/login/login?login_failed=Login_Failed!")))))
 
 
-;; this works
+;; this works, note that session-spawn is not needed or you get 2 sessions
 
 ;; (post "/auth"
 ;;  #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
@@ -81,21 +84,45 @@
 ;;    (cond
 ;;     ((:session rc 'check) "auth ok (session)")
 ;;     ((:auth rc)
-;;      (:session rc 'spawn)
+;;      ;;(:session rc 'spawn)
 ;;      "auth ok")
 ;;     (else (redirect-to rc "/login/login?login_failed=true")))))
 
 
-(post "/auth"
-      #:cookies #t
-      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-      #:session #t
+;; (post "/auth"
+      
+;;       #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+;;       #:session #t
+;;       (lambda (rc)
+;; 	(let* (
+	      
+;; 	       (results (:auth rc)))
+	 	  
+;; 	  (view-render "test" (the-environment))
+;;      )))
+
+
+(login-define check
+   (options    #:session #t)
+ ;;     #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+      
       (lambda (rc)
 	(let* (
-	       ;; (check (:session rc 'check)))
-	       (results (:auth rc)))
-	  ;; (spawn (:session rc 'spawn)))	  
+	       (check (:session rc 'check)))
+	       ;;(results (:auth rc)))
+	 	  
 	  (view-render "test" (the-environment))
      )))
 
+(login-define wauth
+   (options  #:session #t  #:with-auth "/login/login")
+ ;;     #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+      
+      (lambda (rc)
+	(let* (
+	       (check (:session rc 'check)))
+	       ;;(results (:auth rc)))
+	 	  
+	  (view-render "test" (the-environment))
+     )))
 
