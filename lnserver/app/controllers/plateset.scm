@@ -220,22 +220,22 @@
 			   (cookies (rc-cookie rc))
 			   (acook (:cookies-ref rc 'prjid "prjid"))
 			   (prjid "1")
-			   (sid "1")
+			   (sid "9999999999")
 			    ;; see dbi.groupPlateSetsIntoNewPlateSet
 			   ;;CREATE OR REPLACE FUNCTION new_plate_set_from_group(_descr VARCHAR(30),_plate_set_name VARCHAR(30), _num_plates INTEGER, _plate_format_id INTEGER, _plate_type_id INTEGER, _project_id INTEGER, _plate_layout_name_id INTEGER, _sessions_id VARCHAR(32))
 			   ;; returns plate-set-id
-			   (sql (string-append "SELECT new_plate_set_from_group('" descr "', '" psname ", " tot-plates ", " format ", " type ", " prjid ", " lyt-id ", '" sid "')"))
+			   (sql (string-append "SELECT new_plate_set_from_group('" descr "', '" psname "', " tot-plates ", " format ", " type ", " prjid ", " lyt-id ", '" sid "')"))
 
-			   
-			  ;; (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" id ))
-			  ;; (holder (DB-get-all-rows (:conn rc sql)))
-			  ;; (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
-			  ;; (assay-runs (get-assay-runs-for-prjid id rc))
-			  ;; (hit-lists (get-hit-lists-for-prjid id rc))
+			   (psid (DB-get-all-rows (:conn rc sql)))
+			   (sql2 (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
+			  (holder (DB-get-all-rows (:conn rc sql2)))
+			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
+			  (assay-runs (get-assay-runs-for-prjid prjid rc))
+			  (hit-lists (get-hit-lists-for-prjid prjid rc))
 			  
 			   )
-		      ;;(view-render "getps" (the-environment))
-		      (view-render "test" (the-environment))
+		      (view-render "getps" (the-environment))
+		     ;; (view-render "test" (the-environment))
 		      
 		      )))
 
@@ -512,7 +512,7 @@
 		     (view-render "test" (the-environment)))))
 
 (plateset-define value 
-		 (options #:cookies #t)
+		;; (options #:cookies #t)
 		 (lambda (rc)
 		   (let* (			  			 
 			  (result (:cookies-value rc  "prjid"))
@@ -534,7 +534,7 @@
 			    (view-render "test" (the-environment)))))
 
 (plateset-define check
-		 (options #:cookies #t)
+		;; (options #:cookies #t)
 		 (lambda (rc)
 		   (let* (			  			 
 			  (result (:cookies-check rc "prjid"))			 
@@ -544,7 +544,7 @@
 
 
  (plateset-define haskey
-		 (options #:cookies #t)
+		;; (options #:cookies #t)
 		 (lambda (rc)
 		   (let* (
 			  (cookies (rc-cookie rc))
@@ -592,3 +592,30 @@
 ;; 			  )
 ;; 			    (view-render "test" (the-environment)))))
 
+(post "/plateset/reformat"
+		  #:conn #t #:from-post 'qstr
+		  (lambda (rc)
+		    (let* ((help-topic "reformat")
+			   (today (date->string  (current-date) "~Y-~m-~d"))
+			   (qstr  (:from-post rc 'get))
+			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
+			   (b ( uri-decode  (car a)))
+			   (start (string-split b  #\+)) ;;(1 2 96 1) 
+			    (psid  (car start) )
+			   ;; ;;(ps-num-text  (string-join (map string-append d (map cadr start) (circular-list ");"))))
+			    (nplates  ( string->number  (cadr start)))
+			    (format  (caddr start))
+			    (new-format (number->string (* (string->number format) 4)))
+			    (lyt-id  (cadddr start))
+			    (sql2 (string-append "SELECT name, descr from plate_layout_name where id =" lyt-id))
+			    (holder2    (car  (DB-get-all-rows (:conn rc sql2))))
+			    (lyt-txt (string-append  (cdar  holder2)  "; "  (cdadr  holder2)) )			     			   
+			    (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
+			    (holder3  (DB-get-all-rows (:conn rc sql3)))
+			    (plate-types-pre '())
+			    (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
+			   )
+		     
+			  (view-render "reformatps" (the-environment))
+			 
+		      )))

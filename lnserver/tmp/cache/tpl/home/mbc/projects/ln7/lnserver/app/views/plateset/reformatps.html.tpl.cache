@@ -1,7 +1,7 @@
-(display "<!-- hitlist#getid view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-
+  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -21,16 +21,16 @@
 
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.slim.min.js\"></script>
 <script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\"></script>
-<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/dataTables.bootstrap4.min.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/bootstrap-4.5.3.bundle.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/dataTables.bootstrap4.min.js\"></script>
 
-<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
-<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
-<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
 <script type=\"text/javascript\" src=\"../JSZip-2.5.0/jszip.min.js\"></script>
 <script type=\"text/javascript\" src=\"../pdfmake-0.1.36/pdfmake.min.js\"></script>
 <script type=\"text/javascript\" src=\"../pdfmake-0.1.36/vfs_fonts.js\"></script>
-      	
+ <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
+     	
    
    
     <title>LIMS*Nucleus </title>
@@ -198,70 +198,111 @@
 <div id=\"content\">
 
 ")(display "
-  <div class=\"container\"> 
-    <h3>Add Target Layout</h3><br>
+<div class=\"container\">
+  <h2>Reformat Plate Set</h2>
+  <form action=\"/plateset/reformataction\" method=\"post\">
+    <div class=\"form-row\">
+      <div class=\"form-group col-md-6\">
+	<label>Date:</label> &nbsp <b>")(display  today )(display "</b>
+      </div>
+      <div class=\"form-group col-md-6\">
+	<label>Owner:</label> &nbsp <b></b>
+      </div>
+    </div>
+    <hr>
+<div class=\"form-row\">
+      <div class=\"form-group col-md-12  text-center\">
+	<label><b>Source Plate Set PS-")(display  psid )(display "</b></label> 
+      </div>
+    </div>
 
-    <form action=\"/addtrglytaction\" method=\"get\">
-      <div class=\"container\">
-	<div class=\"row\">
-	  <div class=\"col\">
-	    <div class=\"form-group\">
-	      <label for=\"tname\">Target Layout Name:</label>
-	      <input type=\"text\" id=\"tname\" class=\"form-control\" name=\"tlytname\">
-	    </div>
-	  </div>
-	  <div class=\"col\">
-	    <div class=\"form-group\">
-	      <label for=\"prj\">Project:</label>
-	      <select name=\"projects\" class=\"form-control\" id=\"projects\">")(display  all-projects )(display " </select>
-	    </div>
-	  </div>
-	</div>
+ <div class=\"form-row\">
+
+      <div class=\"form-group col-md-6\">
+	<label for=\"tot-pl\">Total number of plates:</label>&nbsp&nbsp<b>")(display  nplates )(display "</b>
+	<input type=\"hidden\" id=\"plates\" name=\"nplates\" value=")(display  nplates )(display ">
+      </div>
+   <div class=\"form-group col-md-6\">     
+	<label for=\"format\">Plate Format:</label>&nbsp&nbsp<b>")(display  format )(display "</b>
+	<input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
+   </div>
+ </div>
+
+ <div class=\"form-row\">
+   <div class=\"form-group col-md-12\">
+     <label for=\"sample\">Sample Layout:</label>&nbsp&nbsp<b> ")(display  lyt-txt )(display "</b>
+   </div>
+ </div>
+
+    <hr>
+<div class=\"form-row\">
+      <div class=\"form-group col-md-12 text-center\">
+	<label><b>Destination (Reformatted) Plate Set</b> </label> 
+      </div>
+    </div>
+
     
-  <div class=\"row\">
-    <div class=\"col\">    
-      <div class=\"form-group\">
-	<label for=\"desc\">Description:</label><input type=\"text\" id=\"desc\" class=\"form-control\" name=\"desc\"> 
+    <div class=\"form-row\">
+      <div class=\"form-group col-md-6\">
+	<label for=\"name\">New Plate Set Name:</label>  <input type=\"text\" id=\"psname\" name=\"psname\"  class=\"form-control\"  value=\"\" required>
+      </div>
+      <div class=\"form-group col-md-6\">
+	<label for=\"descr\">New Plate Set Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\"  class=\"form-control\"  value=\"\" required>
       </div>
     </div>
-    <div class=\"col\">        
-      <div class=\"form-group\">
-	<label for=\"reps\">Replication:</label><select name=\"reps\" id=\"reps\"  class=\"form-control\" onchange=\"repSelection(event)\">
-	  <option value=\"1\">1</option>  
+
+ 
+ <div class=\"form-row\">
+ <div class=\"form-group col-md-6\">
+   <label for=\"type\">New Plate Set Type:</label>
+   <select name=\"type\" id=\"type\" onchange=\"typeSelection(event)\"  class=\"custom-select\" > ")(display  plate-types )(display " </select> 
+ </div>
+<div class=\"form-group col-md-6\">
+  <label for=\"format\">New Format:&nbsp&nbsp")(display  new-format )(display "&nbsp&nbsp well</label>
+ </div>
+</div>
+
+
+ <div class=\"form-row\">
+ <div class=\"form-group col-md-6\">
+   <label for=\"type\">Sample Replication:</label>
+   <select name=\"samprep\" id=\"samprep\" onchange=\"sampRepSelection(event)\"  class=\"custom-select\" >
+      <option value=\"1\">1</option>  
 	  <option value=\"2\">2</option>
-	  <option value=\"4\">4</option>
-	</select>
-      </div>
-    </div> 
-  </div>
- <hr>
-	<label for=\"\">Indicate quadrant contents:</label>
+	  <option value=\"4\">4</option> </select> 
+ </div>
+ <div class=\"form-group col-md-6\">
+   <label for=\"type\">Target Replication:</label>
+   <select name=\"targrep\" id=\"targrep\" onchange=\"targRepSelection(event)\"  class=\"custom-select\" > <option value=\"\"></option></select> 
+ </div>
+</div>
 
-  <div class=\"row\">
-    <div class=\"col\">
-      <div class=\"form-group\"><label for=\"t1\" id=\"q1\">Quadrant 1:</label><select name=\"t1\" class=\"form-control\" id=\"t1\"> ")(display  all-targets )(display "</select></div>
-    </div>
-    <div class=\"col\">
-      <div class=\"form-group\"><label for=\"t2\" id=\"q2\">Quadrant 2:</label><select name=\"t2\" class=\"form-control\" id=\"t2\"> ")(display  all-targets )(display "</select></div>
-    </div>
-  </div>
 
-  <div class=\"row\">
-    <div class=\"col\">    
-      <div class=\"form-group\"><label for=\"t3\" id=\"q3\">Quadrant 3:</label><select name=\"t3\" class=\"form-control\" id=\"t3\"> ")(display  all-targets )(display "</select></div>
-    </div>  
-    <div class=\"col\">        
-      <div class=\"form-group\"><label for=\"t4\" id=\"q4\">Quadrant 4:</label><select name=\"t4\" class=\"form-control\" id=\"t4\"> ")(display  all-targets )(display "</select></div>
-    </div>
-  </div>
-  <div>
-    <button class=\"btn btn-primary\">Submit</button>
-  </div>
-      </div>
-    </form>
+ <div class=\"form-row\">
+   <div class=\"form-group col-md-12\">
+      <label for=\"type\">New Plate Set Sample Layout:&nbsp&nbsp</label>
+ </div>
+ </div>
 
-<script src=\"addtrglyt.js\"></script>
+ <div class=\"form-row\">
+ <div class=\"form-group col-md-6\">
+      <label for=\"type\">New Plate Set Target Layout:&nbsp&nbsp</label>
+ </div>
+ <div class=\"form-group col-md-6\">
+   <select name=\"targlyt\" id=\"targlyt\"  class=\"custom-select\" > <option value=\"\"></option></select> 
 
+ </div>
+ 
+ </div>
+
+ 
+<input type=\"hidden\" id=\"lytid\" name=\"lytid\" value=")(display  lyt-id )(display ">
+
+<input type=\"submit\" class=\"btn btn-primary\" value=\"Confirm and submit\">
+</form> 
+</div>
+
+<script src=\"reformatps.js\"></script>
 
 ")(display "</div>
 </div>
@@ -282,4 +323,6 @@ $(document).ready(function () {
 
 </html>
 ")(display "
+
+ 
 ")

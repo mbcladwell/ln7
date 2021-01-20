@@ -43,7 +43,7 @@
 ;;       (view-render "getall" (the-environment))
 ;;   )))
 
-(get "/project/getall" #:conn #t #:cookies #t
+(get "/project/getall" #:conn #t ;; #:cookies #t
      (lambda (rc ) 
        (let* ( 
 	      (help-topic "project")

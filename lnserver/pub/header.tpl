@@ -17,16 +17,16 @@
 
     <script type="text/javascript" charset="utf8" src="../js/jquery-3.5.1.slim.min.js"></script>
 <script type="text/javascript" src="../DataTables-1.10.23/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="../DataTables-1.10.23/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" charset="utf8" src="../js/bootstrap-4.5.3.bundle.min.js"></script>
+<script type="text/javascript" src="../DataTables-1.10.23/js/dataTables.bootstrap4.min.js"></script>
 
-<script type="text/javascript" src="../Buttons-1.6.5/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="../Buttons-1.6.5/js/buttons.bootstrap4.min.js"></script>
-<script type="text/javascript" src="../Buttons-1.6.5/js/buttons.html5.min.js"></script>
 <script type="text/javascript" src="../JSZip-2.5.0/jszip.min.js"></script>
 <script type="text/javascript" src="../pdfmake-0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="../pdfmake-0.1.36/vfs_fonts.js"></script>
-      	
+ <script type="text/javascript" src="../Buttons-1.6.5/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="../Buttons-1.6.5/js/buttons.bootstrap4.min.js"></script>
+<script type="text/javascript" src="../Buttons-1.6.5/js/buttons.html5.min.js"></script>
+     	
    
    
     <title>LIMS*Nucleus </title>

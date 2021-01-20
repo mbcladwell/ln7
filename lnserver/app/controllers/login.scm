@@ -13,7 +13,7 @@
 ;;	     (web uri)(ice-9 pretty-print))
 
 (login-define login
-	      (options #:cookies #t)
+	     ;; (options #:cookies #t)
   (lambda (rc)
   "<h1>This is login#auth</h1><p>Find me in app/views/login/login.html.tpl</p>"
   ;; TODO: add controller method `auth'
@@ -45,7 +45,7 @@
  #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
  #:session #t
  #:conn #t
- #:cookies #t ;; '(names userid lnuser group requested-url sid ret)    
+;; #:cookies #t ;; '(names userid lnuser group requested-url sid ret)    
   #:from-post 'qstr
  (lambda (rc)
    (cond

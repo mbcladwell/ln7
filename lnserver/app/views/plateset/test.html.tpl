@@ -7,9 +7,15 @@
   <h1>Test</h1><br><br>
 
   
-  cookies: <%= cookies %><br>
-  result: <%= result %><br>
   
+  result: <%= a %><br>
+  result: <%= b %><br>
+  result: <%= start %><br>
+  result: <%= psid %><br>
+  result: <%= nplates %><br>
+  result: <%= holder3 %><br>
+   result: <%= plate-types %><br>
+ 
 
 	
  	
