@@ -8,14 +8,9 @@
 
   
   
-  result: <%= a %><br>
-  result: <%= b %><br>
-  result: <%= start %><br>
-  result: <%= psid %><br>
-  result: <%= nplates %><br>
-  result: <%= holder3 %><br>
-   result: <%= plate-types %><br>
- 
+   result: <%= sql %><br>
+  result: <%= holder %><br>
+   destlytid: <%= destlytid %>
 
 	
  	

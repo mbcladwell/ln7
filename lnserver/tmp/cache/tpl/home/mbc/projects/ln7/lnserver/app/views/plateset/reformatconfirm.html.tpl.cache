@@ -1,7 +1,7 @@
-(display "<!-- hitlist#getid view template of lnserver
+(display "<!-- project#add view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
-
+  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -198,17 +198,94 @@
 <div id=\"content\">
 
 ")(display "
-  
-  <h1>Target Layouts</h1>
-<table id=\"trglyttable\" class=\"display table table-striped table-bordered\"><thead><tr><th>ID</th><th>Layout</th><th>Name</th><th>Description</th><th>Replication</th></tr></thead>
- <tbody> ")(display  body )(display "</tbody>
-</table>
-  <script>          
-$(document).ready(function() {
-    $('#trglyttable').DataTable()});
+<div class=\"container\">
+  <h2>Reformat Plate Set PS-")(display  srcpsid )(display "</h2>
+  <form action=\"/plateset/reformataction\" method=\"post\">
+    <div class=\"form-row\">
+      <div class=\"form-group col-md-6\">
+	<label>Date:</label> &nbsp <b>")(display  today )(display "</b>
+      </div>
+      <div class=\"form-group col-md-6\">
+	<label>Owner:</label> &nbsp <b></b>
+      </div>
+    </div>
 
-</script>
+<div class=\"form-row\">
+      <div class=\"form-group col-md-12 text-center\">
+	<label><b>Reformatted Plate Set</b> </label> 
+      </div>
+    </div>
 
+    
+    <div class=\"form-row\">
+      <div class=\"form-group col-md-6\">
+	<label for=\"destname\">Name:</label>&nbsp;&nbsp;<b>")(display  destname )(display "</b>  
+      </div>
+    </div>
+    <div class=\"form-row\">
+      <div class=\"form-group col-md-6\">
+	<label for=\"destdescr\">Description:</label>&nbsp;&nbsp;<b>")(display  destdescr )(display "</b>  
+      </div>
+    </div>
+
+ 
+    <div class=\"form-row\">
+      <div class=\"form-group col-md-6\">
+	<label for=\"desttype\">New Plate Set Type:</label>&nbsp;&nbsp;<b>")(display  desttype )(display " </b> 
+      </div>
+      <div class=\"form-group col-md-6\">
+	<label for=\"destformat\">Format:&nbsp&nbsp<b>")(display  destformat )(display "</b>&nbsp&nbsp well</label>
+      </div>
+    </div>
+
+
+ <div class=\"form-row\">
+ <div class=\"form-group col-md-6\">
+   <label for=\"destsamprep\">Sample Replication:</label>&nbsp&nbsp<b>")(display  destsamprep )(display "</b>
+  </div>
+ <div class=\"form-group col-md-6\">
+   <label for=\"desttargrep\">Target Replication:</label>&nbsp&nbsp<b>")(display  desttargrep )(display "</b>
+ </div>
+</div>
+
+ <div class=\"form-row\">
+ <div class=\"form-group col-md-6\">
+   <label for=\"newnplates\">Number of plates:</label>&nbsp&nbsp<b>")(display  destnplates )(display "</b>
+  </div>
+</div>
+
+ 
+ <div class=\"form-row\">
+ <div class=\"form-group col-md-12\">
+   <label for=\"destlyttxt\">Sample Layout:</label>&nbsp&nbsp<b>")(display  destlyttxt )(display "</b>
+  </div>
+</div>
+
+
+  <div class=\"form-row\">
+ <div class=\"form-group col-md-12\">
+   <label for=\"desttrglyt\">Optional target Layout:</label>&nbsp&nbsp<select name=\"desttrglyt\" id=\"desttrglyt\"  class=\"custom-select\" >")(display  desttargetlyts )(display "</select>
+  </div>
+</div>
+
+ 
+<input type=\"hidden\" id=\"srcpsid\" name=\"srcpsid\" value=")(display  srcpsidq )(display ">
+<input type=\"hidden\" id=\"destname\" name=\"destname\" value=")(display  destnameq )(display ">
+<input type=\"hidden\" id=\"destdescr\" name=\"destdescr\" value=")(display  destdescrq )(display ">
+<input type=\"hidden\" id=\"desttype\" name=\"desttype\" value=")(display  desttypeq )(display ">
+<input type=\"hidden\" id=\"destformat\" name=\"destformat\" value=")(display  destformatq )(display ">
+<input type=\"hidden\" id=\"destsamprep\" name=\"destsamprep\" value=")(display  destsamprepq )(display ">
+<input type=\"hidden\" id=\"desttargrep\" name=\"desttargrep\" value=")(display  desttargrepq )(display ">
+<input type=\"hidden\" id=\"srclytid\" name=\"srclytid\" value=")(display  srclytidq )(display ">
+<input type=\"hidden\" id=\"srcnplates\" name=\"srcnplates\" value=")(display  srcnplatesq )(display ">
+<input type=\"hidden\" id=\"destlytid\" name=\"destlytid\" value=")(display  destlytidq )(display ">
+
+
+<input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">
+</form> 
+</div>
+
+<script src=\"\"></script>
 
 ")(display "</div>
 </div>
@@ -229,4 +306,6 @@ $(document).ready(function () {
 
 </html>
 ")(display "
+
+ 
 ")

@@ -56,3 +56,19 @@ ln-version
 ('demo','97f8647f1067346d','55ecb01c50cb1ae1', '','user')
 
 (pretty-print (my-hmac "demo" a))
+
+
+ public ComboItem[] getLayoutDestinationsForSourceID(int _source_id, int  _source_reps, int _target_reps) {
+    ComboItem[] output = null;
+    Array results = null;
+    int source_id = _source_id;
+    int source_reps = _source_reps;
+    int target_reps = _target_reps;
+    String replication = String.valueOf(source_reps) + "S" + String.valueOf(target_reps) + "T";
+    //LOGGER.info(replication);
+    ArrayList<ComboItem> combo_items = new ArrayList<ComboItem>();
+    try {
+      PreparedStatement pstmt =
+          conn.prepareStatement(
+        "select id, sys_name, name, descr FROM plate_layout_name, layout_source_dest WHERE layout_source_dest.src = ? AND layout_source_dest.dest = plate_layout_name.id AND plate_layout_name.descr=?;");
+      				

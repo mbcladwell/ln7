@@ -10,11 +10,11 @@
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
+  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/> 
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/> 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/bootstrap-4.5.3.min.css\" /> 
 
-  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/> 
- <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/> 
 
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
     <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
@@ -199,8 +199,8 @@
 
 ")(display "
 <div class=\"container\">
-  <h2>Reformat Plate Set</h2>
-  <form action=\"/plateset/reformataction\" method=\"post\">
+  <h2>Reformat Plate Set PS-")(display  srcpsid )(display "</h2>
+  <form action=\"/plateset/reformatconfirm\" method=\"post\">
     <div class=\"form-row\">
       <div class=\"form-group col-md-6\">
 	<label>Date:</label> &nbsp <b>")(display  today )(display "</b>
@@ -212,25 +212,25 @@
     <hr>
 <div class=\"form-row\">
       <div class=\"form-group col-md-12  text-center\">
-	<label><b>Source Plate Set PS-")(display  psid )(display "</b></label> 
+	<label><b>Source Plate Set PS-")(display  srcpsid )(display "</b></label> 
       </div>
     </div>
 
  <div class=\"form-row\">
 
       <div class=\"form-group col-md-6\">
-	<label for=\"tot-pl\">Total number of plates:</label>&nbsp&nbsp<b>")(display  nplates )(display "</b>
-	<input type=\"hidden\" id=\"plates\" name=\"nplates\" value=")(display  nplates )(display ">
+	<label for=\"tot-pl\">Total number of plates:</label>&nbsp&nbsp<b>")(display  srcnplates )(display "</b>
+	<input type=\"hidden\" id=\"srcnplates\" name=\"srcnplates\" value=")(display  srcnplates )(display ">
       </div>
    <div class=\"form-group col-md-6\">     
-	<label for=\"format\">Plate Format:</label>&nbsp&nbsp<b>")(display  format )(display "</b>
-	<input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
+	<label for=\"format\">Plate Format:</label>&nbsp&nbsp<b>")(display  srcformat )(display "</b>
+	<input type=\"hidden\" id=\"srcformat\" name=\"srcformat\" value=")(display  srcformat )(display ">
    </div>
  </div>
 
  <div class=\"form-row\">
    <div class=\"form-group col-md-12\">
-     <label for=\"sample\">Sample Layout:</label>&nbsp&nbsp<b> ")(display  lyt-txt )(display "</b>
+     <label for=\"sample\">Sample Layout:</label>&nbsp&nbsp<b> ")(display  srcspllyttxt )(display "</b>
    </div>
  </div>
 
@@ -244,21 +244,21 @@
     
     <div class=\"form-row\">
       <div class=\"form-group col-md-6\">
-	<label for=\"name\">New Plate Set Name:</label>  <input type=\"text\" id=\"psname\" name=\"psname\"  class=\"form-control\"  value=\"\" required>
+	<label for=\"destname\">New Plate Set Name:</label>  <input type=\"text\" id=\"destname\" name=\"destname\"  class=\"form-control\"  required>
       </div>
       <div class=\"form-group col-md-6\">
-	<label for=\"descr\">New Plate Set Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\"  class=\"form-control\"  value=\"\" required>
+	<label for=\"destdescr\">New Plate Set Description:</label>  <input type=\"text\" id=\"destdescr\" name=\"destdescr\"  class=\"form-control\"   required>
       </div>
     </div>
 
  
  <div class=\"form-row\">
  <div class=\"form-group col-md-6\">
-   <label for=\"type\">New Plate Set Type:</label>
-   <select name=\"type\" id=\"type\" onchange=\"typeSelection(event)\"  class=\"custom-select\" > ")(display  plate-types )(display " </select> 
+   <label for=\"desttype\">New Plate Set Type:</label>
+   <select name=\"desttype\" id=\"desttype\" onchange=\"typeSelection(event)\"  class=\"custom-select\" > ")(display  plate-types )(display " </select> 
  </div>
 <div class=\"form-group col-md-6\">
-  <label for=\"format\">New Format:&nbsp&nbsp")(display  new-format )(display "&nbsp&nbsp well</label>
+  <label for=\"destformat\">New Format:&nbsp&nbsp")(display  destformat )(display "&nbsp&nbsp well</label>
  </div>
 </div>
 
@@ -266,39 +266,24 @@
  <div class=\"form-row\">
  <div class=\"form-group col-md-6\">
    <label for=\"type\">Sample Replication:</label>
-   <select name=\"samprep\" id=\"samprep\" onchange=\"sampRepSelection(event)\"  class=\"custom-select\" >
+   <select name=\"destsamprep\" id=\"destsamprep\" onchange=\"sampRepSelection(event)\"  class=\"custom-select\" >
       <option value=\"1\">1</option>  
 	  <option value=\"2\">2</option>
 	  <option value=\"4\">4</option> </select> 
  </div>
  <div class=\"form-group col-md-6\">
    <label for=\"type\">Target Replication:</label>
-   <select name=\"targrep\" id=\"targrep\" onchange=\"targRepSelection(event)\"  class=\"custom-select\" > <option value=\"\"></option></select> 
+   <select name=\"desttargrep\" id=\"desttargrep\" onchange=\"\"  class=\"custom-select\" > <option value=\"0\">--Select--</option> </select> 
  </div>
 </div>
 
-
- <div class=\"form-row\">
-   <div class=\"form-group col-md-12\">
-      <label for=\"type\">New Plate Set Sample Layout:&nbsp&nbsp</label>
- </div>
- </div>
-
- <div class=\"form-row\">
- <div class=\"form-group col-md-6\">
-      <label for=\"type\">New Plate Set Target Layout:&nbsp&nbsp</label>
- </div>
- <div class=\"form-group col-md-6\">
-   <select name=\"targlyt\" id=\"targlyt\"  class=\"custom-select\" > <option value=\"\"></option></select> 
-
- </div>
  
- </div>
-
+ <input type=\"hidden\" id=\"srclytid\" name=\"srclytid\" value=")(display  srclytid )(display ">
+ <input type=\"hidden\" id=\"destformat\" name=\"destformat\" value=")(display  destformat )(display ">
+ <input type=\"hidden\" id=\"srcpsid\" name=\"srcpsid\" value=")(display  srcpsid )(display ">
  
-<input type=\"hidden\" id=\"lytid\" name=\"lytid\" value=")(display  lyt-id )(display ">
 
-<input type=\"submit\" class=\"btn btn-primary\" value=\"Confirm and submit\">
+<input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">
 </form> 
 </div>
 

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="atom/1" />
 
+  <link rel="stylesheet" type="text/css" href="../DataTables-1.10.23/css/dataTables.bootstrap4.min.css"/> 
+ <link rel="stylesheet" type="text/css" href="../Buttons-1.6.5/css/buttons.bootstrap4.min.css"/> 
  <link rel="stylesheet" type="text/css" media="screen" href="../css/navbar.css" />
  <link rel="stylesheet" type="text/css" media="screen" href="../css/bootstrap-4.5.3.min.css" /> 
 
-  <link rel="stylesheet" type="text/css" href="../DataTables-1.10.23/css/dataTables.bootstrap4.min.css"/> 
- <link rel="stylesheet" type="text/css" href="../Buttons-1.6.5/css/buttons.bootstrap4.min.css"/> 
 
     <script type="text/javascript" charset="utf8" src="../js/clipboard.min.js"></script>
     <script type="text/javascript" charset="utf8" src="../js/menufunctions.js"></script>

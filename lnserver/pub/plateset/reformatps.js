@@ -4,24 +4,19 @@ function sampRepSelection(e) {
     
     switch( e.target.value) {
   case "1":
-  clearTargetRepSelect()
-    document.getElementById('targrep').disabled = true;
+  clearTargetRepSelect();
+   $('#desttargrep').append('<option value="4">4</option>');
    break;
   case "2":
-    document.getElementById('targrep').disabled = false;
-  clearTargetRepSelect()
-    $('#targrep').remove(2,3);
-    $('#targrep').append('<option value="1">1</option>');
+  clearTargetRepSelect();
+    $('#desttargrep').append('<option value="2">2</option>');
+   $('#desttargrep').append('<option value="4">4</option>');
  	break;
   case "4":
-      document.getElementById('targrep').disabled = false;
-  clearTargetRepSelect()
- $('#targrep').append('<option value="1">1</option>');
-  $('#targrep').append('<option value="2">2</option>');
-   $('#targrep').append('<option value="4">4</option>');
- 	
-	break;
-  	
+  clearTargetRepSelect();
+ $('#desttargrep').append('<option value="1">1</option>');
+  $('#desttargrep').append('<option value="2">2</option>');	
+	break;	
   default:
     // code block
 } 
@@ -29,10 +24,15 @@ function sampRepSelection(e) {
 
 
 function clearTargetRepSelect(){
-var x = document.getElementById("targrep");
+var x = document.getElementById("desttargrep");
 var i;
-for (i = 0; i < x.length; i++) {
+var len = document.getElementById("desttargrep").length;
+
+for (i = 0; i < len; i++) {
+  console.log(i, "  ", x[i]);
+  
   x.remove(i);
+  
 }
 }
 

@@ -8,14 +8,9 @@
 
   
   
-  result: ")(display  a )(display "<br>
-  result: ")(display  b )(display "<br>
-  result: ")(display  start )(display "<br>
-  result: ")(display  psid )(display "<br>
-  result: ")(display  nplates )(display "<br>
-  result: ")(display  holder3 )(display "<br>
-   result: ")(display  plate-types )(display "<br>
- 
+   result: ")(display  sql )(display "<br>
+  result: ")(display  holder )(display "<br>
+   destlytid: ")(display  destlytid )(display "
 
 	
  	
