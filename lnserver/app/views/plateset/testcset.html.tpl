@@ -7,7 +7,12 @@
   <h1>Test</h1><br><br>
 
   
-  check cookies
+  <form action="/cset" method="post" >
+
+   
+    <label for="submit"></label><input type="submit"  class="btn btn-primary" value="Submit">
+    </form>
+
 	
  	
  

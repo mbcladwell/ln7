@@ -494,13 +494,31 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; client
 
-(plateset-define cset
-		 (options #:cookies '(names prjid sid))
+;; (plateset-define cset
+;; 		 (options #:cookies '(names prjid sid))
+;; 		 (lambda (rc)
+;; 		   (let* ((result "sometext")
+;; 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
+;; 			  (result "empty")
+;; 			  (cookies (rc-cookie rc)))
+;; 		     (view-render "test" (the-environment)))))
+
+
+(post "/cset"
+      	      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+	      #:cookies '(names prjid sid lnuser)
 		 (lambda (rc)
-		   (let* ((dummy (:cookies-set! rc 'prjid "prjid" "1000"))
-			  (result "empty")
-			  (cookies (rc-cookie rc)))
+		   (let* ((result "sometext")
+			  (dummy (:cookies-set! rc 'prjid "prjid" result))
+			  )
 		     (view-render "test" (the-environment)))))
+
+
+(plateset-define testcset
+		 (lambda (rc)
+		     (view-render "testcset" (the-environment))))
+
+
 
 (plateset-define ref
 		 (options #:cookies '(names prjid sid))
@@ -512,7 +530,7 @@
 		     (view-render "test" (the-environment)))))
 
 (plateset-define value 
-		;; (options #:cookies #t)
+		 (options #:cookies #t)
 		 (lambda (rc)
 		   (let* (			  			 
 			  (result (:cookies-value rc  "prjid"))
@@ -527,14 +545,12 @@
 		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
 		   (let* (			  
-			  (cookies (rc-cookie rc))
 			  (dummy (:cookies-remove! rc "prjid"))
-			  (result "empty")
 			  )
 			    (view-render "test" (the-environment)))))
 
 (plateset-define check
-		;; (options #:cookies #t)
+		 (options #:cookies #t)
 		 (lambda (rc)
 		   (let* (			  			 
 			  (result (:cookies-check rc "prjid"))			 
@@ -544,7 +560,7 @@
 
 
  (plateset-define haskey
-		;; (options #:cookies #t)
+		 (options #:cookies #t)
 		 (lambda (rc)
 		   (let* (
 			  (cookies (rc-cookie rc))
@@ -593,9 +609,12 @@
 ;; 			    (view-render "test" (the-environment)))))
 
 (post "/plateset/reformat"
-		  #:conn #t #:from-post 'qstr #:cookies #t
+		  #:conn #t #:from-post 'qstr #:cookies '(names prjid userid sid) #:with-auth "login/login"
 		  (lambda (rc)
 		    (let* ((help-topic "reformat")
+			   (prjid (:cookies-value rc "prjid"))
+			   (userid (:cookies-value rc "userid"))
+			   (sid (:cookies-value rc "sid"))
 			   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (qstr  (:from-post rc 'get))
 			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
