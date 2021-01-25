@@ -6,8 +6,8 @@
 
   <h1>Test</h1><br><br>
 
-  
-  check cookies
+  <%= result %><br><br>
+  <%= cookies %>
 	
  	
  

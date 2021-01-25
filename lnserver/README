@@ -17,6 +17,8 @@ http://localhost:3000/assayrun/getid?id=1
 
 view layout select
       <input type="hidden" id="infile" name="infile" value=&quot;<%= infile %>&quot; >
+      
+       <a href=/plateset/add?format=96&type=master&prjid=<%= prjid %>>Add to PRJ-<%= prjid %></a>
 
 
  * from post data

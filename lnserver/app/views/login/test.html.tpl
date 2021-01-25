@@ -6,9 +6,8 @@
 
   <h1>Test</h1><br><br>
 
- sid: <%= sid %> <br><br>
-
- results: <%= name %> <br><br>
+ check: <%= check %> <br><br>
+  results: <%= results %>
  
 </body></html>
 

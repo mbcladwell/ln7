@@ -13,6 +13,9 @@
   <table id="pstable" class="display table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
   <tbody>  <%= body %> </tbody>
 </table>
+
+<input type="hidden" name="prjid" id="prjid" />
+
 </form>
 <br>
 
@@ -36,7 +39,10 @@
 </table>
 
 
-<script>          
+<script>   
+
+document.getElementById('prjid').value = Cookie.get('prjid');
+       
 $(document).ready(function() {
     $('#pstable').DataTable( );
 } );

@@ -175,20 +175,24 @@
 
 		      
 (plateset-define add
-		 (options #:conn #t)
+		 (options #:conn #t
+			  #:cookies '(names prjid lnuser userid group sid))
 		 (lambda (rc)
 		   (let* ((help-topic "plateset")
 			  (format (get-from-qstr rc "format"))
 			  (type (get-from-qstr rc "type"))
+			  (prjid (get-from-qstr rc "prjid"))
+			  (userid (:cookies-value rc "userid"))
+			  (group (:cookies-value rc "group"))
+			  (sid (:cookies-value rc "sid"))
 			  (reps 1)
-			  (project-id "1")
 			  (sql (string-append "select id, name from plate_layout_name WHERE plate_format_id =" format))
 			  (holder  (DB-get-all-rows (:conn rc sql)))
 			  (sample-layout-pre '())
 			  (sample-layouts  (dropdown-contents-with-id holder sample-layout-pre))
 			  (sql2 (if (= reps 0)				    
-				    (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " project-id "  OR project_id IS NULL )")   
-				    (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " project-id " AND reps = " (number->string reps) ") OR (project_id IS NULL AND reps = " (number->string reps) ")")))
+				    (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " prjid "  OR project_id IS NULL )")   
+				    (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " prjid " AND reps = " (number->string reps) ") OR (project_id IS NULL AND reps = " (number->string reps) ")")))
 
 			  (holder2  (DB-get-all-rows (:conn rc sql2)))
 			  (target-layout-pre '())
@@ -199,7 +203,11 @@
 			  (plate-types-pre '())
 			  (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
 			  (trg-desc "(for assay plates only)")
-			  
+			  (prjidq (addquotes prjid))
+			  (useridq (addquotes userid))
+			  (groupq (addquotes group))
+			  (sidq (addquotes sid))
+
 			  )      
 		     (view-render "add" (the-environment)))))
 
@@ -510,6 +518,7 @@
 		 (lambda (rc)
 		   (let* ((result "sometext")
 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
+			  (cookies (rc-cookie rc))
 			  )
 		     (view-render "test" (the-environment)))))
 
@@ -530,10 +539,10 @@
 		     (view-render "test" (the-environment)))))
 
 (plateset-define value 
-		 (options #:cookies #t)
+		 (options #:cookies '(names prjid))
 		 (lambda (rc)
 		   (let* (			  			 
-			  (result (:cookies-value rc  "prjid"))
+			  (result (:cookies-value rc "prjid"))
 			  (cookies (rc-cookie rc))
 			  )
 		     (view-render "test" (the-environment)))))
@@ -546,6 +555,7 @@
 		 (lambda (rc)
 		   (let* (			  
 			  (dummy (:cookies-remove! rc "prjid"))
+			  (cookies (rc-cookie rc))
 			  )
 			    (view-render "test" (the-environment)))))
 
@@ -565,7 +575,7 @@
 		   (let* (
 			  (cookies (rc-cookie rc))
 			  (result (cookie-has-key? cookies "prjid"))
-			 )
+			  )
 		     (view-render "test" (the-environment)))))
 
 

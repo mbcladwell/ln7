@@ -3,7 +3,10 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller plate) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra))
+(use-modules (artanis utils)(artanis irregex)
+	     (artanis cookie)
+	     (srfi srfi-1)(dbi dbi)
+	     (lnserver sys extra))
 
 (define (prep-plt-for-ps-rows a)
   (fold (lambda (x prev)
@@ -47,10 +50,12 @@
 
 
 (plate-define getpltforps
-	      (options #:conn #t)
+	      (options #:conn #t #:cookies '(names prjid sid))
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (id  (get-from-qstr rc "id"))
+		       (prjid (get-from-qstr rc "prjid"))
+		    
 		       (sql (string-append "select plate_plate_set.plate_id, plate.plate_sys_name, plate_type_name, plate.barcode from plate, plate_plate_set, plate_type where plate_plate_set.plate_id=plate.id AND plate.plate_type_id=plate_type.id AND plate_plate_set.plate_set_id =" id ))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		       (body (string-concatenate (prep-plt-for-ps-rows holder)))
@@ -60,5 +65,8 @@
 		       (sql3 (string-append "select hit_list.id, hitlist_sys_name, hitlist_name, hit_list.descr, n, assay_run_sys_name FROM hit_list, assay_run WHERE  hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=" id ))
 		       (holder3 (DB-get-all-rows (:conn rc sql3)))
 		       (body3 (string-concatenate (prep-hl-for-ps-rows holder3))))
-		  (view-render "getpltforps" (the-environment)))))
+		  (view-render "getpltforps" (the-environment))
+		 ;; (view-render "test" (the-environment))
+		  
+		  )))
 

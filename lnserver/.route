@@ -29,7 +29,6 @@
   (get "/plateset/value")
   (get "/utilities/validate")
   (get "/project/addaction")
-  (get "/login/check")
   (get "/plateset/editaction")
   (get "/plateset/check")
   (get "/project/edit")

@@ -43,13 +43,23 @@
 ;;       (view-render "getall" (the-environment))
 ;;   )))
 
-(get "/project/getall" #:conn #t ;; #:cookies #t
+(get "/project/getall" #:conn #t 
+     #:cookies '(names prjid lnuser userid group sid)
      (lambda (rc ) 
        (let* ( 
 	      (help-topic "project")
-	      (prjid "1")
+	      (prjid (:cookies-value rc "prjid"))
+	      (userid (:cookies-value rc "userid"))
+	      (group (:cookies-value rc "group"))
+	      (sid (:cookies-value rc "sid"))
 	      (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
-	      (body (string-concatenate (prep-project-rows holder))))
+	      (body (string-concatenate (prep-project-rows holder)))
+	      (prjidq (addquotes prjid))
+	      (useridq (addquotes userid))
+	      (groupq (addquotes group))
+	      (sidq (addquotes sid))
+	     
+	      )
 	 (view-render "/getall" (the-environment)))))
 
 

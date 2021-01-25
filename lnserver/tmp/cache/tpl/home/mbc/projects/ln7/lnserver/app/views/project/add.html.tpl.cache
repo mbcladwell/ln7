@@ -68,10 +68,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a href=\"\">for PRJ-</a>
+                        <a href=\"/plateset/getps?id=\"&quot;")(display  prjid )(display "&quot;>for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a href=\"/plateset/add?format=96&type=master\">Add to PRJ-</a>
+		      <a href=\"/plateset/add?format=96&type=master\">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -217,7 +217,7 @@
 ")(display "</div>
 </div>
 
-
+	
 
 <script>
 $(document).ready(function () {

@@ -26,7 +26,7 @@
  <script type="text/javascript" src="../Buttons-1.6.5/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="../Buttons-1.6.5/js/buttons.bootstrap4.min.js"></script>
 <script type="text/javascript" src="../Buttons-1.6.5/js/buttons.html5.min.js"></script>
-     	
+<script  type="text/javascript" src="../js/js.cookie.min.js"></script>     	
    
    
     <title>LIMS*Nucleus </title>
@@ -64,10 +64,10 @@
                 <a href="#platesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Plate Sets</a>
                 <ul class="collapse list-unstyled" id="platesetSubmenu">
                     <li>
-                        <a href="">for PRJ-<%= prjid %></a>
+                        <a href=/plateset/getps?id=<%= prjid %>>for PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
-		      <a href="/plateset/add?format=96&type=master">Add to PRJ-<%= prjid %></a>
+		      <a href=/plateset/add?format=96&type=master&prjid=<%= prjid %>>Add to PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
 		      <a href="#" onclick="editPlateSet()">Edit</a>
