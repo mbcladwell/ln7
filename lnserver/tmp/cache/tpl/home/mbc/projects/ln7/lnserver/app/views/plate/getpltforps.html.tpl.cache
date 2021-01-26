@@ -200,7 +200,7 @@
 ")(display "
   <div class=\"container\">
     <h2>Plates for PS-")(display  id )(display "</h2>
-<table class=\"display table table-striped table-bordered\"><thead><tr><th>Plate</th><th>Plate Type</th><th>Barcode</th></tr></thead>
+<table class=\"display table table-striped table-bordered\"><thead><tr><th>Plate</th><th>Plate Order</th><th>Plate Type</th><th>Format</th><th>Barcode</th></tr></thead>
  <tbody> ")(display  body )(display "</tbody>
 </table>
 <hr>

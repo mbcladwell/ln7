@@ -99,8 +99,11 @@
 					  (dummy (:cookies-set! rc 'group "group" group))
 					  (dest (:from-post rc 'get "destination"))
 					  
-					  (requested-url  (if dest dest "/project/getall")))
-				     (redirect-to rc requested-url))
+					  (requested-url  (if (equal? dest "auth") "/project/getall"
+							      (if dest dest "/project/getall")))
+					  )
+				   ;;  (redirect-to rc requested-url))
+				     (redirect-to rc "test"))
 			       (redirect-to rc "/login/login?login_failed=Login_Failed!"))))
 	       #f))))
 

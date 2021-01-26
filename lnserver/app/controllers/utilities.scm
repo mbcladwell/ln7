@@ -43,10 +43,15 @@
 
 
 (utilities-define register
-		  (options #:conn #t)
+		  (options #:conn #t
+			   #:cookies '(names prjid lnuser userid group sid))
 		  (lambda (rc)
 		    (let* ((help-topic "register")
 			   (sql "select cust_id from config where id=1")
+			   (prjid (get-from-qstr rc "prjid"))
+			  (userid (:cookies-value rc "userid"))
+			  (group (:cookies-value rc "group"))
+			  (sid (:cookies-value rc "sid"))		
 			   (emptyreg? (equal? "" (cdaar (DB-get-all-rows (:conn rc sql))))))
 		      (if emptyreg?
 			  (view-render "register" (the-environment))

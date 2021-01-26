@@ -30,7 +30,7 @@
  <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
-     	
+<script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
    
    
     <title>LIMS*Nucleus </title>
@@ -68,10 +68,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a href=\"\">for PRJ-")(display  prjid )(display "</a>
+                        <a href=/plateset/getps?id=")(display  prjid )(display ">for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a href=\"/plateset/add?format=96&type=master\">Add to PRJ-")(display  prjid )(display "</a>
+		      <a href=/plateset/add?format=96&type=master&prjid=")(display  prjid )(display ">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -212,7 +212,7 @@
     <hr>
 <div class=\"form-row\">
       <div class=\"form-group col-md-12  text-center\">
-	<label><b>Source Plate Set PS-")(display  srcpsid )(display "</b></label> 
+	<label><b><h4>Source Plate Set PS-")(display  srcpsid )(display "</h4></b></label> 
       </div>
     </div>
 
@@ -237,7 +237,7 @@
     <hr>
 <div class=\"form-row\">
       <div class=\"form-group col-md-12 text-center\">
-	<label><b>Destination (Reformatted) Plate Set</b> </label> 
+	<label><b><h4>Destination (Reformatted) Plate Set</h4></b> </label> 
       </div>
     </div>
 
@@ -258,7 +258,7 @@
    <select name=\"desttype\" id=\"desttype\" onchange=\"typeSelection(event)\"  class=\"custom-select\" > ")(display  plate-types )(display " </select> 
  </div>
 <div class=\"form-group col-md-6\">
-  <label for=\"destformat\">New Format:&nbsp&nbsp")(display  destformat )(display "&nbsp&nbsp well</label>
+  <label for=\"destformat\">New Format:&nbsp&nbsp<b>")(display  destformat )(display "&nbsp&nbsp well</b></label>
  </div>
 </div>
 
@@ -278,9 +278,9 @@
 </div>
 
  
- <input type=\"hidden\" id=\"srclytid\" name=\"srclytid\" value=")(display  srclytid )(display ">
- <input type=\"hidden\" id=\"destformat\" name=\"destformat\" value=")(display  destformat )(display ">
- <input type=\"hidden\" id=\"srcpsid\" name=\"srcpsid\" value=")(display  srcpsid )(display ">
+ <input type=\"hidden\" id=\"srclytid\" name=\"srclytid\" value=")(display  srclytidq )(display ">
+ <input type=\"hidden\" id=\"destformat\" name=\"destformat\" value=")(display  destformatq )(display ">
+ <input type=\"hidden\" id=\"srcpsid\" name=\"srcpsid\" value=")(display  srcpsidq )(display ">
  
 
 <input type=\"submit\" class=\"btn btn-primary\" value=\"Submit\">
@@ -292,7 +292,7 @@
 ")(display "</div>
 </div>
 
-
+	
 
 <script>
 $(document).ready(function () {

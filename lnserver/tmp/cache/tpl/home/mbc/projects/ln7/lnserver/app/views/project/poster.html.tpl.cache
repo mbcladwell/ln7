@@ -2,18 +2,23 @@
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
   
-
+<html></body>
 
   <h1>Test</h1><br><br>
 
-
-")(display  result )(display "<br><br>
-")(display  lnuser )(display "<br><br>
-")(display  prjid )(display "<br><br>
-")(display  group )(display "<br><br>
-
-
   
+  <form action=\"/test\" method=\"post\" >
+
+   
+    <label for=\"submit\"></label><input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\">
+    </form>
+
+	
+ 	
+ 
+</body></html>
+
+
 
 
 ")

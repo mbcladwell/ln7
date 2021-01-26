@@ -41,7 +41,6 @@
 
 <script>   
 
-document.getElementById('prjid').value = Cookie.get('prjid');
        
 $(document).ready(function() {
     $('#pstable').DataTable( );

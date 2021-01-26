@@ -48,11 +48,11 @@
     </div>      
   </div>
 
-  <input type="hidden" id="infile" name="infile" value=<%= infile %> >
-  <input type="hidden" id="infile2" name="infile2" value=<%= infile2 %> >
-  <input type="hidden" id="id" name="id" value=<%= id %> >
-  <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encode %> >
- <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encode %> >
+  <input type="hidden" id="infile" name="infile" value=<%= infileq %> >
+  <input type="hidden" id="infile2" name="infile2" value=<%= infile2q %> >
+  <input type="hidden" id="id" name="id" value=<%= idq %> >
+  <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encodeq %> >
+ <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encodeq %> >
 
    
 </form>

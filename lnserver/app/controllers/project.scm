@@ -45,6 +45,7 @@
 
 (get "/project/getall" #:conn #t 
      #:cookies '(names prjid lnuser userid group sid)
+     #:with-auth "/login/login" 
      (lambda (rc ) 
        (let* ( 
 	      (help-topic "project")
@@ -111,3 +112,56 @@
 ;;		    (view-render "test" (the-environment))
 		    (redirect-to rc "project/getall")
   )))
+
+
+
+;;this works
+;; (get "/project/test"
+;;    ;;  #:with-auth "/login/login?destination=/project/add"
+;;      ;;    #:from-post 'qstr
+;;       #:cookies '(names prjid userid group sid)
+;;      (lambda (rc)     
+;;        (let* ((help-topic "project")
+;; 	      (result (:cookies-value rc "sid"))
+;; 	      (lnuser (:cookies-value rc "lnuser"))
+;; 	      (group (:cookies-value rc "group"))
+;; 	      (prjid (:cookies-value rc "prjid"))
+;; 	      )
+;; 	 (view-render "test" (the-environment)))
+;; 	  ))
+
+;;this works
+;; (project-define test
+;;    ;;  #:with-auth "/login/login?destination=/project/add"
+;;      ;;    #:from-post 'qstr
+;;     (options  #:cookies '(names prjid userid group sid))
+;;      (lambda (rc)     
+;;        (let* ((help-topic "project")
+;; 	      (result (:cookies-value rc "sid"))
+;; 	      (lnuser (:cookies-value rc "lnuser"))
+;; 	      (group (:cookies-value rc "group"))
+;; 	      (prjid (:cookies-value rc "prjid"))
+;; 	      )
+;; 	 (view-render "test" (the-environment)))
+;; 	  ))
+
+
+(post "/test"
+     #:cookies '(names prjid userid group sid)
+     (lambda (rc)     
+       (let* ((help-topic "project")
+	      (result (:cookies-value rc "sid"))
+	      (lnuser (:cookies-value rc "lnuser"))
+	      (group (:cookies-value rc "group"))
+	      (prjid (:cookies-value rc "prjid"))
+	      )
+	 (view-render "test" (the-environment)))
+	  ))
+
+
+(project-define poster
+     (lambda (rc)     
+       (let* ((help-topic "project")
+	      )
+	 (view-render "poster" (the-environment)))
+	  ))

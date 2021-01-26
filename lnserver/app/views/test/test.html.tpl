@@ -16,6 +16,6 @@
     <h1>test#logtest</h1>
     <p>Rendered from app/views/test/logtest.html.tpl.</p>
 
-    Group:<%= sql %><br>
+    dest:<%= dest %><br>
   </body>
 </html>

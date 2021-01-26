@@ -66,9 +66,13 @@
 
 
 (layout-define getall
-	       (options #:conn #t)
+	       (options #:conn #t
+			#:cookies '(names prjid userid sid))
   (lambda (rc)
     (let* ((help-topic "layouts")
+	     (prjid (:cookies-value rc "prjid"))
+	       (userid (:cookies-value rc "userid"))
+	       (sid (:cookies-value rc "sid"))
 	   (sql  "select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name")
 	   (holder  (DB-get-all-rows (:conn rc sql)))
 	   (body (string-concatenate (prep-lyt-rows holder))))
@@ -76,10 +80,14 @@
 
 
 (layout-define lytbyid
-	       (options #:conn #t)
+	       (options #:conn #t
+			    #:cookies '(names prjid userid sid))
 	       (lambda (rc)
 		 (let* (
 			(help-topic "layouts")
+			(prjid (:cookies-value rc "prjid"))
+			(userid (:cookies-value rc "userid"))
+			(sid (:cookies-value rc "sid"))
 			(id  (get-from-qstr rc "id"))
 			(infile (get-rand-file-name "lyt" "txt"))
 			(spl-out (get-rand-file-name "lyt" "png"))

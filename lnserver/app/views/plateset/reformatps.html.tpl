@@ -17,7 +17,7 @@
     <hr>
 <div class="form-row">
       <div class="form-group col-md-12  text-center">
-	<label><b>Source Plate Set PS-<%= srcpsid %></b></label> 
+	<label><b><h4>Source Plate Set PS-<%= srcpsid %></h4></b></label> 
       </div>
     </div>
 
@@ -42,7 +42,7 @@
     <hr>
 <div class="form-row">
       <div class="form-group col-md-12 text-center">
-	<label><b>Destination (Reformatted) Plate Set</b> </label> 
+	<label><b><h4>Destination (Reformatted) Plate Set</h4></b> </label> 
       </div>
     </div>
 
@@ -63,7 +63,7 @@
    <select name="desttype" id="desttype" onchange="typeSelection(event)"  class="custom-select" > <%= plate-types %> </select> 
  </div>
 <div class="form-group col-md-6">
-  <label for="destformat">New Format:&nbsp&nbsp<%= destformat %>&nbsp&nbsp well</label>
+  <label for="destformat">New Format:&nbsp&nbsp<b><%= destformat %>&nbsp&nbsp well</b></label>
  </div>
 </div>
 
@@ -83,9 +83,9 @@
 </div>
 
  
- <input type="hidden" id="srclytid" name="srclytid" value=<%= srclytid %>>
- <input type="hidden" id="destformat" name="destformat" value=<%= destformat %>>
- <input type="hidden" id="srcpsid" name="srcpsid" value=<%= srcpsid %>>
+ <input type="hidden" id="srclytid" name="srclytid" value=<%= srclytidq %>>
+ <input type="hidden" id="destformat" name="destformat" value=<%= destformatq %>>
+ <input type="hidden" id="srcpsid" name="srcpsid" value=<%= srcpsidq %>>
  
 
 <input type="submit" class="btn btn-primary" value="Submit">

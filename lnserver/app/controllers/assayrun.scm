@@ -115,6 +115,10 @@
   (let* (
 	 (help-topic "assayrun")
 	 (id  (get-from-qstr rc "id"))
+	  (prjid (:cookies-value rc "prjid"))
+	      (userid (:cookies-value rc "userid"))
+	      (group (:cookies-value rc "group"))
+	      (sid (:cookies-value rc "sid"))
 	 (infile (get-rand-file-name "ar" "txt"))
 	 (infile2 (get-rand-file-name "ar2" "txt"))
 	 (outfile (get-rand-file-name "ar" "png"))	  
@@ -131,11 +135,11 @@
 	(outfile2 (string-append "\"../" outfile "\""))
 	(hit-lists (get-hit-lists-for-arid id rc))
 	(hit-lists-encode (htmlify hit-lists))
-	(id (addquotes id))  ;; for passing to html
-	(infile (addquotes infile))
-	(infile2 (addquotes infile2))
-	(body-encode (addquotes body-encode))
-	(hit-lists-encode (addquotes hit-lists-encode))
+	(idq (addquotes id))  ;; for passing to html
+	(infileq (addquotes infile))
+	(infile2q (addquotes infile2))
+	(body-encodeq (addquotes body-encode))
+	(hit-lists-encodeq (addquotes hit-lists-encode))
 	)
     (view-render "getarid" (the-environment)))))
 
