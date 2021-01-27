@@ -199,7 +199,7 @@
 
 ")(display "
   <div class=\"container\">
-    <h2>Plates for PLT-")(display  pltid )(display "</h2>
+    <h2>Wells for PLT-")(display  pltid )(display "</h2>
 <table class=\"display table table-striped table-bordered\"><thead><tr><th>Plate Set</th><th>Plate</th><th>Well</th><th>Order</th><th>Sample</th><th>Accession</th></tr></thead>
  <tbody> ")(display  body )(display "</tbody>
 </table>

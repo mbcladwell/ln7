@@ -200,46 +200,57 @@
 ")(display "
 
   <div class=\"container\">
-  <h2>Add a Plate Set To Project PRJ-")(display   prjid )(display "</h2>
+  <h2>Add a Plate Set To Project PRJ-")(display   prjid )(display " (Contd)</h2>
 
-  <form action=\"/plateset/addstep2\" method=\"post\">
+  <form action=\"/plateset/addaction\" method=\"post\">
  <div class=\"form-group\">   
-    <label for=\"name\">Plate Set Name:</label>  <input type=\"text\"  class=\"form-control\" id=\"psname\" name=\"psname\" value=\"\" required>
+     <label for=\"name\">Plate Set Name:</label><b>&nbsp;&nbsp; ")(display   psname )(display "</b>
  </div>
  <div class=\"form-group\">   
-   <label for=\"descr\">Description:</label>  <input type=\"text\"  class=\"form-control\" id=\"descr\" name=\"psdescr\" value=\"\" required>
+     <label for=\"descr\">Description:</label> <b>&nbsp;&nbsp; ")(display   psdescr )(display "</b>
  </div>
  <div class=\"form-row\">
  <div class=\"form-group  col-md-6\">   
-   <label for=\"numplates\">Number of Plates:</label>  <input type=\"text\"  class=\"form-control\"  id=\"numplates\" name=\"numplates\" value=\"\" required>
+     <label for=\"numplates\">Number of Plates:</label> <b>&nbsp;&nbsp; ")(display   numplates )(display "</b>
  </div>
- <div class=\"form-group col-md-6\">
-   <label for=\"format\">Plate Format:</label>
-   <select name=\"format\"  class=\"custom-select\" id=\"format\">
-     <option value=\"96\">96</option>
-     <option value=\"384\">384</option>
-     <option value=\"1536\">1536</option>
-   </select>
+     <div class=\"form-group col-md-6\">
+	 <label for=\"format\">Plate Format:</label><b>&nbsp;&nbsp; ")(display   format )(display "</b>
  </div>
  </div>
  <div class=\"form-row\">
    <div class=\"form-group col-md-6\">
-     <label for=\"type\">Plate Type:</label>
-     <select name=\"type\"  class=\"custom-select\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "</select> 
+       <label for=\"type\">Plate Type:</label> <b>&nbsp;&nbsp; ")(display   plttype )(display "</b>
    </div>
  </div>
- 
 
- <div class=\"form-row\">
-    <div class=\"form-group col-md-6\">
-   <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\" id=\"importButton\" name=\"importButton\" enabled>
-    </div>
- </div>
+ <div class=\"form-row\">    
+     <div class=\"form-group col-md-6\">
+     <label for=\"samplelyt\">Sample Layout:</label> 
+     <select name=\"samplelyt\"  class=\"custom-select\" id=\"samplelyt\"> ")(display  sample-layouts )(display " </select>
+     </div>
+     <div class=\"form-group col-md-6\">
+	 <label for=\"trglyt\">Target Layout:</label> &nbsp;&nbsp;&nbsp;   <label for=\"target-desc\">")(display  trg-desc )(display "</label> 
+	 <select name=\"trglyt\"  class=\"custom-select\" id=\"trglyt\"  > ")(display  target-layouts )(display "  </select>
+	 
+	 <div>	 
+     </div>
+     </div>
+   <br>
+   <div class=\"form-row\">
+       <div class=\"form-group col-md-6\">
+	   <input type=\"submit\"  class=\"btn btn-primary\" value=\"Confirm\" id=\"importButton\" name=\"importButton\" enabled>
+       </div>
+   </div>
 
+   <input type=\"hidden\" id=\"prjid\" name=\"prjid\" value=")(display  prjidq )(display ">
+   <input type=\"hidden\" id=\"psname\" name=\"psname\" value=")(display  psnameq )(display ">
+   <input type=\"hidden\" id=\"psdescr\" name=\"psdescr\" value=")(display  psdescrq )(display ">
+   <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  formatq )(display ">
+   <input type=\"hidden\" id=\"plttypeid\" name=\"plttypeid\" value=")(display  plttypeidq )(display ">
+   <input type=\"hidden\" id=\"numplates\" name=\"numplates\" value=")(display  numplatesq )(display ">
+   <input type=\"hidden\" id=\"plttype\" name=\"plttype\" value=")(display  plttypeq )(display ">
 
-
- 
-</form> 
+  </form> 
 
    <button class=\"btn btn-primary\" type=\"button\" id=\"loadingButton\" name=\"loadingButton\" enabled>
   <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\" ></span>
@@ -261,19 +272,15 @@
       y.style.display = \"inline\";
   }
 
- /* var temp = ")(display  format )(display ";
-  * var mySelect = document.getElementById('format');
+ var plttype =  document.getElementById(\"plttype\").value;
+ if(plttype === \"assay\"){ 
+     document.getElementById('trglyt').disabled = false;
+ }else{
+     document.getElementById('trglyt').disabled = true;
+ }
 
-  * for(var i, j = 0; i = mySelect.options[j]; j++) {
-  *     if(i.value == temp) {
-  *         mySelect.selectedIndex = j;
-  *         break;
-  *     }
-  * } */
     
 </script>
-
-
 
 
 ")(display "</div>

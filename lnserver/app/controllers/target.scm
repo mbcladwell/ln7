@@ -22,9 +22,14 @@
 
 
 (target-define getall
-	       (options #:conn #t)
+	       (options #:conn #t
+			 #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "targets")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
 			 (sql (string-append "select id, target_sys_name, project_id, target_name, descr, accs_id from target" ))
 			 (holder (DB-get-all-rows (:conn rc sql)))
 			 (body  (string-concatenate  (prep-trg-rows holder)) ))
@@ -49,9 +54,14 @@
 
 
 (target-define gettrglyt
-	       (options #:conn #t)
+	       (options #:conn #t
+			#:cookies '(names prjid lnuser userid group sid))
 	       (lambda (rc)
 		 (let* ((help-topic "target")
+			(prjid (:cookies-value rc "prjid"))
+			(userid (:cookies-value rc "userid"))
+			(group (:cookies-value rc "group"))
+			(sid (:cookies-value rc "sid"))
 			(sql (string-append "select id, project_id, target_layout_name_sys_name, target_layout_name_name, target_layout_name_desc, reps from target_layout_name" ))
 			(holder (DB-get-all-rows (:conn rc sql)))
 			(body  (string-concatenate  (prep-trglytname-rows holder)) ))
@@ -79,10 +89,15 @@
 
 
 (target-define gettrglytbyid
-	       (options #:conn #t)
+	       (options #:conn #t
+			#:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ( (help-topic "targets")
-			 (id  (get-from-qstr rc "id"))
+			  (id  (get-from-qstr rc "id"))
+			  (prjid (:cookies-value rc "prjid"))
+			  (userid (:cookies-value rc "userid"))
+			  (group (:cookies-value rc "group"))
+			  (sid (:cookies-value rc "sid"))
 			 (sql (string-append "select target.id, target.target_sys_name, target.descr, target_layout_name.project_id, target.target_name, target_layout.quad, target_layout_name_sys_name, target_layout_name_name, target_layout_name_desc, target_layout_name.reps, target.accs_id from target_layout_name, target_layout, target WHERE target_layout.target_layout_name_id=target_layout_name.id AND target_layout.target_id=target.id AND target_layout_name.id=" id))
 			 (holder (DB-get-all-rows (:conn rc sql)))
 			 (trg-lyt-sys-name (result-ref (car holder) "target_layout_name_sys_name"))
@@ -132,9 +147,16 @@
       #f))
 
 
-(post "/addbulkaction" #:conn #t #:from-post 'qstr
+(post "/addbulkaction"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid lnuser userid group sid)
 		(lambda (rc)
 		  (let* ((help-topic "targets")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
 			 ;;(f (get-from-qstr rc "customFile"))
 			 (f "/home/mbc/targets200.txt")
 			 (sql (get-sql-bulk-target-file f ))
@@ -145,9 +167,14 @@
 
 
 (target-define addbulk
-	        (options #:conn #t)
+	       (options #:conn #t
+			#:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
-		  (let* ((help-topic "targets"))
+		  (let* ((help-topic "targets")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid")))
 			
 		    (view-render "addbulk" (the-environment)))))
 
@@ -164,11 +191,15 @@
 
 ;;new_target(_project_id INTEGER, _trg_name varchar(30), _descr varchar(250), _accs_id varchar(30))
 
-(get "/addsingleaction" #:conn #t 
+(get "/addsingleaction" #:conn #t #:cookies '(names prjid lnuser userid group sid)
 		(lambda (rc)
 		  (let* ((help-topic "targets")
 			 (prj-name (get-from-qstr rc "projects"))
 			 (id (substring prj-name 4))
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
 			 (tname (get-from-qstr rc "tname"))
 			 (desc (get-from-qstr rc "desc"))
 			 (accs (get-from-qstr rc "accs"))
@@ -180,9 +211,14 @@
 
 
 (target-define addsingle
-	        (options #:conn #t)
+	       (options #:conn #t
+			#:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "targets")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
 			 (sql  "select project_sys_name from project")
 			 (holder  (DB-get-all-rows (:conn rc sql)))
 			 (all-projects-pre '())			 
@@ -204,9 +240,14 @@
 
 
 (target-define addtrglyt
-	       (options #:conn #t)
+	       (options #:conn #t
+			#:cookies '(names prjid lnuser userid group sid))
 	(lambda (rc)
 	  (let* ((help-topic "target")
+		 (prjid (:cookies-value rc "prjid"))
+		 (userid (:cookies-value rc "userid"))
+		 (group (:cookies-value rc "group"))
+		 (sid (:cookies-value rc "sid"))
 		 (sql  "select project_sys_name from project")
 		 (holder  (DB-get-all-rows (:conn rc sql)))
 		 (all-projects-pre '())			 
@@ -220,9 +261,13 @@
 	       
 
 ;; new_target_layout_name(_project_id INTEGER,  _trg_lyt_name varchar(30), _descr varchar(250), _reps INTEGER, q1_id INTEGER, q2_id INTEGER, q3_id INTEGER, q4_id INTEGER)
-(get "/addtrglytaction?" #:conn #t 
+(get "/addtrglytaction?" #:conn #t #:cookies '(names prjid lnuser userid group sid)
 		(lambda (rc)
 		  (let* ((help-topic "targets")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
 			 (prj-name (get-from-qstr rc "projects"))
 			 (id (substring prj-name 4))
 			 (tlytname (get-from-qstr rc "tlytname"))
