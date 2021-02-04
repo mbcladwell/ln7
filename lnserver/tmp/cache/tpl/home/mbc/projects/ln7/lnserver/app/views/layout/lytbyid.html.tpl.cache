@@ -31,7 +31,10 @@
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
 <script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
    
-   
+
+<h:outputStylesheet library=\"css\" name=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
+<h:outputScript library=\"js\" name=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\" target=\"head\"/> 
+
     <title>LIMS*Nucleus </title>
     
 

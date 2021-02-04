@@ -6,19 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="atom/1" />
 
+  <link rel="stylesheet" type="text/css" href="../DataTables-1.10.23/css/dataTables.bootstrap4.min.css"/> 
+ <link rel="stylesheet" type="text/css" href="../Buttons-1.6.5/css/buttons.bootstrap4.min.css"/> 
  <link rel="stylesheet" type="text/css" media="screen" href="../css/navbar.css" />
-        <link rel="stylesheet" type="text/css" media="screen" href="../Bootstrap-4-4.1.1/css/bootstrap.css" />
-      <link rel="stylesheet" type="text/css" media="screen" href="../DataTables-1.10.22/css/jquery.dataTables.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" media="screen" href="../css/bootstrap-4.5.3.min.css" /> 
 
-	
-   
-    <script type="text/javascript" charset="utf8" src="../js/jquery-3.5.1.js"></script>
-    <script type="text/javascript" charset="utf8" src="../Bootstrap-4-4.1.1/js/bootstrap.js"></script>
-    <script type="text/javascript" charset="utf8" src="../DataTables-1.10.22/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="../js/buttons.dataTables.min.js"></script>
+
     <script type="text/javascript" charset="utf8" src="../js/clipboard.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="../js/menufunctions.js"></script>
+
+    <script type="text/javascript" charset="utf8" src="../js/jquery-3.5.1.slim.min.js"></script>
+<script type="text/javascript" src="../DataTables-1.10.23/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="../js/bootstrap-4.5.3.bundle.min.js"></script>
+<script type="text/javascript" src="../DataTables-1.10.23/js/dataTables.bootstrap4.min.js"></script>
+
+<script  type="text/javascript" src="../js/js.cookie.min.js"></script>     	
    
+
+<h:outputStylesheet library="css" name="../DataTables-1.10.23/css/dataTables.bootstrap4.min.css"/>
+<h:outputScript library="js" name="../DataTables-1.10.23/js/jquery.dataTables.min.js" target="head"/> 
+
     <title>LIMS*Nucleus </title>
     
 
@@ -54,10 +61,10 @@
                 <a href="#platesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Plate Sets</a>
                 <ul class="collapse list-unstyled" id="platesetSubmenu">
                     <li>
-                        <a href="">for PRJ-</a>
+                        <a href=/plateset/getps?id=<%= prjid %>>for PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
-		      <a href="/plateset/add?format=96&type=master">Add to PRJ-</a>
+		      <a href=/plateset/add?format=96&type=master&prjid=<%= prjid %>>Add to PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
 		      <a href="#" onclick="editPlateSet()">Edit</a>
@@ -76,13 +83,13 @@
 
 		    
 		    <li>
-                        <a href="/project/add">Assay Data</a>
+                        <a href="#" onclick="importPlateSetData()">Assay Data</a>
                     </li>
 		    <li>
-                        <a href="/project/add">Accessions</a>
+                        <a href="/plateset/impacc">Accessions</a>
                     </li>
 		    <li>
-                        <a href="/project/add">Barcodes</a>
+                        <a href="/plateset/impbc">Barcodes</a>
                     </li>
 
 

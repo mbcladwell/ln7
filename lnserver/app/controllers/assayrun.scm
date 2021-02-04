@@ -97,7 +97,7 @@
 		(descr (result-ref x "descr"))
 		(nhits (get-c8 x))
 		)
-	      (cons (string-append "<tr><th><a href=\"/hitlist/gethlforarid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th>" hit-list-sys-name "</th><th>" hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
+	      (cons (string-append "<tr><th><a href=\"/hitlist/gethlforarid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th><a href=\"/hitlist/gethlbyhlid?hlid=" (substring hit-list-sys-name 3) "\">"  hit-list-sys-name "</a></th><th>"  hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
 		  prev)))
         '() a))
 
@@ -134,7 +134,7 @@
 	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 	(outfile2 (string-append "\"../" outfile "\""))
 	(hit-lists (get-hit-lists-for-arid id rc))
-	(hit-lists-encode (htmlify hit-lists))
+	(hit-lists-encode (if hit-lists (htmlify hit-lists) #f))
 	(idq (addquotes id))  ;; for passing to html
 	(infileq (addquotes infile))
 	(infile2q (addquotes infile2))

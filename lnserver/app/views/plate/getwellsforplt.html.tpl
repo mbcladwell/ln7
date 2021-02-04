@@ -11,8 +11,13 @@
 
 <script>          
 $(document).ready(function() {
-    $('table.display').DataTable();
-} );
+    $('table.display').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+            'copy', 'csv'
+        ]
+    });
+ } );
 
 </script>
 

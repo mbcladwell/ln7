@@ -11,8 +11,8 @@
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
 	     (artanis artanis)
 	     (ice-9 string-fun) ;; string-replace-substring
-	     (rnrs bytevectors)
-	     (lnserver sys extra))
+	     (rnrs bytevectors))
+;;	     (lnserver sys extra))
 	    
 
 (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:tcp:192.168.1.11:5432"))
@@ -72,3 +72,8 @@ ln-version
           conn.prepareStatement(
         "select id, sys_name, name, descr FROM plate_layout_name, layout_source_dest WHERE layout_source_dest.src = ? AND layout_source_dest.dest = plate_layout_name.id AND plate_layout_name.descr=?;");
       				
+(define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
+(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" )
+
+
+  Expires=Fri, 5 Oct 2018 14:28:00 GMT; 

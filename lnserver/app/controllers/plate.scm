@@ -46,22 +46,25 @@
 		(n (get-c5 x ))
 		(assay-run-sys-name (result-ref x "assay_run_sys_name"))
 		)
-            (cons (string-append "<tr><th>" assay-run-sys-name "</th><th><a href=\"hitlist/getid?id="  (number->string (cdr (car x))) "\">" hitlist-sys-name "</a></th><th>" hitlist-name "</th><th>" descr "</th><th>" n "</th><tr>")
+            (cons (string-append "<tr><th>" assay-run-sys-name "</th><th><a href=\"/hitlist/gethlbyid?id="  (number->string (cdr (car x))) "\">" hitlist-sys-name "</a></th><th>" hitlist-name "</th><th>" descr "</th><th>" n "</th><tr>")
 		  prev)))
         '() a))
 
 
 
 (plate-define getpltforps
-	      (options #:conn #t #:cookies '(names prjid lnuser userid group sid))
+	      (options #:conn #t
+		       #:cookies '(names prjid lnuser userid group sid)
+		       #:with-auth "login/login")
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (id  (get-from-qstr rc "id"))
-		       (prjid (get-from-qstr rc "prjid"))
+		       (prjid (:cookies-value rc "prjid"))
 		       (userid (:cookies-value rc "userid"))
 		       (group (:cookies-value rc "group"))
 		       (sid (:cookies-value rc "sid"))		
-		    
+		       (get-ps-link (string-append "/plateset/getps?id=" prjid))
+		       (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		       (sql (string-append "SELECT plate.id, plate.plate_sys_name, plate_plate_set.plate_order,  plate_type.plate_type_name, plate_format.format, plate.barcode FROM plate_set, plate, plate_type, plate_format, plate_plate_set WHERE plate_plate_set.plate_set_id =" id " AND plate.plate_type_id = plate_type.id AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.id  AND plate_format.id = plate.plate_format_id ORDER BY plate_plate_set.plate_order DESC" ))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		       (body (string-concatenate (prep-plt-for-ps-rows holder)))
@@ -98,7 +101,9 @@
 
 
 (plate-define getwellsforplt
-	      (options #:conn #t #:cookies '(names prjid lnuser userid group sid))
+	      (options #:conn #t
+		       #:cookies '(names prjid lnuser userid group sid)
+		       #:with-auth "login/login")
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (pltid  (get-from-qstr rc "id"))
@@ -106,7 +111,8 @@
 		       (userid (:cookies-value rc "userid"))
 		       (group (:cookies-value rc "group"))
 		       (sid (:cookies-value rc "sid"))		
-		    
+		       (get-ps-link (string-append "/plateset/getps?id=" prjid))
+		       (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		       (sql (string-append "SELECT plate_set.plate_set_sys_name,  plate.plate_sys_name, well_numbers.well_name, well.by_col, sample.sample_sys_name, sample.accs_id FROM plate_plate_set, plate_set, plate, sample, well_sample, well JOIN well_numbers ON ( well.by_col= well_numbers.by_col)  WHERE plate.id = well.plate_id AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND well.plate_id = " pltid  "  AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.ID AND  well_numbers.plate_format = (SELECT plate_format_id  FROM plate_set WHERE plate_set.ID =  (SELECT plate_set_id FROM plate_plate_set WHERE plate_id = plate.ID LIMIT 1) ) ORDER BY plate.id DESC, well.by_col DESC" ))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		       (body (string-concatenate (prep-wells-for-plt-rows holder))))

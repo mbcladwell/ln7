@@ -20,9 +20,14 @@
 
   </form>
 </div>
-  <script>
-$(document).ready(function() {
-    $('#prjtable').DataTable()}); 
+<script>
+ $(document).ready(function() {
+     $('#prjtable').DataTable({
+         dom: 'lBfrtip',
+         buttons: [
+             'copy', 'csv'
+         ]
+ })}); 
 </script>
 
   <@include footer.tpl %>

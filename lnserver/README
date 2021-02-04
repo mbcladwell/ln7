@@ -44,9 +44,12 @@ view layout select
 
   extra.scm
 
+*  #{urweyru}#  is a read symbol use (symbol->string to get "urweyru"
 
 ## todo
 
+
+missing search box:  https://github.com/TheCoder4eu/BootsFaces-OSP/issues/1056
 
 
 

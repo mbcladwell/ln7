@@ -67,12 +67,20 @@
 ;; (get-hit-lists-for-prjid "1")
 
 (plateset-define getps
-		 (options #:conn #t #:cookies '(names prjid sid))
+		 (options #:conn #t
+			  #:cookies '(names prjid userid group sid)
+			  #:with-auth "login/login")
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
 			  (prjid  (get-from-qstr rc "id"))
 			  (dummy (:cookies-set! rc 'prjid "prjid" prjid))
+			  (userid (:cookies-value rc "userid"))
+			  (group (:cookies-value rc "group"))
+			  (sid (:cookies-value rc "sid"))
+			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
+
 			  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
@@ -85,9 +93,17 @@
 
 
 (post "/plateset/editps"
-		  #:conn #t #:from-post 'qstr
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid userid group sid)
 		  (lambda (rc)
-		    (let* ((help-topic "plateset")	
+		    (let* ((help-topic "plateset")
+			   (prjid (:cookies-value rc "prjid"))
+			   (userid (:cookies-value rc "userid"))
+			   (group (:cookies-value rc "group"))
+			   (sid (:cookies-value rc "sid"))
+			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   ;;(qstr  (:from-post rc 'get))
 			  ;; (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
 			  ;; (b (map uri-decode  a))
@@ -127,10 +143,15 @@
 
 
 (plateset-define editaction
-		(options #:conn #t #:cookies '(names prjid sid))
+		(options #:conn #t #:cookies '(names prjid userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "plateset")
 			 (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			 (ps-name (get-from-qstr rc "psname"))
 			 (descr (get-from-qstr rc "descr"))
 			 (psid (get-from-qstr rc "psid"))			 
@@ -188,6 +209,8 @@
 		(userid (:cookies-value rc "userid"))
 		(group (:cookies-value rc "group"))
 		(sid (:cookies-value rc "sid"))
+		(get-ps-link (string-append "/plateset/getps?id=" prjid))
+		(ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		(spllytid (:from-post rc 'get-vals "samplelyt"))
 		(trglytid (:from-post rc 'get-vals "trglyt"))    
 		(sql (string-append "select new_plate_set('" psdescr "', '" psname  "', " numplates ", " format ", " plttypeid ", " prjid ", " spllytid ", '" sid "', true, " trglytid  ")"))
@@ -270,7 +293,8 @@
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
-			  
+			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			  (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
 			  (holder3  (DB-get-all-rows (:conn rc sql3)))
 			  (plate-types-pre '())
@@ -574,25 +598,24 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; client
 
-;; (plateset-define cset
-;; 		 (options #:cookies '(names prjid sid))
-;; 		 (lambda (rc)
-;; 		   (let* ((result "sometext")
-;; 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
-;; 			  (result "empty")
-;; 			  (cookies (rc-cookie rc)))
-;; 		     (view-render "test" (the-environment)))))
-
-
-(post "/cset"
-      	      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-	      #:cookies '(names prjid sid lnuser)
+(plateset-define cset
+		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
 		   (let* ((result "sometext")
 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
-			  (cookies (rc-cookie rc))
-			  )
+			  (cookies (rc-cookie rc)))
 		     (view-render "test" (the-environment)))))
+
+
+;; (post "/cset"
+;;       	      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+;; 	      #:cookies '(names prjid sid lnuser)
+;; 		 (lambda (rc)
+;; 		   (let* ((result "sometext")
+;; 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
+;; 			  (cookies (rc-cookie rc))
+;; 			  )
+;; 		     (view-render "test" (the-environment)))))
 
 
 (plateset-define testcset
@@ -626,7 +649,7 @@
 		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
 		   (let* (			  
-			  (dummy (:cookies-remove! rc "prjid"))
+			  (result (:cookies-remove! rc "prjid"))
 			  (cookies (rc-cookie rc))
 			  )
 			    (view-render "test" (the-environment)))))
@@ -650,8 +673,19 @@
 			  )
 		     (view-render "test" (the-environment)))))
 
-
-
+(define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
+;;(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" ))
+(define six-hrs-from-now 3600)
+  
+ (plateset-define update
+		 (options #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (
+			 
+			  (result (:cookies-setattr! rc 'prjid #:expires 21600 #:domain #f #:path "/junk" #:secure #f #:http-only #f))
+			   (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
 
 
 

@@ -43,16 +43,31 @@
 
        
 $(document).ready(function() {
-    $('#pstable').DataTable( );
-} );
+    $('#pstable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+ } );
 
 $(document).ready(function() {
-    $('#artable').DataTable( );
-} );
+    $('#artable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+ } );
 
 $(document).ready(function() {
-    $('#hstable').DataTable( );
-} );
+    $('#hstable').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+ } );
 
 </script>
 

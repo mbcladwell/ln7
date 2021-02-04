@@ -32,7 +32,10 @@
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
 <script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
    
-   
+
+<h:outputStylesheet library=\"css\" name=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
+<h:outputScript library=\"js\" name=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\" target=\"head\"/> 
+
     <title>LIMS*Nucleus </title>
     
 
@@ -243,11 +246,11 @@
     </div>      
   </div>
 
-  <input type=\"hidden\" id=\"infile\" name=\"infile\" value=")(display  infile )(display " >
-  <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=")(display  infile2 )(display " >
-  <input type=\"hidden\" id=\"id\" name=\"id\" value=")(display  id )(display " >
-  <input type=\"hidden\" id=\"bodyencode\" name=\"bodyencode\" value=")(display  body-encode )(display " >
- <input type=\"hidden\" id=\"hitlistsencode\" name=\"hitlistsencode\" value=")(display  hit-lists-encode )(display " >
+  <input type=\"hidden\" id=\"infile\" name=\"infile\" value=")(display  infileq )(display " >
+  <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=")(display  infile2q )(display " >
+  <input type=\"hidden\" id=\"id\" name=\"id\" value=")(display  idq )(display " >
+  <input type=\"hidden\" id=\"bodyencode\" name=\"bodyencode\" value=")(display  body-encodeq )(display " >
+ <input type=\"hidden\" id=\"hitlistsencode\" name=\"hitlistsencode\" value=")(display  hit-lists-encodeq )(display " >
 
    
 </form>

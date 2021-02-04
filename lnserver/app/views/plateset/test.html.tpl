@@ -6,16 +6,9 @@
 
   <h1>Test</h1><br><br>
 
-  <%= psdescr %><br><br>
-  <%= psname %><br><br>
-  <%= numplates %><br><br>
-  <%= format %><br><br>
-  <%= plttypeid %><br><br>
- <%= prjid %><br><br>
- <%= userid %><br><br>
- <%= group %><br><br>
- <%= sql %><br><br>
- 	
+  <%= result %><br><br>
+  <%= cookies %><br><br>
+  	
  	
  
 </body></html>

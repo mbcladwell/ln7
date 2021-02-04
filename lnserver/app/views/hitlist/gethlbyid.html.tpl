@@ -3,18 +3,27 @@
           This file is generated automatically by GNU Artanis. -->
 
 <@include header.tpl %>
-  <div class="container">
-    <h2>Hits for HL-<%= id %></h2>
-    <form action="/project/edit" method="get" id="edit_project_form">
-  <table id="hltable" class="table table-striped table-bordered"><thead><tr><th>Name</th><th>Project</th><th>Accession</th></tr></thead><tbody> <%= body %></tbody>
-  </table>
-  </form>
+<div class="container">
+    <h2>Hits for HL-<%= hlid %></h2>
+  	<table id="hltable" class="table table-striped table-bordered">
+	    <thead><tr><th>Name</th><th>Project</th><th>Accession</th></tr></thead>
+	    <tbody> <%= body %></tbody>
+	</table>
 </div>
+
+
 <script>          
-$(document).ready(function() {
-    $('#hltable').DataTable()});
-  
+ $(document).ready(function() {
+     $('#hltable').DataTable({
+         dom: 'lBfrtip',
+         buttons: [
+             'copy', 'csv'
+         ]
+     });
+ });
+
 </script>
+
 
 
 <@include footer.tpl %>
