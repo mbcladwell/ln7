@@ -67,12 +67,28 @@
 
 <script>          
 $(document).ready(function() {
-    $('#artable').DataTable();
-} );
+    $('#artable').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    });
+ } );
   
 $(document).ready(function() {
-    $('#hltable').DataTable();
-} );
+    $('#hltable').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    });
+ } );
 
 </script>
 

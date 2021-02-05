@@ -5,7 +5,8 @@
 <@include header.tpl %>
 <div class="container">    
 <h1>Targets</h1>
-<table id="lyttable" class="table table-striped table-bordered"><thead><tr><th>ID</th><th>Project</th><th>Name</th><th>Description</th><th>Accession</th></tr></thead>
+<table id="lyttable" class="table table-striped table-bordered">
+    <thead><tr><th>ID</th><th>Project</th><th>Name</th><th>Description</th><th>Accession</th></tr></thead>
  <tbody> <%= body %></tbody>
 </table>
 </div>
@@ -14,7 +15,10 @@ $(document).ready(function() {
     $('#lyttable').DataTable({
         dom: 'lBfrtip',
         buttons: [
-            'copy', 'csv'
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
         ]
     });
   });

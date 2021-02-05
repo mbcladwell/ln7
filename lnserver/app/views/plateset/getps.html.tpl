@@ -10,7 +10,7 @@
 
     
 <form action="/plateset/reformat" method="post" id="edit_psform">
-  <table id="pstable" class="display table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
+  <table id="pstable" class="table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
   <tbody>  <%= body %> </tbody>
 </table>
 
@@ -23,7 +23,7 @@
 
 <h2>Assay Runs for PRJ-<%= prjid %></h2>
 
-<table id="artable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
+<table id="artable" class="table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
   <tbody><%= assay-runs %></tbody>
 </table>
 
@@ -32,7 +32,7 @@
 <br>
 <hr>
 <h2>Hit Lists for PRJ-<%= prjid %></h2>
-<table id="hltable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
+<table id="hltable" class="table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
 <tbody>
 <%= hit-lists %>
   </tbody>
@@ -44,18 +44,24 @@
        
 $(document).ready(function() {
     $('#pstable').DataTable({
-        dom: 'Bfrtip',
+        dom: 'lBfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
         ]
     } );
  } );
 
 $(document).ready(function() {
     $('#artable').DataTable({
-        dom: 'Bfrtip',
+        dom: 'lBfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
         ]
     } );
  } );
@@ -64,7 +70,10 @@ $(document).ready(function() {
     $('#hstable').DataTable({
         dom: 'lBfrtip',
         buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
         ]
     } );
  } );

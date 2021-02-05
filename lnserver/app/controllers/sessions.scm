@@ -36,9 +36,16 @@
 
 ;; person_id must be populated
 (sessions-define getall
-		 (options #:conn #t)
+		 (options #:conn #t
+			   #:cookies '(names prjid userid group sid))
 		 (lambda (rc)
 		   (let* ((help-topic "session")
+			  (prjid (:cookies-value rc "prjid"))
+			  (userid (:cookies-value rc "userid"))
+			  (group (:cookies-value rc "group"))
+			  (sid (:cookies-value rc "sid"))
+			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			  (sql  "select * from get_all_sessions()")
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body (string-concatenate (prep-session-rows holder)))

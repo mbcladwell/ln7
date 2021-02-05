@@ -11,12 +11,17 @@
 
 <script>          
 $(document).ready(function() {
-    $('table.display').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-            'copy', 'csv'
-        ]
-    });
+     $('table.display').DataTable(
+	 {
+             dom: 'lBfrtip',
+             buttons: [
+		 'copyHtml5',
+		 'excelHtml5',
+		 'csvHtml5',
+		 'pdfHtml5'
+             ]
+	 }
+     );
  } );
 
 </script>

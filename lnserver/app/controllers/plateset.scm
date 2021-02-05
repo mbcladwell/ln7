@@ -169,6 +169,12 @@
 		  (lambda (rc)
 		    (let* ((help-topic "group")
 			   (today (date->string  (current-date) "~Y-~m-~d"))
+			 (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (qstr  (:from-post rc 'get))
 			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
 			   (b (map uri-decode  a))
@@ -244,6 +250,8 @@
 		(group (:cookies-value rc "group"))
 		(sid (:cookies-value rc "sid"))
 		(reps 1)  ;;new plate sets never have replicates
+		(get-ps-link (string-append "/plateset/getps?id=" prjid))
+		(ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		(sql (string-append "select id, name from plate_layout_name WHERE source_dest = 'source' AND plate_format_id =" format))
 		(holder  (DB-get-all-rows (:conn rc sql)))
 		(sample-layout-pre '())
@@ -310,21 +318,23 @@
 
 
 (post "/plateset/createbygroup"
-		  #:conn #t #:from-post 'qstr #:cookies '(names prjid sid)
+		  #:conn #t #:from-post 'qstr #:cookies '(names prjid userid group sid)
 		  (lambda (rc)
 		    (let* ((help-topic "plateset")
 			   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (qstr  (:from-post rc 'get))
+			   (prjid (:cookies-ref rc 'prjid "prjid"))
+			   (userid (:cookies-value rc "userid"))
+			   (group (:cookies-value rc "group"))
+			   (sid (:cookies-value rc "sid"))
+			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (psname  (car (delete #f (map (match-lambda (("psname" x) x)(_ #f))  qstr))))
 			   (descr   (car (delete #f (map (match-lambda (("descr" x) x)(_ #f))  qstr))))
 			   (tot-plates (car (delete #f (map (match-lambda (("totplates" x) x)(_ #f))  qstr))))
 			   (format  (car (delete #f (map (match-lambda (("format" x) x)(_ #f))  qstr))))
 			   (type  (car (delete #f (map (match-lambda (("type" x) x)(_ #f))  qstr))))
 			   (lyt-id  (car (delete #f (map (match-lambda (("lytid" x) x)(_ #f))  qstr))))
-			   (cookies (rc-cookie rc))
-			   (acook (:cookies-ref rc 'prjid "prjid"))
-			   (prjid "1")
-			   (sid "9999999999")
 			    ;; see dbi.groupPlateSetsIntoNewPlateSet
 			   ;;CREATE OR REPLACE FUNCTION new_plate_set_from_group(_descr VARCHAR(30),_plate_set_name VARCHAR(30), _num_plates INTEGER, _plate_format_id INTEGER, _plate_type_id INTEGER, _project_id INTEGER, _plate_layout_name_id INTEGER, _sessions_id VARCHAR(32))
 			   ;; returns plate-set-id
@@ -432,7 +442,13 @@
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
-			  ;;(filename (:from-post rc 'get-vals "myfile"))
+			  (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
+	  ;;(filename (:from-post rc 'get-vals "myfile"))
 			 ;; (a (:from-post rc 'get-vals "datatransfer"))
 			  ;;(b (map list (cdr (string-split a #\newline))))
 			  (datafile (uri-decode (:from-post rc 'get-vals "datafile")))
@@ -452,8 +468,7 @@
 			  (algorithm (:from-post rc 'get-vals "algorithm"))
 			  (hl-name (:from-post rc 'get-vals "hlname"))
 			  (hl-descr (:from-post rc 'get-vals "hldescr"))
-			  (session-id "1")
-			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", " session-id ")"))
+			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", " sid ")"))
 		  	  ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
 			  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
 			 ;; (assay-run-id 2)
@@ -465,8 +480,8 @@
 			  (threshold (cond
 				      ((equal? algorithm "1")  ;;Top N
 				       (let* ((numhits (:from-post rc 'get-vals "nhits"))
-					      (pgarray (make-topN-hitlist hl-name hl-descr numhits assay-run-id session-id rc))
-					      (sql (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  numhits ", " (number->string assay-run-id) ", " session-id ", " pgarray ")" ))
+					      (pgarray (make-topN-hitlist hl-name hl-descr numhits assay-run-id sid rc))
+					      (sql (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  numhits ", " (number->string assay-run-id) ", " sid ", " pgarray ")" ))
 					      (dummy (:conn rc sql))
 					      )	 #f) )
 				      
@@ -474,7 +489,7 @@
 				       (let* ((sql (string-append "SELECT mean_neg_2_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
 					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
 					      (results (make-threshold-hitlist threshold assay-run-id rc))
-					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " session-id ", "  (cadr results) ")" ))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " sid ", "  (cadr results) ")" ))
 					      (dummy (:conn rc sql2))
 					      )
 					 #f   ))
@@ -483,7 +498,7 @@
 				       (let* ((sql (string-append "SELECT mean_neg_3_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
 					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
 					      (results (make-threshold-hitlist threshold assay-run-id rc))
-					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " session-id ", "  (cadr results) ")" ))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " sid ", "  (cadr results) ")" ))
 					      (dummy (:conn rc sql2))
 					      )
 					 #f   ))
@@ -492,7 +507,7 @@
 				       (let* ((sql (string-append "SELECT mean_pos FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))     
 					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
 					      (results (make-threshold-hitlist threshold assay-run-id rc))
-					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " session-id ", "  (cadr results) ")" ))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " sid ", "  (cadr results) ")" ))
 					      (dummy (:conn rc sql2)))
 					      					      
 					 #f   ))					 
@@ -515,36 +530,16 @@
  ;;      insertPs.setArray(6, conn.createArrayOf("INTEGER", hit_list));
 
 
-;; CREATE OR REPLACE FUNCTION new_hit_list(_name VARCHAR(250), _descr VARCHAR(250), _num_hits INTEGER, _assay_run_id INTEGER, _sessions_id VARCHAR(32), hit_list integer[])
-;;   RETURNS void AS
-;; $BODY$
-;; DECLARE
-;;  hl_id INTEGER;
-;;  hl_sys_name VARCHAR(10);
-;;  s_id INTEGER;
-;; BEGIN
-
-
-;;   INSERT INTO hit_list(hitlist_name, descr, n, assay_run_id, sessions_id)
-;;    VALUES (_name, _descr, _num_hits, _assay_run_id, _sessions_id)
-;;    RETURNING id INTO hl_id;
-
-;;     UPDATE hit_list SET hitlist_sys_name = 'HL-'|| hl_id WHERE id=hl_id;
-    
-;; FOR i IN 1.._num_hits loop
-;;  INSERT INTO hit_sample(hitlist_id, sample_id)VALUES(hl_id, hit_list[i]);
-;; END LOOP;
-
-;; END;
-;; $BODY$
-;;   LANGUAGE plpgsql VOLATILE;
-
-
-
 (post "/plateset/impdataaction"  #:conn #t #:from-post 'qstr
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
+			 (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			  (filename (:from-post rc 'get-vals "myfile"))
 			  (a (:from-post rc 'get-vals "datatransfer"))
 			  ;;(b (map list (cdr (string-split a #\newline))))
@@ -574,7 +569,12 @@
 			   (all-ps-ids  (list (uri-decode (:from-post rc 'get-vals "plateset-id")))) ;;these are the checked ps-ids - should be only one
 			   (activity (:from-post rc 'get-vals "activity"))
 			  ;; (filename (:from-post rc 'get-vals "myfile"))
-			  
+			   (prjid (:cookies-ref rc 'prjid "prjid"))
+			   (userid (:cookies-value rc "userid"))
+			   (group (:cookies-value rc "group"))
+			   (sid (:cookies-value rc "sid"))
+			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (start (map string-split all-ps-ids (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
 			   (psid (caar start))
 			   (sql (string-append "select plate_set.plate_set_name, plate_set.descr AS plate_set_descr, plate_set.num_plates, plate_set.plate_format_id, plate_set.plate_layout_name_id,  plate_layout_name.name AS lyt_name, plate_layout_name.descr,  plate_layout_name.control_loc,  plate_layout_name.sys_name from plate_set, plate_layout_name where plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.id=" psid ))
@@ -726,13 +726,16 @@
 
 (post "/plateset/reformat"
       #:conn #t #:from-post 'qstr
-      #:cookies '(names prjid userid sid)
+      #:cookies '(names prjid userid group sid)
       #:with-auth "login/login?destination=/plateset/reformat"
       (lambda (rc)
 	(let* ((help-topic "reformat")
 	       (prjid (:cookies-value rc "prjid"))
 	       (userid (:cookies-value rc "userid"))
 	       (sid (:cookies-value rc "sid"))
+	       (group (:cookies-value rc "group"))
+	       (get-ps-link (string-append "/plateset/getps?id=" prjid))
+	       (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 	       (today (date->string  (current-date) "~Y-~m-~d"))
 	       (qstr  (:from-post rc 'get))
 	       (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
@@ -762,9 +765,18 @@
 
 
 (post "/plateset/reformatconfirm"
-		  #:conn #t #:from-post 'qstr
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid userid group sid)
+
 		  (lambda (rc)
 		    (let* ((help-topic "reformat")
+			 (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (srcpsid (:from-post rc 'get-vals "srcpsid"))
 			   (destname (:from-post rc 'get-vals "destname"))
@@ -787,7 +799,6 @@
 			   (destlytname (assoc-ref holder "name"))
 			   (destlytdescr (assoc-ref holder "descr"))		
 			   (destlyttxt (string-append destlytsysname ";" destlytname ";" destlytdescr))
-			   (prjid "1")
 			   (sql2 (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id=" prjid " AND reps = " desttargrep ") OR (project_id IS NULL AND reps =" desttargrep ")"))
 			   (holder2  (DB-get-all-rows (:conn rc sql2)))
 			   (desttargetlyts (dropdown-contents-with-id holder2 '()))
@@ -801,20 +812,24 @@
 			   (srclytidq (addquotes srclytid))
 			   (srcnplatesq (addquotes srcnplates))
 			   (destlytidq (addquotes destlytid))
-			  
-
 			   )		     
 			  (view-render "reformatconfirm" (the-environment))			 
 		      )))
 
 
 (post "/plateset/reformataction"
-		  #:conn #t #:from-post 'qstr #:cookies #t
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid userid group sid)
 		  (lambda (rc)
 		    (let* ((help-topic "reformat")
 			   (today (date->string  (current-date) "~Y-~m-~d"))
-			   ;;(prjid (:cookies-value rc "prjid"))
-			   (prjid "1")
+			   (prjid (:cookies-ref rc 'prjid "prjid"))
+			   (userid (:cookies-value rc "userid"))
+			   (group (:cookies-value rc "group"))
+			   (sid (:cookies-value rc "sid"))
+			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
+			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (srcpsid (:from-post rc 'get-vals "srcpsid"))
 			   (destname (:from-post rc 'get-vals "destname"))
 			   (destdescr (:from-post rc 'get-vals "destdescr"))

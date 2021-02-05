@@ -4,9 +4,10 @@
   
 <@include header.tpl %>
 
+
   <div class="container">
-  <h1>All Sessions</h1>
-<table id="sesstable"><thead><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr></thead>
+      <h1>All Sessions</h1>
+      <table id="sesstable" class="table table-striped table-bordered"><thead><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr></thead>
 <tbody><%= body %></tbody>
 </table>
 
@@ -15,7 +16,15 @@ Active sessions in <font style="color:red">red</font><br><br>
 
   <script>          
 $(document).ready(function() {
-    $('#sesstable').DataTable()});
+    $('#sesstable').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+   })});
 
 </script>
 

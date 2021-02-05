@@ -17,7 +17,10 @@
      $('#hltable').DataTable({
          dom: 'lBfrtip',
          buttons: [
-             'copy', 'csv'
+             'copyHtml5',
+             'excelHtml5',
+             'csvHtml5',
+             'pdfHtml5'
          ]
      });
  });

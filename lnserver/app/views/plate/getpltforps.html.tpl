@@ -21,8 +21,16 @@
 
 <script>          
 $(document).ready(function() {
-    $('table.display').DataTable();
-} );
+    $('table.display').DataTable({
+        dom: 'lBfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    });
+ } );
 
 </script>
 
