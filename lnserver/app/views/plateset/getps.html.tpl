@@ -33,49 +33,55 @@
 <hr>
 <h2>Hit Lists for PRJ-<%= prjid %></h2>
 <table id="hltable" class="table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
-<tbody>
-<%= hit-lists %>
-  </tbody>
+    <tbody>
+	<%= hit-lists %>
+    </tbody>
 </table>
+
+<a id="hitlistbutton" class="btn btn-primary btn-lg active" role="button" >Add Hit List From File to PRJ-<%= prjid %></a>
 
 
 <script>   
 
-       
-$(document).ready(function() {
-    $('#pstable').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
-        ]
-    } );
+ var str1 = "/hitlist/addtoprj?prjid=";
+ var str2 = <%= prjid %>;
+ var res = str1.concat(str2);
+ document.getElementById("hitlistbutton").href = res;
+ 
+ $(document).ready(function() {
+     $('#pstable').DataTable({
+         dom: 'lBfrtip',
+         buttons: [
+             'copyHtml5',
+             'excelHtml5',
+             'csvHtml5',
+             'pdfHtml5'
+         ]
+     } );
  } );
 
-$(document).ready(function() {
-    $('#artable').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
-        ]
-    } );
+ $(document).ready(function() {
+     $('#artable').DataTable({
+         dom: 'lBfrtip',
+         buttons: [
+             'copyHtml5',
+             'excelHtml5',
+             'csvHtml5',
+             'pdfHtml5'
+         ]
+     } );
  } );
 
-$(document).ready(function() {
-    $('#hstable').DataTable({
-        dom: 'lBfrtip',
-        buttons: [
-            'copyHtml5',
-            'excelHtml5',
-            'csvHtml5',
-            'pdfHtml5'
-        ]
-    } );
+ $(document).ready(function() {
+     $('#hstable').DataTable({
+         dom: 'lBfrtip',
+         buttons: [
+             'copyHtml5',
+             'excelHtml5',
+             'csvHtml5',
+             'pdfHtml5'
+         ]
+     } );
  } );
 
 </script>

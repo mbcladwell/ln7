@@ -57,10 +57,10 @@
                 <a href="#platesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Plate Sets</a>
                 <ul class="collapse list-unstyled" id="platesetSubmenu">
                     <li>
-                        <a href=<%= get-ps-link %>>for PRJ-<%= prjid %></a>
+                        <a id="getps">for PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
-		      <a href=<%= ps-add-link %>>Add to PRJ-<%= prjid %></a>
+		      <a id="psadd">Add to PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
 		      <a href="#" onclick="editPlateSet()">Edit</a>
@@ -93,36 +93,45 @@
    </li>
 
    <li class="active">
-                <a href="#exportPlatesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Export</a>
-                <ul class="collapse list-unstyled" id="exportPlatesetSubmenu">
-
-		    
-		    <li>
-                        <a href="/project/add">Selected Rows</a>
-                    </li>
-		    <li>
-                        <a href="/project/add">Underlying Data</a>
-                    </li>
-
-		</ul>
+     <a href="#exportPlatesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Export</a>
+     <ul class="collapse list-unstyled" id="exportPlatesetSubmenu">
+       <li>
+         <a href="/project/add">Selected Rows</a>
+       </li>
+       <li>
+         <a href="/project/add">Underlying Data</a>
+       </li>
+       
+     </ul>
    </li>
-
-   
-
                 </ul>
-            </li>
+    </li>
+
+<li class="active">
+      <a href="#hitlistSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Hitlists</a>
+      <ul class="collapse list-unstyled" id="hitlistSubmenu">
+        <li>                    
+	  <a id="hitlistforprj" >For Project PRJ-<%= prjid %></a>
+        </li>
+        <li>                    
+	  <a id="hitlistimport">Import file into PRJ-<%= prjid %></a>
+        </li>
+      </ul>
+    </li>
    
+
+    
     <li class="active">
-                <a href="#layoutSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Layouts</a>
-                <ul class="collapse list-unstyled" id="layoutSubmenu">
-                    <li>
-                        <a href="/layout/getall">All</a>
-                    </li>
-                    <li>                    
-		      <a href="/layout/select">Import</a>
-                    </li>
-                </ul>
-            </li>
+      <a href="#layoutSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Layouts</a>
+      <ul class="collapse list-unstyled" id="layoutSubmenu">
+        <li>
+          <a href="/layout/getall">All</a>
+        </li>
+        <li>                    
+	  <a href="/layout/select">Import</a>
+        </li>
+      </ul>
+    </li>
    
      <li class="active">
                 <a href="#targetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Targets</a>

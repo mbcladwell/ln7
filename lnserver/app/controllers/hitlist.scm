@@ -73,10 +73,65 @@
 			 ;; (group (:cookies-value rc "group"))
 			 ;; (sid (:cookies-value rc "sid"))
 			 (prjid "1")
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))
 			 (userid "1")
 			 (group "admin")
 			 (sid "0f1a05af5685af9ab62536720c9a74c1"))
 		    (view-render "test" (the-environment)))))
 
+
+(hitlist-define importhl
+		(options #:cookies '(names prjid lnuser userid group sid))
+		(lambda (rc)
+		  (let* ((help-topic "hitlist")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 )
+		    (view-render "importhl" (the-environment)))))
+
+
+(define (prep-hl-for-prj-rows a)
+  (fold (lambda (x prev)
+          (let ((id (get-c1 x))
+		(hit-list-sys-name (result-ref x "hitlist_sys_name"))
+		(hit-list-name (result-ref x "hitlist_name"))
+		(descr (result-ref x "descr"))
+		(nhits (get-c5 x)))
+	      (cons (string-append "<tr><td><a href=\"/hitlist/gethlbyid?id=" id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
+		  prev)))
+        '() a))
+
+
+(hitlist-define forprj
+		(options #:conn #t
+			 #:cookies '(names prjid lnuser userid group sid))
+  (lambda (rc)
+    (let* ((help-topic "hitlist")
+	   (prjid (get-from-qstr rc "prjid"))
+	   (userid (:cookies-value rc "userid"))
+	   (group (:cookies-value rc "group"))
+	   (sid (:cookies-value rc "sid"))
+	   (sql (string-append "SELECT hit_list.id, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n FROM hit_list, assay_run, plate_set   WHERE hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id=" prjid ))
+	   (holder (DB-get-all-rows (:conn rc sql)))
+	   (body  (string-concatenate  (prep-hl-for-prj-rows holder)) ))  
+      (view-render "forprj" (the-environment))
+      )))
+
+
+    ;; public void insertHitListFromFile2(String _name, String _description, int _num_hits, int _assay_run_id, int[] _hit_list){
+
+    ;; 	Integer[] hit_list = Arrays.stream( _hit_list ).boxed().toArray( Integer[]::new );
+    ;; 	//Object[] hit_list = (Integer[])_hit_list;
+    ;; 	      try {
+    ;;   String insertSql = "SELECT new_hit_list ( ?, ?, ?, ?, ?, ?);";
+    ;;   PreparedStatement insertPs =
+    ;;       conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+    ;;   insertPs.setString(1, _name);
+    ;;   insertPs.setString(2, _description);
+    ;;   insertPs.setInt(3, _num_hits);
+    ;;   insertPs.setInt(4, _assay_run_id);
+    ;;   insertPs.setInt(5, session_id);
+
+;; CREATE OR REPLACE FUNCTION new_hit_list(_name VARCHAR(250), _descr VARCHAR(250), _num_hits INTEGER, _assay_run_id INTEGER, _sessions_id VARCHAR(32), hit_list integer[])
+;;  RETURNS void AS

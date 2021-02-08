@@ -46,6 +46,16 @@ view layout select
 
 *  #{urweyru}#  is a read symbol use (symbol->string to get "urweyru"
 
+
+*  concatenate html code using javascipt in getps.html.tpl
+
+ var str1 = "/hitlist/addtoprj?prjid=";
+ var str2 = <%= prjid %>;
+ var res = str1.concat(str2);
+ document.getElementById("hitlistbutton").href = res;
+
+
+
 ## todo
 
 

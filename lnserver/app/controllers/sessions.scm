@@ -6,15 +6,9 @@
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(srfi srfi-19)(dbi dbi) (lnserver sys extra)
 	     (ice-9 pretty-print))
 
-
-(sessions-define get
-  (lambda (rc)
-  "<h1>This is sessions#get</h1><p>Find me in app/views/sessions/get.html.tpl</p>"
-  ;; TODO: add controller method `get'
-  ;; uncomment this line if you want to render view from template
-  ;; (view-render "get" (the-environment))
-  ))
-
+;; default session is one hour.  Change it in:
+;; artanis/artanis/session.scm L388
+;; artanis/artanis/cookie.scm L129
 
 (define (prep-session-rows a)
   (fold (lambda (x prev)

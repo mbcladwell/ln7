@@ -61,10 +61,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a href=")(display  get-ps-link )(display ">for PRJ-")(display  prjid )(display "</a>
+                        <a id=\"getps\">for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a href=")(display  ps-add-link )(display ">Add to PRJ-")(display  prjid )(display "</a>
+		      <a id=\"psadd\">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -97,36 +97,45 @@
    </li>
 
    <li class=\"active\">
-                <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
-                <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
-
-		    
-		    <li>
-                        <a href=\"/project/add\">Selected Rows</a>
-                    </li>
-		    <li>
-                        <a href=\"/project/add\">Underlying Data</a>
-                    </li>
-
-		</ul>
+     <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
+     <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
+       <li>
+         <a href=\"/project/add\">Selected Rows</a>
+       </li>
+       <li>
+         <a href=\"/project/add\">Underlying Data</a>
+       </li>
+       
+     </ul>
    </li>
-
-   
-
                 </ul>
-            </li>
+    </li>
+
+<li class=\"active\">
+      <a href=\"#hitlistSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Hitlists</a>
+      <ul class=\"collapse list-unstyled\" id=\"hitlistSubmenu\">
+        <li>                    
+	  <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
+        </li>
+        <li>                    
+	  <a id=\"hitlistimport\">Import file into PRJ-")(display  prjid )(display "</a>
+        </li>
+      </ul>
+    </li>
    
+
+    
     <li class=\"active\">
-                <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
-                <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
-                    <li>
-                        <a href=\"/layout/getall\">All</a>
-                    </li>
-                    <li>                    
-		      <a href=\"/layout/select\">Import</a>
-                    </li>
-                </ul>
-            </li>
+      <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
+      <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
+        <li>
+          <a href=\"/layout/getall\">All</a>
+        </li>
+        <li>                    
+	  <a href=\"/layout/select\">Import</a>
+        </li>
+      </ul>
+    </li>
    
      <li class=\"active\">
                 <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
@@ -246,6 +255,26 @@ The file must end on the last row of data i.e. no final carriage return.<br>
 	
 
 <script>
+ var str1 = \"/hitlist/forprj?prjid=\";
+ var str2 = ")(display  prjid )(display ";
+ var res = str1.concat(str2);
+ document.getElementById(\"hitlistforprj\").href = res;
+
+
+ var str3 = \"/hitlist/importhl?prjid=\";
+ var res2 = str3.concat(str2);
+ document.getElementById(\"hitlistimport\").href = res2;
+
+
+ var str4 = \"/plateset/getps?id=\";
+ var res3 = str4.concat(str2);
+ document.getElementById(\"getps\").href = res3;
+
+ var str5 = \"/plateset/add?format=96&type=master&prjid=\";
+ var res4 = str5.concat(str2);
+ document.getElementById(\"psadd\").href = res4;
+
+
 $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {

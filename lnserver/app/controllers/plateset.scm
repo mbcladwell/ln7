@@ -69,7 +69,7 @@
 (plateset-define getps
 		 (options #:conn #t
 			  #:cookies '(names prjid userid group sid)
-			  #:with-auth "login/login")
+			  )
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")

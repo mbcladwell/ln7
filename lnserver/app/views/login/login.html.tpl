@@ -28,4 +28,4 @@
 
 
   </div>
-    <@include footer.tpl %>
+    <@include loginfooter.tpl %>
