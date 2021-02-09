@@ -11,17 +11,20 @@
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
- <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/bootstrap-4.5.3.min.css\" />
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.min.css\"/>
+ 
 
- <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/> 
- <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/> 
 
+ <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
+ <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
+<script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
 
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/jquery-3.5.1.slim.min.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/bootstrap-4.5.3.bundle.min.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
-    <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
-
+<script type=\"text/javascript\" src=\"../jQuery-3.3.1/jquery-3.3.1.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.min.js\"></script>
 <script type=\"text/javascript\" src=\"../JSZip-2.5.0/jszip.min.js\"></script>
 <script type=\"text/javascript\" src=\"../pdfmake-0.1.36/pdfmake.min.js\"></script>
 <script type=\"text/javascript\" src=\"../pdfmake-0.1.36/vfs_fonts.js\"></script>
@@ -30,9 +33,11 @@
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
-      	
-   
-   
+<script type=\"text/javascript\" src=\"../FixedHeader-3.1.8/js/dataTables.fixedHeader.min.js\"></script>
+
+
+
+
     <title>LIMS*Nucleus </title>
     
 
@@ -68,10 +73,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a href=\"\">for PRJ-</a>
+                        <a id=\"getps\">for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a href=\"/plateset/add?format=96&type=master\">Add to PRJ-</a>
+		      <a id=\"psadd\">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -90,13 +95,13 @@
 
 		    
 		    <li>
-                        <a href=\"/project/add\">Assay Data</a>
+                        <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
                     </li>
 		    <li>
-                        <a href=\"/project/add\">Accessions</a>
+                        <a href=\"/plateset/impacc\">Accessions</a>
                     </li>
 		    <li>
-                        <a href=\"/project/add\">Barcodes</a>
+                        <a href=\"/plateset/impbc\">Barcodes</a>
                     </li>
 
 
@@ -104,36 +109,45 @@
    </li>
 
    <li class=\"active\">
-                <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
-                <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
-
-		    
-		    <li>
-                        <a href=\"/project/add\">Selected Rows</a>
-                    </li>
-		    <li>
-                        <a href=\"/project/add\">Underlying Data</a>
-                    </li>
-
-		</ul>
+     <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
+     <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
+       <li>
+         <a href=\"/project/add\">Selected Rows</a>
+       </li>
+       <li>
+         <a href=\"/project/add\">Underlying Data</a>
+       </li>
+       
+     </ul>
    </li>
-
-   
-
                 </ul>
-            </li>
+    </li>
+
+<li class=\"active\">
+      <a href=\"#hitlistSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Hitlists</a>
+      <ul class=\"collapse list-unstyled\" id=\"hitlistSubmenu\">
+        <li>                    
+	  <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
+        </li>
+        <li>                    
+	  <a id=\"hitlistimport\">Import file into PRJ-")(display  prjid )(display "</a>
+        </li>
+      </ul>
+    </li>
    
+
+    
     <li class=\"active\">
-                <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
-                <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
-                    <li>
-                        <a href=\"/layout/getall\">All</a>
-                    </li>
-                    <li>                    
-		      <a href=\"/layout/select\">Import</a>
-                    </li>
-                </ul>
-            </li>
+      <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
+      <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
+        <li>
+          <a href=\"/layout/getall\">All</a>
+        </li>
+        <li>                    
+	  <a href=\"/layout/select\">Import</a>
+        </li>
+      </ul>
+    </li>
    
      <li class=\"active\">
                 <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
@@ -202,17 +216,8 @@
   <h1>Test</h1><br><br>
 
 
-<br><br>")(display  infile )(display "
-<br><br>")(display  id )(display "
-<br><br>")(display  body-encode )(display "
-<br><br>")(display  hit-lists-encode )(display "
-<br><br>")(display  threshold )(display "
-<br><br>")(display  manthreshold )(display "
-<br><br>")(display  usethreshold )(display "
-
-<br><br>")(display  rscript )(display "
-
-<!-- <br><br>")(display  body )(display "  -->
+<br><br>")(display  lhitlist )(display "
+<br><br>")(display  isnull )(display "
 
 
 
@@ -222,9 +227,29 @@
 ")(display "</div>
 </div>
 
-
+	
 
 <script>
+ var str1 = \"/hitlist/forprj?prjid=\";
+ var str2 = ")(display  prjid )(display ";
+ var res = str1.concat(str2);
+ document.getElementById(\"hitlistforprj\").href = res;
+
+
+ var str3 = \"/hitlist/importhl?prjid=\";
+ var res2 = str3.concat(str2);
+ document.getElementById(\"hitlistimport\").href = res2;
+
+
+ var str4 = \"/plateset/getps?id=\";
+ var res3 = str4.concat(str2);
+ document.getElementById(\"getps\").href = res3;
+
+ var str5 = \"/plateset/add?format=96&type=master&prjid=\";
+ var res4 = str5.concat(str2);
+ document.getElementById(\"psadd\").href = res4;
+
+
 $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {

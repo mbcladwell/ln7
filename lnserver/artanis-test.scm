@@ -55,25 +55,4 @@ ln-version
 
 ('demo','97f8647f1067346d','55ecb01c50cb1ae1', '','user')
 
-(pretty-print (my-hmac "demo" a))
-
-
- public ComboItem[] getLayoutDestinationsForSourceID(int _source_id, int  _source_reps, int _target_reps) {
-    ComboItem[] output = null;
-    Array results = null;
-    int source_id = _source_id;
-    int source_reps = _source_reps;
-    int target_reps = _target_reps;
-    String replication = String.valueOf(source_reps) + "S" + String.valueOf(target_reps) + "T";
-    //LOGGER.info(replication);
-    ArrayList<ComboItem> combo_items = new ArrayList<ComboItem>();
-    try {
-      PreparedStatement pstmt =
-          conn.prepareStatement(
-        "select id, sys_name, name, descr FROM plate_layout_name, layout_source_dest WHERE layout_source_dest.src = ? AND layout_source_dest.dest = plate_layout_name.id AND plate_layout_name.descr=?;");
-      				
-(define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
-(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" )
-
-
-  Expires=Fri, 5 Oct 2018 14:28:00 GMT; 
+(define a '(((id . 193) (sample_sys_name . SPL-193) (project_id . 0) (accs_id . )) ((id . 204) (sample_sys_name . SPL-204) (project_id . 0) (accs_id . )) ((id . 216) (sample_sys_name . SPL-216) (project_id . 0) (accs_id . )) ((id . 217) (sample_sys_name . SPL-217) (project_id . 0) (accs_id . )) ((id . 221) (sample_sys_name . SPL-221) (project_id . 0) (accs_id . )) ((id . 244) (sample_sys_name . SPL-244) (project_id . 0) (accs_id . )) ((id . 251) (sample_sys_name . SPL-251) (project_id . 0) (accs_id . )) ((id . 252) (sample_sys_name . SPL-252) (project_id . 0) (accs_id . )) ((id . 256) (sample_sys_name . SPL-256) (project_id . 0) (accs_id . )) ((id . 269) (sample_sys_name . SPL-269) (project_id . 0) (accs_id . ))))

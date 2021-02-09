@@ -78,9 +78,7 @@
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
-			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-
+	
 			  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )

@@ -7,17 +7,8 @@
   <h1>Test</h1><br><br>
 
 
-<br><br><%= infile %>
-<br><br><%= id %>
-<br><br><%= body-encode %>
-<br><br><%= hit-lists-encode %>
-<br><br><%= threshold %>
-<br><br><%= manthreshold %>
-<br><br><%= usethreshold %>
-
-<br><br><%= rscript %>
-
-<!-- <br><br><%= body %>  -->
+<br><br><%= lhitlist %>
+<br><br><%= isnull %>
 
 
 

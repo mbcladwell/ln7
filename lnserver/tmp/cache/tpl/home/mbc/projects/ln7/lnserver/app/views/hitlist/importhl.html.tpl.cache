@@ -206,7 +206,7 @@
   <div class=\"container\">
     <h3>Import Hit List for PRJ-")(display  prjid )(display "</h3>
 
-    Import a tab delimitted, 1 column file with header:<br><br>
+    Import a one column file with header:<br><br>
 <pre>
 id
 SPL-292

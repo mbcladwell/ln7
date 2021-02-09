@@ -135,14 +135,15 @@
 	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2) rc))
 	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 	(outfile2 (string-append "\"../" outfile "\""))
-	(hit-lists (get-hit-lists-for-arid id rc))
-	(hit-lists-encode (if hit-lists (htmlify hit-lists) #f))
+	(hit-lists (get-hit-lists-for-arid id rc))	
+	(hit-lists-encode (if  (equal? "" hit-lists) #f (htmlify hit-lists)))
 	(idq (addquotes id))  ;; for passing to html
 	(infileq (addquotes infile))
 	(infile2q (addquotes infile2))
 	(body-encodeq (addquotes body-encode))
-	(hit-lists-encodeq (addquotes hit-lists-encode))
+	(hit-lists-encodeq (if hit-lists-encode (addquotes  hit-lists-encode) #f))
 	)
+;;    (view-render "test" (the-environment)))))
     (view-render "getarid" (the-environment)))))
 
 

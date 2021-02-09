@@ -53,8 +53,6 @@
 	      (userid (:cookies-value rc "userid"))
 	      (group (:cookies-value rc "group"))
 	      (sid (:cookies-value rc "sid"))
-	      (get-ps-link (string-append "/plateset/getps?id=" prjid))
-	      (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 	      (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
 	      (body (string-concatenate (prep-project-rows holder)))
 	      (prjidq (addquotes prjid))

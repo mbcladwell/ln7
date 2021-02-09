@@ -41,28 +41,40 @@
 		  prev)))
         '() a))
 
+(define (prep-hl-counts a)
+  (fold (lambda (x prev)
+          (let ((id (get-c1 x))
+		(plate-set-sys-name (result-ref x "plate_set_sys_name"))
+		(type (cdar (cddr x))) ;; coming out as "max"
+		(format (get-c4 x))
+		(nhits (get-c5 x)))
+	      (cons (string-append "<tr><td>" id "</td><td>" plate-set-sys-name "</td><td>" type "</td><td>" format "</td><td>" nhits "</td><tr>")
+		  prev)))
+        '() a))
+
 
 (hitlist-define gethlbyid
 		(options #:conn #t
-			 #:cookies '(names prjid lnuser userid group sid)
-			 #:with-auth "login/login")
+			 #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "hitlist")
-			 ;; (prjid (:cookies-value rc "prjid"))
-			 ;; (userid (:cookies-value rc "userid"))
-			 ;; (group (:cookies-value rc "group"))
-			 ;; (sid (:cookies-value rc "sid"))
-			 (prjid "1")
-			 (get-ps-link (addquotes (string-append "/plateset/getps?id=" prjid)))
-			 (ps-add-link (addquotes (string-append "/plateset/add?format=96&amp;type=master&amp;prjid=" prjid)))
-					 (userid "1")
-			 (group "admin")
-			 (sid "0f1a05af5685af9ab62536720c9a74c1")
+			 (prjid (:cookies-value rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
 			 (hlid  (get-from-qstr rc "id")) ;; hit-list id
 			 (sql (string-append "select sample.id, sample.sample_sys_name, sample.project_id, sample.accs_id  from hit_list, sample, hit_sample where sample.id=hit_sample.sample_id AND hit_list.id=hit_sample.hitlist_id AND hitlist_id =" hlid ))
 			 (holder (DB-get-all-rows (:conn rc sql)))
-			 (body  (string-concatenate  (prep-hl-rows holder)) ))
-		    (view-render "gethlbyid" (the-environment)))))
+			 (numhits (length  holder))
+			 (body  (string-concatenate  (prep-hl-rows holder)) )
+			 (sql2 (string-append "SELECT MAX(plate_set.id), plate_set.plate_set_sys_name, MAX(plate_type.plate_type_name), MAX(plate_set.plate_format_id), COUNT(sample.ID) FROM plate_set, plate_plate_set, plate_type, plate, well, well_sample, sample WHERE plate_plate_set.plate_set_id=plate_set.ID AND plate_plate_set.plate_id=plate.id AND plate_set.plate_type_id = plate_type.id   and well.plate_id=plate.ID AND well_sample.well_id=well.ID AND well_sample.sample_id= sample.ID  AND sample.id  IN (SELECT  sample.id FROM hit_list, hit_sample, plate_set, assay_run, sample WHERE hit_sample.hitlist_id=hit_list.id  AND hit_sample.sample_id=sample.id  and assay_run.plate_set_id=plate_set.id AND   hit_list.assay_run_id=assay_run.id   AND  hit_sample.hitlist_id IN (SELECT hit_list.ID FROM hit_list, assay_run WHERE hit_list.assay_run_id=assay_run.ID AND hit_list.id= " hlid " and assay_run.ID IN (SELECT assay_run.ID FROM assay_run WHERE assay_run.plate_set_id IN (SELECT plate_set.ID FROM plate_set WHERE plate_set.project_id=" prjid ")))) GROUP BY plate_set.plate_set_sys_name" ))
+			 (holder2 (DB-get-all-rows (:conn rc sql2)))
+			 (body2  (string-concatenate  (prep-hl-counts holder2)) )
+			 )
+		    (view-render "gethlbyid" (the-environment))
+		    ;;(view-render "test2" (the-environment))
+		    
+		    )))
 
 
 (hitlist-define test
@@ -135,3 +147,6 @@
 
 ;; CREATE OR REPLACE FUNCTION new_hit_list(_name VARCHAR(250), _descr VARCHAR(250), _num_hits INTEGER, _assay_run_id INTEGER, _sessions_id VARCHAR(32), hit_list integer[])
 ;;  RETURNS void AS
+
+
+
