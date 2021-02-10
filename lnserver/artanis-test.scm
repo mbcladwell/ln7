@@ -35,24 +35,71 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 
 (validate-key "16fjkhwF2rkdbwogqLdHZG4fb87jUxtJBU" "info@labsolns.com" "c1f400d8992fbe8b1fec6c54cccf14a3")
 
-(define a #f)
+(define a '((1	SEPTIN9		10801
+) (1	FST		10468
+) (1	CAPN2		824
+) (1	WWP1		11059
+) (1	NEB		4703
+) (1	LITAF		9516
+) (1	GPC1		2817
+) (2	FKTN		2218
+)))
 
 
-(eq? #t a)
+(define holder '())
 
-ln-version
-
-
-(define (get-salt)
-(get-random-from-dev #:length 8 #:uppercase #f))
-
-(define a  (get-salt))
-
-(my-hmac "demo" a)
-
-(supports-source-properties? my-hmac)
+(define (my-last lst holder)
+  (if (null? (cdr lst))
+      (cons (map list (car lst)) holder)
+      (my-last (cdr lst) holder)))
 
 
-('demo','97f8647f1067346d','55ecb01c50cb1ae1', '','user')
+(my-last a)
 
-(define a '(((id . 193) (sample_sys_name . SPL-193) (project_id . 0) (accs_id . )) ((id . 204) (sample_sys_name . SPL-204) (project_id . 0) (accs_id . )) ((id . 216) (sample_sys_name . SPL-216) (project_id . 0) (accs_id . )) ((id . 217) (sample_sys_name . SPL-217) (project_id . 0) (accs_id . )) ((id . 221) (sample_sys_name . SPL-221) (project_id . 0) (accs_id . )) ((id . 244) (sample_sys_name . SPL-244) (project_id . 0) (accs_id . )) ((id . 251) (sample_sys_name . SPL-251) (project_id . 0) (accs_id . )) ((id . 252) (sample_sys_name . SPL-252) (project_id . 0) (accs_id . )) ((id . 256) (sample_sys_name . SPL-256) (project_id . 0) (accs_id . )) ((id . 269) (sample_sys_name . SPL-269) (project_id . 0) (accs_id . ))))
+(string-trim-both (map list (car a)) cs)
+(string-split a #\t)
+
+(map object->string (car a))
+
+
+
+(define (process-trg-row1 lst results)
+  ;; make a list of strings from objects
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (cons   (map object->string (car lst)) results))
+       results)
+       (begin
+	 (set! results (cons  (map object->string (car lst)) results))
+	 (process-trg-row1 (cdr lst) results )) ))
+
+(define b  (process-trg-row1 a '()))
+
+
+(length (car b))
+
+(define (process-trg-row2 lst results)
+  ;; results is a string like "'{"2" "3" "4"}'" note the single quotes
+  (if (null? (cdr lst))
+      (begin
+	(cond
+	 ((= (length (car lst)) 3) (set! results  (string-append results "{\"" (caar lst) "\" " (cadar lst) "\" \""  (caddar lst)   "\"}," )))
+	  ((= (length (car lst)) 4)(set! results  (string-append results "{" (caar lst) ", " (cadar lst) ", "  (caddar lst)   "}," )))
+	 )
+       (string-append "'" (substring results 0 (- (string-length results) 1)) "'"))
+       (begin
+	 (cond
+	 ((= (length (car lst)) 3) (set! results  (string-append results "{" (caar lst) ", " (cadar lst) ", "  (caddar lst)   "}," )))
+	  ((= (length (car lst)) 4)(set! results  (string-append results "{" (caar lst) ", " (cadar lst) ", "  (caddar lst)   "}," ))))	 
+	 (process-trg-row2 (cdr lst) results)) ))
+
+(pretty-print (process-trg-row2 b ""))
+
+
+(- (string-length "jfksjdfkj,") 1)
+
+(string-append "'" (substring "jfksjdfkj," 0 (- (string-length "jfksjdfkj,") 1)) "'")
+
+(= (length (caddar b)) 3)
+
+(string-append "{\""  "sometext" "\"}")

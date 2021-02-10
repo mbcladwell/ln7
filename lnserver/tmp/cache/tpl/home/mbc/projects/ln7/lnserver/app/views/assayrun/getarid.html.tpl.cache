@@ -14,7 +14,6 @@
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.min.css\"/>
  
 
@@ -269,14 +268,24 @@
 <hr>
 <h2>Hit Lists for AR-")(display  id )(display "</h2>
 <table id=\"hltable\" class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
-<tbody>")(display  hit-lists )(display "</tbody>
+    <tbody>")(display  hit-lists )(display "</tbody>
 </table>
+
+<a id=\"hitlistbutton\" class=\"btn btn-primary btn-lg active\" role=\"button\" >Add Hit List From File to AR-")(display  id )(display "</a>
+
 
 </div>
 
-<script>          
-$(document).ready(function() {
-    $('#artable').DataTable({
+<script>
+
+ var str1 = \"/hitlist/importhl?arid=\";
+ var str2 = ")(display  id )(display ";
+ var res = str1.concat(str2);
+ document.getElementById(\"hitlistbutton\").href = res;
+
+ 
+ $(document).ready(function() {
+     $('#artable').DataTable({
         dom: 'lBfrtip',
         buttons: [
             'copyHtml5',

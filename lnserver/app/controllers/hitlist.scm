@@ -95,6 +95,7 @@
 		(options #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "hitlist")
+			 (arid (get-from-qstr rc "arid"))
 			 (prjid (:cookies-value rc "prjid"))
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
@@ -130,7 +131,7 @@
       (view-render "forprj" (the-environment))
       )))
 
-
+;; need selected response and num_hits
     ;; public void insertHitListFromFile2(String _name, String _description, int _num_hits, int _assay_run_id, int[] _hit_list){
 
     ;; 	Integer[] hit_list = Arrays.stream( _hit_list ).boxed().toArray( Integer[]::new );
@@ -149,4 +150,20 @@
 ;;  RETURNS void AS
 
 
+(post "/hitlist/addtoar"
+		 #:conn #t
+		 #:cookies '(names prjid lnuser userid group sid)
+		 #:from-post 'qstr
+  (lambda (rc)
+    (let* ((help-topic "hitlist")
+	   (arid (:from-post rc 'get "arid"))
+	   (prjid (:cookies-value rc "prjid"))	   
+	   (userid (:cookies-value rc "userid"))
+	   (group (:cookies-value rc "group"))
+	   (sid (:cookies-value rc "sid"))
+	   (sql (string-append "SELECT hit_list.id, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n FROM hit_list, assay_run, plate_set   WHERE hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id=" arid ))
+	   (holder (DB-get-all-rows (:conn rc sql)))
+	   (body  (string-concatenate  (prep-hl-for-prj-rows holder)) ))  
+      (view-render "addtoar" (the-environment))
+      )))
 

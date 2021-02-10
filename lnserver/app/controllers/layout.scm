@@ -111,9 +111,14 @@
 
 
 
- (layout-define select
+(layout-define select
+	        (options 
+			    #:cookies '(names prjid userid sid))
   (lambda (rc)
-    (let* ((help-topic "layouts"))
+    (let* ((help-topic "layouts")
+	   (prjid (:cookies-value rc "prjid"))
+	   (userid (:cookies-value rc "userid"))
+	   (sid (:cookies-value rc "sid")))
       (view-render "select" (the-environment))
       )))
 

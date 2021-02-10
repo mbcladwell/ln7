@@ -1,9 +1,7 @@
-(display "<!-- 
-   select.js puts an event listener on \"myfile\" and validates the file
-Then submit must be pressed to process
-   <input type=\"hidden\" id=\"\" name=\"outfile\" value=  >
-           -->
-
+(display "<!-- project#add view template of lnserver
+          Please add your license header here.
+          This file is generated automatically by GNU Artanis. -->
+  
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -213,48 +211,65 @@ Then submit must be pressed to process
 <div id=\"content\">
 
 ")(display "
+
   <div class=\"container\">
-    <h1>Select Layout For Import</h1><br>
+  <h2>Add Hit List to AR-")(display  arid )(display "</h2>
 
-    <form action=\"/viewlayout\" method=\"POST\">
-      <div>
-	<label for=\"myfile\">Select a layout file for import.</label><br>
-	<label for=\"myfile\">The file must be tab delimitted text with a header and contain 96, 384, or 1536 rows of data.</label><br>
-	<label for=\"myfile\">Required format:</label>
-      </div>
+  <form action=\"/hitlist/addstep2\" method=\"post\">
+ <div class=\"form-group\">   
+    <label for=\"name\">Hit List Name:</label>  <input type=\"text\"  class=\"form-control\" id=\"hlname\" name=\"hlname\" value=\"\" required>
+ </div>
+ <div class=\"form-group\">   
+   <label for=\"descr\">Description:</label>  <input type=\"text\"  class=\"form-control\" id=\"descr\" name=\"descr\" value=\"\" required>
+ </div>
+ 
 
-      <pre>well	type
-1	5
-2	5
-3	5
-4	5 ....</pre>
-      
-      <div class=\"custom-file\">
-	<input type=\"file\" accept=\".txt\" class=\"custom-file-input\" id=\"myfile\" name=\"myfile\">
-	<label class=\"custom-file-label\" for=\"myfile\">Choose file</label>
-      </div><br><br>
-      <button type=\"submit\" class=\"btn btn-primary\">Submit</button><br>      
-      <input type=\"hidden\" id=\"datatransfer\" name=\"datatransfer\" >
-      <input type=\"hidden\" id=\"format2\" name=\"format2\" >
-    </form>
+ <div class=\"form-row\">
+    <div class=\"form-group col-md-6\">
+   <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\" id=\"importButton\" name=\"importButton\" enabled>
+    </div>
+ </div>
 
-    <span id=\"myText\"></span>
-     
 
-    <script>
-      $('#myfile').on('change',function(){
-          //get the file name
-          var fileName = $(this).val();
-          //replace the \"Choose a file\" label
-          $(this).next('.custom-file-label').html(fileName);
-      })
-    </script>
 
+ 
+</form> 
+
+   <button class=\"btn btn-primary\" type=\"button\" id=\"loadingButton\" name=\"loadingButton\" enabled>
+  <span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\" ></span>
+  Loading...
+</button>
+
+
+  
 </div>
   
-<script src=\"select.js\"></script>
+<script>
+    document.getElementById(\"importButton\").style.display = \"inline\";
+    document.getElementById(\"loadingButton\").style.display = \"none\"; 
   
-  
+  function myFunction() {
+      var x = document.getElementById(\"importButton\");
+      x.style.display = \"none\";
+      var y = document.getElementById(\"loadingButton\");
+      y.style.display = \"inline\";
+  }
+
+ /* var temp = ")(display  format )(display ";
+  * var mySelect = document.getElementById('format');
+
+  * for(var i, j = 0; i = mySelect.options[j]; j++) {
+  *     if(i.value == temp) {
+  *         mySelect.selectedIndex = j;
+  *         break;
+  *     }
+  * } */
+    
+</script>
+
+
+
+
 ")(display "</div>
 </div>
 

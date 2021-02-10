@@ -78,7 +78,7 @@
 
 (post "/auth"
       #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-      #:session #t
+;;      #:session #t
       #:conn #t
       #:cookies '(names lnuser prjid sid userid group)
       #:from-post 'qstr

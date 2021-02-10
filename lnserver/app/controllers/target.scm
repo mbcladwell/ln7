@@ -153,6 +153,22 @@
       #f))
 
 
+(define cs (char-set #\space #\tab #\newline #\return))
+
+
+(define (get-types lst holder)
+  ;; get the second column of types
+  ;; an element looks like ("1\t5\r") trim the \r; split on \t
+  (cond
+   ((null? (cdr lst))
+    (set! holder (cons  (cdr (string-split (string-trim-both (caar lst) cs) #\tab))  holder))
+     holder)
+   ((cdr lst)
+    (set! holder (cons (cdr (string-split (string-trim-both (caar lst) cs) #\tab))  holder))
+    (get-types (cdr lst) holder))
+    (else #f)))
+
+
 (post "/addbulkaction"
       #:conn #t
       #:from-post 'qstr
@@ -163,14 +179,23 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-			 (f (get-from-qstr rc "customFile"))
+			 (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
+			 (b (map list (cdr (string-split a #\newline))))
+			 
+			;; (results (map list b))
+			 (results (process-list-of-rows b))
+
+			 ;;(results (string-split (:from-post rc 'get-vals "datatransfer") ))
+			;; (results (the-environment))
+			 
+			 ;;(f (get-from-qstr rc "customFile"))
 			 ;;(f "/home/mbc/targets200.txt")
-			 (sql (get-sql-bulk-target-file f ))
-			 (dummy (:conn rc sql))
+			 ;;(sql (get-sql-bulk-target-file f ))
+			 ;;(dummy (:conn rc sql))
 			 )
-		    (redirect-to rc "target/getall" )
+		    ;;(redirect-to rc "target/getall" )
+		    ;;(redirect-to rc "target/test" )
+		    (view-render "test" (the-environment))
 		    )))
 
 
@@ -182,9 +207,7 @@
 			 (prjid (:cookies-value rc "prjid"))
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
-			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    )
+			 (sid (:cookies-value rc "sid")))
 		    (view-render "addbulk" (the-environment)))))
 
 ;; (get "/addbulk" #:conn #t 
@@ -261,8 +284,6 @@
 		 (userid (:cookies-value rc "userid"))
 		 (group (:cookies-value rc "group"))
 		 (sid (:cookies-value rc "sid"))
-		 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-		 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		 (sql  "select project_sys_name from project")
 		 (holder  (DB-get-all-rows (:conn rc sql)))
 		 (all-projects-pre '())			 

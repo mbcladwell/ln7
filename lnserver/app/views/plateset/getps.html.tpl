@@ -38,15 +38,9 @@
     </tbody>
 </table>
 
-<a id="hitlistbutton" class="btn btn-primary btn-lg active" role="button" >Add Hit List From File to PRJ-<%= prjid %></a>
-
 
 <script>   
 
- var str1 = "/hitlist/addtoprj?prjid=";
- var str2 = <%= prjid %>;
- var res = str1.concat(str2);
- document.getElementById("hitlistbutton").href = res;
  
  $(document).ready(function() {
      $('#pstable').DataTable({

@@ -31,25 +31,34 @@ The file must end on the last row of data i.e. no final carriage return.<br>
     <form action="/addbulkaction" method="post">
       
       <div class="custom-file">
-	<input type="file" class="custom-file-input" accept=".txt, .csv" id="customFile">
-	<label class="custom-file-label" for="customFile">Choose bulk target upload file</label>
+	<input type="file" class="custom-file-input" accept=".txt, .csv" id="myfile">
+	<label class="custom-file-label" for="customFile" >Choose bulk target upload file</label>
       </div><br><br>
       
       <div>
-	<button  type="submit" class="btn btn-primary">Submit</button>
+	  <button  type="submit" class="btn btn-primary">Submit</button>
       </div>
+      <input type="hidden" id="datatransfer" name="datatransfer" >
+      <input type="hidden" id="hitcount" name="hitcount" >
       
     </form>
+    <span id="myText"></span>
+    
+
   </div>
 
 
-<script>
-  document.querySelector('.custom-file-input').addEventListener('change',function(e){
-  var fileName = document.getElementById("customFile").files[0].name;
-  var nextSibling = e.target.nextElementSibling
-  nextSibling.innerText = fileName
-})
+  <script>
+   document.querySelector('.custom-file-input').addEventListener('change',function(e){
+       var fileName = document.getElementById("myfile").files[0].name;
+       var nextSibling = e.target.nextElementSibling
+       nextSibling.innerText = fileName
+   })
 
-</script>
+  </script>
+
+  
+  <script src="showfile.js"></script>
+
 
 <@include footer.tpl %>

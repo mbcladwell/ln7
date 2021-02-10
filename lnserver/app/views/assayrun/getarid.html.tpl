@@ -60,14 +60,24 @@
 <hr>
 <h2>Hit Lists for AR-<%= id %></h2>
 <table id="hltable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
-<tbody><%= hit-lists %></tbody>
+    <tbody><%= hit-lists %></tbody>
 </table>
+
+<a id="hitlistbutton" class="btn btn-primary btn-lg active" role="button" >Add Hit List From File to AR-<%= id %></a>
+
 
 </div>
 
-<script>          
-$(document).ready(function() {
-    $('#artable').DataTable({
+<script>
+
+ var str1 = "/hitlist/importhl?arid=";
+ var str2 = <%= id %>;
+ var res = str1.concat(str2);
+ document.getElementById("hitlistbutton").href = res;
+
+ 
+ $(document).ready(function() {
+     $('#artable').DataTable({
         dom: 'lBfrtip',
         buttons: [
             'copyHtml5',

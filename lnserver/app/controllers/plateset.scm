@@ -597,10 +597,14 @@
 ;; client
 
 (plateset-define cset
-		 (options #:cookies '(names prjid sid))
+		 (options #:cookies '(names prjid userid group username sid))
 		 (lambda (rc)
 		   (let* ((result "sometext")
-			  (dummy (:cookies-set! rc 'prjid "prjid" result))
+			  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
+			  (dummy (:cookies-set! rc 'userid "userid" "1"))
+			  (dummy (:cookies-set! rc 'group "group" "admin"))
+			  (dummy (:cookies-set! rc 'username "username" "ln_admin"))
+			  
 			  (cookies (rc-cookie rc)))
 		     (view-render "test" (the-environment)))))
 

@@ -43,6 +43,7 @@ view layout select
 * create an array for postgres
 
   extra.scm
+  '{{1,2,3},{4,5,6},{7,8,9}}'
 
 *  #{urweyru}#  is a read symbol use (symbol->string to get "urweyru"
 

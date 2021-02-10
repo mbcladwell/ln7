@@ -7,7 +7,7 @@
 
 
   <div class="container">
-    <h3>Import Hit List for PRJ-<%= prjid %></h3>
+    <h3>Import Hit List for AR-<%= arid %></h3>
 
     Import a one column file with header:<br><br>
 <pre>
@@ -25,7 +25,7 @@ SPL-281
 </pre>
 
       
-    <form action="/importhitsaction" method="post">
+    <form action="/hitlist/addtoar" method="post">
       
       <div class="custom-file">
 	<input type="file" class="custom-file-input" accept=".txt, .csv" id="customFile">
@@ -35,7 +35,7 @@ SPL-281
       <div>
 	<button  type="submit" class="btn btn-primary">Submit</button>
       </div>
-      
+       <input type="hidden" id="arid" name="arid" value=<%= arid %> >
     </form>
   </div>
 
