@@ -4,7 +4,7 @@
 (define-artanis-controller target) ; DO NOT REMOVE THIS LINE!!!
 
 (use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra)
-	     (ice-9 textual-ports)(ice-9 rdelim)(lnserver sys extra))
+	     (ice-9 textual-ports)(ice-9 rdelim)(lnserver sys extra)(ice-9 pretty-print))
 
 
 (define (prep-trg-rows a)
@@ -128,6 +128,8 @@
 
 
 (define (get-sql-bulk-target-file f)
+  ;; this is not being used
+  ;; used to directly read file
   (if (access? f R_OK)
       (let* (
 	     (my-port (open-input-file f))
@@ -156,17 +158,45 @@
 (define cs (char-set #\space #\tab #\newline #\return))
 
 
-(define (get-types lst holder)
-  ;; get the second column of types
-  ;; an element looks like ("1\t5\r") trim the \r; split on \t
-  (cond
-   ((null? (cdr lst))
-    (set! holder (cons  (cdr (string-split (string-trim-both (caar lst) cs) #\tab))  holder))
-     holder)
-   ((cdr lst)
-    (set! holder (cons (cdr (string-split (string-trim-both (caar lst) cs) #\tab))  holder))
-    (get-types (cdr lst) holder))
-    (else #f)))
+
+
+;; (define (process-trg-row1 lst results)
+;;   ;; make a list of strings from objects
+;;   (if (null? (cdr lst))
+;;         (begin
+;; 	 (set! results  (cons   (map object->string (car lst)) results))
+;;        results)
+;;        (begin
+;; 	 (set! results (cons  (map object->string (car lst)) results))
+;; 	 (process-trg-row1 (cdr lst) results )) ))
+
+;; select bulk_target_upload('{{"10", "CFL2", "", "1073"},{"10", "CHRNE", "", "1145 "},{"10", "CHRNA1", "", "1134"}}'); is goal
+
+(define (process-trg-row1 lst results)
+  ;; make a list of strings from objects
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (cons   (string-split (caar lst)  #\tab) results))
+       results)
+       (begin
+	 (set! results (cons (string-split (caar lst)  #\tab)  results))
+	 (process-trg-row1 (cdr lst) results )) ))
+
+
+(define (process-trg-row2 lst results)
+  ;; results is a string like "'{"2" "3" "4"}'" note the single quotes
+  (if (null? (cdr lst))
+      (begin
+	(cond
+	 ((= (length (car lst)) 3) (set! results  (string-append results "{\"" (string-trim-both (caar lst) white-chars) "\", \"" (string-trim-both (cadar lst) white-chars) "\", \"\",  \""  (string-trim-both (caddar lst) white-chars)   "\"}," )))
+	  ((= (length (car lst)) 4)(set! results  (string-append results "{\"" (string-trim-both (caar lst) white-chars) "\", \""  (string-trim-both (cadar lst) white-chars)  "\", \""    (string-trim-both (caddar lst) white-chars)   "\", \""  (string-trim-both (car (cdddar lst)) white-chars)   "\"}," )))
+	 )
+       results)
+       (begin
+	 (cond
+	 ((= (length (car lst)) 3) (set! results  (string-append results "{\"" (caar lst) "\", \"" (cadar lst) "\", \"\",  \""  (caddar lst)   "\"}," )))
+	  ((= (length (car lst)) 4)(set! results  (string-append results "{\"" (caar lst) "\", \""  (cadar lst)  "\", \""    (caddar lst)   "\", \""   (car (cdddar lst))   "\"}," ))))
+	 (process-trg-row2 (cdr lst) results)) ))
 
 
 (post "/addbulkaction"
@@ -179,23 +209,18 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (a (uri-decode (:from-post rc 'get-vals "datatransfer")))
+			 (a  (uri-decode (:from-post rc 'get-vals "datatransfer")))
 			 (b (map list (cdr (string-split a #\newline))))
-			 
-			;; (results (map list b))
-			 (results (process-list-of-rows b))
-
-			 ;;(results (string-split (:from-post rc 'get-vals "datatransfer") ))
-			;; (results (the-environment))
-			 
-			 ;;(f (get-from-qstr rc "customFile"))
-			 ;;(f "/home/mbc/targets200.txt")
-			 ;;(sql (get-sql-bulk-target-file f ))
-			 ;;(dummy (:conn rc sql))
+			 (c  (process-trg-row1 b '()))
+			 (d (process-trg-row2  c ""))
+			 (e (substring d 0 (- (string-length d) 1)))  ;;remove final comma
+			 (sql (string-append "select bulk_target_upload('{" e "}')"))
+		
+			 (dummy (:conn rc sql))
 			 )
-		    ;;(redirect-to rc "target/getall" )
-		    ;;(redirect-to rc "target/test" )
-		    (view-render "test" (the-environment))
+		    (redirect-to rc "target/getall" )
+		     ;;   (view-render "test" (the-environment))
+		  ;;  (pretty-print d)
 		    )))
 
 

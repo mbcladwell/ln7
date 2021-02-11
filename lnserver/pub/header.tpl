@@ -124,9 +124,7 @@
         <li>                    
 	  <a id="hitlistforprj" >For Project PRJ-<%= prjid %></a>
         </li>
-        <li>                    
-	  <a id="hitlistimport">Import file into PRJ-<%= prjid %></a>
-        </li>
+       
       </ul>
     </li>
    

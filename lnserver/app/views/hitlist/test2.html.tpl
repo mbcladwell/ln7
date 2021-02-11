@@ -5,7 +5,7 @@
 <@include header.tpl %>
 
 
-<%= holder %>
+<%= sql %>
 
  <@include footer.tpl %>
 

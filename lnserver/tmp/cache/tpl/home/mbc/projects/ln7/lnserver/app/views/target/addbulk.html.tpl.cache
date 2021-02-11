@@ -128,9 +128,7 @@
         <li>                    
 	  <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
         </li>
-        <li>                    
-	  <a id=\"hitlistimport\">Import file into PRJ-")(display  prjid )(display "</a>
-        </li>
+       
       </ul>
     </li>
    

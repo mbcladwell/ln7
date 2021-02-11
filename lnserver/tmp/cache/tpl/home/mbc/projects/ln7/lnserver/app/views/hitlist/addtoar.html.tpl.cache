@@ -128,9 +128,7 @@
         <li>                    
 	  <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
         </li>
-        <li>                    
-	  <a id=\"hitlistimport\">Import file into PRJ-")(display  prjid )(display "</a>
-        </li>
+       
       </ul>
     </li>
    
@@ -222,15 +220,21 @@
  <div class=\"form-group\">   
    <label for=\"descr\">Description:</label>  <input type=\"text\"  class=\"form-control\" id=\"descr\" name=\"descr\" value=\"\" required>
  </div>
+ <div class=\"form-group\">   
+   <label for=\"descr\">Number of hits:&nbsp;")(display  num-hits )(display "</label>  
+ </div>
  
 
  <div class=\"form-row\">
-    <div class=\"form-group col-md-6\">
-   <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\" id=\"importButton\" name=\"importButton\" enabled>
-    </div>
+     <div class=\"form-group col-md-6\">
+	 <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\" id=\"importButton\" name=\"importButton\" enabled>
+     </div>
  </div>
 
 
+ <input type=\"hidden\" id=\"arid\" name=\"arid\" value=")(display  aridq )(display " >
+ <input type=\"hidden\" id=\"hitcount\" name=\"hitcount\" value=")(display  num-hitsq )(display " >
+ <input type=\"hidden\" id=\"datatransfer\" name=\"datatransfer\" value= ")(display  datatransferq )(display ">
 
  
 </form> 

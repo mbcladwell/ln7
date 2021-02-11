@@ -27,7 +27,7 @@
 	    dropdown-contents-with-id
 	    dropdown-contents-no-id
 	    prep-ar-rows
-	    whitechars
+	    white-chars
 	    stripfix
 	    htmlify
 	    dehtmlify

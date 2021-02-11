@@ -15,7 +15,6 @@
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.min.css\"/>
  
 
@@ -130,9 +129,7 @@
         <li>                    
 	  <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
         </li>
-        <li>                    
-	  <a id=\"hitlistimport\">Import file into PRJ-")(display  prjid )(display "</a>
-        </li>
+       
       </ul>
     </li>
    

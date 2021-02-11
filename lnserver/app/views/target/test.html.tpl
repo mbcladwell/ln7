@@ -7,7 +7,7 @@
   <h1>Test</h1><br><br>
 
 
-<%= results %>
+<%= sql %>
 
 
   

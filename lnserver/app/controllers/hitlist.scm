@@ -70,9 +70,9 @@
 			 (sql2 (string-append "SELECT MAX(plate_set.id), plate_set.plate_set_sys_name, MAX(plate_type.plate_type_name), MAX(plate_set.plate_format_id), COUNT(sample.ID) FROM plate_set, plate_plate_set, plate_type, plate, well, well_sample, sample WHERE plate_plate_set.plate_set_id=plate_set.ID AND plate_plate_set.plate_id=plate.id AND plate_set.plate_type_id = plate_type.id   and well.plate_id=plate.ID AND well_sample.well_id=well.ID AND well_sample.sample_id= sample.ID  AND sample.id  IN (SELECT  sample.id FROM hit_list, hit_sample, plate_set, assay_run, sample WHERE hit_sample.hitlist_id=hit_list.id  AND hit_sample.sample_id=sample.id  and assay_run.plate_set_id=plate_set.id AND   hit_list.assay_run_id=assay_run.id   AND  hit_sample.hitlist_id IN (SELECT hit_list.ID FROM hit_list, assay_run WHERE hit_list.assay_run_id=assay_run.ID AND hit_list.id= " hlid " and assay_run.ID IN (SELECT assay_run.ID FROM assay_run WHERE assay_run.plate_set_id IN (SELECT plate_set.ID FROM plate_set WHERE plate_set.project_id=" prjid ")))) GROUP BY plate_set.plate_set_sys_name" ))
 			 (holder2 (DB-get-all-rows (:conn rc sql2)))
 			 (body2  (string-concatenate  (prep-hl-counts holder2)) )
-			 )
-		    (view-render "gethlbyid" (the-environment))
-		    ;;(view-render "test2" (the-environment))
+	       	 )
+		   (view-render "gethlbyid" (the-environment))
+		   ;; (view-render "test2" (the-environment))
 		    
 		    )))
 
@@ -92,10 +92,12 @@
 
 
 (hitlist-define importhl
+		;; for ?arid=1
 		(options #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "hitlist")
 			 (arid (get-from-qstr rc "arid"))
+						 
 			 (prjid (:cookies-value rc "prjid"))
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
@@ -131,6 +133,31 @@
       (view-render "forprj" (the-environment))
       )))
 
+(define (no-empty lst results)
+  ;; make a list of strings from objects
+  (if (null? (cdr lst))
+      (begin
+	(if (= (string-length (car lst)) 0 ) #f
+	 (set! results  (cons  (car lst) results)))
+       results)
+       (begin
+	(if (= (string-length (car lst)) 0 ) #f
+	 (set! results  (cons  (car lst) results)))
+	 (no-empty (cdr lst) results )) ))
+
+
+(define (make-pg-hl lst results b )
+  ;; if b is false must remove SPL-
+ (if (null? (cdr lst))
+      (begin
+	(if b (set! results  (string-append  "{" (car lst) "}," results))
+	    (set! results  (string-append  "{" (substring (car lst)  4 (string-length (car lst))) "}," results)) )
+       results)
+       (begin
+	(if b (set! results  (string-append  "{" (car lst) "}," results))
+	    (set! results  (string-append  "{" (substring (car lst)  4 (string-length (car lst))) "}," results)))
+	(make-pg-hl (cdr lst) results b))))
+
 ;; need selected response and num_hits
     ;; public void insertHitListFromFile2(String _name, String _description, int _num_hits, int _assay_run_id, int[] _hit_list){
 
@@ -149,6 +176,37 @@
 ;; CREATE OR REPLACE FUNCTION new_hit_list(_name VARCHAR(250), _descr VARCHAR(250), _num_hits INTEGER, _assay_run_id INTEGER, _sessions_id VARCHAR(32), hit_list integer[])
 ;;  RETURNS void AS
 
+(post "/hitlist/addstep2"
+		 #:conn #t
+		 #:cookies '(names prjid lnuser userid group sid)
+		  #:from-post 'qstr
+  (lambda (rc)
+    (let* ((help-topic "hitlist")
+	   (name (:from-post rc 'get "hlname"))
+	   (descr (:from-post rc 'get "descr"))
+	   (num-hits (:from-post rc 'get "hitcount"))
+	   (datatransfer (:from-post rc 'get "datatransfer"))
+	   (arid (:from-post rc 'get "arid"))
+	   (prjid (:cookies-value rc "prjid"))
+	   (userid (:cookies-value rc "userid"))
+	   (group (:cookies-value rc "group"))
+	   (sid (:cookies-value rc "sid"))
+	   (a (uri-decode datatransfer))
+	   (b (map list (cdr (string-split a #\newline))))
+	   (c (map (lambda (x)(string-trim-both (car x) white-chars)) b))
+	   (d (no-empty c '()))
+	   (id? (if (equal? (substring  (car d) 0 4) "SPL-") #f #t)) ;; is it SPL-1 or 1? #t means yes it is an id #f make id
+	   (e (make-pg-hl d "" id?))
+	   (f (substring e 0 (- (string-length e) 1)))
+	   (sql (string-append "SELECT new_hit_list('" name "'," descr "'," num-hits ", " arid ", '{" f "}' )" ))
+	   (holder (:conn rc sql))
+	   ;;(body  (string-concatenate  (prep-hl-for-prj-rows holder)) )
+	   )  
+      (view-render "test2" (the-environment))
+      )))
+
+
+
 
 (post "/hitlist/addtoar"
 		 #:conn #t
@@ -157,13 +215,20 @@
   (lambda (rc)
     (let* ((help-topic "hitlist")
 	   (arid (:from-post rc 'get "arid"))
+	   (datatransfer (uri-decode (:from-post rc 'get "datatransfer")))
 	   (prjid (:cookies-value rc "prjid"))	   
 	   (userid (:cookies-value rc "userid"))
 	   (group (:cookies-value rc "group"))
 	   (sid (:cookies-value rc "sid"))
-	   (sql (string-append "SELECT hit_list.id, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n FROM hit_list, assay_run, plate_set   WHERE hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id=" arid ))
-	   (holder (DB-get-all-rows (:conn rc sql)))
-	   (body  (string-concatenate  (prep-hl-for-prj-rows holder)) ))  
+	   (num-hits (:from-post rc 'get "hitcount"))
+	   (aridq (addquotes arid) )
+	   (datatransferq (addquotes datatransfer))
+	   (num-hitsq (addquotes num-hits))
+	   
+	  ;; (sql (string-append "SELECT hit_list.id, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n FROM hit_list, assay_run, plate_set   WHERE hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id=" arid ))
+	  ;; (holder (DB-get-all-rows (:conn rc sql)))
+	 ; ;; (body  (string-concatenate  (prep-hl-for-prj-rows holder)) )
+	   )  
       (view-render "addtoar" (the-environment))
       )))
 

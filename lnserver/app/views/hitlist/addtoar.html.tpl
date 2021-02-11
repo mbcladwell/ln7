@@ -20,12 +20,15 @@
  
 
  <div class="form-row">
-    <div class="form-group col-md-6">
-   <input type="submit"  class="btn btn-primary" value="Submit" id="importButton" name="importButton" enabled>
-    </div>
+     <div class="form-group col-md-6">
+	 <input type="submit"  class="btn btn-primary" value="Submit" id="importButton" name="importButton" enabled>
+     </div>
  </div>
 
 
+ <input type="hidden" id="arid" name="arid" value=<%= aridq %> >
+ <input type="hidden" id="hitcount" name="hitcount" value=<%= num-hitsq %> >
+ <input type="hidden" id="datatransfer" name="datatransfer" value= <%= datatransferq %>>
 
  
 </form> 
