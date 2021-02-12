@@ -13,7 +13,8 @@
 	     (ice-9 string-fun) ;; string-replace-substring
 	     (rnrs bytevectors))
 ;;	     (lnserver sys extra))
-	    
+(getcwd)	    
+(use-modules  (home mbc .cache guile ccache 3.0-LE-8-4.4 home mbc projects ln7 lnserver sys extra))
 
 (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:tcp:192.168.1.11:5432"))
 

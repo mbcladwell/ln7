@@ -13,16 +13,26 @@
 	    <tbody> <%= body %></tbody>
 	</table>
     </div>
-    <div>
+    <hr>
+    <form action="/hitlist/rearray" method="post">
+	<div>
 	<h2>Hit availability</h2>
 	<label>Hit List HL-<%= hlid %> has <%=  numhits  %>  hits total</label>
   	<table id="hlavail" class="table table-striped table-bordered">
-	    <thead><tr><th>ID</th><th>Plate Set</th><th>Type</th><th>Format</th><th>Count</th></tr></thead>
+	    <thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>ID</th><th>Plate Set</th><th>Type</th><th>Format</th><th>Count</th></tr></thead>
 	    <tbody> <%= body2 %></tbody>
 	</table>
-    </div>
+	</div>
+        <input type="submit"  class="btn btn-primary" value="Rearray">
 
+	<input type="hidden" id="prjid" name="prjid" value=<%= prjidq %>>
+	<input type="hidden" id="sid" name="sid" value=<%= sidq %>>
+	<input type="hidden" id="userid" name="userid" value=<%= useridq %>>
+	<input type="hidden" id="group" name="group" value=<%= groupq %>>
+	<input type="hidden" id="hlid" name="hlid" value=<%= hlidq %>>
 
+    </form>
+    
 </div>
 
 

@@ -675,6 +675,17 @@
 			  )
 		     (view-render "test" (the-environment)))))
 
+ (plateset-define ksess
+		  (options #:cookies '(names sid)
+			   #:session #t)
+		 (lambda (rc)
+		   (let* ((result (:session rc 'drop))
+			  (cookies (rc-cookie rc)))
+		     (view-render "test" (the-environment)))))
+
+
+
+
 (define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
 ;;(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" ))
 (define six-hrs-from-now 3600)
@@ -684,7 +695,7 @@
 		 (lambda (rc)
 		   (let* (
 			 
-			  (result (:cookies-setattr! rc 'prjid #:expires 21600 #:domain #f #:path "/junk" #:secure #f #:http-only #f))
+			  (result (:cookies-setattr! rc 'prjid #:expires 21600 #:domain #f #:path "/" #:secure #f #:http-only #f))
 			   (cookies (rc-cookie rc))
 			  )
 		     (view-render "test" (the-environment)))))
