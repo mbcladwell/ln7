@@ -11,19 +11,30 @@
     <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/fh-3.1.7/datatables.min.css\"/>
-
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../Buttons-1.6.5/css/buttons.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../FixedHeader-3.1.8/css/fixedHeader.bootstrap4.min.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.min.css\"/>
+ 
 
 
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
 <script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
 
+<script type=\"text/javascript\" src=\"../jQuery-3.3.1/jquery-3.3.1.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Bootstrap-4-4.1.1/js/bootstrap.min.js\"></script>
+<script type=\"text/javascript\" src=\"../JSZip-2.5.0/jszip.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/pdfmake.min.js\"></script>
+<script type=\"text/javascript\" src=\"../pdfmake-0.1.36/vfs_fonts.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/jquery.dataTables.min.js\"></script>
+<script type=\"text/javascript\" src=\"../DataTables-1.10.23/js/dataTables.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/dataTables.buttons.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
+<script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
+<script type=\"text/javascript\" src=\"../FixedHeader-3.1.8/js/dataTables.fixedHeader.min.js\"></script>
 
- 
-<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js\"></script>
-<script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js\"></script>
-<script type=\"text/javascript\" src=\"https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/jszip-2.5.0/dt-1.10.23/b-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/fh-3.1.7/datatables.min.js\"></script>
+
 
 
     <title>LIMS*Nucleus </title>
@@ -61,10 +72,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a href=")(display  get-ps-link )(display ">for PRJ-")(display  prjid )(display "</a>
+                        <a id=\"platesetgetps\" href=\"#\">for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a href=")(display  ps-add-link )(display ">Add to PRJ-")(display  prjid )(display "</a>
+		      <a id=\"platesetaddps\">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -97,36 +108,43 @@
    </li>
 
    <li class=\"active\">
-                <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
-                <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
-
-		    
-		    <li>
-                        <a href=\"/project/add\">Selected Rows</a>
-                    </li>
-		    <li>
-                        <a href=\"/project/add\">Underlying Data</a>
-                    </li>
-
-		</ul>
+     <a href=\"#exportPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Export</a>
+     <ul class=\"collapse list-unstyled\" id=\"exportPlatesetSubmenu\">
+       <li>
+         <a href=\"/project/add\">Selected Rows</a>
+       </li>
+       <li>
+         <a href=\"/project/add\">Underlying Data</a>
+       </li>
+       
+     </ul>
    </li>
-
-   
-
                 </ul>
-            </li>
+    </li>
+
+<li class=\"active\">
+      <a href=\"#hitlistSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Hitlists</a>
+      <ul class=\"collapse list-unstyled\" id=\"hitlistSubmenu\">
+        <li>                    
+	  <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
+        </li>
+       
+      </ul>
+    </li>
    
+
+    
     <li class=\"active\">
-                <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
-                <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
-                    <li>
-                        <a href=\"/layout/getall\">All</a>
-                    </li>
-                    <li>                    
-		      <a href=\"/layout/select\">Import</a>
-                    </li>
-                </ul>
-            </li>
+      <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
+      <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
+        <li>
+          <a href=\"/layout/getall\">All</a>
+        </li>
+        <li>                    
+	  <a href=\"/layout/select\">Import</a>
+        </li>
+      </ul>
+    </li>
    
      <li class=\"active\">
                 <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
@@ -235,6 +253,22 @@
 	
 
 <script>
+  var str1 = \"/hitlist/forprj?prjid=\";
+ var res1 = str1.concat( ")(display  prjid )(display "   );
+ document.getElementById(\"hitlistforprj\").href = res1;
+
+
+var str3 = \"/plateset/getps?id=\";
+ var res3 = str3.concat( ")(display  prjid )(display " );
+ document.getElementById(\"platesetgetps\").href = res3;
+
+ var str4 = \"/plateset/add?format=96&type=master&prjid=\";
+ var res4 = str4.concat( ")(display  prjid )(display " );
+ document.getElementById(\"platesetaddps\").href = res4;
+
+
+
+
 $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {

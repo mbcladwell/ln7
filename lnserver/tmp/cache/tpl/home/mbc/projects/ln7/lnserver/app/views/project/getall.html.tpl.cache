@@ -72,10 +72,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a id=\"getps\">for PRJ-")(display  prjid )(display "</a>
+                        <a id=\"platesetgetps\" href=\"#\">for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a id=\"psadd\">Add to PRJ-")(display  prjid )(display "</a>
+		      <a id=\"platesetaddps\">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -245,24 +245,20 @@
 	
 
 <script>
- var str1 = \"/hitlist/forprj?prjid=\";
- var str2 = ")(display  prjid )(display ";
- var res = str1.concat(str2);
- document.getElementById(\"hitlistforprj\").href = res;
+  var str1 = \"/hitlist/forprj?prjid=\";
+ var res1 = str1.concat( ")(display  prjid )(display "   );
+ document.getElementById(\"hitlistforprj\").href = res1;
 
 
- var str3 = \"/hitlist/importhl?prjid=\";
- var res2 = str3.concat(str2);
- document.getElementById(\"hitlistimport\").href = res2;
+var str3 = \"/plateset/getps?id=\";
+ var res3 = str3.concat( ")(display  prjid )(display " );
+ document.getElementById(\"platesetgetps\").href = res3;
+
+ var str4 = \"/plateset/add?format=96&type=master&prjid=\";
+ var res4 = str4.concat( ")(display  prjid )(display " );
+ document.getElementById(\"platesetaddps\").href = res4;
 
 
- var str4 = \"/plateset/getps?id=\";
- var res3 = str4.concat(str2);
- document.getElementById(\"getps\").href = res3;
-
- var str5 = \"/plateset/add?format=96&type=master&prjid=\";
- var res4 = str5.concat(str2);
- document.getElementById(\"psadd\").href = res4;
 
 
 $(document).ready(function () {

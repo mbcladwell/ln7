@@ -100,9 +100,7 @@
 			   (userid (:cookies-value rc "userid"))
 			   (group (:cookies-value rc "group"))
 			   (sid (:cookies-value rc "sid"))
-			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-			   ;;(qstr  (:from-post rc 'get))
+			 	   ;;(qstr  (:from-post rc 'get))
 			  ;; (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
 			  ;; (b (map uri-decode  a))
 			  ;; (a   (:from-post rc 'get-vals "plateset-id"))
@@ -171,8 +169,6 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (qstr  (:from-post rc 'get))
 			   (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
 			   (b (map uri-decode  a))
@@ -213,8 +209,6 @@
 		(userid (:cookies-value rc "userid"))
 		(group (:cookies-value rc "group"))
 		(sid (:cookies-value rc "sid"))
-		(get-ps-link (string-append "/plateset/getps?id=" prjid))
-		(ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		(spllytid (:from-post rc 'get-vals "samplelyt"))
 		(trglytid (:from-post rc 'get-vals "trglyt"))    
 		(sql (string-append "select new_plate_set('" psdescr "', '" psname  "', " numplates ", " format ", " plttypeid ", " prjid ", " spllytid ", '" sid "', true, " trglytid  ")"))
@@ -248,8 +242,6 @@
 		(group (:cookies-value rc "group"))
 		(sid (:cookies-value rc "sid"))
 		(reps 1)  ;;new plate sets never have replicates
-		(get-ps-link (string-append "/plateset/getps?id=" prjid))
-		(ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 		(sql (string-append "select id, name from plate_layout_name WHERE source_dest = 'source' AND plate_format_id =" format))
 		(holder  (DB-get-all-rows (:conn rc sql)))
 		(sample-layout-pre '())
@@ -299,8 +291,6 @@
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
-			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			  (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
 			  (holder3  (DB-get-all-rows (:conn rc sql3)))
 			  (plate-types-pre '())
@@ -325,8 +315,6 @@
 			   (userid (:cookies-value rc "userid"))
 			   (group (:cookies-value rc "group"))
 			   (sid (:cookies-value rc "sid"))
-			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (psname  (car (delete #f (map (match-lambda (("psname" x) x)(_ #f))  qstr))))
 			   (descr   (car (delete #f (map (match-lambda (("descr" x) x)(_ #f))  qstr))))
 			   (tot-plates (car (delete #f (map (match-lambda (("totplates" x) x)(_ #f))  qstr))))
@@ -444,9 +432,7 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-	  ;;(filename (:from-post rc 'get-vals "myfile"))
+			  ;;(filename (:from-post rc 'get-vals "myfile"))
 			 ;; (a (:from-post rc 'get-vals "datatransfer"))
 			  ;;(b (map list (cdr (string-split a #\newline))))
 			  (datafile (uri-decode (:from-post rc 'get-vals "datafile")))
@@ -536,9 +522,7 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-			  (filename (:from-post rc 'get-vals "myfile"))
+				  (filename (:from-post rc 'get-vals "myfile"))
 			  (a (:from-post rc 'get-vals "datatransfer"))
 			  ;;(b (map list (cdr (string-split a #\newline))))
 			  (temp-file (transfer-data-to-server a))
@@ -571,8 +555,6 @@
 			   (userid (:cookies-value rc "userid"))
 			   (group (:cookies-value rc "group"))
 			   (sid (:cookies-value rc "sid"))
-			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (start (map string-split all-ps-ids (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
 			   (psid (caar start))
 			   (sql (string-append "select plate_set.plate_set_name, plate_set.descr AS plate_set_descr, plate_set.num_plates, plate_set.plate_format_id, plate_set.plate_layout_name_id,  plate_layout_name.name AS lyt_name, plate_layout_name.descr,  plate_layout_name.control_loc,  plate_layout_name.sys_name from plate_set, plate_layout_name where plate_set.plate_layout_name_id = plate_layout_name.id AND plate_set.id=" psid ))
@@ -593,149 +575,6 @@
 			)))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; client
-
-(plateset-define cset
-		 (options #:cookies '(names prjid userid group username sid))
-		 (lambda (rc)
-		   (let* ((result "sometext")
-			  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
-			  (dummy (:cookies-set! rc 'userid "userid" "1"))
-			  (dummy (:cookies-set! rc 'group "group" "admin"))
-			  (dummy (:cookies-set! rc 'username "username" "ln_admin"))
-			  
-			  (cookies (rc-cookie rc)))
-		     (view-render "test" (the-environment)))))
-
-
-;; (post "/cset"
-;;       	      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-;; 	      #:cookies '(names prjid sid lnuser)
-;; 		 (lambda (rc)
-;; 		   (let* ((result "sometext")
-;; 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
-;; 			  (cookies (rc-cookie rc))
-;; 			  )
-;; 		     (view-render "test" (the-environment)))))
-
-
-(plateset-define testcset
-		 (lambda (rc)
-		     (view-render "testcset" (the-environment))))
-
-
-
-(plateset-define ref
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (			  			 
-			  (result (:cookies-ref rc 'prjid "prjid"))
-			  (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-(plateset-define value 
-		 (options #:cookies '(names prjid))
-		 (lambda (rc)
-		   (let* (			  			 
-			  (result (:cookies-value rc "prjid"))
-			  (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; server
-
-(plateset-define remove
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (			  
-			  (result (:cookies-remove! rc "prjid"))
-			  (cookies (rc-cookie rc))
-			  )
-			    (view-render "test" (the-environment)))))
-
-(plateset-define check
-		 (options #:cookies #t)
-		 (lambda (rc)
-		   (let* (			  			 
-			  (result (:cookies-check rc "prjid"))			 
-			  (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-
- (plateset-define haskey
-		 (options #:cookies #t)
-		 (lambda (rc)
-		   (let* (
-			  (cookies (rc-cookie rc))
-			  (result (cookie-has-key? cookies "prjid"))
-			  )
-		     (view-render "test" (the-environment)))))
-
- (plateset-define ksess
-		  (options #:cookies '(names sid)
-			   #:session #t)
-		 (lambda (rc)
-		   (let* ((result (:session rc 'drop))
-			  (cookies (rc-cookie rc)))
-		     (view-render "test" (the-environment)))))
-
-
-
-
-(define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
-;;(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" ))
-(define six-hrs-from-now 3600)
-  
- (plateset-define update
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (
-			 
-			  (result (:cookies-setattr! rc 'prjid #:expires 21600 #:domain #f #:path "/" #:secure #f #:http-only #f))
-			   (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-
-
-;; (plateset-define addcookie
-;; 		 (options #:cookies '(names prjid sid))
-;; 		 (lambda (rc)
-;; 		   (let* (
-;; 			  (dummy (:cookies-set! rc 'prjid "prjid" "1000"))
-;; 			  (cookcheck (:cookies-check rc "prjid"))
-;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
-;; 			  (cookies (rc-cookie rc))
-;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))
-;; 			 )
-;; 		     (view-render "test" (the-environment)))))
-
-
-;; (plateset-define check
-;; 		 (lambda (rc)
-;; 		   (let* (			  			 
-;; 			  (cookcheck (:cookies-check rc "prjid"))			 
-;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
-;; 			  (cookies (rc-cookie rc))
-;; 			   (cookhaskey (cookie-has-key? cookies "prjid"))
-;; 			  )
-;; 		     (view-render "test" (the-environment)))))
-
-;; (plateset-define delete
-;; 		 (options #:cookies '(names prjid sid))
-;; 		 (lambda (rc)
-;; 		   (let* (			  
-;; 			  (dummy (:cookies-remove! rc 'prjid))
-;; 			  (cookcheck (:cookies-check rc "prjid"))
-;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
-;; 			  (cookies (rc-cookie rc))
-;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))			  
-;; 			  )
-;; 			    (view-render "test" (the-environment)))))
 
 (post "/plateset/reformat"
       #:conn #t #:from-post 'qstr
@@ -864,3 +703,167 @@
 			   )
 			   (view-render (string-append "/plateset/getps?id=" prjid) (the-environment))			 
 		      )))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; client
+
+(plateset-define cset
+		 (options #:cookies '(names prjid userid group username sid))
+		 (lambda (rc)
+		   (let* ((result "sometext")
+			  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
+			  (dummy (:cookies-set! rc 'userid "userid" "1"))
+			  (dummy (:cookies-set! rc 'group "group" "admin"))
+			  (dummy (:cookies-set! rc 'username "username" "ln_admin"))
+			  
+			  (cookies (rc-cookie rc)))
+		     (view-render "test" (the-environment)))))
+
+
+;; (post "/cset"
+;;       	      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
+;; 	      #:cookies '(names prjid sid lnuser)
+;; 		 (lambda (rc)
+;; 		   (let* ((result "sometext")
+;; 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
+;; 			  (cookies (rc-cookie rc))
+;; 			  )
+;; 		     (view-render "test" (the-environment)))))
+
+
+(plateset-define testcset
+		 (lambda (rc)
+		     (view-render "testcset" (the-environment))))
+
+
+
+(get "/ref"
+     #:cookies '(names prjid sid)
+     (lambda (rc)
+       (let* (			  			 
+	      (result (:cookies-value rc "prjid"))
+	      (cookierc (rc-cookie rc))
+	      (cookiercset (rc-set-cookie rc))
+	      )
+	 (view-render "test" (the-environment)))))
+
+(plateset-define value 
+		 (options #:cookies '(names prjid))
+		 (lambda (rc)
+		   (let* (			  			 
+			  (result (:cookies-value rc "prjid"))
+			  (cookierc (rc-cookie rc))
+			  (cookiercset (rc-set-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; server
+
+(plateset-define remove
+		 (options #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (			  
+			  (result (:cookies-remove! rc "prjid"))
+			  (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+
+     (get "/cookieremove" #:cookies '(names prjid)
+          (lambda (rc)
+	     (let* (	
+		    (result (:cookies-remove! rc "prjid"))
+		    (cookies (rc-cookie rc))
+		    )
+            (view-render "test" (the-environment)))))
+
+
+(plateset-define check
+		 (options #:cookies #t)
+		 (lambda (rc)
+		   (let* (			  			 
+			  (result (:cookies-check rc "prjid"))			 
+			  (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+
+ (plateset-define haskey
+		 (options #:cookies #t)
+		 (lambda (rc)
+		   (let* (
+			  (cookies (rc-cookie rc))
+			  (result (cookie-has-key? cookies "prjid"))
+			  )
+		     (view-render "test" (the-environment)))))
+
+ (plateset-define ksess
+		  (options #:cookies '(names sid)
+			   #:session #t)
+		 (lambda (rc)
+		   (let* (			  
+			  (prerc (rc-cookie rc))
+			  (prercset (rc-set-cookie rc))
+			 ;; (drop (:session rc 'drop))
+			  (postrc(rc-cookie rc))
+			  (postrcset(rc-set-cookie rc))
+			  (dummy (:cookies-set! rc 'sid "sid" (:cookies-value rc "sid")))
+			  (dummy (:cookies-setattr! rc 'sid #:expires 21600 #:secure #t))
+			  )
+		     (view-render "test" (the-environment)))))
+
+
+
+
+(define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
+;;(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" ))
+(define six-hrs-from-now 3600)
+  
+ (plateset-define update
+		 (options #:cookies '(names prjid sid))
+		 (lambda (rc)
+		   (let* (
+			 
+			  (result (:cookies-setattr! rc 'prjid #:path "/test" ))
+			   (cookies (rc-cookie rc))
+			  )
+		     (view-render "test" (the-environment)))))
+
+
+
+;; (plateset-define addcookie
+;; 		 (options #:cookies '(names prjid sid))
+;; 		 (lambda (rc)
+;; 		   (let* (
+;; 			  (dummy (:cookies-set! rc 'prjid "prjid" "1000"))
+;; 			  (cookcheck (:cookies-check rc "prjid"))
+;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
+;; 			  (cookies (rc-cookie rc))
+;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))
+;; 			 )
+;; 		     (view-render "test" (the-environment)))))
+
+
+;; (plateset-define check
+;; 		 (lambda (rc)
+;; 		   (let* (			  			 
+;; 			  (cookcheck (:cookies-check rc "prjid"))			 
+;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
+;; 			  (cookies (rc-cookie rc))
+;; 			   (cookhaskey (cookie-has-key? cookies "prjid"))
+;; 			  )
+;; 		     (view-render "test" (the-environment)))))
+
+;; (plateset-define delete
+;; 		 (options #:cookies '(names prjid sid))
+;; 		 (lambda (rc)
+;; 		   (let* (			  
+;; 			  (dummy (:cookies-remove! rc 'prjid))
+;; 			  (cookcheck (:cookies-check rc "prjid"))
+;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
+;; 			  (cookies (rc-cookie rc))
+;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))			  
+;; 			  )
+;; 			    (view-render "test" (the-environment)))))

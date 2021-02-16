@@ -68,10 +68,10 @@
                 <a href="#platesetSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Plate Sets</a>
                 <ul class="collapse list-unstyled" id="platesetSubmenu">
                     <li>
-                        <a id="getps">for PRJ-<%= prjid %></a>
+                        <a id="platesetgetps" href="#">for PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
-		      <a id="psadd">Add to PRJ-<%= prjid %></a>
+		      <a id="platesetaddps">Add to PRJ-<%= prjid %></a>
                     </li>
                     <li>                    
 		      <a href="#" onclick="editPlateSet()">Edit</a>

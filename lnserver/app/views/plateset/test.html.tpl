@@ -6,8 +6,11 @@
 
   <h1>Test</h1><br><br>
 
-  <%= result %><br><br>
-  <%= cookies %><br><br>
+ prerc:&nbsp; <%= prerc %><br><br>
+ prercset:&nbsp; <%= prercset %><br><br>
+ drop:&nbsp; <%= drop %><br><br>
+ postrc:&nbsp; <%= postrc %><br><br>
+  postrcset:&nbsp;<%= postrcset %><br><br>
   	
  	
  

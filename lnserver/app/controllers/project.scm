@@ -66,9 +66,21 @@
 
 (get "/project/add"
 ;;     #:with-auth "/login/login?destination=/project/add"
- ;;    #:from-post 'qstr
+     ;;    #:from-post 'qstr
+     #:cookies '(names prjid lnuser userid group sid)
      (lambda (rc)     
-       (let* ((help-topic "project"))
+       (let* ((help-topic "project")
+ (prjid (:cookies-value rc "prjid"))
+	      (userid (:cookies-value rc "userid"))
+	      (group (:cookies-value rc "group"))
+	      (sid (:cookies-value rc "sid"))
+	      (prjidq (addquotes prjid))
+	      (useridq (addquotes userid))
+	      (groupq (addquotes group))
+	      (sidq (addquotes sid))
+	  
+
+	      )
 	 (view-render "/add" (the-environment)))
 	  ))
 
@@ -80,8 +92,14 @@
 			;; (qstr  (:from-post rc 'get))
 			 (prj-name (get-from-qstr rc "pname"))
 		       	 (descr (get-from-qstr rc "descr"))
-			 (sid "99999")
-			 (sql (string-append "select new_project('"  descr "', '" prj-name "', '" sid "')"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (prjidq (addquotes prjid))
+			 (useridq (addquotes userid))
+			 (groupq (addquotes group))
+			 (sidq (addquotes sid))
+    			 (sql (string-append "select new_project('"  descr "', '" prj-name "', '" sid "')"))
 			 (dummy (:conn rc sql))
 			 )
 		    (redirect-to rc "project/getall")
@@ -96,7 +114,14 @@
 			 (holder   (car (DB-get-all-rows (:conn rc sql))))
 			 (descr  (object->string (cdadr holder)))
 			 (name (object->string (cdar holder)))
-			 )
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (prjidq (addquotes prjid))
+			 (useridq (addquotes userid))
+			 (groupq (addquotes group))
+			 (sidq (addquotes sid))
+	  			 )
 		    (view-render "edit" (the-environment)))))
 
 (project-define editaction
@@ -105,7 +130,15 @@
 		  (let* ((help-topic "project")
 			 (prj-name (get-from-qstr rc "pname"))
 			 (descr (get-from-qstr rc "descr"))
-			 (prjid (get-from-qstr rc "prjid"))			 
+			 (prjid (get-from-qstr rc "prjid"))
+			 (userid (:cookies-value rc "userid"))
+			 (group (:cookies-value rc "group"))
+			 (sid (:cookies-value rc "sid"))
+			 (prjidq (addquotes prjid))
+			 (useridq (addquotes userid))
+			 (groupq (addquotes group))
+			 (sidq (addquotes sid))
+	  
 			 (sql (string-append "UPDATE project SET project_name='" prj-name "', descr='" descr "' WHERE id=" prjid))
 			 (dummy (:conn rc sql))
 			 )

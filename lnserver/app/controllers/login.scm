@@ -97,15 +97,14 @@
 					  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
 					  (dummy (:cookies-set! rc 'userid "userid" userid))
 					  (dummy (:cookies-set! rc 'group "group" group))
-					  (dest (:from-post rc 'get "destination"))
-					  
-					  (requested-url  
-							      (if dest dest "/project/getall"))
+					  (dest (:from-post rc 'get "destination"))					  
+					  (requested-url  (if dest dest "/project/getall"))
 					  )
 				     (redirect-to rc requested-url))
+			    #f)))
 				   ;;  (redirect-to rc "test"))
-			       (redirect-to rc "/login/login?login_failed=Login_Failed!"))))
-	       #f))))
+			    (redirect-to rc "/login/login?login_failed=Login_Failed!")))
+	       #f))
 
 
 ;; this works, note that session-spawn is not needed or you get 2 sessions
@@ -148,3 +147,14 @@
 		  (view-render "test" (the-environment))
 		  )))
 
+(login-define sess
+	      (options  #:session #t
+			#:with-auth "/login/login")
+		;;	#:auth `(table person "lnuser" "passwd" "salt" ,my-hmac))      
+	      (lambda (rc)
+		(let* (
+		       (check (:session rc 'check))
+		       (results "empty"))
+		       ;;(results (:auth rc)))	 	  
+		  (view-render "test" (the-environment))
+		  )))

@@ -211,7 +211,7 @@
 ")(display "
 
   <div class=\"container\">
-  <h2>Add a Plate Set To Project PRJ-")(display   prjid )(display "</h2>
+  <h2>Rearray Hilt List ")(display   hlid )(display " Using  Plate Set PS-")(display  psid )(display "</h2>
 
   <form action=\"/plateset/addstep2\" method=\"post\">
  <div class=\"form-group\">   
@@ -221,9 +221,10 @@
    <label for=\"descr\">Description:</label>  <input type=\"text\"  class=\"form-control\" id=\"descr\" name=\"psdescr\" value=\"\" required>
  </div>
  <div class=\"form-row\">
- <div class=\"form-group  col-md-6\">   
-   <label for=\"numplates\">Number of Plates:</label>  <input type=\"text\"  class=\"form-control\"  id=\"numplates\" name=\"numplates\" value=\"\" required>
- </div>
+     <div class=\"form-group  col-md-6\">
+	 <label for=\"type\">Plate Type:</label>
+	 <select name=\"type\"  class=\"custom-select\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "</select> 
+	      </div>
  <div class=\"form-group col-md-6\">
    <label for=\"format\">Plate Format:</label>
    <select name=\"format\"  class=\"custom-select\" id=\"format\">
@@ -233,14 +234,7 @@
    </select>
  </div>
  </div>
- <div class=\"form-row\">
-   <div class=\"form-group col-md-6\">
-     <label for=\"type\">Plate Type:</label>
-     <select name=\"type\"  class=\"custom-select\" id=\"type\" onchange=\"typeSelection(event)\"> ")(display  plate-types )(display "</select> 
-   </div>
- </div>
  
-
  <div class=\"form-row\">
     <div class=\"form-group col-md-6\">
    <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\" id=\"importButton\" name=\"importButton\" enabled>

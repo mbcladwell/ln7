@@ -6,6 +6,13 @@
 	     (dbi dbi)
 	     (ice-9 match)
 	     (web uri)
+	     (ice-9 format)
+	     (ice-9 match)
+	      (web response)
+	     (web request)(web client)
+	      (ice-9 receive)
+	      (json)(ice-9 textual-ports)
+	      (ice-9 pretty-print)
 	     (artanis utils)(artanis irregex)
 	     (srfi srfi-19)   ;; date time
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
@@ -174,3 +181,8 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 (string-append "sdql_skjdf(" c ")")
 
 
+bc1qgjpz037l43kwmv4g34txagqpse2aw9nwvhneht
+355a9395a061b21b8f9ddd2ad422f8dc   key
+
+(json-string->scm (utf8->string (receive (response-status response-body)
+				    (http-request (string->uri (string-append "https://api.blockcypher.com/v1/btc/main/addrs/3FWk71MmnFuKu6B6cgFbX2XgVaz7FkFTwS"))) response-body)))

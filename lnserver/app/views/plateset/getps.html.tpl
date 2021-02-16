@@ -67,7 +67,7 @@
  } );
 
  $(document).ready(function() {
-     $('#hstable').DataTable({
+     $('#hltable').DataTable({
          dom: 'lBfrtip',
          buttons: [
              'copyHtml5',
