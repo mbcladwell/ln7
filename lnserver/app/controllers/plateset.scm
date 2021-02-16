@@ -764,9 +764,14 @@
 (plateset-define remove
 		 (options #:cookies '(names prjid sid))
 		 (lambda (rc)
-		   (let* (			  
-			  (result (:cookies-remove! rc "prjid"))
-			  (cookies (rc-cookie rc))
+		   (let* (
+			  (prerc (rc-cookie rc))
+			  (prercset (rc-set-cookie rc))
+			  (dummy (:cookies-remove! rc 'sid ))
+
+			  (postrc(rc-cookie rc))
+			  (postrcset(rc-set-cookie rc))
+	
 			  )
 		     (view-render "test" (the-environment)))))
 
@@ -806,11 +811,12 @@
 		   (let* (			  
 			  (prerc (rc-cookie rc))
 			  (prercset (rc-set-cookie rc))
-			 ;; (drop (:session rc 'drop))
+			  ;;(drop (:session rc 'spawn))
+			  (dummy (:session-destory! rc (:cookies-value rc "sid")))
 			  (postrc(rc-cookie rc))
 			  (postrcset(rc-set-cookie rc))
-			  (dummy (:cookies-set! rc 'sid "sid" (:cookies-value rc "sid")))
-			  (dummy (:cookies-setattr! rc 'sid #:expires 21600 #:secure #t))
+			 ;; (dummy (:cookies-set! rc 'sid "sid" (:cookies-value rc "sid")))
+			 ;; (dummy (:cookies-setattr! rc 'sid #:expires 21600 #:secure #t))
 			  )
 		     (view-render "test" (the-environment)))))
 
