@@ -14,12 +14,12 @@
                 (project_sys_name (result-ref x "project_sys_name"))
                 (project_name (result-ref x "project_name"))
 		(descr (result-ref x "descr")))
-            (cons (string-append "<tr><th> <input type=\"radio\" id=\"" project_sys_name  "\" name=\"prjid\" value=\"" (number->string (cdr (car x)))   "\"></th>
+            (cons (string-append "<tr><td> <input type=\"radio\" id=\"" project_sys_name  "\" name=\"prjid\" value=\"" (number->string (cdr (car x)))   "\"></td>
 
-<th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th>
+<td><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></td>
 
 
-<th>" project_name "</th><th>" descr "</th></tr>")
+<td>" project_name "</td><td>" descr "</td></tr>")
 		  prev)))
         '() a))
 
@@ -86,7 +86,8 @@
 
 
 (project-define addaction
-		(options #:conn #t)
+		(options #:conn #t
+			 #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "project")
 			;; (qstr  (:from-post rc 'get))
@@ -106,7 +107,8 @@
   )))
 
 (project-define edit
-		(options #:conn #t )
+		(options #:conn #t
+			 #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "project")			
 			 (prjid (get-from-qstr rc "prjid"))
@@ -125,7 +127,8 @@
 		    (view-render "edit" (the-environment)))))
 
 (project-define editaction
-		(options #:conn #t)
+		(options #:conn #t
+			 #:cookies '(names prjid lnuser userid group sid))
 		(lambda (rc)
 		  (let* ((help-topic "project")
 			 (prj-name (get-from-qstr rc "pname"))

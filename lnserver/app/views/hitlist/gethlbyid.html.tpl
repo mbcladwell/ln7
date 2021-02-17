@@ -30,6 +30,7 @@
 	<input type="hidden" id="userid" name="userid" value=<%= useridq %>>
 	<input type="hidden" id="group" name="group" value=<%= groupq %>>
 	<input type="hidden" id="hlid" name="hlid" value=<%= hlidq %>>
+	<input type="hidden" id="numhits" name="numhits" value=<%= numhitsq %>>
 
     </form>
     

@@ -5,7 +5,7 @@
 <@include header.tpl %>
 
   <div class="container">
-  <h2>Rearray Hilt List <%=  hlid %> Using  Plate Set PS-<%= psid %></h2>
+  <h2>Rearray Hilt List <%= hlid %> Using  Plate Set PS-<%= psid %></h2>
 
   <form action="/plateset/addstep2" method="post">
  <div class="form-group">   

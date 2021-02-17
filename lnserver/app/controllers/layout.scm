@@ -25,9 +25,9 @@
 		(control-loc (result-ref x "control_loc"))
 		(source-dest (result-ref x "source_dest"))
 		(id-html (string-append "<a href=\"/layout/lytbyid?id=" id "\">" sys-name "</a>") ))
-            (cons (string-append "<tr><th>" id-html "</th><th>" name "</th><th>" descr "</th>
-<th>"   plate-format-id "</th><th>" replicates "</th><th>" targets "</th>
-<th>"  use-edge "</th><th>" num-controls "</th><th>" unknown-n "</th><th>" control-loc "</th><th>" source-dest "</th><tr>")
+            (cons (string-append "<tr><td>" id-html "</th><td>" name "</td><td>" descr "</td>
+<td>"   plate-format-id "</td><td>" replicates "</td><td>" targets "</td>
+<td>"  use-edge "</td><td>" num-controls "</td><td>" unknown-n "</td><td>" control-loc "</td><td>" source-dest "</td><tr>")
 		  prev)))
         '() a))
 
@@ -75,8 +75,6 @@
 	     (prjid (:cookies-value rc "prjid"))
 	       (userid (:cookies-value rc "userid"))
 	       (sid (:cookies-value rc "sid"))
-	       (get-ps-link (string-append "/plateset/getps?id=" prjid))
-	       (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))
 	       (sql  "select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name")
 	   (holder  (DB-get-all-rows (:conn rc sql)))
 	   (body (string-concatenate (prep-lyt-rows holder))))

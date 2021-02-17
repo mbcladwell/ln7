@@ -811,8 +811,8 @@
 		   (let* (			  
 			  (prerc (rc-cookie rc))
 			  (prercset (rc-set-cookie rc))
-			  ;;(drop (:session rc 'spawn))
-			  (dummy (:session-destory! rc (:cookies-value rc "sid")))
+			  (drop (:session rc 'drop))
+		;;	  (dummy (:session-destory! rc (:cookies-value rc "sid")))
 			  (postrc(rc-cookie rc))
 			  (postrcset(rc-set-cookie rc))
 			 ;; (dummy (:cookies-set! rc 'sid "sid" (:cookies-value rc "sid")))
