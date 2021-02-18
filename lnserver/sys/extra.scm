@@ -182,7 +182,7 @@
 	b))
 
 (define (dehtmlify x)
-(utf8->string (u8-list->bytevector (map string->number (string-split (uri-decode x) #\+)))))
+(utf8->string (u8-list->bytevector (map string->number (string-split (uri-decode x) #\space)))))
 
 (define (addquotes x)
   (string-append "\"" x "\""))

@@ -24,7 +24,7 @@
 		(reps (get-c9 x))
 		(idval (string-append (number->string (cdr (car x))) "+" numplates "+" format "+" layout "+" reps ))
 		)
-            (cons (string-append "<tr><th> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></th><th><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></th><th>" plate_set_name "</th><th>" descr "</th><th>" type "</th><th>" numplates "</th><th>" format "</th><th>" layout "</th><th>" reps "</th></tr>")
+            (cons (string-append "<tr><td> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></td><td><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></td><td>" plate_set_name "</td><td>" descr "</td><td>" type "</td><td>" numplates "</td><td>" format "</td><td>" layout "</td><td>" reps "</td></tr>")
 		  prev)))
         '() a))
 
@@ -48,7 +48,7 @@
 		(descr (result-ref x "descr"))
 		(nhits (get-c8 x))
 		)
-	      (cons (string-append "<tr><th><a href=\"/assayrun/getid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th><a href=\"/hitlist/gethlbyid?id=" hit-list-id  "\">" hit-list-sys-name "</a></th><th>" hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
+	      (cons (string-append "<tr><td><a href=\"/assayrun/getid?id=" id  "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" assay-type-name "</td><td><a href=\"/hitlist/gethlbyid?id=" hit-list-id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
 		    prev)
 	      ))
         '() a))

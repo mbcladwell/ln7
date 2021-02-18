@@ -18,10 +18,11 @@
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
 	     (artanis artanis)
 	     (ice-9 string-fun) ;; string-replace-substring
-	     (rnrs bytevectors))
-;;	     (lnserver sys extra))
+	     (rnrs bytevectors)
+	     (lnserver sys extra))
 (getcwd)	    
 (use-modules  (home mbc .cache guile ccache 3.0-LE-8-4.4 home mbc projects ln7 lnserver sys extra))
+
 
 (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:tcp:192.168.1.11:5432"))
 
@@ -110,79 +111,15 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 	 (process-trg-row1 (cdr lst) results )) ))
 
 
-(define (process-trg-row2 lst results)
-  ;; results is a string like "'{"2" "3" "4"}'" note the single quotes
-  (if (null? (cdr lst))
-      (begin
-	(cond
-	 ((= (length (car lst)) 3) (set! results  (string-append results "{\"" (caar lst) "\" \"" (cadar lst) "\" \"\"  \""  (caddar lst)   "\"}," )))
-	  ((= (length (car lst)) 4)(set! results  (string-append results "{\"" (caar lst) "\" \""  (cadar lst)  "\" \""    (caddar lst)   "\" \""   (car (cdddar lst))   "\"}," )))
-	 )
-       results)
-       (begin
-	 (cond
-	 ((= (length (car lst)) 3) (set! results  (string-append results "{\"" (caar lst) "\" \"" (cadar lst) "\" \"\"  \""  (caddar lst)   "\"}," )))
-	  ((= (length (car lst)) 4)(set! results  (string-append results "{\"" (caar lst) "\" \""  (cadar lst)  "\" \""    (caddar lst)   "\" \""   (car (cdddar lst))   "\"}," ))))
-	 (process-trg-row2 (cdr lst) results)) ))
+(define a '((1 . a)(2 . b)(3 . c)))
+(map u8-list->bytevector a)
 
+(string->blist "yret")
 
-(define a "id%0D%0ASPL-292%0D%0ASPL-285%0D%0ASPL-284%0D%0ASPL-283%0D%0ASPL-282%0D%0ASPL-281%0D%0A%0D%0A")
+(define a '((1 . a)(2 . b)(3 . c)))
+(object->string a)
+(define b (htmlify (object->string a)))
 
-(define b (uri-decode a))
-(define c (map list (cdr (string-split b #\newline))))
+(string->list (utf8->string (u8-list->bytevector (map string->number (string-split (uri-decode b) #\space)))))
 
-(define white-chars (char-set #\space #\tab #\newline #\return))
-
-
-(define (ghty x)
-  (string-trim-both (car x) white-chars))
-
-(define c (map list (cdr (string-split b #\newline))))
-
-
-(define g (map (lambda (x)(string-trim-both (car x) white-chars)) c))
-
-(if (equal? (substring  (car g) 0 4) "SPL-") #f #t)
-
-
-(define (no-empty lst results)
-  ;; make a list of strings from objects
-  (if (null? (cdr lst))
-      (begin
-	(if (= (string-length (car lst)) 0 ) #f
-	 (set! results  (cons  (car lst) results)))
-       results)
-       (begin
-	(if (= (string-length (car lst)) 0 ) #f
-	 (set! results  (cons  (car lst) results)))
-	 (no-empty (cdr lst) results )) ))
-
-(define h (no-empty g '()))
-
-
-(define (make-pg-hl lst results b )
-  ;; if b is false must remove SPL-
- (if (null? (cdr lst))
-      (begin
-	(if b (set! results  (string-append  "{" (car lst) "}," results))
-	    (set! results  (string-append  "{" (substring (car lst)  4 (string-length (car lst))) "}," results)) )
-       results)
-       (begin
-	(if b (set! results  (string-append  "{" (car lst) "}," results))
-	    (set! results  (string-append  "{" (substring (car lst)  4 (string-length (car lst))) "}," results)))
-	 (make-pg-hl (cdr lst) results b))))
-
-(make-pg-hl h "" #f)
-
-(substring (car g) 4 (string-length (car g)) )
-
-(define b  (process-trg-row1 a '()))
-(define c (process-trg-row2 a ""))
-(string-append "sdql_skjdf(" c ")")
-
-
-bc1qgjpz037l43kwmv4g34txagqpse2aw9nwvhneht
-355a9395a061b21b8f9ddd2ad422f8dc   key
-
-(json-string->scm (utf8->string (receive (response-status response-body)
-				    (http-request (string->uri (string-append "https://api.blockcypher.com/v1/btc/main/addrs/3FWk71MmnFuKu6B6cgFbX2XgVaz7FkFTwS"))) response-body)))
+(string-split b #\+)

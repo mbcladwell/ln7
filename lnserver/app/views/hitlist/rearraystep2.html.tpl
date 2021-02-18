@@ -5,41 +5,54 @@
 <@include header.tpl %>
 
   <div class="container">
-  <h2>Rearray Hilt List <%= hlid %> Using  Plate Set PS-<%= psid %></h2>
+  <h2>Add a Plate Set To Project PRJ-<%=  prjid %> (Contd)</h2>
 
-  <form action="/plateset/addstep2" method="post">
+  <form action="/plateset/addaction" method="post">
  <div class="form-group">   
-    <label for="name">Plate Set Name:</label>  <input type="text"  class="form-control" id="psname" name="psname" value="" required>
+     <label for="name">Plate Set Name:</label><b>&nbsp;&nbsp; <%=  psname %></b>
  </div>
  <div class="form-group">   
-   <label for="descr">Description:</label>  <input type="text"  class="form-control" id="descr" name="psdescr" value="" required>
+     <label for="descr">Description:</label> <b>&nbsp;&nbsp; <%=  psdescr %></b>
  </div>
  <div class="form-row">
-     <div class="form-group  col-md-6">
-	 <label for="type">Plate Type:</label>
-	 <select name="type"  class="custom-select" id="type" onchange="typeSelection(event)"> <%= plate-types %></select> 
-	      </div>
- <div class="form-group col-md-6">
-   <label for="format">Plate Format:</label>
-   <select name="format"  class="custom-select" id="format">
-     <option value="96">96</option>
-     <option value="384">384</option>
-     <option value="1536">1536</option>
-   </select>
+     <div class="form-group col-md-6">
+	 <label for="format">Plate Format:</label><b>&nbsp;&nbsp; <%=  format %></b>
  </div>
  </div>
- 
  <div class="form-row">
-    <div class="form-group col-md-6">
-   <input type="submit"  class="btn btn-primary" value="Submit" id="importButton" name="importButton" enabled>
-    </div>
+   <div class="form-group col-md-6">
+       <label for="type">Plate Type:</label> <b>&nbsp;&nbsp; <%=  platetype %></b>
+   </div>
  </div>
 
+ <div class="form-row">    
+     <div class="form-group col-md-6">
+     <label for="samplelyt">Sample Layout:</label> 
+     <select name="samplelyt"  class="custom-select" id="samplelyt"> <%= sample-layouts %> </select>
+     </div>
+     <div class="form-group col-md-6">
+	 <label for="trglyt">Target Layout:</label> &nbsp;&nbsp;&nbsp;   <label for="target-desc"><%= trg-desc %></label> 
+	 <select name="trglyt"  class="custom-select" id="trglyt"  > <%= target-layouts %>  </select>
+	 
+	 <div>	 
+     </div>
+     </div>
+   <br>
+   <div class="form-row">
+       <div class="form-group col-md-6">
+	   <input type="submit"  class="btn btn-primary" value="Confirm" id="importButton" name="importButton" enabled>
+       </div>
+   </div>
 
+   <input type="hidden" id="prjid" name="prjid" value=<%= prjidq %>>
+   <input type="hidden" id="psname" name="psname" value=<%= psnameq %>>
+   <input type="hidden" id="psdescr" name="psdescr" value=<%= psdescrq %>>
+   <input type="hidden" id="format" name="format" value=<%= formatq %>>
+   <input type="hidden" id="numplates" name="numplates" value=<%= numplatesq %>>
+  
+  </form> 
 
- 
-</form> 
-
+  
    <button class="btn btn-primary" type="button" id="loadingButton" name="loadingButton" enabled>
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" ></span>
   Loading...
@@ -60,19 +73,15 @@
       y.style.display = "inline";
   }
 
- /* var temp = <%= format %>;
-  * var mySelect = document.getElementById('format');
+ var plttype =  document.getElementById("plttype").value;
+ if(plttype === "assay"){ 
+     document.getElementById('trglyt').disabled = false;
+ }else{
+     document.getElementById('trglyt').disabled = true;
+ }
 
-  * for(var i, j = 0; i = mySelect.options[j]; j++) {
-  *     if(i.value == temp) {
-  *         mySelect.selectedIndex = j;
-  *         break;
-  *     }
-  * } */
     
 </script>
-
-
 
 
 <@include footer.tpl %>

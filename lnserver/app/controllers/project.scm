@@ -45,7 +45,7 @@
 
 (get "/project/getall" #:conn #t 
      #:cookies '(names prjid lnuser userid group sid)
-   ;;  #:with-auth "/login/login" 
+     #:with-auth "/login/login" 
      (lambda (rc ) 
        (let* ( 
 	      (help-topic "project")

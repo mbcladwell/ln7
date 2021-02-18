@@ -75,7 +75,7 @@
 			 (groupq (addquotes group))
 			 (sidq (addquotes sid))
 			 (hlidq (addquotes hlid))
-			 (numhitsq (addquotes numhits))
+			 (numhitsq (addquotes (number->string numhits)))
 			 
 	       	 )
 		   (view-render "gethlbyid" (the-environment))
@@ -238,38 +238,70 @@
 	   (group (:cookies-value rc "group"))
 	   (sid (:cookies-value rc "sid"))
 	   (numhits (:from-post rc 'get "numhits"))
-;;	   (aridq (addquotes arid) )
-;;	   (datatransferq (addquotes datatransfer))
-;;	   (num-hitsq (addquotes num-hits))
-	   
+	   (sql3 (string-append "SELECT id, plate_type_name from plate_type where plate_type_name='rearray'"))
+	    (holder3  (DB-get-all-rows (:conn rc sql3))) ;;(((id . 1) (plate_type_name . assay)) ((id . 2) (plate_type_name . rearray)) ....
+	   (plate-types-pre '())
+	   (plate-types (dropdown-contents-with-id holder3 plate-types-pre)) ;;("assay" "replicate"....)
+	   (prjidq (addquotes prjid))
+	   (useridq (addquotes userid))
+	   (groupq (addquotes group))
+	   (sidq (addquotes sid))
+	   (hlidq (addquotes hlid))
+	   (psidq (addquotes psid))
+	   (numhitsq (addquotes numhits))
+	  ;; (holder3q  (addquotes (htmlify (object->string (car holder3)))))
 	   )  
-      (redirect-to rc "/hitlist/rearraystep2" )
+      (view-render "rearray" (the-environment))
+     ;; (view-render "test2" (the-environment))
       )))
 
-(hitlist-define rearraystep2
-		 (options #:conn #t
-			  #:cookies '(names prjid lnuser userid group sid)
-			  #:from-post 'qstr)
+
+(post "/hitlist/rearraystep2"
+		 #:conn #t
+		 #:cookies '(names prjid lnuser userid group sid)
+		 #:from-post 'qstr
   (lambda (rc)
     (let* ((help-topic "hitlist")
 	   (hlid (:from-post rc 'get "hlid"))
 	   (psid (:from-post rc 'get "psid"))
-	   
+	   (psname (:from-post rc 'get "psname"))
+	   (psdescr (:from-post rc 'get "psdescr"))
+	   (format (:from-post rc 'get "format"))
+	   (typeid (:from-post rc 'get "typeid")) ;;only rearray
+	   (numhits (:from-post rc 'get "numhits"))
+	  ;; (platetypespre (:from-post rc 'get "platetypes"))
+	  ;; (platetypes (map number->string (string-split "platetypes" #\+)))
+	   (platetype "rearray")
+	   (sql (string-append "SELECT id, plate_type_name from plate_type"))
+	  
+	   ;; (holder  (DB-get-all-rows (:conn rc sql))) ;;(((id . 1) (plate_type_name . assay)) ((id . 2) (plate_type_name . rearray)) ....
+	    (sample-layouts-pre '())
+	   ;; (plate-types (dropdown-contents-with-id holder3 plate-types-pre)) ;;("assay" "replicate"....)
+
+	   (sample-layouts "")
+	   (trg-desc "trg-desc")
+	   (target-layouts "trg-layouts")
 	   (prjid (:cookies-value rc "prjid"))	   
 	   (userid (:cookies-value rc "userid"))
 	   (group (:cookies-value rc "group"))
 	   (sid (:cookies-value rc "sid"))
-	   (num-hits (:from-post rc 'get "hitcount"))
-	   (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
-	   (holder3  (DB-get-all-rows (:conn rc sql3)))
-	   (plate-types-pre '())
-	   (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
-	      
-;;	   (aridq (addquotes arid) )
-;;	   (datatransferq (addquotes datatransfer))
-;;	   (num-hitsq (addquotes num-hits))
-	   
+	   (numhits (:from-post rc 'get "numhits"))
+	   (typeid (:from-post rc 'get "typeid"))
+	   (prjidq (addquotes prjid))
+	   (useridq (addquotes userid))
+	   (groupq (addquotes group))
+	   (numplates "1")
+	   (sidq (addquotes sid))
+	   (hlidq (addquotes hlid))
+	   (psidq (addquotes psid))
+	   (numhitsq (addquotes numhits))
+	   (psnameq (addquotes psname))
+	   (psdescrq (addquotes psdescr))
+	   (formatq (addquotes format))
+	   ;;(plttypeidq (addquotes typeid))
+	   (numplatesq (addquotes numplates))
+	   (plttypesq "rearray")
 	   )  
-      (view-render "rearraystep2" (the-environment) )
+      (view-render "rearraystep2" (the-environment))
       )))
 
