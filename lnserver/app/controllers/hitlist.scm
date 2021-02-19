@@ -264,21 +264,18 @@
     (let* ((help-topic "hitlist")
 	   (hlid (:from-post rc 'get "hlid"))
 	   (psid (:from-post rc 'get "psid"))
-	   (psname (:from-post rc 'get "psname"))
-	   (psdescr (:from-post rc 'get "psdescr"))
+	   (psname (uri-decode (:from-post rc 'get "psname")))
+	   (psdescr (uri-decode (:from-post rc 'get "psdescr")))
 	   (format (:from-post rc 'get "format"))
 	   (typeid (:from-post rc 'get "typeid")) ;;only rearray
 	   (numhits (:from-post rc 'get "numhits"))
 	  ;; (platetypespre (:from-post rc 'get "platetypes"))
 	  ;; (platetypes (map number->string (string-split "platetypes" #\+)))
 	   (platetype "rearray")
-	   (sql (string-append "SELECT id, plate_type_name from plate_type"))
-	  
-	   ;; (holder  (DB-get-all-rows (:conn rc sql))) ;;(((id . 1) (plate_type_name . assay)) ((id . 2) (plate_type_name . rearray)) ....
+	   (sql (string-append "select id, name, descr from plate_layout_name WHERE plate_format_id =" format " AND source_dest='source'"))	  
+	    (holder  (DB-get-all-rows (:conn rc sql))) 
 	    (sample-layouts-pre '())
-	   ;; (plate-types (dropdown-contents-with-id holder3 plate-types-pre)) ;;("assay" "replicate"....)
-
-	   (sample-layouts "")
+	    (sample-layouts (dropdown-contents-with-id holder sample-layouts-pre)) 
 	   (trg-desc "trg-desc")
 	   (target-layouts "trg-layouts")
 	   (prjid (:cookies-value rc "prjid"))	   
@@ -290,8 +287,7 @@
 	   (prjidq (addquotes prjid))
 	   (useridq (addquotes userid))
 	   (groupq (addquotes group))
-	   (numplates "1")
-	   (sidq (addquotes sid))
+	    (sidq (addquotes sid))
 	   (hlidq (addquotes hlid))
 	   (psidq (addquotes psid))
 	   (numhitsq (addquotes numhits))
@@ -299,9 +295,61 @@
 	   (psdescrq (addquotes psdescr))
 	   (formatq (addquotes format))
 	   ;;(plttypeidq (addquotes typeid))
-	   (numplatesq (addquotes numplates))
-	   (plttypesq "rearray")
+	   ;;(numplatesq (addquotes numplates))
+	   (plttypeq "rearray")
 	   )  
       (view-render "rearraystep2" (the-environment))
       )))
 
+
+(post "/hitlist/rearrayaction"
+		 #:conn #t
+		 #:cookies '(names prjid lnuser userid group sid)
+		 #:from-post 'qstr
+  (lambda (rc)
+    (let* ((help-topic "hitlist")
+	   (hlid (:from-post rc 'get "hlid"))
+	   (psid (:from-post rc 'get "psid"))
+	   (prjid (:cookies-value rc "prjid"))	   
+	   (userid (:cookies-value rc "userid"))
+	   (group (:cookies-value rc "group"))
+	   (sid (:cookies-value rc "sid"))
+	   (numhits (:from-post rc 'get "numhits"))
+	   (psname (uri-decode (:from-post rc 'get "psname")))
+	   (psdescr (uri-decode (:from-post rc 'get "psdescr")))
+	   (format (:from-post rc 'get "format"))
+	   (plttype (:from-post rc 'get "plttype"))
+	   (pltlytid  (:from-post rc 'get "samplelyt"))
+	   (sql (string-append "SELECT unknown_n FROM plate_layout_name WHERE plate_layout_name.ID ="  pltlytid))
+	   (holder  (DB-get-all-rows (:conn rc sql))) 	
+	   (num-unks-per-plate (cdaar holder))
+	   (numplates (ceiling (/ (string->number numhits) num-unks-per-plate)))
+	   ;; using DefaultQuadruplicates for target layout : 3
+	   ;; rearray plates are plttype 2
+	   ;; with-samples is false
+	   (sql3 (string-append "SELECT new_plate_set('" psdescr "', '" psname "', " (number->string numplates) ", " format  ",2 , " prjid ", " pltlytid  ", '" sid "', false, 3 )"))
+	   (dummy  (:conn rc sql3))
+	   (destination (string-append "plateset/getps?id=" prjid))
+	   )  
+      (redirect-to rc destination)
+     ;; (view-render "test2" (the-environment))
+      )))
+
+
+
+ ;; // new_plate_set(_descr VARCHAR(30),_plate_set_name VARCHAR(30), _num_plates INTEGER, _plate_format_id INTEGER, _plate_type_id INTEGER, _project_id INTEGER, _plate_layout_name_id INTEGER, _lnsession_id INTEGER, _with_samples boolean, _trg_layout_name_id INTEGER)         
+
+ ;;      //using DefaultQuadruplicates for target layout : 3
+ ;;      String insertSql1 = "SELECT new_plate_set ( ?, ?, ?, ?, ?, ?, ?, ?, ?, 3);";
+ ;;      PreparedStatement insertPs =
+ ;;          conn.prepareStatement(insertSql1, Statement.RETURN_GENERATED_KEYS);
+ ;;      insertPs.setString(1, _description);
+ ;;      insertPs.setString(2, _name);
+ ;;      insertPs.setInt(3, Integer.valueOf(_num_plates));
+ ;;      insertPs.setInt(4, plate_format_id);
+ ;;      insertPs.setInt(5, plate_type_id);
+ ;;      insertPs.setInt(6, project_id);
+ ;;      insertPs.setInt(7, plate_layout_id);
+ ;;      insertPs.setInt(8, session_id);
+ ;;      insertPs.setBoolean(9, false);      
+     

@@ -8,7 +8,7 @@
 
     <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
-    <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
+<link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
@@ -17,6 +17,13 @@
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.min.css\"/>
  
 
+<!-- 
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.foundation.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.jqueryui.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.semanticui.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/jquery.dataTables.min.css\"/>
+ -->
 
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
@@ -72,10 +79,10 @@
                 <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
                 <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
                     <li>
-                        <a id=\"getps\">for PRJ-")(display  prjid )(display "</a>
+                        <a id=\"platesetgetps\" href=\"#\">for PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
-		      <a id=\"psadd\">Add to PRJ-")(display  prjid )(display "</a>
+		      <a id=\"platesetaddps\">Add to PRJ-")(display  prjid )(display "</a>
                     </li>
                     <li>                    
 		      <a href=\"#\" onclick=\"editPlateSet()\">Edit</a>
@@ -247,24 +254,20 @@ $(document).ready(function() {
 	
 
 <script>
- var str1 = \"/hitlist/forprj?prjid=\";
- var str2 = ")(display  prjid )(display ";
- var res = str1.concat(str2);
- document.getElementById(\"hitlistforprj\").href = res;
+  var str1 = \"/hitlist/forprj?prjid=\";
+ var res1 = str1.concat( ")(display  prjid )(display "   );
+ document.getElementById(\"hitlistforprj\").href = res1;
 
 
- var str3 = \"/hitlist/importhl?prjid=\";
- var res2 = str3.concat(str2);
- document.getElementById(\"hitlistimport\").href = res2;
+var str3 = \"/plateset/getps?id=\";
+ var res3 = str3.concat( ")(display  prjid )(display " );
+ document.getElementById(\"platesetgetps\").href = res3;
+
+ var str4 = \"/plateset/add?format=96&type=master&prjid=\";
+ var res4 = str4.concat( ")(display  prjid )(display " );
+ document.getElementById(\"platesetaddps\").href = res4;
 
 
- var str4 = \"/plateset/getps?id=\";
- var res3 = str4.concat(str2);
- document.getElementById(\"getps\").href = res3;
-
- var str5 = \"/plateset/add?format=96&type=master&prjid=\";
- var res4 = str5.concat(str2);
- document.getElementById(\"psadd\").href = res4;
 
 
 $(document).ready(function () {

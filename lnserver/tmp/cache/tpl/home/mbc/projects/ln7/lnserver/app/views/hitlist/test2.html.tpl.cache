@@ -1,7 +1,7 @@
 (display "<!-- project#add view template of lnserver
-          Please add your license header here.
-          This file is generated automatically by GNU Artanis. -->
-  
+     Please add your license header here.
+     This file is generated automatically by GNU Artanis. -->
+
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
   <head>
@@ -218,7 +218,15 @@
 ")(display "
 
 
-")(display  holder3 )(display "
+")(display  psdescr )(display "<br><br>
+")(display  psname )(display "<br><br>
+")(display  num-unks-per-plate )(display "<br><br>
+
+")(display  numhits )(display "<br><br>
+")(display  numplates )(display "<br><br>
+")(display  pltlytid )(display "<br><br>
+")(display  sql3 )(display "<br><br>
+
 
  ")(display "</div>
 </div>
