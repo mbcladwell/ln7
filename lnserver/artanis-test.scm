@@ -18,8 +18,8 @@
 	     (ice-9 textual-ports)(ice-9 rdelim)(ice-9 pretty-print)
 	     (artanis artanis)
 	     (ice-9 string-fun) ;; string-replace-substring
-	     (rnrs bytevectors)
-	     (lnserver sys extra))
+	     (rnrs bytevectors))
+;;	     (lnserver sys extra))
 (getcwd)	    
 (use-modules  (home mbc .cache guile ccache 3.0-LE-8-4.4 home mbc projects ln7 lnserver sys extra))
 
@@ -84,42 +84,4 @@ INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALU
 
 
 
-(define (process-test lst results)
-  ;; make a list of strings from objects
-  (if (null? (cdr lst))
-        (begin
-	 (set! results  (cons   (string-split (caar lst)  #\tab) results))
-       results)
-       (begin
-	 (set! results (cons (string-split (caar lst)  #\tab)  results))
-	 (process-test (cdr lst) results )) ))
-
-(process-test b '())
-
-(pretty-print b)
-
- (string-split (caar b) #\tab)
-
-(define (process-trg-row1 lst results)
-  ;; make a list of strings from objects
-  (if (null? (cdr lst))
-        (begin
-	 (set! results  (cons   (map object->string (car lst)) results))
-       results)
-       (begin
-	 (set! results (cons  (map object->string (car lst)) results))
-	 (process-trg-row1 (cdr lst) results )) ))
-
-
-(define a '((1 . a)(2 . b)(3 . c)))
-(map u8-list->bytevector a)
-
-(string->blist "yret")
-
-(define a '((1 . a)(2 . b)(3 . c)))
-(object->string a)
-(define b (htmlify (object->string a)))
-
-(string->list (utf8->string (u8-list->bytevector (map string->number (string-split (uri-decode b) #\space)))))
-
-(string-split b #\+)
+(define a (((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . B02) (by_col . 10) (sample_sys_name . SPL-87) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . A02) (by_col . 9) (sample_sys_name . SPL-73) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . H01) (by_col . 8) (sample_sys_name . SPL-65) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . G01) (by_col . 7) (sample_sys_name . SPL-59) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . F01) (by_col . 6) (sample_sys_name . SPL-53) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . E01) (by_col . 5) (sample_sys_name . SPL-51) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . D01) (by_col . 4) (sample_sys_name . SPL-49) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . C01) (by_col . 3) (sample_sys_name . SPL-43) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . B01) (by_col . 2) (sample_sys_name . SPL-39) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . A01) (by_col . 1) (sample_sys_name . SPL-16) (accs_id . )) ))

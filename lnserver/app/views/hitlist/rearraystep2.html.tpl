@@ -5,7 +5,7 @@
 <@include header.tpl %>
 
 <div class="container">
-    <h2>Add a Plate Set To Project PRJ-<%=  prjid %> (Contd)</h2>
+    <h2>Rearray Hit List HL-<%= hlid %> Using  Plate Set PS-<%= psid %> (Contd)</h2>
 
     <form action="/hitlist/rearrayaction" method="post">
 	<div class="form-group">   
@@ -43,6 +43,8 @@
 	<input type="hidden" id="psdescr" name="psdescr" value=<%= psdescrq %>>
 	<input type="hidden" id="format" name="format" value=<%= formatq %>>
 	<input type="hidden" id="numhits" name="numhits" value=<%= numhitsq %>>
+	<input type="hidden" id="hlid" name="hlid" value=<%= hlidq %>>
+	<input type="hidden" id="psid" name="psid" value=<%= psidq %>>
 	
     </form> 
 

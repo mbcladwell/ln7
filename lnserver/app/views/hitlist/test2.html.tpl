@@ -12,7 +12,7 @@
 <%= numhits %><br><br>
 <%= numplates %><br><br>
 <%= pltlytid %><br><br>
-<%= sql3 %><br><br>
+<%= new-psid %><br><br>
 
 
  <@include footer.tpl %>

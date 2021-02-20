@@ -216,11 +216,29 @@
 <div id=\"content\">
 
 ")(display "
-  <div class=\"container\">
+<div class=\"container\">
     <h2>Wells for PLT-")(display  pltid )(display "</h2>
 <table class=\"display table table-striped table-bordered\"><thead><tr><th>Plate Set</th><th>Plate</th><th>Well</th><th>Order</th><th>Sample</th><th>Accession</th></tr></thead>
- <tbody> ")(display  body )(display "</tbody>
+    <tbody> ")(display  body )(display "</tbody>
 </table>
+<form action=\"/plate/getwellsforps?psid=")(display   psid  )(display " method=\"get\">
+    
+    <div class=\"row\">
+     <div class=\"col\">
+	 <button type=\"submit\" class=\"btn btn-primary\">All Wells for PS-<%=  psid  %></button>
+     </div> 
+     <div class=\"col\">
+         <input type=\"checkbox\" class=\"custom-control-input\" id=\"includecontrols\">
+         <label class=\"custom-control-label\" for=\"includecontrols\">Include controls</label>
+     </div>
+     <div class=\"col\">
+     </div>
+    </form>
+ 
+  </div>
+ 
+
+
 
 <script>          
 $(document).ready(function() {
@@ -240,39 +258,5 @@ $(document).ready(function() {
 </script>
 
 
-")(display "</div>
-</div>
-
-	
-
-<script>
-  var str1 = \"/hitlist/forprj?prjid=\";
- var res1 = str1.concat( ")(display  prjid )(display "   );
- document.getElementById(\"hitlistforprj\").href = res1;
-
-
-var str3 = \"/plateset/getps?id=\";
- var res3 = str3.concat( ")(display  prjid )(display " );
- document.getElementById(\"platesetgetps\").href = res3;
-
- var str4 = \"/plateset/add?format=96&type=master&prjid=\";
- var res4 = str4.concat( ")(display  prjid )(display " );
- document.getElementById(\"platesetaddps\").href = res4;
-
-
-
-
-$(document).ready(function () {
-
-    $('#sidebarCollapse').on('click', function () {
-        $('#sidebar').toggleClass('active');
-    });
-
-});
-</script>
-
-</body>
-
-</html>
-")(display "
+<@include footer.tpl %>
 ")

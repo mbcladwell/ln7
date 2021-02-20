@@ -328,11 +328,14 @@
 	   ;; rearray plates are plttype 2
 	   ;; with-samples is false
 	   (sql3 (string-append "SELECT new_plate_set('" psdescr "', '" psname "', " (number->string numplates) ", " format  ",2 , " prjid ", " pltlytid  ", '" sid "', false, 3 )"))
-	   (dummy  (:conn rc sql3))
+	   (new-psid (number->string (cdaar (DB-get-all-rows (:conn rc sql3)))))
+	   (sql4 (string-append "SELECT rearray_transfer_samples(" psid ", " new-psid ", " hlid ")" ))
+	   (dummy  (:conn rc sql4))
+	   
 	   (destination (string-append "plateset/getps?id=" prjid))
 	   )  
       (redirect-to rc destination)
-     ;; (view-render "test2" (the-environment))
+;;      (view-render "test2" (the-environment))
       )))
 
 

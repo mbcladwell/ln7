@@ -94,7 +94,7 @@
 		(splsys (result-ref x "sample_sys_name"))
 		(accs (result-ref x "accs_id"))
 		)
-            (cons (string-append "<tr><th>"  plt-set-sys-name "</th><th>"  plate-sys-name "</th><th>"  well-name  "</th><th>" order  "</th><th>"  splsys  "</th><th>" accs  "</th></tr>")
+            (cons (string-append "<tr><td>" plt-set-sys-name "</td><td>"  plate-sys-name "</td><td>"  well-name  "</td><td>" order  "</td><td>"  splsys  "</td><td>" accs  "</td></tr>")
 		  prev)))
         '() a))
 
@@ -107,16 +107,39 @@
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (pltid  (get-from-qstr rc "id"))
+		      (prjid (:cookies-value rc "prjid"))
+		       (userid (:cookies-value rc "userid"))
+		       (group (:cookies-value rc "group"))
+		       (sid (:cookies-value rc "sid"))		
+		       (sql (string-append "SELECT plate_set.plate_set_sys_name,  plate.plate_sys_name, well_numbers.well_name, well.by_col, sample.sample_sys_name, sample.accs_id FROM plate_plate_set, plate_set, plate, sample, well_sample, well JOIN well_numbers ON ( well.by_col= well_numbers.by_col)  WHERE plate.id = well.plate_id AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND well.plate_id = " pltid  "  AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.ID AND  well_numbers.plate_format = (SELECT plate_format_id  FROM plate_set WHERE plate_set.ID =  (SELECT plate_set_id FROM plate_plate_set WHERE plate_id = plate.ID LIMIT 1) ) ORDER BY plate.id DESC, well.by_col DESC" ))
+		       (holder (DB-get-all-rows (:conn rc sql)))
+		       (psid-pre (cdr (assoc "plate_set_sys_name" (car holder))))
+		       (psid (substring psid-pre 3))
+		       (body (string-concatenate (prep-wells-for-plt-rows holder)))
+		       )
+		  (view-render "getwellsforplt" (the-environment))
+		  ;;(view-render "test" (the-environment))
+		  
+		  )))
+
+
+(post "/plate/getwellsforps"
+	       #:conn #t
+	       #:cookies '(names prjid lnuser userid group sid)
+	       #:with-auth "login/login"
+	       #:from-post 'qstr
+	      (lambda (rc)
+		(let* ((help-topic "plate")
+		       (psid  (:from-post rc "psid"))
+		       (include-controls (:from-post rc "includecontrols"))
 		       (prjid (:cookies-value rc "prjid"))
 		       (userid (:cookies-value rc "userid"))
 		       (group (:cookies-value rc "group"))
 		       (sid (:cookies-value rc "sid"))		
-		       (get-ps-link (string-append "/plateset/getps?id=" prjid))
-		       (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-		       (sql (string-append "SELECT plate_set.plate_set_sys_name,  plate.plate_sys_name, well_numbers.well_name, well.by_col, sample.sample_sys_name, sample.accs_id FROM plate_plate_set, plate_set, plate, sample, well_sample, well JOIN well_numbers ON ( well.by_col= well_numbers.by_col)  WHERE plate.id = well.plate_id AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND well.plate_id = " pltid  "  AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.ID AND  well_numbers.plate_format = (SELECT plate_format_id  FROM plate_set WHERE plate_set.ID =  (SELECT plate_set_id FROM plate_plate_set WHERE plate_id = plate.ID LIMIT 1) ) ORDER BY plate.id DESC, well.by_col DESC" ))
+		       (sql (string-append "SELECT plate_set.plate_set_sys_name,  plate.plate_sys_name, well_numbers.well_name, well.by_col, sample.sample_sys_name, sample.accs_id FROM plate_plate_set, plate_set, plate, sample, well_sample, well JOIN well_numbers ON ( well.by_col= well_numbers.by_col)  WHERE plate.id = well.plate_id AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND plate_plate_set.plate_set_id = " psid  "  AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.ID AND  well_numbers.plate_format = (SELECT plate_format_id  FROM plate_set WHERE plate_set.ID =  (SELECT plate_set_id FROM plate_plate_set WHERE plate_id = plate.ID LIMIT 1) ) ORDER BY plate.id DESC, well.by_col DESC" ))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		       (body (string-concatenate (prep-wells-for-plt-rows holder))))
-		  (view-render "getwellsforplt" (the-environment))
+		  (view-render "getwellsforps" (the-environment))
 		 ;; (view-render "test" (the-environment))
 		  
 		  )))

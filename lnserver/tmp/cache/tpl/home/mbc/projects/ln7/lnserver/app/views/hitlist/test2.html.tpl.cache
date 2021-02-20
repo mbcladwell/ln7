@@ -225,7 +225,7 @@
 ")(display  numhits )(display "<br><br>
 ")(display  numplates )(display "<br><br>
 ")(display  pltlytid )(display "<br><br>
-")(display  sql3 )(display "<br><br>
+")(display  new-psid )(display "<br><br>
 
 
  ")(display "</div>
