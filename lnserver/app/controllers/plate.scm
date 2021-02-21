@@ -116,6 +116,7 @@
 		       (psid-pre (cdr (assoc "plate_set_sys_name" (car holder))))
 		       (psid (substring psid-pre 3))
 		       (body (string-concatenate (prep-wells-for-plt-rows holder)))
+		       (psidq (addquotes psid))
 		       )
 		  (view-render "getwellsforplt" (the-environment))
 		  ;;(view-render "test" (the-environment))
@@ -130,17 +131,18 @@
 	       #:from-post 'qstr
 	      (lambda (rc)
 		(let* ((help-topic "plate")
-		       (psid  (:from-post rc "psid"))
-		       (include-controls (:from-post rc "includecontrols"))
+		       (psid  (:from-post rc 'get "psid"))
+		       (include-controls (:from-post rc 'get "includecontrols"))
 		       (prjid (:cookies-value rc "prjid"))
 		       (userid (:cookies-value rc "userid"))
 		       (group (:cookies-value rc "group"))
 		       (sid (:cookies-value rc "sid"))		
-		       (sql (string-append "SELECT plate_set.plate_set_sys_name,  plate.plate_sys_name, well_numbers.well_name, well.by_col, sample.sample_sys_name, sample.accs_id FROM plate_plate_set, plate_set, plate, sample, well_sample, well JOIN well_numbers ON ( well.by_col= well_numbers.by_col)  WHERE plate.id = well.plate_id AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND plate_plate_set.plate_set_id = " psid  "  AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.ID AND  well_numbers.plate_format = (SELECT plate_format_id  FROM plate_set WHERE plate_set.ID =  (SELECT plate_set_id FROM plate_plate_set WHERE plate_id = plate.ID LIMIT 1) ) ORDER BY plate.id DESC, well.by_col DESC" ))
+		       (sql (string-append "SELECT plate_set.plate_set_sys_name,  plate.plate_sys_name, well_numbers.well_name, well.by_col, sample.sample_sys_name, sample.accs_id FROM plate_plate_set, plate_set, plate, sample, well_sample, well JOIN well_numbers ON ( well.by_col= well_numbers.by_col)  WHERE plate.id = well.plate_id AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND plate_plate_set.plate_set_id = " psid  "  AND plate_plate_set.plate_id = plate.id AND plate_plate_set.plate_set_id = plate_set.ID AND  well_numbers.plate_format = (SELECT plate_format_id  FROM plate_set WHERE plate_set.ID =" psid " ) ORDER BY plate.id DESC, well.by_col DESC" ))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		       (body (string-concatenate (prep-wells-for-plt-rows holder))))
 		  (view-render "getwellsforps" (the-environment))
-		 ;; (view-render "test" (the-environment))
+		       
+		  ;;(view-render "test" (the-environment))
 		  
 		  )))
 

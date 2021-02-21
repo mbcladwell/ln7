@@ -11,16 +11,18 @@
 <form action="/plate/getwellsforps" method="post">
     
     <div class="row">
-     <div class="col">
-	 <button type="submit" class="btn btn-primary">All Wells for PS-<%=  psid  %></button>
-     </div> 
-     <div class="col">
-         <input type="checkbox" class="custom-control-input" id="includecontrols">
-         <label class="custom-control-label" for="includecontrols">Include controls</label>
-     </div>
-     <div class="col">
-     </div>
-    </form>
+	<div class="col">
+	    <button type="submit" class="btn btn-primary">All Wells for PS-<%=  psid  %></button>
+	</div> 
+	<div class="col">
+            <input type="checkbox" class="custom-control-input" id="includecontrols" name="includecontrols">
+            <label class="custom-control-label" for="includecontrols">Include controls</label>
+	</div>
+	<div class="col">
+	</div>
+    </div>
+    <input type="hidden" id="psid" name="psid" value=<%= psidq %>>
+</form>
  
   </div>
  
