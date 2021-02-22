@@ -76,35 +76,37 @@
 ;; 		 (else (redirect-to rc "/login/login?login_failed=Login_Failed!")))))
 
 
-(post "/auth"
+(get "/auth"
       #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-;;      #:session #t
+      #:session #t
       #:conn #t
       #:cookies '(names lnuser prjid sid userid group)
-      #:from-post 'qstr
+  ;;    #:from-post 'qstr
       (lambda (rc)	
 	 (if (:session rc 'check)
-	     (let* ((dest (:from-post rc 'get-vals "destination"))
+	     (let* (
+		   ;; (dest (:from-post rc 'get-vals "destination"))
+		    (dest (params rc "destination"))
 		    (requested-url  (if dest dest "/project/getall")))
-	       (redirect-to rc requested-url))
+	      (redirect-to rc requested-url))
 	     (let* ((sid (:auth rc))
-		    (dummy (if sid (let* ((name (:from-post rc 'get-vals "lnuser"))       
-					  (dummy (:cookies-set! rc 'lnuser "lnuser" name))		 
-					  (sql "select id, lnuser, usergroup from person")
-					  (ret  (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
-					  (userid (get-id-for-name name ret))
-					  (group (get-group-for-name name ret))
-					  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
-					  (dummy (:cookies-set! rc 'userid "userid" userid))
-					  (dummy (:cookies-set! rc 'group "group" group))
-					  (dest (:from-post rc 'get "destination"))					  
-					  (requested-url  (if dest dest "/project/getall"))
-					  )
-				     (redirect-to rc requested-url))
-			    #f)))
-				   ;;  (redirect-to rc "test"))
-			    (redirect-to rc "/login/login?login_failed=Login_Failed!")))
-	       #f))
+		    (requested-url (if sid (let* (
+						  ;;(name (:from-post rc 'get-vals "lnuser"))       
+						 (name (params rc "lnuser"))       
+						  (dummy (:cookies-set! rc 'lnuser "lnuser" name))		 
+						  (sql "select id, lnuser, usergroup from person")
+						  (ret  (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
+						  (userid (get-id-for-name name ret))
+						  (group (get-group-for-name name ret))
+						  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
+						  (dummy (:cookies-set! rc 'userid "userid" userid))
+						  (dummy (:cookies-set! rc 'group "group" group))
+						  (dummy (:cookies-set! rc 'sid "sid" sid))						  
+						  (dest (:from-post rc 'get "destination"))					  					  
+						  )
+					     (if dest dest "/project/getall"))
+				       "/login/login?login_failed=Login_Failed!")))
+	       (redirect-to rc requested-url)))))
 
 
 ;; this works, note that session-spawn is not needed or you get 2 sessions
@@ -158,3 +160,8 @@
 		       ;;(results (:auth rc)))	 	  
 		  (view-render "test" (the-environment))
 		  )))
+
+(get "/find" #:session #t (lambda (rc)
+                             (if (:session rc 'check)
+                                 "YES"
+                               "NO!")))

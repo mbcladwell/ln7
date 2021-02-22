@@ -143,7 +143,7 @@
 		(lytid (substring sys-name 4))
 		(name (result-ref x "name"))
 		)
-            (cons (string-append "<tr><th><a href=\"/assayrun/getid?id=" (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" descr "</th><th>" assay-type-name "</th><th><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></th><th>" name "</th><tr>")
+            (cons (string-append "<tr><td><a href=\"/assayrun/getid?id=" (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></td><td>" name "</td><tr>")
 		  prev)))
         '() a))
 

@@ -5,7 +5,7 @@
 <@include header.tpl %>
 <div class="container">
     <h2>Wells for PLT-<%= pltid %></h2>
-<table class="display table table-striped table-bordered"><thead><tr><th>Plate Set</th><th>Plate</th><th>Well</th><th>Order</th><th>Sample</th><th>Accession</th></tr></thead>
+    <table class="display table table-striped table-bordered"><thead><tr><th>Plate Set</th><th>Plate</th><th>Plate Order</th><th>Well</th><th>Well Type</th><th>Well Order</th><th>Sample</th><th>Accession</th></tr></thead>
     <tbody> <%= body %></tbody>
 </table>
 <form action="/plate/getwellsforps" method="post">

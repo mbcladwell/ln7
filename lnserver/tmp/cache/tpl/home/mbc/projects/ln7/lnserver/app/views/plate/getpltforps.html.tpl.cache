@@ -217,17 +217,17 @@
 
 ")(display "
   <div class=\"container\">
-    <h2>Plates for PS-")(display  id )(display "</h2>
+    <h2>Plates for PS-")(display  psid )(display "</h2>
 <table class=\"display table table-striped table-bordered\"><thead><tr><th>Plate</th><th>Plate Order</th><th>Plate Type</th><th>Format</th><th>Barcode</th></tr></thead>
  <tbody> ")(display  body )(display "</tbody>
 </table>
 <hr>
-<h2>Assay Runs for PS-")(display  id )(display "</h2>
+<h2>Assay Runs for PS-")(display  psid )(display "</h2>
 <table class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
 <tbody> ")(display  body2 )(display "</tbody>
 </table>
 <hr>
-<h2>Hit Lists for PS-")(display  id )(display "</h2>
+<h2>Hit Lists for PS-")(display  psid )(display "</h2>
 <table class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>Hit List</th><th>Name</th><th>Description</th><th>N</th></tr></thead>
  <tbody>")(display  body3 )(display "</tbody>
   </table>
