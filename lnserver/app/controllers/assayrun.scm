@@ -97,7 +97,7 @@
 		(descr (result-ref x "descr"))
 		(nhits (get-c8 x))
 		)
-	      (cons (string-append "<tr><th><a href=\"/hitlist/gethlforarid?id=" id  "\">" assay-run-sys-name "</a></th><th>" assay-run-name "</th><th>" assay-type-name "</th><th><a href=\"/hitlist/gethlbyid?id=" (substring hit-list-sys-name 3) "\">"  hit-list-sys-name "</a></th><th>"  hit-list-name "</th><th>" descr "</th><th>" nhits "</th><tr>")
+	      (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" assay-run-name "</td><td>" assay-type-name "</td><td><a href=\"/hitlist/getdlbyid?id=" (substring hit-list-sys-name 3) "\">"  hit-list-sys-name "</a></td><td>"  hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
 		  prev)))
         '() a))
 
@@ -109,12 +109,31 @@
 	(string-concatenate (prep-hl-for-ar-rows holder))))
 
 
-(assayrun-define getid
+(define (prep-ar-rows-no-link a)
+  ;; this differs from the one in extra.scm in that it does not provide AR-1 as hyperlink
+  ;; i.e. you are already on the assay-run page so there is no need to link again
+  (fold (lambda (x prev)
+          (let* (
+                (assay-run-sys-name (result-ref x "assay_run_sys_name"))
+		(assay-run-name (result-ref x "assay_run_name"))
+		(descr (result-ref x "descr"))
+		(assay-type-name (result-ref x "assay_type_name"))
+		(sys-name (result-ref x "sys_name"))
+		(lytid (substring sys-name 4))
+		(name (result-ref x "name"))
+		)
+            (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></td><td>" name "</td><tr>")
+		  prev)))
+        '() a))
+
+
+
+(assayrun-define getarid
 		 (options #:conn #t #:cookies '(names id infile infile2 response threshold body))
 (lambda (rc)
   (let* (
 	 (help-topic "assayrun")
-	 (id  (get-from-qstr rc "id"))
+	 (arid  (get-from-qstr rc "arid"))
 	  (prjid (:cookies-value rc "prjid"))
 	  (userid (:cookies-value rc "userid"))
 	  (group (:cookies-value rc "group"))
@@ -124,37 +143,43 @@
 	 (outfile (get-rand-file-name "ar" "png"))	  
 	 (response "1")
 	 (threshold "3")
-	(sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" id ))
+	(sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" arid ))
 	(holder (DB-get-all-rows (:conn rc sql)))
-	(body (string-concatenate (prep-ar-rows holder)))
+	(body (string-concatenate (prep-ar-rows-no-link holder)))
 	(body-encode (htmlify body))
 	;;(dummy (:cookies-set! rc 'body "body" body))
-	(dummy3 (get-assayrun-table-for-r id (string-append "pub/" infile) rc))
-	(dummy4 (get-assayrun-stats-for-r id (string-append "pub/" infile2) rc))
+	(dummy3 (get-assayrun-table-for-r arid (string-append "pub/" infile) rc))
+	(dummy4 (get-assayrun-stats-for-r arid (string-append "pub/" infile2) rc))
 	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
 	(outfile2 (string-append "\"../" outfile "\""))
-	(hit-lists (get-hit-lists-for-arid id rc))	
+	(hit-lists (get-hit-lists-for-arid arid rc))	
 	(hit-lists-encode (if  (equal? "" hit-lists) #f (htmlify hit-lists)))
-	(idq (addquotes id))  ;; for passing to html
+	(aridq (addquotes arid))  ;; for passing to html
 	(infileq (addquotes infile))
 	(infile2q (addquotes infile2))
 	(body-encodeq (addquotes body-encode))
 	(hit-lists-encodeq (if hit-lists-encode (addquotes  hit-lists-encode) #f))
 	)
-;;    (view-render "test" (the-environment)))))
+   ;; (view-render "test" (the-environment)))))
     (view-render "getarid" (the-environment)))))
 
 
-(post "/assayrun/replot" #:from-post 'qstr
+(post "/assayrun/replot"
+      #:from-post 'qstr
+      #:cookies '(names id infile infile2 response threshold body)
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "assayrun")
-			  (id  (stripfix (:from-post rc 'get-vals "id")))
+			  (prjid (:cookies-value rc "prjid"))
+			  (userid (:cookies-value rc "userid"))
+			  (group (:cookies-value rc "group"))
+			  (sid (:cookies-value rc "sid"))
+			  (arid  (stripfix (:from-post rc 'get-vals "arid")))
 			  (infile (stripfix (:from-post rc 'get-vals "infile")))
 			  (infile2 (stripfix (:from-post rc 'get-vals "infile2")))
-			  (body-encode   (:from-post rc 'get-vals "bodyencode")) ;;body of the ar table
-			  (body (dehtmlify  body-encode))
-			  (hit-lists-encode (:from-post rc 'get-vals "hitlistsencode"))
+			  (body-encode   (uri-decode (:from-post rc 'get-vals "bodyencode"))) ;;body of the ar table
+			  (body (dehtmlify body-encode))
+			  (hit-lists-encode (uri-decode (:from-post rc 'get-vals "hitlistsencode")))
 			  (hit-lists (dehtmlify hit-lists-encode))
 			  (outfile (get-rand-file-name "ar" "png"))	 
 			  (response (stripfix (:from-post rc 'get-vals "response")))
@@ -164,11 +189,11 @@
 			  (rscript (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " usethreshold ))
 			  (dummy (system rscript))
 			  (outfile2 (string-append "\"../" outfile "\""))
-			  (id (addquotes id))  ;; for passing to html
-			  (infile (addquotes infile))
-			  (infile2 (addquotes infile2))
-			  (body-encode (addquotes body-encode))
-			  (hit-lists-encode (addquotes hit-lists-encode))
+			  (aridq (addquotes arid))  ;; for passing to html
+			  (infileq (addquotes infile))
+			  (infile2q (addquotes infile2))
+			  (body-encodeq (addquotes body-encode))
+			  (hit-lists-encodeq (addquotes hit-lists-encode))
 			  )
 		     (view-render "replot" (the-environment)))))
 	     ;;(view-render "test" (the-environment)))))
@@ -193,6 +218,6 @@
 		(hit-list-name (result-ref x "hitlist_name"))
 		(descr (result-ref x "descr"))
 		)
-            (cons (string-append "<tr><th><a href=\"/hitlist/getid?id=" (number->string (cdr (car x))) "\">" hit-list-sys-name "</a></th><th>" hit-list-name "</th><th>" descr "</th><tr>")
+            (cons (string-append "<tr><td><a href=\"/hitlist/getid?id=" (number->string (cdr (car x))) "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><tr>")
 		  prev)))
         '() a))

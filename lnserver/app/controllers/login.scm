@@ -12,16 +12,18 @@
 ;;	     (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors)
 ;;	     (web uri)(ice-9 pretty-print))
 
-(login-define login
-	      (options #:cookies '(names prjid sid psid lnuser))
+(get "/login"
+	       #:cookies '(names prjid sid psid group lnuser userid)
   (lambda (rc)
     (let* ((login-failed (if (params rc "login_failed") (params rc "login_failed") ""))
 	   (help-topic "login")
-	    (cookies (rc-cookie rc))
-	   (dummy (:cookies-remove! rc "prjid" ))
-	   (dummy (:cookies-remove! rc "sid"))
+	   (dummy (:cookies-remove! rc 'prjid ))
+	   (dummy (:cookies-remove! rc 'sid))
+	   (dummy (:cookies-remove! rc 'lnuser))
+	   (dummy (:cookies-remove! rc 'group))
+	   (dummy (:cookies-remove! rc 'userid))
 	 )
-    (view-render "login" (the-environment))
+    (view-render "/login" (the-environment))
   )))
 
 
@@ -73,7 +75,7 @@
 ;; 		    (redirect-to rc requested-url)
 ;; 		 ;;   (view-render "test" (the-environment))
 ;; 		    ))
-;; 		 (else (redirect-to rc "/login/login?login_failed=Login_Failed!")))))
+;; 		 (else (redirect-to rc "/login?login_failed=Login_Failed!")))))
 
 
 (get "/auth"
@@ -105,7 +107,7 @@
 						  (dest (:from-post rc 'get "destination"))					  					  
 						  )
 					     (if dest dest "/project/getall"))
-				       "/login/login?login_failed=Login_Failed!")))
+				       "/login?login_failed=Login_Failed!")))
 	       (redirect-to rc requested-url)))))
 
 
@@ -121,7 +123,7 @@
 ;;     ((:auth rc)
 ;;      ;;(:session rc 'spawn)
 ;;      "auth ok")
-;;     (else (redirect-to rc "/login/login?login_failed=true")))))
+;;     (else (redirect-to rc "/login?login_failed=true")))))
 
 
 
@@ -139,7 +141,7 @@
 
 (login-define wauth
 	      (options  #:session #t
-			#:with-auth "/login/login")
+			#:with-auth "/login")
 		;;	#:auth `(table person "lnuser" "passwd" "salt" ,my-hmac))      
 	      (lambda (rc)
 		(let* (
@@ -151,7 +153,7 @@
 
 (login-define sess
 	      (options  #:session #t
-			#:with-auth "/login/login")
+			#:with-auth "/login")
 		;;	#:auth `(table person "lnuser" "passwd" "salt" ,my-hmac))      
 	      (lambda (rc)
 		(let* (

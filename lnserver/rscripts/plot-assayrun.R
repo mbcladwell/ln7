@@ -27,7 +27,7 @@ threshold <- args[5]
  d <- read.table(file=args[1], sep="\t", header=TRUE)
  d2 <- read.table(file=args[2], sep="\t", header=TRUE, row.names=NULL)
 
-
+## response
 ## 0 raw
 ## 1 norm
 ## 2 norm_pos
@@ -37,45 +37,53 @@ if(response ==1)data <- d[,c(2,3,6,9)]
 if(response ==2)data <- d[,c(2,3,7,9)]
 if(response ==3)data <- d[,c(2,3,8,9)]
 
+if(response ==0) ylabel <- "Background Subtracted"
+if(response ==1) ylabel <- "Normalized"
+if(response ==2) ylabel <- "Normalized to postive controls"
+if(response ==3) ylabel <- "% Enhanced"
+
+
+
 
 ## Threshold
 ## 1  mean-pos
 ## 2  mean-neg-2-sd
 ## 3  mean-neg-3-sd
 
-if(threshold %in% c("a","b","c")){
-	if(threshold =="a"){
+if(threshold %in% c("1","2","3")){
+	if(threshold =="1"){
     		threshold.text <- "> mean(pos)"
-   		threshold <- d2[d2$response.type==response, "mean.pos" ]
+   		threshold.val <- d2[d2$response.type==response, "mean.pos" ]
     	}
-	if(threshold =="b"){
+	if(threshold =="2"){
     		threshold.text <- "mean(neg) + 2SD"
-    		threshold <- d2[d2$response.type==response, "mean.neg.2.sd" ]
+    		threshold.val <- d2[d2$response.type==response, "mean.neg.2.sd" ]
     	}
-	if(threshold =="c"){
+	if(threshold =="3"){
     		threshold.text <- "mean(neg) + 3SD"
-    		threshold <- d2[d2$response.type==response, "mean.neg.3.sd" ]
+    		threshold.val <- d2[d2$response.type==response, "mean.neg.3.sd" ]
 	}
 	}else{
-    		threshold.text <- "manual"
+            threshold.text <- "manual"
+            threshold.val <- threshold
 }
 
 
 names(data) <- c("plate","well","response","type")
 data <- data[order(data$response),]
 data$index <- (nrow(data)):1
-num.hits <- nrow(data[data$response > threshold,])
+num.hits <- nrow(data[data$response > threshold.val,])
 
 palette(c("grey", "red", "green", "black"))
 png(outfile,width=900, height=550)
 ## par(xpd = T, mar = par()$mar + c(0,0,0,6))
-plot(data$index, data$response,  cex=1, pch=1, col=as.factor(data$type), ylab="Background Subtracted", xlab="Index")
+plot(data$index, data$response,  cex=1, pch=1, col=as.factor(data$type), ylab= ylabel, xlab="Index")
 
-text( nrow(data)*0.1, threshold + 0.05*threshold, paste0("hits: ", num.hits))
-text( nrow(data)*0.1, threshold - 0.05*threshold, threshold.text)
+text( nrow(data)*0.1, threshold.val + 0.05*threshold.val, paste0("hits: ", num.hits))
+text( nrow(data)*0.1, threshold.val - 0.05*threshold.val, threshold.text)
 ## par(xpd = T, mar = par()$mar + c(0,0,0,6))
 legend("topright",  c("unknown","positive","negative","blank"), fill=c("white", "green", "red", "grey"))
-abline(h=threshold, lty="dashed")
+abline(h=threshold.val, lty="dashed")
 
 
 dev.off()  

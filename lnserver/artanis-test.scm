@@ -26,62 +26,25 @@
 
 (define ciccio (dbi-open "postgresql" "ln_admin:welcome:lndb:tcp:192.168.1.11:5432"))
 
-DROP TABLE IF EXISTS config CASCADE;
-create table config
-        (id SERIAL,
-	 help_url_prefix VARCHAR(250),
-	version VARCHAR(20),		 
-	cust_id VARCHAR(250),
-	cust_key varchar(250),
-	cust_email VARCHAR(250));
+(define a "60%2B116%2B114%2B62%2B60%2B116%2B100%2B62%2B65%2B82%2B45%2B50%2B60%2B47%2B116%2B100%2B62%2B60%2B116%2B100%2B62%2B97%2B115%2B115%2B97%2B121%2B95%2B114%2B117%2B110%2B50%2B60%2B47%2B116%2B100%2B62%2B60%2B116%2B100%2B62%2B80%2B83%2B45%2B50%2B32%2B76%2B89%2B84%2B45%2B49%2B59%2B57%2B54%2B59%2B52%2B105%2B110%2B49%2B50%2B60%2B47%2B116%2B100%2B62%2B60%2B116%2B100%2B62%2B69%2B76%2B73%2B83%2B65%2B60%2B47%2B116%2B100%2B62%2B60%2B116%2B100%2B62%2B60%2B97%2B32%2B104%2B114%2B101%2B102%2B61%2B34%2B47%2B108%2B97%2B121%2B111%2B117%2B116%2B47%2B108%2B121%2B116%2B98%2B121%2B105%2B100%2B63%2B105%2B100%2B61%2B49%2B34%2B62%2B76%2B89%2B84%2B45%2B49%2B60%2B47%2B97%2B62%2B60%2B47%2B116%2B100%2B62%2B60%2B116%2B100%2B62%2B52%2B32%2B99%2B111%2B110%2B116%2B114%2B111%2B108%2B115%2B32%2B99%2B111%2B108%2B32%2B49%2B50%2B60%2B47%2B116%2B100%2B62%2B60%2B116%2B114%2B62 ")
 
-INSERT INTO config(help_url_prefix, version) VALUES ('labsolns.com/software/','0.1.0-042020');
+(define (dehtmlify x)
+  (utf8->string (u8-list->bytevector (map string->number (string-split (stripfix a) #\+)))))
+
+(dehtmlify a)
 
 
-INSERT INTO config(help_url_prefix, version, cust_id, cust_key, cust_email) VALUES ('labsolns.com/software/','0.1.0-042020','16fjkhwF2rkdbwogqLdHZG4fb87jUxtJBU','c1f400d8992fbe8b1fec6c54cccf14a3', 'info@labsolns.com');
+(define white-chars (char-set #\space #\tab #\newline #\return))
+(define (stripfix x) (uri-decode (string-trim-both x white-chars)))
 
-(get-key "16fjkhwF2rkdbwogqLdHZG4fb87jUxtJBU" "info@labsolns.com")
-
-(validate-key "16fjkhwF2rkdbwogqLdHZG4fb87jUxtJBU" "info@labsolns.com" "c1f400d8992fbe8b1fec6c54cccf14a3")
-
-(define a "project	target	description	accession
-1	DYSF		8291
-1	FKRP	descFKRP	79147
-1	LAMA2		3908
-1	TGFB2	descTGFB2	7042
-1	FSHMD1B		2490
-1	SYNE1	descSYNE1	23345
-1	PROM1		8842
-1	NGF		4803
-1	SMCHD1		23347
-1	SELENON		57190
-1	HNRNPA1		3178
-1	DES		1674
-1	GNE		10020
-1	SEPTIN9		10801
-1	FST		10468
-1	CAPN2		824
-1	WWP1		11059
-1	NEB		4703
-1	LITAF		9516
-1	GPC1		2817
-2	FKTN		2218
-2	HNRNPDL		9987
-2	POMT2		29954
-2	SPP1		6696
-2	PABPN1		8106
-2	EP300		2033
-2	LGMD1H		100529230
-2	TGM2		7052
-2	BVES		11149")
-
-
-(define (ghty x)
-  (string-split (car x) #\t))
-
-(define b (map list (cdr (string-split a #\newline))))
-(define c (map ghty b))
+(utf8->string (u8-list->bytevector (map string->number (string-split  (uri-decode (string-trim-both x white-chars)) #\space))))
+(utf8->string (u8-list->bytevector (map string->number (string-split (stripfix x) #\space))))
 
 
 
-(define a (((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . B02) (by_col . 10) (sample_sys_name . SPL-87) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . A02) (by_col . 9) (sample_sys_name . SPL-73) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . H01) (by_col . 8) (sample_sys_name . SPL-65) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . G01) (by_col . 7) (sample_sys_name . SPL-59) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . F01) (by_col . 6) (sample_sys_name . SPL-53) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . E01) (by_col . 5) (sample_sys_name . SPL-51) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . D01) (by_col . 4) (sample_sys_name . SPL-49) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . C01) (by_col . 3) (sample_sys_name . SPL-43) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . B01) (by_col . 2) (sample_sys_name . SPL-39) (accs_id . )) ((plate_set_sys_name . PS-42) (plate_sys_name . PLT-63) (well_name . A01) (by_col . 1) (sample_sys_name . SPL-16) (accs_id . )) ))
+(uri-decode "60%252B116%252B114" #:encoding="utf-8" #:decode-plus-to-space? #t)
+
+
+
+
+(define x "60+116+114+62+60+116+100+62+65+82+45+49+60+47+116+100+62+60+116+100+62+97+115+115+97+121+95+114+117+110+49+60+47+116+100+62+60+116+100+62+80+83+45+49+32+76+89+84+45+49+59+57+54+59+52+105+110+49+50+60+47+116+100+62+60+116+100+62+69+76+73+83+65+60+47+116+100+62+60+116+100+62+60+97+32+104+114+101+102+61+34+47+108+97+121+111+117+116+47+108+121+116+98+121+105+100+63+105+100+61+49+34+62+76+89+84+45+49+60+47+97+62+60+47+116+100+62+60+116+100+62+52+32+99+111+110+116+114+111+108+115+32+99+111+108+32+49+50+60+47+116+100+62+60+116+114+62 ")

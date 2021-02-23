@@ -45,7 +45,7 @@
 
 (get "/project/getall" #:conn #t 
      #:cookies '(names prjid lnuser userid group sid)
-     #:with-auth "/login/login" 
+     ;;#:with-auth "login" 
      (lambda (rc ) 
        (let* ( 
 	      (help-topic "project")
@@ -65,7 +65,7 @@
 
 
 (get "/project/add"
-;;     #:with-auth "/login/login?destination=/project/add"
+;;     #:with-auth "/login?destination=/project/add"
      ;;    #:from-post 'qstr
      #:cookies '(names prjid lnuser userid group sid)
      (lambda (rc)     
@@ -153,7 +153,7 @@
 
 ;;this works
 ;; (get "/project/test"
-;;    ;;  #:with-auth "/login/login?destination=/project/add"
+;;    ;;  #:with-auth "/login?destination=/project/add"
 ;;      ;;    #:from-post 'qstr
 ;;       #:cookies '(names prjid userid group sid)
 ;;      (lambda (rc)     

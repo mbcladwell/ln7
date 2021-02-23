@@ -5,7 +5,7 @@
 <@include header.tpl %>
 <div class="container">
   
-  <h2>Assay Run AR-<%= id %></h2>
+  <h2>Assay Run AR-<%= arid %></h2>
   <table id="artable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
     <tbody><%= body %></tbody>
   </table>
@@ -48,22 +48,22 @@
     </div>      
   </div>
 
-  <input type="hidden" id="infile" name="infile" value=<%= infileq %> >
-  <input type="hidden" id="infile2" name="infile2" value=<%= infile2q %> >
-  <input type="hidden" id="id" name="id" value=<%= idq %> >
-  <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encodeq %> >
- <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encodeq %> >
+  <input type="hidden" id="infile" name="infile" value=<%= infileq %>>
+  <input type="hidden" id="infile2" name="infile2" value=<%= infile2q %>>
+  <input type="hidden" id="arid" name="arid" value=<%= aridq %>>
+  <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encodeq %>>
+ <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encodeq %>>
 
    
 </form>
 
 <hr>
-<h2>Hit Lists for AR-<%= id %></h2>
+<h2>Hit Lists for AR-<%= arid %></h2>
 <table id="hltable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
     <tbody><%= hit-lists %></tbody>
 </table>
 
-<a id="hitlistbutton" class="btn btn-primary btn-lg active" role="button" >Add Hit List From File to AR-<%= id %></a>
+<a id="hitlistbutton" class="btn btn-primary btn-lg active" role="button" >Add Hit List From File to AR-<%= arid %></a>
 
 
 </div>
@@ -71,7 +71,7 @@
 <script>
 
  var str1 = "/hitlist/importhl?arid=";
- var str2 = <%= id %>;
+ var str2 = <%= arid %>;
  var res = str1.concat(str2);
  document.getElementById("hitlistbutton").href = res;
 

@@ -7,8 +7,10 @@
   <h1>Test</h1><br><br>
 
 
-<br><br><%= lhitlist %>
-<br><br><%= isnull %>
+<br><br><%= threshold %>
+<br><br><%= manthreshold %>
+
+
 
 
 

@@ -8,7 +8,7 @@
 
     <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">
-    <link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
+<link rel=\"alternate\" type=\"application/atom+xml\" title=\"Atom 1.0\" href=\"atom/1\" />
 
  <link rel=\"stylesheet\" type=\"text/css\" media=\"screen\" href=\"../css/navbar.css\" />
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap4.min.css\"/>
@@ -17,6 +17,13 @@
 <link rel=\"stylesheet\" type=\"text/css\" href=\"../Bootstrap-4-4.1.1/css/bootstrap.min.css\"/>
  
 
+<!-- 
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.bootstrap.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.foundation.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.jqueryui.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.semanticui.min.css\"/>
+ <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/jquery.dataTables.min.css\"/>
+ -->
 
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>

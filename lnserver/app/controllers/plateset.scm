@@ -579,7 +579,7 @@
 (post "/plateset/reformat"
       #:conn #t #:from-post 'qstr
       #:cookies '(names prjid userid group sid)
-      #:with-auth "login/login?destination=/plateset/reformat"
+   ;;   #:with-auth "login/login?destination=/plateset/reformat"
       (lambda (rc)
 	(let* ((help-topic "reformat")
 	       (prjid (:cookies-value rc "prjid"))
@@ -708,17 +708,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; client
 
-(plateset-define cset
-		 (options #:cookies '(names prjid userid group username sid))
+(get "/cset"
+     #:cookies '(names prjid userid group username sid)
+     #:session #t
 		 (lambda (rc)
 		   (let* ((result "sometext")
 			  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
 			  (dummy (:cookies-set! rc 'userid "userid" "1"))
 			  (dummy (:cookies-set! rc 'group "group" "admin"))
 			  (dummy (:cookies-set! rc 'username "username" "ln_admin"))
-			  
+			  (dummy (:cookies-set! rc 'sid "sid"(:session rc 'spawn)))
 			  (cookies (rc-cookie rc)))
-		     (view-render "test" (the-environment)))))
+		     (view-render "test2" (the-environment)))))
 
 
 ;; (post "/cset"

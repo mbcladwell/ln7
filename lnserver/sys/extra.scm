@@ -143,7 +143,7 @@
 		(lytid (substring sys-name 4))
 		(name (result-ref x "name"))
 		)
-            (cons (string-append "<tr><td><a href=\"/assayrun/getid?id=" (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></td><td>" name "</td><tr>")
+            (cons (string-append "<tr><td><a href=\"/assayrun/getarid?arid=" (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></td><td>" name "</td><tr>")
 		  prev)))
         '() a))
 
@@ -182,7 +182,7 @@
 	b))
 
 (define (dehtmlify x)
-(utf8->string (u8-list->bytevector (map string->number (string-split (uri-decode x) #\space)))))
+(utf8->string (u8-list->bytevector (map string->number (string-split (stripfix x) #\space)))))
 
 (define (addquotes x)
   (string-append "\"" x "\""))
