@@ -93,6 +93,7 @@
 			;; (qstr  (:from-post rc 'get))
 			 (prj-name (get-from-qstr rc "pname"))
 		       	 (descr (get-from-qstr rc "descr"))
+			 (prjid (:cookies-value rc "prjid"))
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
@@ -183,11 +184,12 @@
 
 
 (post "/test"
-     #:cookies '(names prjid userid group sid)
+     #:cookies '(names prjid userid username group sid)
      (lambda (rc)     
        (let* ((help-topic "project")
 	      (result (:cookies-value rc "sid"))
-	      (lnuser (:cookies-value rc "lnuser"))
+	      (username (:cookies-value rc "username"))
+	      (userid (:cookies-value rc "userid"))
 	      (group (:cookies-value rc "group"))
 	      (prjid (:cookies-value rc "prjid"))
 	      )

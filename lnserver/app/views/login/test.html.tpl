@@ -6,8 +6,8 @@
 
   <h1>Test</h1><br><br>
 
- check: <%= check %> <br><br>
-  results: <%= results %>
+ check: <%= sid %> <br><br>
+  results: <%= requested-url %>
  
 </body></html>
 
