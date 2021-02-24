@@ -20,6 +20,7 @@ var str3 = "/plateset/getps?id=";
 
 
 
+
 $(document).ready(function () {
 
     $('#sidebarCollapse').on('click', function () {

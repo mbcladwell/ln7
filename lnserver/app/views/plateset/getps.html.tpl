@@ -5,11 +5,11 @@
 
 <@include header.tpl %>
   <div class="container">
-    <h2>Plate Sets for PRJ-<%= prjid %></h2>
+      <h2>Plate Sets for PRJ-<%= prjid %></h2>
 
 
-    
-<form action="/plateset/reformat" method="post" id="edit_psform">
+      
+      <form id="edit_psform">
   <table id="pstable" class="table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th></tr></thead>
   <tbody>  <%= body %> </tbody>
 </table>

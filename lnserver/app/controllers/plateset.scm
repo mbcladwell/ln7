@@ -74,7 +74,12 @@
 		   (let* (
 			  (help-topic "plateset")
 			  (prjid  (get-from-qstr rc "id"))
+			  (dummy (:cookies-set! rc 'prjid "prjid" (:cookies-value rc "prjid")))
+			  (dummy (:cookies-remove! rc 'prjid ))
 			  (dummy (:cookies-set! rc 'prjid "prjid" prjid))
+			  (dummy (:cookies-setattr! rc 'prjid #:path "/"))
+		
+			 ;; (dummy (:cookies-set! rc 'prjid "prjid" prjid))
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
@@ -105,37 +110,15 @@
 			  ;; (b (map uri-decode  a))
 			  ;; (a   (:from-post rc 'get-vals "plateset-id"))
 			   (b  (list (uri-decode (:from-post rc 'get-vals "plateset-id"))))
-			   (activity (:from-post rc 'get-vals "activity"))
-			   (dummy (cond
-				   ((equal? activity "edit")
-				    (let*-values((start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
-					  (psid (caar start))
-					  (sql (string-append "select plate_set_name, descr from plate_set where id=" psid ))
-					  (holder   (car (DB-get-all-rows (:conn rc sql))))
-					  (descr  (object->string (cdadr holder)))
-					  (name (object->string (cdar holder)))
-					  
-					  )
-				       #f)
-				    )
-				   ((equal? activity "group")
-				    #f
-				    )
-				   ((equal? activity "reformat")
-				    #f
-				    )
-				   (else
-				    (view-render  "test" (the-environment) )))
-				   )
-			   ;;javascript prevents the selection of more than one plateset
-			   
-			   )
-		      (cond
-		       ((equal? activity "edit")
-			(view-render "edit" (the-environment))
-			)
-		       (else #f))		     
-		   )))
+			   (activity (:from-post rc 'get-vals "activity"))							
+			   (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+			   (psid (caar start))
+			   (sql (string-append "select plate_set_name, descr from plate_set where id=" psid ))
+			   (holder   (car (DB-get-all-rows (:conn rc sql))))
+			   (descr  (object->string (cdadr holder)))
+			   (name (object->string (cdar holder))))
+		      (view-render "editps" (the-environment)))			   
+		   ))
 
 
 (plateset-define editaction
@@ -146,8 +129,6 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			 (ps-name (get-from-qstr rc "psname"))
 			 (descr (get-from-qstr rc "descr"))
 			 (psid (get-from-qstr rc "psid"))			 
@@ -161,7 +142,9 @@
 
 
 (post "/plateset/group"
-		  #:conn #t #:from-post 'qstr
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid userid group sid)
 		  (lambda (rc)
 		    (let* ((help-topic "group")
 			   (today (date->string  (current-date) "~Y-~m-~d"))
@@ -627,9 +610,7 @@
 			 (userid (:cookies-value rc "userid"))
 			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
-			 (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			 (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-			   (today (date->string  (current-date) "~Y-~m-~d"))
+		       	   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (srcpsid (:from-post rc 'get-vals "srcpsid"))
 			   (destname (:from-post rc 'get-vals "destname"))
 			   (destdescr (:from-post rc 'get-vals "destdescr"))
@@ -680,8 +661,6 @@
 			   (userid (:cookies-value rc "userid"))
 			   (group (:cookies-value rc "group"))
 			   (sid (:cookies-value rc "sid"))
-			   (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			   (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			   (srcpsid (:from-post rc 'get-vals "srcpsid"))
 			   (destname (:from-post rc 'get-vals "destname"))
 			   (destdescr (:from-post rc 'get-vals "destdescr"))

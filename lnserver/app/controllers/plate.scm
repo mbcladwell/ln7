@@ -11,13 +11,14 @@
 (define (prep-plt-for-ps-rows a)
   (fold (lambda (x prev)
           (let ((psid (get-c1 x ))
+		(pltid (get-c2 x))
                 (plate-sys-name (result-ref x "plate_sys_name"))
 		(barcode  (result-ref x "barcode") )
 		(order (get-c4 x )) ;;plate_order
 		(type (result-ref x "plate_type_name"))
 		(format (result-ref x "format")) ;;format
 		)
-            (cons (string-append "<tr><td><a href=\"getwellsforplt?id=" (number->string (cdr (car x))) "&psid=" psid "\">" plate-sys-name "</a></td><td>"  order  "</td><td>" type  "</td><td>"  format  "</td><td>" barcode  "</td></tr>")
+            (cons (string-append "<tr><td><a href=\"getwellsforplt?pltid=" pltid "&psid=" psid "\">" plate-sys-name "</a></td><td>"  order  "</td><td>" type  "</td><td>"  format  "</td><td>" barcode  "</td></tr>")
 		  prev)))
         '() a))
 
@@ -71,7 +72,8 @@
 		       (body2 (string-concatenate (prep-ar-for-ps-rows holder2)))
 		       (sql3 (string-append "select hit_list.id, hitlist_sys_name, hitlist_name, hit_list.descr, n, assay_run_sys_name FROM hit_list, assay_run WHERE  hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=" psid ))
 		       (holder3 (DB-get-all-rows (:conn rc sql3)))
-		       (body3 (string-concatenate (prep-hl-for-ps-rows holder3))))
+		       (body3 (string-concatenate (prep-hl-for-ps-rows holder3)))
+		       (psidq (addquotes psid)))
 		  (view-render "getpltforps" (the-environment))
 		 ;; (view-render "test" (the-environment))
 		  
@@ -94,7 +96,7 @@
 		(splsys (result-ref x "sample_sys_name")) 	
 		(accs (result-ref x "accs_id"))
 		)
-            (cons (string-append "<tr><td>" plt-set-sys-name "</td><td>"  plate-sys-name "</td><td>" plate-order "</td><td>"  well-name  "</td><td>" well-type  "</td><td>" by-col  "</td><td>"  splsys  "</td><td>" accs  "</td></tr>")
+            (cons (string-append "<tr><td><a href=\"/plate/getpltforps?id=" (substring (cdr (car x)) 3) "\">" plt-set-sys-name "</a></td><td>"  plate-sys-name "</td><td>" plate-order "</td><td>"  well-name  "</td><td>" well-type  "</td><td>" by-col  "</td><td>"  splsys  "</td><td>" accs  "</td></tr>")
 		  prev)))
         '() a))
 
@@ -103,16 +105,16 @@
 (plate-define getwellsforplt
 	      (options #:conn #t
 		       #:cookies '(names prjid lnuser userid group sid)
-		       #:with-auth "login/login")
+		       #:with-auth "login")
 	      (lambda (rc)
 		(let* ((help-topic "plate")
-		       (pltid  (get-from-qstr rc "id"))
+		       (pltid  (get-from-qstr rc "pltid"))
 		       (psid  (get-from-qstr rc "psid"))
 		      (prjid (:cookies-value rc "prjid"))
 		       (userid (:cookies-value rc "userid"))
 		       (group (:cookies-value rc "group"))
 		       (sid (:cookies-value rc "sid"))		
-		       (sql (string-append "SELECT  plate_set.plate_set_sys_name , plate.plate_sys_name, plate_plate_set.plate_order, well_numbers.well_name, well_type.name, well.by_col, sample.sample_sys_name, sample.accs_id FROM  plate_set, plate_plate_set, plate, well, well_numbers, plate_layout, well_type, sample, well_sample WHERE plate_plate_set.plate_set_id=plate_set.id AND plate_plate_set.plate_id=plate.ID and plate.id=well.plate_id AND plate_set.ID =" psid " AND well_numbers.plate_format=plate_set.plate_format_id AND well_numbers.by_col=well.by_col AND plate_layout.plate_layout_name_id=plate_set.plate_layout_name_id AND plate_layout.well_type_id=well_type.ID AND plate_layout.well_by_col=well.by_col AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id" ))
+		       (sql (string-append "SELECT  plate_set.plate_set_sys_name , plate.plate_sys_name, plate_plate_set.plate_order, well_numbers.well_name, well_type.name, well.by_col, sample.sample_sys_name, sample.accs_id FROM  plate_set, plate_plate_set, plate, well, well_numbers, plate_layout, well_type, sample, well_sample WHERE plate_plate_set.plate_set_id=plate_set.id AND plate_plate_set.plate_id=plate.ID and plate.id=well.plate_id AND plate_set.ID =" psid " AND well_numbers.plate_format=plate_set.plate_format_id AND well_numbers.by_col=well.by_col AND plate_layout.plate_layout_name_id=plate_set.plate_layout_name_id AND plate_layout.well_type_id=well_type.ID AND plate_layout.well_by_col=well.by_col AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id AND plate.id=" pltid ))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		 ;;      (psid-pre (cdr (assoc "plate_set_sys_name" (car holder))))
 		  ;;     (psid (substring psid-pre 3))

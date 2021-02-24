@@ -21,6 +21,8 @@ function editPlateSet(){
 	hidden.value = "edit";
 	var f = document.getElementById("edit_psform");
 	f.appendChild(hidden);
+	f.setAttribute("action", "/plateset/editps");
+	f.setAttribute("method", "POST");	
 	f.submit(); return false;
 	
         //document.getElementById('edit_psform').submit(); return false;
@@ -37,6 +39,8 @@ function groupPlateSet(){
 	hidden.value = "group";
 	var f = document.getElementById("edit_psform");
 	f.appendChild(hidden);
+	f.setAttribute("action", "/plateset/group");
+	f.setAttribute("method", "POST");	
 	f.submit(); return false;
 
     }
@@ -52,6 +56,7 @@ function reformatPlateSet(){
 	hidden.value = "reformat";
 	var f = document.getElementById("edit_psform");
 	f.appendChild(hidden);
+	f.attr("action", "/plateset/reformat");
 	f.submit(); return false;
     }
 }

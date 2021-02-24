@@ -1,4 +1,4 @@
-(display "<!-- project#add view template of lnserver
+(display "<!-- project#edit view template of lnserver
           Please add your license header here.
           This file is generated automatically by GNU Artanis. -->
   
@@ -216,66 +216,24 @@
 <div id=\"content\">
 
 ")(display "
-<div class=\"container\">
-  <h1>Group Plate Sets</h1>
 
-  <form action=\"/plateset/createbygroup\" method=\"post\">
-    <div class=\"form-row\">
-      <div class=\"form-group col-md-6\">
-	<label>Date:</label> &nbsp <b>")(display  today )(display "</b>
-      </div>
-      <div class=\"form-group col-md-6\">
-	<label>Owner:</label> &nbsp <b></b>
-      </div>
-    </div>
+  <div class=\"container\">
+  <h1>Edit Plate Set PS-")(display  psid )(display "</h1><br><br>
 
-    <div class=\"form-row\">
-      <div class=\"form-group col-md-6\">
-	<label for=\"name\">New Plate Set Name:</label>  <input type=\"text\" id=\"psname\" name=\"psname\"  class=\"form-control\"  value=\"\" required>
-      </div>
-      <div class=\"form-group col-md-6\">
-	<label for=\"descr\">New Plate Set Description:</label>  <input type=\"text\" id=\"descr\" name=\"descr\"  class=\"form-control\"  value=\"\" required>
-      </div>
-    </div>
-
-    
-  <div class=\"form-row\">
-      <div class=\"form-group col-md-12\">
-	<label for=\"psid-num\">Plate Set ID (# plates):</label> &nbsp<b>")(display  ps-num-text )(display "</b>
-      </div>
-  </div>
- <div class=\"form-row\">
-
-      <div class=\"form-group col-md-6\">
-	<label for=\"tot-pl\">Total number of plates:</label>&nbsp&nbsp<b>")(display  tot-plates )(display "</b>
-	<input type=\"hidden\" id=\"totplates\" name=\"totplates\" value=")(display  tot-plates )(display ">
-      </div>
-   <div class=\"form-group col-md-6\">     
-	<label for=\"format\">Plate Format:</label>&nbsp&nbsp<b>")(display  format )(display "</b>
-	<input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
-   </div>
- </div>
-
- <div class=\"form-row\">
-   <div class=\"form-group col-md-12\">
-     <label for=\"sample\">Sample Layout:</label>&nbsp&nbsp<b> ")(display  lyt-txt )(display "</b>
-   </div>
- </div>
- 
- <div class=\"form-row\">
- <div class=\"form-group col-md-12\">
-   <label for=\"type\">Plate Type:</label>
-   <select name=\"type\" id=\"type\" onchange=\"typeSelection(event)\"  class=\"custom-select\" > ")(display  plate-types )(display " </select> 
- </div>
+  <form action=\"/plateset/editaction\">
+    <div class=\"form-group\">
+      <label for=\"name\">Plate Set Name:</label>  <input type=\"text\" class=\"form-control\" id=\"psname\" name=\"psname\" value= ")(display  name )(display " > 
 </div>
 
+<div class=\"form-group\">
+<label for=\"descr\">Description:</label>  <input type=\"text\" class=\"form-control\" id=\"descr\" name=\"descr\" value= ")(display  descr )(display " > 
+</div>
+<input id=\"psid\" name=\"psid\" type=\"hidden\" value=")(display  psid )(display ">
 
-<input type=\"hidden\" id=\"lytid\" name=\"lytid\" value=")(display  lyt-id )(display ">
 
-<input type=\"submit\" class=\"btn btn-primary\" value=\"Confirm and submit\">
+<button type=\"submit\" class=\"btn btn-primary\">Submit</button>
 </form> 
-</div>
-  
+  </div>
 ")(display "</div>
 </div>
 
@@ -312,6 +270,4 @@ $(document).ready(function () {
 
 </html>
 ")(display "
-
- 
 ")

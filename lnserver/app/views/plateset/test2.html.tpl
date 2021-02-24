@@ -6,7 +6,9 @@
 
   <h1>Test</h1><br><br>
 
- cookies:&nbsp; <%= cookies %><br><br>
+ cookies:&nbsp; <%= start %><br><br>
+
+ cookies:&nbsp; <%= psid %><br><br>
   	
  	
  
