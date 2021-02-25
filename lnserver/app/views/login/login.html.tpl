@@ -24,7 +24,7 @@
       <div class="form-row">
 	  <input type="submit"  class="btn btn-primary" value="Submit">
       </div>
-      <input type="hidden" id="destination" name="destination" value=<%= destination %>>
+      <input type="hidden" id="destination" name="destination" value=<%= destinationq %>>
 
   </form>
 

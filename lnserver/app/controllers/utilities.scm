@@ -8,17 +8,18 @@
 (define (process-item x) (string-append "<tr><th>"(car x) "</th><th>" (cadr x) "</th></tr>"))
 
 
-(define (get-key cust-id email )
-  (string->md5 (string-append cust-id email "lnsDFoKytr")))
-
-(define (validate-key cust_id cust_email cust_key)
-  (equal? (get-key cust_id cust_email) cust_key))
 
 
-
-(post "/registeraction"  #:from-post 'qstr #:conn #t
+(post "/registeraction"
+      #:from-post 'qstr
+      #:conn #t
+      #:cookies '(names prjid lnuser userid group sid)
 		  (lambda (rc)
 		    (let* ((help-topic "register")
+			   (prjid (:cookies-value rc "prjid"))
+			   (userid (:cookies-value rc "userid"))
+			   (group (:cookies-value rc "group"))
+			   (sid (:cookies-value rc "sid"))
 			   (cust-id (stripfix (:from-post rc 'get-vals "custid")))
 			   (cust-key (stripfix (:from-post rc 'get-vals "custkey")))
 			   (email (stripfix (:from-post rc 'get-vals "email")))

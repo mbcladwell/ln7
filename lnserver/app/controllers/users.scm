@@ -23,20 +23,31 @@
 
 
 (users-define getall
-	      (options #:conn #t)
-		(lambda (rc)
-    (let* ((help-topic "users")
-	   (sql "select person.id, person.usergroup, lnuser, email from person ORDER BY person.id DESC"  )
-	   (holder (DB-get-all-rows(:conn rc sql)))
-	   (body (string-concatenate (prep-user-rows holder)))
-	   )
-      (view-render "getall" (the-environment))
-  )))
+	      (options #:conn #t
+		       #:cookies '(names prjid userid sid))
+	      (lambda (rc)
+		(let* ((help-topic "users")
+		       (prjid (:cookies-value rc "prjid"))
+		       (userid (:cookies-value rc "userid"))
+		       (sid (:cookies-value rc "sid"))  
+		       (sql "select person.id, person.usergroup, lnuser, email from person ORDER BY person.id DESC"  )
+		       (holder (DB-get-all-rows(:conn rc sql)))
+		       (body (string-concatenate (prep-user-rows holder)))
+		       )
+		  (view-render "getall" (the-environment))
+		  )))
 
 
 (users-define add
+	      (options
+		       #:cookies '(names prjid userid sid))
+
 	      (lambda (rc)
-		(let* ((help-topic "user"))
+		(let* ((help-topic "user")
+		       (prjid (:cookies-value rc "prjid"))
+		       (userid (:cookies-value rc "userid"))
+		       (sid (:cookies-value rc "sid"))
+		       )
 		  (view-render "add" (the-environment)))))
 
 

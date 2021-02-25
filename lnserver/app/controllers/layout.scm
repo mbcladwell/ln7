@@ -69,7 +69,8 @@
 
 (layout-define getall
 	       (options #:conn #t
-			#:cookies '(names prjid userid sid))
+			#:cookies '(names prjid userid sid)
+			#:with-auth "login?destination=/layout/getall")
   (lambda (rc)
     (let* ((help-topic "layouts")
 	     (prjid (:cookies-value rc "prjid"))

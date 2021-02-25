@@ -7,10 +7,10 @@
   <h1>Test</h1><br><br>
 
 
-<%= result %><br><br>
-<%= lnuser %><br><br>
-<%= prjid %><br><br>
-<%= group %><br><br>
+<%= ret %><br><br>
+
+<%= help-url-prefix %><br><br>
+<%= register-url %><br><br>
 
 
   

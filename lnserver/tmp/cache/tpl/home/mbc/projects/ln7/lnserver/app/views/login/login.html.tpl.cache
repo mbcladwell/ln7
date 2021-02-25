@@ -81,7 +81,7 @@
       <div class=\"form-row\">
 	  <input type=\"submit\"  class=\"btn btn-primary\" value=\"Submit\">
       </div>
-      <input type=\"hidden\" id=\"destination\" name=\"destination\" value=")(display  destination )(display ">
+      <input type=\"hidden\" id=\"destination\" name=\"destination\" value=")(display  destinationq )(display ">
 
   </form>
 

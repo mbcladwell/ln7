@@ -22,7 +22,8 @@
 	   (dummy (:cookies-remove! rc 'lnuser))
 	   (dummy (:cookies-remove! rc 'group))
 	   (dummy (:cookies-remove! rc 'userid))
-	   (destination "/project/getall")
+	   (dest (params rc "destination"))
+	   (destinationq (addquotes (if dest dest "/project/getall")))
 	 )
     (view-render "/login" (the-environment))
   )))
@@ -81,7 +82,7 @@
 
 (post "/auth"
       #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-     #:session #t
+      #:session #t
       #:conn #t
       #:cookies '(names lnuser prjid sid userid group)
       #:from-post 'qstr
@@ -89,28 +90,49 @@
 	 (if (:session rc 'check)
 	     (let* (
 		    (dest (uri-decode (:from-post rc 'get-vals "destination")))
-		   ;; (dest (params rc "destination"))
+		    ;; (dest (params rc "destination"))
 		    (requested-url  (if dest dest "/project/getall")))
-	      (redirect-to rc requested-url))
-	     (let* ((sid (:auth rc))
+	       (redirect-to rc requested-url))
+	     ;; requested url, sid, userid must be available at top level
+	     (let* ((sid (:auth rc))		    
+		    (userid (if sid (let* (
+					   (name (:from-post rc 'get-vals "lnuser"))       
+					   ;;(name (params rc "lnuser"))       
+					   (dummy (:cookies-set! rc 'lnuser "lnuser" name))		 
+					   (sql "select id, lnuser, usergroup from person")
+					   (ret  (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
+					   (userid (get-id-for-name name ret))
+					   (group (get-group-for-name name ret))
+					   (dummy (:cookies-set! rc 'prjid "prjid" "1"))
+					   (dummy (:cookies-set! rc 'userid "userid" userid))
+					   (dummy (:cookies-set! rc 'group "group" group))
+					   (dummy (:cookies-set! rc 'sid "sid" sid))
+					   )
+				      userid)
+				#f))		  
 		    (requested-url (if sid (let* (
-						  (name (:from-post rc 'get-vals "lnuser"))       
-						 ;;(name (params rc "lnuser"))       
-						  (dummy (:cookies-set! rc 'lnuser "lnuser" name))		 
-						  (sql "select id, lnuser, usergroup from person")
-						  (ret  (DB-get-all-rows (:conn rc sql)))  ;;this is in artanis/artanis/db.scm
-						  (userid (get-id-for-name name ret))
-						  (group (get-group-for-name name ret))
-						  (dummy (:cookies-set! rc 'prjid "prjid" "1"))
-						  (dummy (:cookies-set! rc 'userid "userid" userid))
-						  (dummy (:cookies-set! rc 'group "group" group))
-						  (dummy (:cookies-set! rc 'sid "sid" sid))						  
-						  (dest (uri-decode (:from-post rc 'get "destination")))					  					  
+						  (dest  (uri-decode (:from-post rc 'get-vals "destination")))				  			      
 						  )
-					     (if dest dest "/project/getall"))
-				       "/login?login_failed=Login_Failed!")))
+					     (if dest  (string-append "/login/setuserid?dest=" dest "&userid=" userid "&sid=" sid)
+						  (string-append "/login/setuserid?dest=/project/getall&userid=" userid "&sid=" sid)))
+				       "/login?login_failed=Login_Failed!"))
+		    )
 	       (redirect-to rc requested-url)))))
-;;  (view-render "test" (the-environment))))))
+ ;; (view-render "test" (the-environment))))))
+
+
+(get "/login/setuserid"
+      #:conn #t
+      (lambda (rc)	
+	     (let* (
+		    (dest (uri-decode (params rc "dest")))
+		    (sid (uri-decode (params rc "sid")))
+		    (userid (uri-decode (params rc "userid")))
+		    (sql (string-append "UPDATE sessions SET person_id=" userid " WHERE sid='" sid "'"))
+		    (dummy (:conn rc sql))
+		    )
+	       (redirect-to rc dest))))
+;;	       (view-render "test" (the-environment)))))
 
 
 ;; this works, note that session-spawn is not needed or you get 2 sessions

@@ -32,6 +32,8 @@
 	    htmlify
 	    dehtmlify
 	    addquotes
+	    get-key
+	    validate-key
 	    ))
 
 (use-modules (artanis artanis)(artanis utils) (ice-9 local-eval) (srfi srfi-1)
@@ -194,3 +196,11 @@
 
 (define (my-hmac passwd salt)
   (substring (string->sha-256 (string-append passwd salt)) 0 16))
+
+
+(define (get-key cust-id email )
+  (string->md5 (string-append cust-id email "lnsDFoKytr")))
+
+(define (validate-key cust_id cust_email cust_key)
+  (equal? (get-key cust_id cust_email) cust_key))
+

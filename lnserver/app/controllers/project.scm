@@ -67,21 +67,30 @@
 (get "/project/add"
 ;;     #:with-auth "/login?destination=/project/add"
      ;;    #:from-post 'qstr
+     #:conn #t
      #:cookies '(names prjid lnuser userid group sid)
      (lambda (rc)     
        (let* ((help-topic "project")
- (prjid (:cookies-value rc "prjid"))
+	      (prjid (:cookies-value rc "prjid"))
 	      (userid (:cookies-value rc "userid"))
 	      (group (:cookies-value rc "group"))
 	      (sid (:cookies-value rc "sid"))
+	      (sql "SELECT help_url_prefix,  cust_id, cust_key, cust_email FROM config WHERE id=1")
+	      (ret   (car (DB-get-all-rows (:conn rc sql))))
+	      (help-url-prefix (assoc-ref ret "help_url_prefix"))
+	      (register-url (string-append "http://" help-url-prefix "register"))
+	      (cust_id (assoc-ref ret "cust_id"))
+	      (cust_key (assoc-ref ret "cust_key"))
+	      (email (assoc-ref ret "cust_email"))
+	      (licensed? (if (and cust_id cust_key email ) (validate-key cust_id email cust_key) #f))					  
 	      (prjidq (addquotes prjid))
 	      (useridq (addquotes userid))
 	      (groupq (addquotes group))
 	      (sidq (addquotes sid))
-	  
-
+	      (register-urlq (addquotes register-url))
+	      (dest (if licensed? "add" "unlicensed"))
 	      )
-	 (view-render "/add" (the-environment)))
+	 (view-render dest (the-environment)))
 	  ))
 
 

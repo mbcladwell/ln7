@@ -56,7 +56,8 @@ function reformatPlateSet(){
 	hidden.value = "reformat";
 	var f = document.getElementById("edit_psform");
 	f.appendChild(hidden);
-	f.attr("action", "/plateset/reformat");
+	f.setAttribute("action", "/plateset/reformat");
+	f.setAttribute("method", "POST");
 	f.submit(); return false;
     }
 }
@@ -71,6 +72,8 @@ function importPlateSetData(){
 	hidden.value = "import";
 	var f = document.getElementById("edit_psform");
 	f.appendChild(hidden);
+	f.setAttribute("action", "/plateset/importpsdata");
+	f.setAttribute("method", "POST");
 	f.submit(); return false;
     }
 }
@@ -85,6 +88,8 @@ function exportPlateSet(){
 	hidden.value = "export";
 	var f = document.getElementById("edit_psform");
 	f.appendChild(hidden);
+		f.setAttribute("action", "/plateset/reformat");
+	f.setAttribute("method", "POST");
 	f.submit(); return false;
     }
 }

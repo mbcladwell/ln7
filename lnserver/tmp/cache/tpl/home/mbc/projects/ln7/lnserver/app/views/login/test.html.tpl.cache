@@ -6,9 +6,8 @@
 
   <h1>Test</h1><br><br>
 
- check: ")(display  sid )(display " <br><br>
-  results: ")(display  requested-url )(display "
- 
+ check: ")(display  requested-url )(display " <br><br>
+  
 </body></html>
 
 
