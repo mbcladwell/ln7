@@ -6,7 +6,7 @@
 
   <h1>Test</h1><br><br>
 
- check: <%= requested-url %> <br><br>
+ check: <%= dest %> <br><br>
   
 </body></html>
 

@@ -113,8 +113,8 @@
 		    (requested-url (if sid (let* (
 						  (dest  (uri-decode (:from-post rc 'get-vals "destination")))				  			      
 						  )
-					     (if dest  (string-append "/login/setuserid?dest=" dest "&userid=" userid "&sid=" sid)
-						  (string-append "/login/setuserid?dest=/project/getall&userid=" userid "&sid=" sid)))
+					     (if dest  (string-append "/login/setuserid?dest=" dest "&userid=" userid "&sid=" sid "&login_failed=")
+						  (string-append "/login/setuserid?dest=/project/getall&userid=" userid "&sid=" sid "&login_failed=")))
 				       "/login?login_failed=Login_Failed!"))
 		    )
 	       (redirect-to rc requested-url)))))

@@ -65,8 +65,6 @@
 
 
 (get "/project/add"
-;;     #:with-auth "/login?destination=/project/add"
-     ;;    #:from-post 'qstr
      #:conn #t
      #:cookies '(names prjid lnuser userid group sid)
      (lambda (rc)     

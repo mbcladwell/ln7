@@ -39,8 +39,6 @@
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
-			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 			  (sql  "select * from get_all_sessions()")
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body (string-concatenate (prep-session-rows holder)))
@@ -50,3 +48,15 @@
 
 
 
+(get "/sesschk"
+     #:session #t
+     #:conn #t
+		#:cookies '(names prjid userid group sid)
+		 (lambda (rc)
+		   (let* ((help-topic "session")
+			  (check (:session rc 'check))
+			  (sid (:cookies-value rc "sid"))
+			  (result (get-id-name-group-email-for-session rc sid))
+			  )
+		     (view-render "sesschk" (the-environment))
+		     )))

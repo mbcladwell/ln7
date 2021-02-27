@@ -55,8 +55,7 @@
 
 (plate-define getpltforps
 	      (options #:conn #t
-		       #:cookies '(names prjid lnuser userid group sid)
-		       #:with-auth "login/login")
+		       #:cookies '(names prjid lnuser userid group sid))
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (psid  (get-from-qstr rc "id"))
@@ -104,8 +103,7 @@
 
 (plate-define getwellsforplt
 	      (options #:conn #t
-		       #:cookies '(names prjid lnuser userid group sid)
-		       #:with-auth "login")
+		       #:cookies '(names prjid lnuser userid group sid))
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (pltid  (get-from-qstr rc "pltid"))
@@ -130,7 +128,6 @@
 (post "/plate/getwellsforps"
 	       #:conn #t
 	       #:cookies '(names prjid lnuser userid group sid)
-	       #:with-auth "login/login"
 	       #:from-post 'qstr
 	      (lambda (rc)
 		(let* ((help-topic "plate")
