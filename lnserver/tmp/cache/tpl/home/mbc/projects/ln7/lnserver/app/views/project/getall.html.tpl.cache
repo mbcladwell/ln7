@@ -201,8 +201,6 @@
 
 <input type=\"hidden\" id=\"prjid\" name=\"prjid\" value=")(display  prjidq )(display ">
 <input type=\"hidden\" id=\"sid\" name=\"sid\" value=")(display  sidq )(display ">
-<input type=\"hidden\" id=\"userid\" name=\"userid\" value=")(display  useridq )(display ">
-<input type=\"hidden\" id=\"group\" name=\"group\" value=")(display  groupq )(display ">
 
 
 

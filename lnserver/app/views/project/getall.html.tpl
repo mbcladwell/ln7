@@ -13,8 +13,6 @@
 
 <input type="hidden" id="prjid" name="prjid" value=<%= prjidq %>>
 <input type="hidden" id="sid" name="sid" value=<%= sidq %>>
-<input type="hidden" id="userid" name="userid" value=<%= useridq %>>
-<input type="hidden" id="group" name="group" value=<%= groupq %>>
 
 
 
