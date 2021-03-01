@@ -78,6 +78,31 @@ function importPlateSetData(){
     }
 }
 
+function importaccs(){
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
+	window.alert("Please select (only) one plate set to associate accession IDs with!");}
+    else {
+ 	var f = document.getElementById("edit_psform");
+	
+	f.setAttribute("action", "/plateset/importaccs");
+	f.setAttribute("method", "POST");
+	f.submit(); return false;
+    }
+}
+
+function importbc(){
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
+	window.alert("Please select (only) one plate set to associate barcodes with!");}
+    else {
+ 	var f = document.getElementById("edit_psform");
+	
+	f.setAttribute("action", "/plateset/importbc");
+	f.setAttribute("method", "POST");
+	f.submit(); return false;
+    }
+}
+
+
 function exportPlateSet(){
     if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
 	window.alert("Please select at least  one plate set for data export!");}

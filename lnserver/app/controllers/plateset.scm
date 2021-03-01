@@ -401,12 +401,12 @@
 
 
 (post "/plateset/impassdatadb"  #:conn #t #:from-post 'qstr
+            #:cookies '(names prjid sid)
+
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
 			  (prjid (:cookies-ref rc 'prjid "prjid"))
-			 (userid (:cookies-value rc "userid"))
-			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
 			  ;;(filename (:from-post rc 'get-vals "myfile"))
 			 ;; (a (:from-post rc 'get-vals "datatransfer"))
@@ -490,7 +490,10 @@
  ;;      insertPs.setArray(6, conn.createArrayOf("INTEGER", hit_list));
 
 
-(post "/plateset/impdataaction"  #:conn #t #:from-post 'qstr
+(post "/plateset/impdataaction"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
@@ -551,6 +554,97 @@
 			)))
 
 
+(post "/plateset/importaccs"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
+      (lambda (rc)
+	(let* ((help-topic "plateset")	
+	       (all-ps-ids  (list (uri-decode (:from-post rc 'get-vals "plateset-id")))) ;;these are the checked ps-ids - should be only one
+	       ;; (filename (:from-post rc 'get-vals "myfile"))
+	       (prjid (:cookies-ref rc 'prjid "prjid"))
+	       (sid (:cookies-value rc "sid"))
+	       (start (map string-split all-ps-ids (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+	       (psid (caar start))
+	       (sql (string-append "SELECT plate_set.num_plates,  plate_set.plate_format_id FROM plate_set WHERE plate_set.ID =" psid ))
+	       (holder   (car (DB-get-all-rows (:conn rc sql))))
+	       (num-plates (assoc-ref holder "num_plates"))
+	       (format (assoc-ref holder "plate_format_id"))
+	       (sql2 (string-append "SELECT get_number_samples_for_psid(" psid ")"))
+	       (holder2 (car (DB-get-all-rows (:conn rc sql2))))	       
+	       (rows-needed (assoc-ref  holder2 "get_number_samples_for_psid"))
+	       )
+	  (view-render "impaccs" (the-environment))
+	 ;; 	(view-render "test2" (the-environment))
+	  
+	  )))
+
+
+(define (process-accs-row lst results )
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (string-append results "(" (caar lst) ", " (cadar lst) ", '"  (caddar lst)   "')" ))
+       results)
+       (begin
+	 (set! results (string-append results "(" (caar lst) ", " (cadar lst) ", '"  (caddar lst)   "')," ))
+	 (process-accs-row (cdr lst) results)) ))
+
+
+
+(define (get-sql-accessions-file f )
+  ;;for processing the tab delimitted file on the server
+  (if (access? f R_OK)
+      (let* (
+	     (my-port (open-input-file f))
+	     (ret #f)
+	     (holder '())
+	     (message "")
+	     (ret (stripfix (read-line my-port)))
+	     (header (string-split ret #\tab))
+	     (result (let* (
+			    (ret (read-line my-port))
+			    (dummy2 (while (not (eof-object? ret))
+				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
+					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
+				      (set! ret  (read-line my-port))))
+			    (holder2 (process-accs-row holder ""))
+			    (sql (string-append "INSERT INTO temp_accs_id (plate_order, by_col, accs_id) VALUES " holder2)))	 
+				 sql)))
+	     result)
+      #f))
+;; (if (and (string=? (car header) "plate")
+;; 			     (string=? (cadr header) "well")
+;; 			     (string=? (caddr header) "response"))
+
+
+(post "/plateset/impaccsaction"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
+      (lambda (rc)
+	(let* ((help-topic "plateset")	
+	       (prjid (:cookies-ref rc 'prjid "prjid"))
+	       (sid (:cookies-value rc "sid"))
+	       (datatransfer (uri-decode (:from-post rc 'get-vals "datatransfer")))
+	       (psid (:from-post rc 'get-vals "psid"))
+	       (num-plates (:from-post rc 'get-vals "num-plates"))
+	       (format (:from-post rc 'get-vals "format"))
+	       (rows-needed (:from-post rc 'get-vals "rows-needed"))
+	       (temp-file (transfer-data-to-server datatransfer))
+	       (sql "TRUNCATE temp_accs_id RESTART IDENTITY CASCADE") ;;previously doing this in the stored procedure
+	       (dummy (:conn rc sql)) 
+	       (sql2 (get-sql-accessions-file temp-file))
+	       (dummy (:conn rc sql2))
+	       (sql3 (string-append "SELECT process_access_ids(" psid ")"))
+	       (dummy (:conn rc sql3))
+	       (dest (string-append "/plateset/getps?id=" psid))
+	       )
+;;	  (redirect-to rc dest )
+	  	(view-render "test2" (the-environment))
+	  
+	  )))
+
+
 
 (post "/plateset/reformat"
       #:conn #t #:from-post 'qstr
@@ -598,7 +692,7 @@
 
 		  (lambda (rc)
 		    (let* ((help-topic "reformat")
-			 (prjid (:cookies-ref rc 'prjid "prjid"))
+			 (prjid (:cookies-value rc "prjid"))
 			 (sid (:cookies-value rc "sid"))
 		       	   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (srcpsid (:from-post rc 'get-vals "srcpsid"))
@@ -615,16 +709,17 @@
 			   (destnplates (number->string (ceiling (/ (* (string->number srcnplates) (string->number destsamprep)) 4))))			   
 			   (destlytdescr (string-append destsamprep "S" desttargrep "T"))
 			  
-			   (sql (string-append "select id, sys_name, name, descr FROM plate_layout_name, layout_source_dest WHERE layout_source_dest.src =" srcpsid  " AND layout_source_dest.dest = plate_layout_name.id AND plate_layout_name.descr='" destlytdescr "'"))
+			   (sql (string-append "select id, sys_name, name, descr FROM plate_layout_name, layout_source_dest WHERE layout_source_dest.src =" srclytid  " AND layout_source_dest.dest = plate_layout_name.id AND plate_layout_name.descr='" destlytdescr "'"))
 			   (holder     (car (DB-get-all-rows (:conn rc sql))))
 			   (destlytid (number->string (assoc-ref holder "id")))
 			   (destlytsysname (assoc-ref holder "sys_name"))
 			   (destlytname (assoc-ref holder "name"))
 			   (destlytdescr (assoc-ref holder "descr"))		
 			   (destlyttxt (string-append destlytsysname ";" destlytname ";" destlytdescr))
-			   (sql2 (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id=" prjid " AND reps = " desttargrep ") OR (project_id IS NULL AND reps =" desttargrep ")"))
+			  (sql2 (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id=" prjid " AND reps = " desttargrep ") OR (project_id IS NULL AND reps =" desttargrep ")"))
 			   (holder2  (DB-get-all-rows (:conn rc sql2)))
 			   (desttargetlyts (dropdown-contents-with-id holder2 '()))
+			   (username (cadr (get-id-name-group-email-for-session rc sid)))
 			   (srcpsidq (addquotes srcpsid))
 			   (destnameq (addquotes destname))
 			   (destdescrq (addquotes destdescr))
@@ -637,6 +732,7 @@
 			   (destlytidq (addquotes destlytid))
 			   )		     
 			  (view-render "reformatconfirm" (the-environment))			 
+		;;	  (view-render "test2" (the-environment))			 
 		      )))
 
 
@@ -647,25 +743,21 @@
 		  (lambda (rc)
 		    (let* ((help-topic "reformat")
 			   (today (date->string  (current-date) "~Y-~m-~d"))
-			   (prjid (:cookies-ref rc 'prjid "prjid"))
-			   (userid (:cookies-value rc "userid"))
-			   (group (:cookies-value rc "group"))
+			   (prjid (:cookies-value rc "prjid"))
 			   (sid (:cookies-value rc "sid"))
 			   (srcpsid (:from-post rc 'get-vals "srcpsid"))
 			   (destname (:from-post rc 'get-vals "destname"))
-			   (destdescr (:from-post rc 'get-vals "destdescr"))
+			   (destdescr (uri-decode (:from-post rc 'get-vals "destdescr")))
 			   (desttype (:from-post rc 'get-vals "desttype"))
 			   (destformat (:from-post rc 'get-vals "destformat"))
 			   (destsamprep (:from-post rc 'get-vals "destsamprep"))
 			   (desttargrep (:from-post rc 'get-vals "desttargrep"))
 			   (srclytid (:from-post rc 'get-vals "srclytid"))
-			   (destlytid (:from-post rc 'get-vals "destlytid"))
-			   
+			   (destlytid (:from-post rc 'get-vals "destlytid"))			   
 			   (srcnplates (:from-post rc 'get-vals "srcnplates"))
 			   (destnplates (number->string (ceiling (/ (* (string->number srcnplates) (string->number destsamprep)) 4))))			   
 			   (destlytdescr (string-append destsamprep "S" desttargrep "T"))
-			   ;;(sid (:cookies-value rc "sid"))
-			   (sid "df4f759814491a9b85e40202c29fe11a")
+			   (sid (:cookies-value rc "sid"))
 			   (sql (string-append "SELECT reformat_plate_set("  srcpsid ", " srcnplates ", "  destsamprep  ", '" destdescr "', '" destname "', " destnplates", " destformat ", "  desttype ", "  prjid ", "  srclytid ", '" sid "', "  destlytid  ")"))
 			   (holder    (car  (DB-get-all-rows (:conn rc sql))))
 			   (destlytid (assoc-ref holder "reformat_plate_set"))

@@ -96,10 +96,10 @@
              <a href="#" onclick="importPlateSetData()">Assay Data</a>
 	   </li>
 	   <li>
-             <a href="/plateset/impacc">Accessions</a>
+             <a href="#" onclick="importaccs()">Accessions</a>
 	   </li>
 	   <li>
-             <a href="/plateset/impbc">Barcodes</a>
+             <a href="#" onclick="importbc()">Barcodes</a>
 	   </li>
 	 </ul>
        </li>  

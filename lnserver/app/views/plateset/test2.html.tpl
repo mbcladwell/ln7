@@ -7,7 +7,8 @@
   <h1>Test</h1><br><br>
 
 
- cookies:&nbsp; <%= prjid %><br><br>
+ 
+ cookies:&nbsp; <%= sql2 %><br><br>
   	
  	
  

@@ -207,10 +207,12 @@
 
 (define (get-id-name-group-email-for-session rc sid)
   (let* ((sql (string-append "SELECT person.id, person.lnuser, person.usergroup, person.email FROM person, sessions WHERE sessions.person_id=person.id AND sessions.sid='" sid "'"))
-	 (ret  (car (DB-get-all-rows (:conn rc sql))))
+	 (ret (car(DB-get-all-rows (:conn rc sql))))
 	 (userid (assoc-ref ret "id"))
 	 (name (assoc-ref ret "lnuser"))
 	 (group (assoc-ref ret "usergroup"))
-	 (email (assoc-ref ret "email")))
+	 (email (assoc-ref ret "email")))  
 (list userid name group email)))
+
+;; (username (cadr (get-id-name-group-email-for-session rc sid)))
 
