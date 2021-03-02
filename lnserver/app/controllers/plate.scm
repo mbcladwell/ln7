@@ -33,7 +33,7 @@
 		(sys-name (result-ref x "sys_name"))
 		(name (result-ref x "name"))
 		)
-            (cons (string-append "<tr><td><a href=\"../assayrun/getid?id="  (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td>" sys-name "</td><td>" name "</td><tr>")
+            (cons (string-append "<tr><td><a href=\"../assayrun/getarid?arid="  (number->string (cdr (car x))) "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td>" sys-name "</td><td>" name "</td><tr>")
 		  prev)))
         '() a))
 

@@ -41,11 +41,20 @@ CREATE TABLE sessions
         data text,
         expires varchar(29),
         client varchar(39),
-        valid integer,
+        valid INTEGER);
+
+INSERT INTO sessions (sid, expires, VALID) VALUES ('9999999999', 'Sat, 31 Oct 2020 13:41:27 GMT', 1 );
+
+
+DROP TABLE IF EXISTS sess_person CASCADE;
+CREATE TABLE sess_person
+(        
+        sid varchar(32) PRIMARY KEY,
         person_id INTEGER,
         FOREIGN KEY (person_id) REFERENCES person(ID));
 
-INSERT INTO sessions (sid, expires, VALID, person_id) VALUES ('9999999999', 'Sat, 31 Oct 2020 13:41:27 GMT', 1 , 1);
+INSERT INTO sess_person (sid, person_id) VALUES ('9999999999', 1);
+
 
 
 -- ===================================================================================================================
@@ -1160,18 +1169,19 @@ $BODY$
 
 
 
-DROP FUNCTION IF EXISTS process_access_ids( INTEGER, VARCHAR);
+DROP FUNCTION IF EXISTS process_access_ids( INTEGER);
 
-CREATE OR REPLACE FUNCTION process_access_ids(ps_id INTEGER, sql_statement VARCHAR )
+CREATE OR REPLACE FUNCTION process_access_ids(ps_id INTEGER)
  RETURNS SETOF temp_accs_id AS
 $BODY$
 DECLARE
   r temp_accs_id%rowtype;
 BEGIN
 
-TRUNCATE temp_accs_id RESTART IDENTITY CASCADE;
+-- TRUNCATE temp_accs_id RESTART IDENTITY CASCADE;
 
-execute sql_statement;
+-- note that I was previously passing the sql to populate temp but artanis truncates the sql statement
+-- execute sql_statement;
 
 
    FOR r IN
@@ -1436,18 +1446,18 @@ $BODY$
   LANGUAGE plpgsql VOLATILE;
 
 
-DROP FUNCTION IF EXISTS process_barcode_ids( INTEGER, VARCHAR);
+DROP FUNCTION IF EXISTS process_barcode_ids( INTEGER);
 
-CREATE OR REPLACE FUNCTION process_barcode_ids(ps_id INTEGER, sql_statement VARCHAR )
+CREATE OR REPLACE FUNCTION process_barcode_ids(ps_id INTEGER )
  RETURNS SETOF temp_barcode_id AS
 $BODY$
 DECLARE
   r temp_barcode_id%rowtype;
 BEGIN
 
-TRUNCATE temp_barcode_id RESTART IDENTITY CASCADE;
+-- TRUNCATE temp_barcode_id RESTART IDENTITY CASCADE;
 --raise NOTice 'sql: (%)', sql_statement;
-execute sql_statement;
+-- execute sql_statement;
 --raise NOTice 'post execute: (%)', 2;
    FOR r IN
       SELECT * FROM temp_barcode_id

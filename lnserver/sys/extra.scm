@@ -206,7 +206,7 @@
   (equal? (get-key cust_id cust_email) cust_key))
 
 (define (get-id-name-group-email-for-session rc sid)
-  (let* ((sql (string-append "SELECT person.id, person.lnuser, person.usergroup, person.email FROM person, sessions WHERE sessions.person_id=person.id AND sessions.sid='" sid "'"))
+  (let* ((sql (string-append "SELECT person.id, person.lnuser, person.usergroup, person.email FROM person, sess_person WHERE sess_person.person_id=person.id AND sess_person.sid='" sid "'"))
 	 (ret (car(DB-get-all-rows (:conn rc sql))))
 	 (userid (assoc-ref ret "id"))
 	 (name (assoc-ref ret "lnuser"))

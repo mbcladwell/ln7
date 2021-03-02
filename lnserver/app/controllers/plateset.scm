@@ -428,7 +428,7 @@
 			  (algorithm (:from-post rc 'get-vals "algorithm"))
 			  (hl-name (:from-post rc 'get-vals "hlname"))
 			  (hl-descr (:from-post rc 'get-vals "hldescr"))
-			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", " sid ")"))
+			  (sql2 (string-append "SELECT new_assay_run('" assay-name "', '" assay-descr  "', " assay-type-id ", " psid ", " plt-lyt-name-id ", '" sid "')"))
 		  	  ;;(lyt-txt (string-append lyt-sys-name ";" lyt-name ))
 			  (assay-run-id (cdaar (DB-get-all-rows (:conn rc sql2))))
 			 ;; (assay-run-id 2)
@@ -473,7 +473,7 @@
 					 #f   ))					 
 				      (else #f))))
 		     
-		     (redirect-to rc (string-append "plate/getpltforps?id" psid))
+		     (redirect-to rc (string-append "plate/getpltforps?id=" psid))
 		   ;; (view-render "test" (the-environment))
 		     )))
 
@@ -524,7 +524,9 @@
 
 
 (post "/plateset/importpsdata"
-		  #:conn #t #:from-post 'qstr
+      #:conn #t
+      #:from-post 'qstr
+       #:cookies '(names prjid sid)
 		  (lambda (rc)
 		    (let* ((help-topic "plateset")	
 			   (all-ps-ids  (list (uri-decode (:from-post rc 'get-vals "plateset-id")))) ;;these are the checked ps-ids - should be only one
@@ -553,6 +555,9 @@
 				     
 			)))
 
+;;;;;;;;;;;;;;;;;;;;
+;;;import accessions
+;;;;;;;;;;;;;;;;;;;;
 
 (post "/plateset/importaccs"
       #:conn #t
@@ -644,6 +649,108 @@
 	  
 	  )))
 
+
+;;;;;;;;;;;;;;;;;;;;
+;;;import barcodes
+;;;;;;;;;;;;;;;;;;;;
+
+(post "/plateset/importbc"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
+      (lambda (rc)
+	(let* ((help-topic "barcodes")	
+	       (all-ps-ids  (list (uri-decode (:from-post rc 'get-vals "plateset-id")))) ;;these are the checked ps-ids - should be only one
+	       ;; (filename (:from-post rc 'get-vals "myfile"))
+	       (prjid (:cookies-ref rc 'prjid "prjid"))
+	       (sid (:cookies-value rc "sid"))
+	       (start (map string-split all-ps-ids (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+	       (psid (caar start))
+	       
+	       (sql (string-append "SELECT plate_set_name, descr, plate_set.num_plates FROM plate_set WHERE plate_set.ID =" psid ))
+	       (holder   (car (DB-get-all-rows (:conn rc sql))))
+	       (num-plates (number->string (assoc-ref holder "num_plates")))
+	       (psname (assoc-ref holder "plate_set_name"))
+	       (descr (uri-decode (assoc-ref holder "descr")))
+	       (num-platesq (addquotes num-plates))
+	       (psnameq (addquotes psname))
+	       (descrq (addquotes descr))
+	     (psidq (addquotes psid))
+	       
+	       )
+	  (view-render "impbc" (the-environment))
+	 ;; 	(view-render "test2" (the-environment))
+	  
+	  )))
+
+
+(define (process-bc-row lst results )
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (string-append results "(" (caar lst) ", '" (cadar lst)   "')" ))
+       results)
+       (begin
+	 (set! results (string-append results "(" (caar lst) ", '" (cadar lst)   "')," ))
+	 (process-bc-row (cdr lst) results)) ))
+
+
+
+(define (get-sql-bc-file f )
+  ;;for processing the tab delimitted file on the server
+  (if (access? f R_OK)
+      (let* (
+	     (my-port (open-input-file f))
+	     (ret #f)
+	     (holder '())
+	     (message "")
+	     (ret (stripfix (read-line my-port)))
+	     (header (string-split ret #\tab))
+	     (result (let* (
+			    (ret (read-line my-port))
+			    (dummy2 (while (not (eof-object? ret))
+				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
+					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
+				      (set! ret  (read-line my-port))))
+			    (holder2 (process-bc-row holder ""))
+			    (sql (string-append "INSERT INTO temp_barcode_id (plate_order, barcode_id) VALUES " holder2)))	 
+				 sql)))
+	     result)
+      #f))
+
+
+(post "/plateset/impbcaction"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
+      (lambda (rc)
+	(let* ((help-topic "barcodes")	
+	       (prjid (:cookies-ref rc 'prjid "prjid"))
+	       (sid (:cookies-value rc "sid"))
+	       (datatransfer (uri-decode (:from-post rc 'get-vals "datatransfer")))
+	       (psid (:from-post rc 'get-vals "psid"))
+	       (num-plates (:from-post rc 'get-vals "num-plates"))
+	       (descr (:from-post rc 'get-vals "descr"))
+	       (psname (:from-post rc 'get-vals "psname"))
+	       (temp-file (transfer-data-to-server datatransfer))
+	       (sql "TRUNCATE temp_barcode_id RESTART IDENTITY CASCADE") ;;previously doing this in the stored procedure
+	       (dummy (:conn rc sql)) 
+	       (sql2 (get-sql-bc-file temp-file))
+	       (dummy (:conn rc sql2))
+	       (sql3 (string-append "SELECT process_barcode_ids(" psid ")"))
+	       (dummy (:conn rc sql3))
+	       (dest (string-append "/plate/getps?id=" psid))
+	       )
+	  (redirect-to rc dest )
+;;	  	(view-render "test2" (the-environment))
+	  
+	  )))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;
+;;;reformat
+;;;;;;;;;;;;;;;;;;;;
 
 
 (post "/plateset/reformat"

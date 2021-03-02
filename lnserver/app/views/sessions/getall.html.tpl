@@ -7,11 +7,12 @@
 
   <div class="container">
       <h1>All Sessions</h1>
+Active sessions in <font style="color:red">red</font><br><br>
+
       <table id="sesstable" class="table table-striped table-bordered"><thead><tr><th>Session</th><th>Name</th><th>Group</th><th>Expires</th></tr></thead>
 <tbody><%= body %></tbody>
 </table>
 
-Active sessions in <font style="color:red">red</font><br><br>
 </div>
 
   <script>          

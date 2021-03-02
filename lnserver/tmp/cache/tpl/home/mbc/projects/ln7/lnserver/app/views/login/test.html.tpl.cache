@@ -6,7 +6,7 @@
 
   <h1>Test</h1><br><br>
 
- check: ")(display  dest )(display " <br><br>
+ check: ")(display  rc )(display " <br><br>
   
 </body></html>
 

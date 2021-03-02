@@ -63,32 +63,34 @@
 					   (name (:from-post rc 'get-vals "lnuser"))
 					   (userid (get-id-for-name name ret))
 					   (dummy (:cookies-set! rc 'prjid "prjid" "1"))
-					   (dummy (:cookies-set! rc 'sid "sid" sid))
+					   ;;(dummy (:cookies-set! rc 'sid "sid" sid))
+					   (sql2 (string-append "INSERT INTO sess_person ( sid, person_id) VALUES ('" sid "', " userid ")"))
+					   (dummy (:conn rc sql2))
 					   )
 				      userid)
-				#f))		  
+				#f))
 		    (requested-url (if sid (let* (
 						  (dest  (uri-decode (:from-post rc 'get-vals "destination")))				  			      
 						  )
-					     (if dest  (string-append "/login/setuserid?dest=" dest "&userid=" userid "&sid=" sid "&login_failed=")
-						  (string-append "/login/setuserid?dest=/project/getall&userid=" userid "&sid=" sid "&login_failed=")))
+					     (if dest dest "/project/getall"))
 				       "/login?login_failed=Login_Failed!"))
 		    )
 	       (redirect-to rc requested-url)))))
- ;; (view-render "test" (the-environment))))))
+	     ;;  (view-render "test" (the-environment))))))
 
+  
 
-(get "/login/setuserid"
-      #:conn #t
-      (lambda (rc)	
-	     (let* (
-		    (dest (uri-decode (params rc "dest")))
-		    (sid (uri-decode (params rc "sid")))
-		    (userid (uri-decode (params rc "userid")))
-		    (sql (string-append "UPDATE sessions SET person_id=" userid " WHERE sid='" sid "'"))
-		    (dummy (:conn rc sql))
-		    )
-	       (redirect-to rc dest))))
+;; (get "/login/setuserid"
+;;       #:conn #t
+;;       (lambda (rc)	
+;; 	     (let* (
+;; 		    (dest (uri-decode (params rc "dest")))
+;; 		    (sid (uri-decode (params rc "sid")))
+;; 		    (userid (uri-decode (params rc "userid")))
+;; 		    (sql (string-append "UPDATE sessions SET person_id=" userid " WHERE sid='" sid "'"))
+;; 		    (dummy (:conn rc sql))
+;; 		    )
+;; 	       (redirect-to rc dest))))
 ;;	       (view-render "test" (the-environment)))))
 
 

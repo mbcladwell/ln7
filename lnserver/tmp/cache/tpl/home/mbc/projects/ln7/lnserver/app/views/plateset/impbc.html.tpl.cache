@@ -1,6 +1,8 @@
-(display "<!-- hitlist#getid view template of lnserver
-          Please add your license header here.
-          This file is generated automatically by GNU Artanis. -->
+(display "<!-- 
+   select.js puts an event listener on \"myfile\" and validates the file
+Then submit must be pressed to process
+   <input type=\"hidden\" id=\"\" name=\"outfile\" value=  >
+           -->
 
 ")(display "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
@@ -191,59 +193,59 @@
 <div id=\"content\">
 
 ")(display "
-
-
-
   <div class=\"container\">
-    <h3>Import Hit List for AR-")(display  arid )(display "</h3>
+    <h2>Select Barcode ID File For Import into PS-")(display  psid )(display " </h2><br>
 
-    Import a one column file with header:<br><br>
-<pre>
-id
-SPL-292
-SPL-285
-SPL-284
-SPL-283
-SPL-282
-SPL-281
-.
-.
-.
-</pre>
+	<label >Plate Set Name:&nbsp<b>")(display  psname )(display "</b></label><br>
+	<label>Description:&nbsp<b>")(display  descr )(display "</b></label><br>
+	<br><br>
+   
 
-      
-    <form action=\"/hitlist/addtoar\" method=\"post\">
+    <form action=\"/plateset/impbcaction\" method=\"POST\">
+      <div>
+	<label for=\"myfile\">Select barcode file for import.</label><br>
+	<label for=\"myfile\">The file must be tab delimitted text with a header.</label><br>
+	<label for=\"myfile\"> PS-")(display  psid )(display " contains ")(display  num-plates )(display " plates requiring ")(display  num-plates )(display " rows of data.</label><br>
+	
+	<label for=\"myfile\">Required file format:</label>
+      </div>
+
+      <pre>plate	barcode.id
+1	LN000001
+2	LN000002
+3	LN000003 ....</pre>
       
       <div class=\"custom-file\">
-	<input type=\"file\" class=\"custom-file-input\" accept=\".txt, .csv\" id=\"myfile\">
-	<label class=\"custom-file-label\" for=\"customFile\">Choose hit list file</label>
+	<input type=\"file\" accept=\".txt\" class=\"custom-file-input\" id=\"myfile\" name=\"myfile\">
+	<label class=\"custom-file-label\" for=\"myfile\">Choose file</label>
       </div><br><br>
-      
-      <div>
-	  <button  type=\"submit\" class=\"btn btn-primary\">Submit</button>
-      </div>
-      <input type=\"hidden\" id=\"arid\" name=\"arid\" value=")(display  arid )(display " >
+      <button type=\"submit\" class=\"btn btn-primary\">Submit</button><br>      
       <input type=\"hidden\" id=\"datatransfer\" name=\"datatransfer\" >
-      <input type=\"hidden\" id=\"hitcount\" name=\"hitcount\" >
+      <input type=\"hidden\" id=\"psid\" name=\"psid\" value=")(display  psidq )(display ">
+      <input type=\"hidden\" id=\"num-plates\" name=\"num-plates\" value=")(display  num-platesq )(display ">
+      <input type=\"hidden\" id=\"psname\" name=\"psname\" value=")(display  psnameq )(display ">
+      <input type=\"hidden\" id=\"descr\" name=\"descr\" value=")(display  descrq )(display ">
+      
       
     </form>
-  </div>
 
-  <span id=\"myText\"></span>
+    <span id=\"myText\"></span>
+     
 
+    <script>
+      $('#myfile').on('change',function(){
+          //get the file name
+          var fileName = $(this).val();
+          //replace the \"Choose a file\" label
+          $(this).next('.custom-file-label').html(fileName);
+      })
+    </script>
+
+</div>
   
-  <script>
-   document.querySelector('.custom-file-input').addEventListener('change',function(e){
-       var fileName = document.getElementById(\"myfile\").files[0].name;
-       var nextSibling = e.target.nextElementSibling
-       nextSibling.innerText = fileName
-   })
-
-  </script>
-
-  <script src=\"showfile.js\"></script>
-
-
+<script src=\"impbc.js\"></script>
+  
+  
 ")(display "</div>
 </div>
 
@@ -280,4 +282,5 @@ $(document).ready(function () {
 
 </html>
 ")(display "
+
 ")

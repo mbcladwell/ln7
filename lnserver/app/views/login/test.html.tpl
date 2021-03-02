@@ -6,7 +6,7 @@
 
   <h1>Test</h1><br><br>
 
- check: <%= dest %> <br><br>
+ check: <%= sql2 %> <br><br>
   
 </body></html>
 
