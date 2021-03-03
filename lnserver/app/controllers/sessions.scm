@@ -39,7 +39,7 @@
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
-			  (sql  "select * from get_all_sessions()")
+			  (sql  "select sessions.sid, person.lnuser, person.usergroup, sessions.expires  from sessions, person, sess_person where sessions.sid=sess_person.sid AND person.id=sess_person.person_id")
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body (string-concatenate (prep-session-rows holder)))
 			  )

@@ -59,8 +59,6 @@
 		(lambda (rc)
 		  (let* ((help-topic "hitlist")
 			 (prjid (:cookies-value rc "prjid"))
-			 (userid (:cookies-value rc "userid"))
-			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
 			 (hlid  (get-from-qstr rc "id")) ;; hit-list id
 			 (sql (string-append "select sample.id, sample.sample_sys_name, sample.project_id, sample.accs_id  from hit_list, sample, hit_sample where sample.id=hit_sample.sample_id AND hit_list.id=hit_sample.hitlist_id AND hitlist_id =" hlid ))
@@ -71,8 +69,6 @@
 			 (holder2 (DB-get-all-rows (:conn rc sql2)))
 			 (body2  (string-concatenate  (prep-hl-counts holder2)) )
 			 (prjidq (addquotes prjid))
-			 (useridq (addquotes userid))
-			 (groupq (addquotes group))
 			 (sidq (addquotes sid))
 			 (hlidq (addquotes hlid))
 			 (numhitsq (addquotes (number->string numhits)))

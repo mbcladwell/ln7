@@ -19,12 +19,13 @@
 		(descr (result-ref x "descr"))
 		(type (result-ref x "plate_type_name"))
 		(numplates (get-c6 x))
-		(format  (get-c7 x))
-		(layout (get-c8 x))
+		(format  (result-ref x "format"))
+		(layout (result-ref x "name"))
 		(reps (get-c9 x))
+		(worklist (if (equal? (get-c10 x) "0") "" (get-c10 x)))
 		(idval (string-append (number->string (cdr (car x))) "+" numplates "+" format "+" layout "+" reps ))
 		)
-            (cons (string-append "<tr><td> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></td><td><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></td><td>" plate_set_name "</td><td>" descr "</td><td>" type "</td><td>" numplates "</td><td>" format "</td><td>" layout "</td><td>" reps "</td></tr>")
+            (cons (string-append "<tr><td> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></td><td><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></td><td>" plate_set_name "</td><td>" descr "</td><td>" type "</td><td>" numplates "</td><td>" format "</td><td>" layout "</td><td>" reps "</td><td>" worklist "</td></tr>")
 		  prev)))
         '() a))
 
@@ -66,10 +67,9 @@
 
 ;; (get-hit-lists-for-prjid "1")
 
-(plateset-define getps
-		 (options #:conn #t
-			  #:cookies '(names prjid sid)
-			  )
+(get "/plateset/getps"
+     #:conn #t
+     #:cookies '(names prjid sid)			  
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "plateset")
@@ -79,7 +79,10 @@
 			  (dummy (:cookies-set! rc 'prjid "prjid" prjid))
 			  (dummy (:cookies-setattr! rc 'prjid #:path "/"))
 			  (sid (:cookies-value rc "sid"))	
-			  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
+		;;	  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
+
+(sql (string-append "SELECT plate_set.id, plate_set.plate_set_sys_name, plate_set_name, plate_set.descr,  plate_type.plate_type_name, num_plates, format,  plate_layout_name.name, plate_layout_name.replicates, rearray_pairs.ID FROM  plate_format, plate_type, plate_layout_name, plate_set FULL outer JOIN rearray_pairs ON plate_set.id= rearray_pairs.dest WHERE plate_format.id = plate_set.plate_format_id AND plate_set.plate_layout_name_id = plate_layout_name.id  AND plate_set.plate_type_id = plate_type.id  AND project_id =" prjid " ORDER BY plate_set.id DESC"))
+			  
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
 			  (assay-runs (get-assay-runs-for-prjid prjid rc))
@@ -473,8 +476,8 @@
 					 #f   ))					 
 				      (else #f))))
 		     
-		     (redirect-to rc (string-append "plate/getpltforps?id=" psid))
-		   ;; (view-render "test" (the-environment))
+		  ;;   (redirect-to rc (string-append "plate/getpltforps?id=" psid))
+		    (view-render "test2" (the-environment))
 		     )))
 
 
@@ -738,7 +741,7 @@
 	       (dummy (:conn rc sql2))
 	       (sql3 (string-append "SELECT process_barcode_ids(" psid ")"))
 	       (dummy (:conn rc sql3))
-	       (dest (string-append "/plate/getps?id=" psid))
+	       (dest (string-append "/plate/getpltforps?id=" psid))
 	       )
 	  (redirect-to rc dest )
 ;;	  	(view-render "test2" (the-environment))
@@ -754,30 +757,25 @@
 
 
 (post "/plateset/reformat"
-      #:conn #t #:from-post 'qstr
-      #:cookies '(names prjid userid group sid)
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
       (lambda (rc)
 	(let* ((help-topic "reformat")
 	       (prjid (:cookies-value rc "prjid"))
-	       (userid (:cookies-value rc "userid"))
 	       (sid (:cookies-value rc "sid"))
-	       (group (:cookies-value rc "group"))
-	       (get-ps-link (string-append "/plateset/getps?id=" prjid))
-	       (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
 	       (today (date->string  (current-date) "~Y-~m-~d"))
-	       (qstr  (:from-post rc 'get))
-	       (a (delete #f (map (match-lambda (("plateset-id" x) x)(_ #f))  qstr)))
-	       (b ( uri-decode  (car a)))
-	       (start (string-split b  #\+)) ;;(1 2 96 1) 
-	       (srcpsid  (car start) )
-	       ;; ;;(ps-num-text  (string-join (map string-append d (map cadr start) (circular-list ");"))))
-	       (srcnplates  ( string->number  (cadr start)))
-	       (srcformat  (caddr start))
-	       (destformat (number->string (* (string->number srcformat) 4)))
-	       (srclytid  (cadddr start))
-	       (sql2 (string-append "SELECT name, descr from plate_layout_name where id =" srclytid))
-	       (holder2    (car  (DB-get-all-rows (:conn rc sql2))))
-	       (srcspllyttxt (string-append  (cdar  holder2)  "; "  (cdadr  holder2)) )			     			   
+	       (a  (uri-decode (:from-post rc 'get-vals "plateset-id")))
+	       (start (string-split a  #\+)) ;;(1 2 96 1 1) psid num-plates format srclytid numreps?
+	        (srcpsid  (car start) )
+	        ;; ;;(ps-num-text  (string-join (map string-append d (map cadr start) (circular-list ");"))))
+	        (srcnplates  ( string->number  (cadr start)))
+	        (srcformat  (caddr start))
+	        (destformat (number->string (* (string->number srcformat) 4)))
+	        (srclytid  (cadddr start))
+	        (sql2 (string-append "SELECT name, descr from plate_layout_name where id =" srclytid))
+	        (holder2    (car  (DB-get-all-rows (:conn rc sql2))))
+	        (srcspllyttxt (string-append  (cdar  holder2)  "; "  (cdadr  holder2)) )			     			   
 	       (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
 	       (holder3  (DB-get-all-rows (:conn rc sql3)))
 	       (plate-types-pre '())
@@ -788,6 +786,7 @@
 	       
 	       )		     
 	  (view-render "reformatps" (the-environment))
+	 ;; (view-render "test2" (the-environment))
 	  
 	  )))
 
@@ -811,11 +810,9 @@
 			   (desttargrep (:from-post rc 'get-vals "desttargrep"))
 			   (srclytid (:from-post rc 'get-vals "srclytid"))
 			   (trglytid (:from-post rc 'get-vals "trglytid")) ;;optional from select dropdown
-			   
 			   (srcnplates (:from-post rc 'get-vals "srcnplates"))
 			   (destnplates (number->string (ceiling (/ (* (string->number srcnplates) (string->number destsamprep)) 4))))			   
-			   (destlytdescr (string-append destsamprep "S" desttargrep "T"))
-			  
+			   (destlytdescr (string-append destsamprep "S" desttargrep "T"))			  
 			   (sql (string-append "select id, sys_name, name, descr FROM plate_layout_name, layout_source_dest WHERE layout_source_dest.src =" srclytid  " AND layout_source_dest.dest = plate_layout_name.id AND plate_layout_name.descr='" destlytdescr "'"))
 			   (holder     (car (DB-get-all-rows (:conn rc sql))))
 			   (destlytid (number->string (assoc-ref holder "id")))
@@ -862,14 +859,16 @@
 			   (srclytid (:from-post rc 'get-vals "srclytid"))
 			   (destlytid (:from-post rc 'get-vals "destlytid"))			   
 			   (srcnplates (:from-post rc 'get-vals "srcnplates"))
+			   (desttrglyt (:from-post rc 'get-vals "desttrglyt"))
 			   (destnplates (number->string (ceiling (/ (* (string->number srcnplates) (string->number destsamprep)) 4))))			   
 			   (destlytdescr (string-append destsamprep "S" desttargrep "T"))
 			   (sid (:cookies-value rc "sid"))
-			   (sql (string-append "SELECT reformat_plate_set("  srcpsid ", " srcnplates ", "  destsamprep  ", '" destdescr "', '" destname "', " destnplates", " destformat ", "  desttype ", "  prjid ", "  srclytid ", '" sid "', "  destlytid  ")"))
+			   (sql (string-append "SELECT reformat_plate_set("  srcpsid ", " srcnplates ", "  destsamprep  ", '" destdescr "', '" destname "', " destnplates", " destformat ", "  desttype ", "  prjid ", "  destlytid ", '" sid "', "  desttrglyt  ")"))
 			   (holder    (car  (DB-get-all-rows (:conn rc sql))))
 			   (destlytid (assoc-ref holder "reformat_plate_set"))
 			   )
-			   (view-render (string-append "/plateset/getps?id=" prjid) (the-environment))			 
+		    ;;  (redirect-to rc (string-append "/plateset/getps?id=" prjid))
+		      (view-render "test2" (the-environment))
 		      )))
 
 

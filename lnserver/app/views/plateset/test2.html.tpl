@@ -8,7 +8,9 @@
 
 
  
- cookies:&nbsp; <%= sql2 %><br><br>
+ cookies:&nbsp; <%= threshold %><br><br>
+ 
+ 
   	
  	
  
