@@ -18,8 +18,12 @@
 		 (norm (get-c6 x ))
 		 (norm-pos (get-c7 x ))
 		 (p-enhance (get-c8 x ))
-		 (type (result-ref x "name" )))
-            (cons (string-append  assay-run-id "\t" plate-order "\t" well "\t" response "\t" bkgrnd-sub "\t" norm "\t" norm-pos "\t" p-enhance "\t" type "\n")
+		 (type (get-c9 x))
+		 (reps (get-c10 x ))
+		 (trg (get-c11 x ))
+		 (splid (get-c12 x ))
+		 )
+            (cons (string-append  assay-run-id "\t" plate-order "\t" well "\t" response "\t" bkgrnd-sub "\t" norm "\t" norm-pos "\t" p-enhance "\t" type "\t" reps "\t" trg "\t" splid "\n")
 		  prev)))
         '() a))
 
@@ -44,11 +48,12 @@
 		  prev)))
         '() a))
 
+;; SELECT * FROM get_scatter_plot_data(?);
 
-
-(define (get-assayrun-table-for-r id data-file-name rc)
-  (let* ((table-header (string-append "assay.run.id\tplate.order\twell\tresponse\tbkgrnd.sub\tnorm\tnorm.pos\tp.enhance\ttype\n"))
-	 (sql  (string-append "select assay_run_id, plate_order, well, response, bkgrnd_sub, norm, norm_pos, p_enhance, well_type.name from assay_result, assay_run, well_numbers, plate_layout_name, plate_layout, well_type where plate_layout_name.id=plate_layout.plate_layout_name_id AND plate_layout_name.plate_format_id=well_numbers.plate_format AND plate_layout.well_type_id=well_type.id AND plate_layout.well_by_col=assay_result.well AND assay_result.assay_run_id=assay_run.id AND assay_run.plate_layout_name_id=plate_layout_name.id AND well_numbers.by_row=assay_result.well AND assay_run_id=" id))
+(define (get-assayrun-table-for-r arid data-file-name rc)
+  (let* ((table-header (string-append "assay.run.id\tplate.order\twell\tresponse\tbkgrnd.sub\tnorm\tnorm.pos\tp.enhance\ttype\treps\ttrgt\tsmplid\n"))
+	 ;;(sql  (string-append "select assay_run_id, plate_order, well, response, bkgrnd_sub, norm, norm_pos, p_enhance, well_type.name from assay_result, assay_run, well_numbers, plate_layout_name, plate_layout, well_type where plate_layout_name.id=plate_layout.plate_layout_name_id AND plate_layout_name.plate_format_id=well_numbers.plate_format AND plate_layout.well_type_id=well_type.id AND plate_layout.well_by_col=assay_result.well AND assay_result.assay_run_id=assay_run.id AND assay_run.plate_layout_name_id=plate_layout_name.id AND well_numbers.by_row=assay_result.well AND assay_run_id=" id))
+	 (sql (string-append "SELECT * FROM get_scatter_plot_data(" arid ")"))
 	 (holder (DB-get-all-rows (:conn rc sql)))
 	 (body (string-append table-header (string-concatenate (prep-ar-for-r holder))))
 	 (p  (open-output-file data-file-name)))
@@ -97,7 +102,7 @@
 		(descr (result-ref x "descr"))
 		(nhits (get-c8 x))
 		)
-	      (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" assay-run-name "</td><td>" assay-type-name "</td><td><a href=\"/hitlist/getdlbyid?id=" (substring hit-list-sys-name 3) "\">"  hit-list-sys-name "</a></td><td>"  hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
+	      (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" assay-run-name "</td><td>" assay-type-name "</td><td><a href=\"/hitlist/gethlbyid?id=" (substring hit-list-sys-name 3) "\">"  hit-list-sys-name "</a></td><td>"  hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
 		  prev)))
         '() a))
 
@@ -125,6 +130,18 @@
             (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" assay-run-name "</td><td>" descr "</td><td>" assay-type-name "</td><td><a href=\"/layout/lytbyid?id=" lytid  "\">" sys-name "</a></td><td>" name "</td><tr>")
 		  prev)))
         '() a))
+
+;; Response
+;; public static final int RAW = 0;
+;; public static final int NORM = 1;
+;; public static final int NORM_POS = 2;
+;; public static final int P_ENHANCE = 3;
+ 
+;; Metric
+;; TopN = 1
+;; Mean+2SD = 2
+;; Mean+3SD = 3
+;; >0% enhance = 4
 
 
 

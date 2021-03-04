@@ -39,8 +39,6 @@
 
  <input type="hidden" id="prjid" name="prjid" value=<%= prjidq %>>
  <input type="hidden" id="sid" name="sid" value=<%= sidq %>>
- <input type="hidden" id="userid" name="userid" value=<%= useridq %>>
- <input type="hidden" id="group" name="group" value=<%= groupq %>>
  <input type="hidden" id="hlid" name="hlid" value=<%= hlidq %>>
  <input type="hidden" id="numhits" name="numhits" value=<%= numhitsq %>>
  <input type="hidden" id="psid" name="psid" value=<%= psidq %>>

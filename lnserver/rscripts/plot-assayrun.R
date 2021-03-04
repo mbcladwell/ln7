@@ -10,8 +10,8 @@ if (length(args) %in% c(0,1,2,3)) {
 }
 
 ## getwd()
-## infile <- "../tmp/ar-8222479441190188284525.txt"
-## infile2 <- "../tmp/ar2-7764507602467792171973.txt"
+## infile <- "../pub/tmp/ar-8222479441190188284525.txt"
+## infile2 <- "../pub/tmp/ar2-7764507602467792171973.txt"
 ## response <- 1
 ## threshold <- 3
 ## outfile <- "../tmp/out.png"
@@ -32,10 +32,10 @@ threshold <- args[5]
 ## 1 norm
 ## 2 norm_pos
 ## 3 p_enhanced
-if(response ==0)data <- d[,c(2,3,5,9)]
-if(response ==1)data <- d[,c(2,3,6,9)]
-if(response ==2)data <- d[,c(2,3,7,9)]
-if(response ==3)data <- d[,c(2,3,8,9)]
+if(response ==0)d3 <- d[,c(2,3,5,9,12)]
+if(response ==1)d3 <- d[,c(2,3,6,9,12)]
+if(response ==2)d3 <- d[,c(2,3,7,9,12)]
+if(response ==3)d3 <- d[,c(2,3,8,9,12)]
 
 if(response ==0) ylabel <- "Background Subtracted"
 if(response ==1) ylabel <- "Normalized"
@@ -69,18 +69,21 @@ if(threshold %in% c("1","2","3")){
 }
 
 
-names(data) <- c("plate","well","response","type")
-data <- data[order(data$response),]
-data$index <- (nrow(data)):1
-num.hits <- nrow(data[data$response > threshold.val,])
+names(d3) <- c("plate","well","response","type","spl")
+unks <- d3[d3$type==1,]
+hits <- unks[unks$response > threshold.val,]
+num.hits <- length(unique(hits$spl))
+##num.hits <- 0
+d3 <- d3[order(d3$response),]
+d3$index <- (nrow(d3)):1
 
-palette(c("grey", "red", "green", "black"))
+palette(c("black", "green",  "red","grey" ))
 png(outfile,width=900, height=550)
 ## par(xpd = T, mar = par()$mar + c(0,0,0,6))
-plot(data$index, data$response,  cex=1, pch=1, col=as.factor(data$type), ylab= ylabel, xlab="Index")
+plot(d3$index, d3$response,  cex=1, pch=1, col=as.factor(d3$type), ylab= ylabel, xlab="Index")
 
-text( nrow(data)*0.1, threshold.val + 0.05*threshold.val, paste0("hits: ", num.hits))
-text( nrow(data)*0.1, threshold.val - 0.05*threshold.val, threshold.text)
+text( nrow(d3)*0.1, threshold.val + 0.05*threshold.val, paste0("hits: ", num.hits))
+text( nrow(d3)*0.1, threshold.val - 0.05*threshold.val, threshold.text)
 ## par(xpd = T, mar = par()$mar + c(0,0,0,6))
 legend("topright",  c("unknown","positive","negative","blank"), fill=c("white", "green", "red", "grey"))
 abline(h=threshold.val, lty="dashed")

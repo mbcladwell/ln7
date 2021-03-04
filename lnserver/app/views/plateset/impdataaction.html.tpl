@@ -83,7 +83,7 @@
 	  <input type="text" class="form-control" id="hlname" name="hlname" placeholder="">
 	</div>
 	<div class="form-group col-md-6">
-	  <label for="hldescr" id="labelhldescr" ="labelhldescr">Hit List Description</label>
+	  <label for="hldescr" id="labelhldescr" name="labelhldescr">Hit List Description</label>
 	  <input type="text" class="form-control" id="hldescr" name="hldescr" placeholder="">
 	</div>
       </div>

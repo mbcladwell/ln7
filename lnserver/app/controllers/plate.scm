@@ -47,7 +47,7 @@
 		(n (get-c5 x ))
 		(assay-run-sys-name (result-ref x "assay_run_sys_name"))
 		)
-            (cons (string-append "<tr><td>" assay-run-sys-name "</td><td><a href=\"/hitlist/getdlbyid?id="  (number->string (cdr (car x))) "\">" hitlist-sys-name "</a></td><td>" hitlist-name "</td><td>" descr "</td><td>" n "</td><tr>")
+            (cons (string-append "<tr><td>" assay-run-sys-name "</td><td><a href=\"/hitlist/gethlbyid?id="  (number->string (cdr (car x))) "\">" hitlist-sys-name "</a></td><td>" hitlist-name "</td><td>" descr "</td><td>" n "</td><tr>")
 		  prev)))
         '() a))
 

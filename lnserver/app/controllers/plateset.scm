@@ -81,7 +81,7 @@
 			  (sid (:cookies-value rc "sid"))	
 		;;	  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
 
-(sql (string-append "SELECT plate_set.id, plate_set.plate_set_sys_name, plate_set_name, plate_set.descr,  plate_type.plate_type_name, num_plates, format,  plate_layout_name.name, plate_layout_name.replicates, rearray_pairs.ID FROM  plate_format, plate_type, plate_layout_name, plate_set FULL outer JOIN rearray_pairs ON plate_set.id= rearray_pairs.dest WHERE plate_format.id = plate_set.plate_format_id AND plate_set.plate_layout_name_id = plate_layout_name.id  AND plate_set.plate_type_id = plate_type.id  AND project_id =" prjid " ORDER BY plate_set.id DESC"))
+(sql (string-append "SELECT plate_set.id, plate_set.plate_set_sys_name, plate_set_name, plate_set.descr,  plate_type.plate_type_name, num_plates, format,  plate_layout_name.name, plate_layout_name.replicates, rearray_pairs.ID FROM  plate_format, plate_type, plate_layout_name, plate_set FULL outer JOIN rearray_pairs ON plate_set.id= rearray_pairs.dest WHERE plate_format.id = plate_set.plate_format_id AND plate_set.plate_layout_name_id = plate_layout_name.id  AND plate_set.plate_type_id = plate_type.id  AND project_id =" prjid " ORDER BY plate_set.id"))
 			  
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
@@ -402,6 +402,18 @@
     ))
 
 
+;; Response
+;; public static final int RAW = 0;
+;; public static final int NORM = 1;
+;; public static final int NORM_POS = 2;
+;; public static final int P_ENHANCE = 3;
+ 
+;; Metric
+;; TopN = 1
+;; Mean+2SD = 2
+;; Mean+3SD = 3
+;; >0% enhance = 4
+
 
 (post "/plateset/impassdatadb"  #:conn #t #:from-post 'qstr
             #:cookies '(names prjid sid)
@@ -444,33 +456,33 @@
 				      ((equal? algorithm "1")  ;;Top N
 				       (let* ((numhits (:from-post rc 'get-vals "nhits"))
 					      (pgarray (make-topN-hitlist hl-name hl-descr numhits assay-run-id sid rc))
-					      (sql (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  numhits ", " (number->string assay-run-id) ", " sid ", " pgarray ")" ))
+					      (sql (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  numhits ", " (number->string assay-run-id) ", '" sid "', " pgarray ")" ))
 					      (dummy (:conn rc sql))
 					      )	 #f) )
 				      
 				      ((equal? algorithm "2")  ;; mean(background) + 2SD
-				       (let* ((sql (string-append "SELECT mean_neg_2_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
+				       (let* ((sql (string-append "SELECT mean_neg_2_sd FROM assay_run_stats WHERE response_type = 1 AND assay_run_id=" (number->string assay-run-id )))
 					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
 					      (results (make-threshold-hitlist threshold assay-run-id rc))
-					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " sid ", "  (cadr results) ")" ))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", '" sid "', "  (cadr results) ")" ))
 					      (dummy (:conn rc sql2))
 					      )
 					 #f   ))
 				       
 				      ((equal? algorithm "3")  ;; mean(background) + 3SD
-				       (let* ((sql (string-append "SELECT mean_neg_3_sd FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))
+				       (let* ((sql (string-append "SELECT mean_neg_3_sd FROM assay_run_stats WHERE response_type = 1 AND assay_run_id=" (number->string assay-run-id )))
 					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
 					      (results (make-threshold-hitlist threshold assay-run-id rc))
-					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " sid ", "  (cadr results) ")" ))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", '" sid "', "  (cadr results) ")" ))
 					      (dummy (:conn rc sql2))
 					      )
-					 #f   ))
+					 sql2   ))
 				      
 				      ((equal? algorithm "4") ;; >0% enhanced
-				       (let* ((sql (string-append "SELECT mean_pos FROM assay_run_stats WHERE response_type = 2 AND assay_run_id=" (number->string assay-run-id )))     
+				       (let* ((sql (string-append "SELECT mean_pos FROM assay_run_stats WHERE response_type = 1 AND assay_run_id=" (number->string assay-run-id )))     
 					      (threshold (cdaar (DB-get-all-rows (:conn rc sql))))
 					      (results (make-threshold-hitlist threshold assay-run-id rc))
-					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", " sid ", "  (cadr results) ")" ))
+					      (sql2 (string-append "SELECT new_hit_list ('" hl-name "', '" hl-descr "', "  (number->string (car results)) ", " (number->string assay-run-id) ", '" sid "', "  (cadr results) ")" ))
 					      (dummy (:conn rc sql2)))
 					      					      
 					 #f   ))					 
@@ -647,8 +659,8 @@
 	       (dummy (:conn rc sql3))
 	       (dest (string-append "/plateset/getps?id=" psid))
 	       )
-;;	  (redirect-to rc dest )
-	  	(view-render "test2" (the-environment))
+	  (redirect-to rc dest )
+;;	  	(view-render "test2" (the-environment))
 	  
 	  )))
 
@@ -867,176 +879,8 @@
 			   (holder    (car  (DB-get-all-rows (:conn rc sql))))
 			   (destlytid (assoc-ref holder "reformat_plate_set"))
 			   )
-		    ;;  (redirect-to rc (string-append "/plateset/getps?id=" prjid))
-		      (view-render "test2" (the-environment))
+		      (redirect-to rc (string-append "/plateset/getps?id=" prjid))
+		    ;;  (view-render "test2" (the-environment))
 		      )))
 
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; client
-
-(get "/cset"
-     #:cookies '(names prjid userid group username sid)
-		 (lambda (rc)
-		   (let* ((result "sometext")
-			  (prjid (:cookies-set! rc 'prjid "prjid" "1"))
-			  (dummy (:cookies-set! rc 'userid "userid" "1"))
-			  (dummy (:cookies-set! rc 'group "group" "admin"))
-			  (dummy (:cookies-set! rc 'username "username" "ln_admin"))
-			  (dummy (:cookies-set! rc 'sid "sid"(:session rc 'spawn)))
-			  (cookies (rc-cookie rc)))
-		     (view-render "test2" (the-environment)))))
-
-
-;; (post "/cset"
-;;       	      #:auth `(table person "lnuser" "passwd" "salt" ,my-hmac)
-;; 	      #:cookies '(names prjid sid lnuser)
-;; 		 (lambda (rc)
-;; 		   (let* ((result "sometext")
-;; 			  (dummy (:cookies-set! rc 'prjid "prjid" result))
-;; 			  (cookies (rc-cookie rc))
-;; 			  )
-;; 		     (view-render "test" (the-environment)))))
-
-
-(plateset-define testcset
-		 (lambda (rc)
-		     (view-render "testcset" (the-environment))))
-
-
-
-(get "/ref"
-     #:cookies '(names prjid sid)
-     (lambda (rc)
-       (let* (			  			 
-	      (result (:cookies-value rc "prjid"))
-	      (cookierc (rc-cookie rc))
-	      (cookiercset (rc-set-cookie rc))
-	      )
-	 (view-render "test" (the-environment)))))
-
-(plateset-define value 
-		 (options #:cookies '(names prjid))
-		 (lambda (rc)
-		   (let* (			  			 
-			  (result (:cookies-value rc "prjid"))
-			  (cookierc (rc-cookie rc))
-			  (cookiercset (rc-set-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; server
-
-(plateset-define remove
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (
-			  (prerc (rc-cookie rc))
-			  (prercset (rc-set-cookie rc))
-			  (dummy (:cookies-remove! rc 'sid ))
-
-			  (postrc(rc-cookie rc))
-			  (postrcset(rc-set-cookie rc))
-	
-			  )
-		     (view-render "test" (the-environment)))))
-
-
-     (get "/cookieremove" #:cookies '(names prjid)
-          (lambda (rc)
-	     (let* (	
-		    (result (:cookies-remove! rc "prjid"))
-		    (cookies (rc-cookie rc))
-		    )
-            (view-render "test" (the-environment)))))
-
-
-(plateset-define check
-		 (options #:cookies #t)
-		 (lambda (rc)
-		   (let* (			  			 
-			  (result (:cookies-check rc "prjid"))			 
-			  (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-
- (plateset-define haskey
-		 (options #:cookies #t)
-		 (lambda (rc)
-		   (let* (
-			  (cookies (rc-cookie rc))
-			  (result (cookie-has-key? cookies "prjid"))
-			  )
-		     (view-render "test" (the-environment)))))
-
- (plateset-define ksess
-		  (options #:cookies '(names sid)
-			   #:session #t)
-		 (lambda (rc)
-		   (let* (			  
-			  (prerc (rc-cookie rc))
-			  (prercset (rc-set-cookie rc))
-			  (drop (:session rc 'drop))
-		;;	  (dummy (:session-destory! rc (:cookies-value rc "sid")))
-			  (postrc(rc-cookie rc))
-			  (postrcset(rc-set-cookie rc))
-			 ;; (dummy (:cookies-set! rc 'sid "sid" (:cookies-value rc "sid")))
-			 ;; (dummy (:cookies-setattr! rc 'sid #:expires 21600 #:secure #t))
-			  )
-		     (view-render "test" (the-environment)))))
-
-
-
-
-(define duration (time-difference (make-time time-utc  0 21600) (make-time time-utc  0 0))) ;;6 hours
-;;(define six-hrs-from-now (date->string (time-utc->date (add-duration (current-time) duration)) "~a, ~d ~b ~Y ~H:~M:~S ~Z" ))
-(define six-hrs-from-now 3600)
-  
- (plateset-define update
-		 (options #:cookies '(names prjid sid))
-		 (lambda (rc)
-		   (let* (
-			 
-			  (result (:cookies-setattr! rc 'prjid #:path "/test" ))
-			   (cookies (rc-cookie rc))
-			  )
-		     (view-render "test" (the-environment)))))
-
-
-
-;; (plateset-define addcookie
-;; 		 (options #:cookies '(names prjid sid))
-;; 		 (lambda (rc)
-;; 		   (let* (
-;; 			  (dummy (:cookies-set! rc 'prjid "prjid" "1000"))
-;; 			  (cookcheck (:cookies-check rc "prjid"))
-;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
-;; 			  (cookies (rc-cookie rc))
-;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))
-;; 			 )
-;; 		     (view-render "test" (the-environment)))))
-
-
-;; (plateset-define check
-;; 		 (lambda (rc)
-;; 		   (let* (			  			 
-;; 			  (cookcheck (:cookies-check rc "prjid"))			 
-;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
-;; 			  (cookies (rc-cookie rc))
-;; 			   (cookhaskey (cookie-has-key? cookies "prjid"))
-;; 			  )
-;; 		     (view-render "test" (the-environment)))))
-
-;; (plateset-define delete
-;; 		 (options #:cookies '(names prjid sid))
-;; 		 (lambda (rc)
-;; 		   (let* (			  
-;; 			  (dummy (:cookies-remove! rc 'prjid))
-;; 			  (cookcheck (:cookies-check rc "prjid"))
-;; 			  (cookiesref (:cookies-ref rc 'prjid "prjid"))
-;; 			  (cookies (rc-cookie rc))
-;; 			  (cookhaskey (cookie-has-key? cookies "prjid"))			  
-;; 			  )
-;; 			    (view-render "test" (the-environment)))))
