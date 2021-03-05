@@ -5,8 +5,7 @@
 
 <@include header.tpl %>
   <div class="container">
-      <form id="edit_psform">
-
+ 
   <div class="row">
     <div class="col">
       <h2>Plate Sets for PRJ-<%= prjid %></h2>
@@ -20,47 +19,16 @@
     </button>
     <div class="dropdown-menu">
 	<a class="dropdown-item" href="#" onclick="addPlateSet()">Add to PRJ-<%= prjid %></a>
-	<a class="dropdown-item" href="#" onclick="editPlateSet()">Edit</a>
-     <a class="dropdown-item" href="#" onclick="groupPlateSet()">Group</a>
-     <a class="dropdown-item" href="#" onclick="reformatPlateSet()">Reformat</a>
-     <a class="dropdown-item" href="#" onclick="worklist()">Worklist</a>
-     <div class="dropdown-header">Import</div> 
-      <a class="dropdown-item" href="#"  onclick="importPlateSetData()">Assay Data</a>
-      <a class="dropdown-item" href="#" onclick="importaccs()">Accessions</a>
-      <a class="dropdown-item" href="#" onclick="importbc()">Barcodes</a>
-       
-     
+           
     </div>
   </div>
-    </div> <div class="col"></div>
+    </div>
     </div>  
-  <table id="pstable" class="table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate Set</th><th>Name</th><th>Description</th><th>Type</th><th>Count</th><th>Format</th><th>Layout ID</th><th>Sample Replicates</th><th>Worklists</th></tr></thead>
+  <table id="wltable" class="table table-striped table-bordered"><thead><tr><th>Sample ID</th><th>Source Plate</th><th>Source Well</th><th>Destination Plate<th><th>Destination Well</th></tr></thead>
   <tbody>  <%= body %> </tbody>
 </table>
 
-<input type="hidden" name="prjid" id="prjid" value=<%=  prjidq %>/>
-
-</form>
-<br>
-
-<hr>
-
-<h2>Assay Runs for PRJ-<%= prjid %></h2>
-
-<table id="artable" class="table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
-  <tbody><%= assay-runs %></tbody>
-</table>
-
-
-
-<br>
-<hr>
-<h2>Hit Lists for PRJ-<%= prjid %></h2>
-<table id="hltable" class="table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>AR Name</th><th>Assay Type</th><th>Hit List</th><th>HL Name</th><th>Description</th><th>Number of Hits</th></tr></thead>
-    <tbody>
-	<%= hit-lists %>
-    </tbody>
-</table>
+<input type="hidden" name="prjid" id="prjid" value=<%= prjidq %>/>
 
 
 <script>   
@@ -78,7 +46,7 @@ function addPlateSet(){
 
  
  $(document).ready(function() {
-     $('#pstable').DataTable({
+     $('#wltable').DataTable({
          dom: 'lBfrtip',
          buttons: [
              'copyHtml5',
@@ -89,29 +57,6 @@ function addPlateSet(){
      } );
  } );
 
- $(document).ready(function() {
-     $('#artable').DataTable({
-         dom: 'lBfrtip',
-         buttons: [
-             'copyHtml5',
-             'excelHtml5',
-             'csvHtml5',
-             'pdfHtml5'
-         ]
-     } );
- } );
-
- $(document).ready(function() {
-     $('#hltable').DataTable({
-         dom: 'lBfrtip',
-         buttons: [
-             'copyHtml5',
-             'excelHtml5',
-             'csvHtml5',
-             'pdfHtml5'
-         ]
-     } );
- } );
 
 </script>
 

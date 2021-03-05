@@ -1,3 +1,4 @@
+
 function editProject(){
     if(getCheckedBoxes("prjid") == null || getCheckedBoxes("prjid").length > 1 ){
 	window.alert("Please select (only) one project set to edit!");}
@@ -5,6 +6,8 @@ function editProject(){
         document.getElementById('edit_project_form').submit(); return false;
     }
 }
+
+
 
 function editPlateSet(){
     if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){
@@ -61,6 +64,28 @@ function reformatPlateSet(){
 	f.submit(); return false;
     }
 }
+
+function worklist(){
+
+ var str = getCheckedBoxes("plateset-id")[0].value;
+  var n = str.lastIndexOf("+");
+  var wl = str.slice(n+1);
+    if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 || wl=="0"){
+	window.alert("Please select (only) one plate set with a worklist!");}
+    else {
+        var hidden = document.createElement("input");
+	hidden.type = "hidden";
+	hidden.name = "wl";
+	hidden.value = wl;
+	var f = document.getElementById("edit_psform");
+	f.appendChild(hidden);
+	f.setAttribute("action", "/plateset/worklist");
+	f.setAttribute("method", "POST");
+	f.submit(); return false;
+    }
+}
+
+
 
 function importPlateSetData(){
     if(getCheckedBoxes("plateset-id") == null || getCheckedBoxes("plateset-id").length > 1 ){

@@ -24,7 +24,9 @@
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.semanticui.min.css\"/>
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/jquery.dataTables.min.css\"/>
  -->
+<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
 
+ 
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
 <script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
@@ -40,7 +42,6 @@
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
 <script type=\"text/javascript\" src=\"../FixedHeader-3.1.8/js/dataTables.fixedHeader.min.js\"></script>
-
 
 
 
@@ -61,98 +62,31 @@
    <img src=\"../img/las-walpha.png\" alt=\"Laboratory Automation Solutions\" style=\"width:140px;height:100px;\">
   </div>
  <ul>
-   <li class=\"active\">
-     <a href=\"#projectSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Projects</a>
-     <ul class=\"collapse list-unstyled\" id=\"projectSubmenu\">
-       <li>
-         <a href=\"/project/getall\">All</a>
-       </li>
-       <li>                    
-	 <a href=\"#\" onclick=\"editProject()\">Edit</a>
-       </li>
-       <li>
-         <a href=\"/project/add\">Add</a>
-       </li>
-     </ul>
+   <li class=\"active\">       
+         <a href=\"/project/getall\">Projects</a>       
    </li>
-   <li class=\"active\">
-     <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
-     <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
-       <li>
-         <a id=\"platesetgetps\" href=\"#\">for PRJ-")(display  prjid )(display "</a>
-       </li>
-       <li>                    
-	 <a id=\"platesetaddps\">Add to PRJ-")(display  prjid )(display "</a>
-       </li>
-       <li>                    
-	 <a  onclick=\"editPlateSet()\">Edit</a>
-       </li>
-       <li>
-         <a onclick=\"groupPlateSet()\" >Group</a>
-       </li>
-       <li>
-         <a onclick=\"reformatPlateSet()\">Reformat</a>
-       </li>
-       <li class=\"active\">
-	 <a href=\"#importPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Import</a>
-	 <ul class=\"collapse list-unstyled\" id=\"importPlatesetSubmenu\">	    
-	   <li>
-             <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
-	   </li>
-	   <li>
-             <a href=\"#\" onclick=\"importaccs()\">Accessions</a>
-	   </li>
-	   <li>
-             <a href=\"#\" onclick=\"importbc()\">Barcodes</a>
-	   </li>
-	 </ul>
-       </li>  
-     </ul>
+   <li class=\"active\">    
+         <a id=\"platesetgetps\" href=\"#\">Plate Sets for PRJ-")(display  prjid )(display "</a>       
    </li>
 
    <li class=\"active\">
-     <a href=\"#hitlistSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Hitlists</a>
-     <ul class=\"collapse list-unstyled\" id=\"hitlistSubmenu\">
-       <li>                    
-	 <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
-       </li>
-     </ul>
-   </li>
-    
+   	 <a id=\"hitlistforprj\" >Hit Lists for PRJ-")(display  prjid )(display "</a>
+    </li>
+
    <li class=\"active\">
-     <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
-     <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
-       <li>
-         <a href=\"/layout/getall\">All</a>
-       </li>
-       <li>                    
-	 <a href=\"/layout/select\">Import</a>
-       </li>
-     </ul>
+         <a href=\"/layout/getall\">Plate Layouts</a>
    </li>
+
+   
    <li class=\"active\">
      <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
      <ul class=\"collapse list-unstyled\" id=\"targetSubmenu\">
        <li>
-                        <a href=\"/target/gettrglyt\">All Target Layouts</a>
-       </li>
-       <li>                    
-	 <a href=\"/target/addtrglyt\">Add Target Layout</a>
+         <a href=\"/target/gettrglyt\">All Target Layouts</a>
        </li>
        <li>
          <a href=\"/target/getall\">All Targets</a>
        </li>    
-       <li class=\"active\">
-         <a href=\"#trgaddSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Add Target</a>
-         <ul class=\"collapse list-unstyled\" id=\"trgaddSubmenu\">		    
-	   <li>
-             <a href=\"/target/addsingle\">Single</a>
-	   </li>
-	   <li>
-             <a href=\"/target/addbulk\">Bulk</a>
-	   </li>
-	 </ul>
-       </li>		    
      </ul>
    </li>
    <li class=\"active\">
@@ -164,20 +98,11 @@
        <li>                    
 	 <a href=\"../sessions/getall\" >Sessions</a>
        </li>
-       <li class=\"active\">
-         <a href=\"#usersSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Users</a>
-         <ul class=\"collapse list-unstyled\" id=\"usersSubmenu\">
-	   
-	   <li>
-             <a href=\"../users/getall\">All Users</a>
-	   </li>
-	   <li>
-             <a href=\"../users/add\">Add User</a>
-	   </li>
-	   
-	 </ul>
+       <li>
+         <a href=\"../users/getall\">All Users</a>
        </li>
-     </ul>
+       
+        </ul>
    </li>
     
  <li class=\"active\"> <a href=\"http://www.labsolns.com/software/")(display  help-topic )(display " \">HELP</a></li>
@@ -192,9 +117,27 @@
 
 ")(display "
   <div class=\"container\">
-  <h1>All Projects</h1>
-  <form action=\"/project/edit\" method=\"get\" id=\"edit_project_form\">
-<table id=\"prjtable\" class=\"table table-striped table-bordered\"><thead><tr><th><img src=\"../img/checkmark.png\" height=\"20\" width=\"20\"></th><th>Project</th><th>Name</th><th>Description</th></tr></thead><tbody>
+      <form action=\"/project/edit\" method=\"get\" id=\"edit_project_form\">
+	  <div class=\"row\">
+	      <div class=\"col\">
+		  <h1>All Projects</h1>
+	      </div>
+	      <div class=\"col\">
+		  <div class=\"dropdown dropright\">
+		      <button type=\"button\" class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\">
+			  <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-tools\" viewBox=\"0 0 16 16\">
+			      <path d=\"M1 0L0 1l2.2 3.081a1 1 0 0 0 .815.419h.07a1 1 0 0 1 .708.293l2.675 2.675-2.617 2.654A3.003 3.003 0 0 0 0 13a3 3 0 1 0 5.878-.851l2.654-2.617.968.968-.305.914a1 1 0 0 0 .242 1.023l3.356 3.356a1 1 0 0 0 1.414 0l1.586-1.586a1 1 0 0 0 0-1.414l-3.356-3.356a1 1 0 0 0-1.023-.242L10.5 9.5l-.96-.96 2.68-2.643A3.005 3.005 0 0 0 16 3c0-.269-.035-.53-.102-.777l-2.14 2.141L12 4l-.364-1.757L13.777.102a3 3 0 0 0-3.675 3.68L7.462 6.46 4.793 3.793a1 1 0 0 1-.293-.707v-.071a1 1 0 0 0-.419-.814L1 0zm9.646 10.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708zM3 11l.471.242.529.026.287.445.445.287.026.529L5 13l-.242.471-.026.529-.445.287-.287.445-.529.026L3 15l-.471-.242L2 14.732l-.287-.445L1.268 14l-.026-.529L1 13l.242-.471.026-.529.445-.287.287-.445.529-.026L3 11z\"/>
+			  </svg>
+		      </button>
+		      <div class=\"dropdown-menu\">
+			  <a class=\"dropdown-item\" href=\"#\" onclick=\"editProject()\">Edit Project</a>
+			  <a class=\"dropdown-item\" href=\"../project/add\">Add Project</a>
+		      </div>
+		  </div>
+	      </div> 
+	  </div>  
+
+	  <table id=\"prjtable\" class=\"table table-striped table-bordered\"><thead><tr><th><img src=\"../img/checkmark.png\" height=\"20\" width=\"20\"></th><th>Project</th><th>Name</th><th>Description</th></tr></thead><tbody>
     ")(display  body )(display "
     </tbody>
 </table>
@@ -233,11 +176,6 @@
 var str3 = \"/plateset/getps?id=\";
  var res3 = str3.concat( ")(display  prjid )(display " );
  document.getElementById(\"platesetgetps\").href = res3;
-
- var str4 = \"/plateset/add?format=96&type=master&prjid=\";
- var res4 = str4.concat( ")(display  prjid )(display " );
- document.getElementById(\"platesetaddps\").href = res4;
-
 
 
 

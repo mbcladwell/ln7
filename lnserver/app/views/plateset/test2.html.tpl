@@ -8,7 +8,7 @@
 
 
  
- cookies:&nbsp; <%= threshold %><br><br>
+ cookies:&nbsp; <%= holder %><br><br>
  
  
   	

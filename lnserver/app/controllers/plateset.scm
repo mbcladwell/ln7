@@ -21,9 +21,11 @@
 		(numplates (get-c6 x))
 		(format  (result-ref x "format"))
 		(layout (result-ref x "name"))
-		(reps (get-c9 x))
-		(worklist (if (equal? (get-c10 x) "0") "" (get-c10 x)))
-		(idval (string-append (number->string (cdr (car x))) "+" numplates "+" format "+" layout "+" reps ))
+		(layoutid (get-c9 x))
+		(reps (get-c10 x))
+		(worklist (if (equal? (get-c11 x) "0") "" (get-c11 x)))
+		(worklist-for-data (if (equal? (get-c11 x) "0") "0" (get-c11 x)))
+		(idval (string-append (number->string (cdr (car x))) "+" numplates "+" format "+" layoutid "+" reps "+" worklist-for-data))
 		)
             (cons (string-append "<tr><td> <input type=\"checkbox\" id=\"" plate_set_sys_name  "\" name=\"plateset-id\" value=\"" idval "\" onclick=\"handleChkbxClick()\"></td><td><a href=\"/plate/getpltforps?id=" (number->string (cdr (car x))) "\">" plate_set_sys_name "</a></td><td>" plate_set_name "</td><td>" descr "</td><td>" type "</td><td>" numplates "</td><td>" format "</td><td>" layout "</td><td>" reps "</td><td>" worklist "</td></tr>")
 		  prev)))
@@ -81,12 +83,13 @@
 			  (sid (:cookies-value rc "sid"))	
 		;;	  (sql (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
 
-(sql (string-append "SELECT plate_set.id, plate_set.plate_set_sys_name, plate_set_name, plate_set.descr,  plate_type.plate_type_name, num_plates, format,  plate_layout_name.name, plate_layout_name.replicates, rearray_pairs.ID FROM  plate_format, plate_type, plate_layout_name, plate_set FULL outer JOIN rearray_pairs ON plate_set.id= rearray_pairs.dest WHERE plate_format.id = plate_set.plate_format_id AND plate_set.plate_layout_name_id = plate_layout_name.id  AND plate_set.plate_type_id = plate_type.id  AND project_id =" prjid " ORDER BY plate_set.id"))
+(sql (string-append "SELECT plate_set.id, plate_set.plate_set_sys_name, plate_set_name, plate_set.descr,  plate_type.plate_type_name, num_plates, format,  plate_layout_name.name,  plate_layout_name.id, plate_layout_name.replicates, rearray_pairs.ID FROM  plate_format, plate_type, plate_layout_name, plate_set FULL outer JOIN rearray_pairs ON plate_set.id= rearray_pairs.dest WHERE plate_format.id = plate_set.plate_format_id AND plate_set.plate_layout_name_id = plate_layout_name.id  AND plate_set.plate_type_id = plate_type.id  AND project_id =" prjid " ORDER BY plate_set.id"))
 			  
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
 			  (assay-runs (get-assay-runs-for-prjid prjid rc))
 			  (hit-lists (get-hit-lists-for-prjid prjid rc))
+			  (prjidq (addquotes prjid))
 			  )      
 		     (view-render "getps" (the-environment))
 		     )))
@@ -267,16 +270,12 @@
 			  (format (get-from-qstr rc "format"))
 			  (plttype (get-from-qstr rc "type"))
 			  (prjid (get-from-qstr rc "prjid"))
-			  (userid (:cookies-value rc "userid"))
-			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
 			  (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
 			  (holder3  (DB-get-all-rows (:conn rc sql3)))
 			  (plate-types-pre '())
 			  (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
 			  (prjidq (addquotes prjid))
-			  (useridq (addquotes userid))
-			  (groupq (addquotes group))
 			  (sidq (addquotes sid))
 
 			  )      
@@ -884,3 +883,47 @@
 		      )))
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Worklists
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (prep-wl-rows a)
+  (fold (lambda (x prev)
+          (let* (
+                 (sampleid (get-c1 x))
+                 (src-plate (result-ref x "source_plate"))
+		 (src-well (get-c3 x))
+		 (dest-plate (result-ref x "dest_plate"))
+		 (dest-well (get-c5 x))
+		)
+            (cons (string-append "<tr><td></td><td>" sampleid "</td><td>" src-plate "</td><td>" src-well "</td><td>" dest-plate "</td><td>" dest-well "</td></tr>")
+		  prev)))
+        '() a))
+
+
+
+
+(post "/plateset/worklist"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
+		  (lambda (rc)
+		    (let* ((help-topic "worklist")
+			   (prjid (:cookies-value rc "prjid"))
+			   (sid (:cookies-value rc "sid"))
+			   (wl (:from-post rc 'get-vals "wl"))
+			  ;; (b  (list (uri-decode (:from-post rc 'get-vals "plateset-id"))))
+			  ; (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+			  ;; (psid (caar start))
+			   (sql (string-append "SELECT sample_id, source_plate, source_well, dest_plate, dest_well FROM worklists WHERE rearray_pairs_id ="  wl ))
+			   (holder    (DB-get-all-rows (:conn rc sql)))			   
+			   (body (prep-wl-rows holder))
+			   (prjidq (addquotes prjid))
+			   ;;(sidq (addquotes sid))
+			   )
+		      (view-render "worklist" (the-environment)))
+		     ;; (view-render "test2" (the-environment)))
+		    
+		   ))
+
+		  ;; SELECT sample_id, source_plate, source_well, dest_plate, dest_well FROM worklists WHERE rearray_pairs_id =1;

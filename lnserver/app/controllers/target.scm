@@ -15,7 +15,7 @@
 		(trg-name (result-ref x "target_name"))
 		(descr (result-ref x "descr"))
 		(accs (result-ref x "accs_id")))	      
-	      (cons (string-append "<tr><th>"  target-sys-name "</th><th>" prj-id "</th><th>" trg-name "</th><th>" descr "</th><th>" accs "</th><tr>")
+	      (cons (string-append "<tr><td>"  target-sys-name "</td><td>" prj-id "</td><td>" trg-name "</td><td>" descr "</td><td>" accs "</td><tr>")
 		  prev)))
         '() a))
 

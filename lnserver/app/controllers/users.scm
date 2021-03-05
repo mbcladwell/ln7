@@ -17,7 +17,7 @@
                 (lnuser-name (result-ref x "lnuser"))
                 (email (result-ref x "email"))
 		)
-            (cons (string-append "<tr><th> <input type=\"radio\" id=\"" id  "\" name=\"id\" value=\"" id   "\"></th><th> " id "</th><th> " group-name "</th><th> " lnuser-name "</th><th> " email "</th></tr>")
+            (cons (string-append "<tr><td> <input type=\"radio\" id=\"" id  "\" name=\"id\" value=\"" id   "\"></td><td> " id "</td><td> " group-name "</td><td> " lnuser-name "</td><td> " email "</td></tr>")
 		  prev)))
         '() a))
 

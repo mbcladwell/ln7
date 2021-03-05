@@ -5,7 +5,7 @@
 <@include header.tpl %>
 
   <div class="container">
-  <h2>Add a Plate Set To Project PRJ-<%=  prjid %></h2>
+  <h2>Add a Plate Set To Project PRJ-<%= prjid %></h2>
 
   <form action="/plateset/addstep2" method="post">
  <div class="form-group">   

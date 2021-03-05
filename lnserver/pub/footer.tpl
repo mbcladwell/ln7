@@ -13,11 +13,6 @@ var str3 = "/plateset/getps?id=";
  var res3 = str3.concat( <%= prjid %> );
  document.getElementById("platesetgetps").href = res3;
 
- var str4 = "/plateset/add?format=96&type=master&prjid=";
- var res4 = str4.concat( <%= prjid %> );
- document.getElementById("platesetaddps").href = res4;
-
-
 
 
 

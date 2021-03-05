@@ -25,7 +25,9 @@
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/dataTables.semanticui.min.css\"/>
  <link rel=\"stylesheet\" type=\"text/css\" href=\"../DataTables-1.10.23/css/jquery.dataTables.min.css\"/>
  -->
+<script src=\"https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js\"></script>
 
+ 
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/clipboard.min.js\"></script>
  <script type=\"text/javascript\" charset=\"utf8\" src=\"../js/menufunctions.js\"></script>
 <script  type=\"text/javascript\" src=\"../js/js.cookie.min.js\"></script>     	
@@ -41,7 +43,6 @@
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.bootstrap4.min.js\"></script>
 <script type=\"text/javascript\" src=\"../Buttons-1.6.5/js/buttons.html5.min.js\"></script>
 <script type=\"text/javascript\" src=\"../FixedHeader-3.1.8/js/dataTables.fixedHeader.min.js\"></script>
-
 
 
 
@@ -85,29 +86,7 @@
        <li>                    
 	 <a id=\"platesetaddps\">Add to PRJ-")(display  prjid )(display "</a>
        </li>
-       <li>                    
-	 <a  onclick=\"editPlateSet()\">Edit</a>
-       </li>
-       <li>
-         <a onclick=\"groupPlateSet()\" >Group</a>
-       </li>
-       <li>
-         <a onclick=\"reformatPlateSet()\">Reformat</a>
-       </li>
-       <li class=\"active\">
-	 <a href=\"#importPlatesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Import</a>
-	 <ul class=\"collapse list-unstyled\" id=\"importPlatesetSubmenu\">	    
-	   <li>
-             <a href=\"#\" onclick=\"importPlateSetData()\">Assay Data</a>
-	   </li>
-	   <li>
-             <a href=\"#\" onclick=\"importaccs()\">Accessions</a>
-	   </li>
-	   <li>
-             <a href=\"#\" onclick=\"importbc()\">Barcodes</a>
-	   </li>
-	 </ul>
-       </li>  
+        
      </ul>
    </li>
 
