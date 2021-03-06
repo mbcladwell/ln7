@@ -62,53 +62,22 @@
    <img src=\"../img/las-walpha.png\" alt=\"Laboratory Automation Solutions\" style=\"width:140px;height:100px;\">
   </div>
  <ul>
-   <li class=\"active\">
-     <a href=\"#projectSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Projects</a>
-     <ul class=\"collapse list-unstyled\" id=\"projectSubmenu\">
-       <li>
-         <a href=\"/project/getall\">All</a>
-       </li>
-       <li>                    
-	 <a href=\"#\" onclick=\"editProject()\">Edit</a>
-       </li>
-       <li>
-         <a href=\"/project/add\">Add</a>
-       </li>
-     </ul>
+   <li class=\"active\">       
+         <a href=\"/project/getall\">Projects</a>       
    </li>
-   <li class=\"active\">
-     <a href=\"#platesetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Plate Sets</a>
-     <ul class=\"collapse list-unstyled\" id=\"platesetSubmenu\">
-       <li>
-         <a id=\"platesetgetps\" href=\"#\">for PRJ-")(display  prjid )(display "</a>
-       </li>
-       <li>                    
-	 <a id=\"platesetaddps\">Add to PRJ-")(display  prjid )(display "</a>
-       </li>
-        
-     </ul>
+   <li class=\"active\">    
+         <a id=\"platesetgetps\" href=\"#\">Plate Sets for PRJ-")(display  prjid )(display "</a>       
    </li>
 
    <li class=\"active\">
-     <a href=\"#hitlistSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Hitlists</a>
-     <ul class=\"collapse list-unstyled\" id=\"hitlistSubmenu\">
-       <li>                    
-	 <a id=\"hitlistforprj\" >For Project PRJ-")(display  prjid )(display "</a>
-       </li>
-     </ul>
-   </li>
-    
+   	 <a id=\"hitlistforprj\" >Hit Lists for PRJ-")(display  prjid )(display "</a>
+    </li>
+
    <li class=\"active\">
-     <a href=\"#layoutSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Layouts</a>
-     <ul class=\"collapse list-unstyled\" id=\"layoutSubmenu\">
-       <li>
-         <a href=\"/layout/getall\">All</a>
-       </li>
-       <li>                    
-	 <a href=\"/layout/select\">Import</a>
-       </li>
-     </ul>
+         <a href=\"/layout/getall\">Plate Layouts</a>
    </li>
+
+   
    <li class=\"active\">
      <a href=\"#targetSubmenu\" data-toggle=\"collapse\" aria-expanded=\"false\" class=\"dropdown-toggle\">Targets</a>
      <ul class=\"collapse list-unstyled\" id=\"targetSubmenu\">
@@ -200,11 +169,6 @@ $(document).ready(function() {
 var str3 = \"/plateset/getps?id=\";
  var res3 = str3.concat( ")(display  prjid )(display " );
  document.getElementById(\"platesetgetps\").href = res3;
-
- var str4 = \"/plateset/add?format=96&type=master&prjid=\";
- var res4 = str4.concat( ")(display  prjid )(display " );
- document.getElementById(\"platesetaddps\").href = res4;
-
 
 
 

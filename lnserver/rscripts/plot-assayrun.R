@@ -10,8 +10,8 @@ if (length(args) %in% c(0,1,2,3)) {
 }
 
 ## getwd()
-## infile <- "../pub/tmp/ar-8222479441190188284525.txt"
-## infile2 <- "../pub/tmp/ar2-7764507602467792171973.txt"
+## infile <- "../pub/tmp/ar-5767138836884895425402.txt"
+## infile2 <- "../pub/tmp/ar2-7520900146830196696703.txt"
 ## response <- 1
 ## threshold <- 3
 ## outfile <- "../tmp/out.png"
@@ -72,8 +72,8 @@ if(threshold %in% c("1","2","3")){
 names(d3) <- c("plate","well","response","type","spl")
 unks <- d3[d3$type==1,]
 hits <- unks[unks$response > threshold.val,]
-num.hits <- length(unique(hits$spl))
-##num.hits <- 0
+num.hits <- length(unique(hits$spl)) 
+##only want unique hits
 d3 <- d3[order(d3$response),]
 d3$index <- (nrow(d3)):1
 

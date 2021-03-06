@@ -18,7 +18,7 @@
 		    </button>
 		    <div class="dropdown-menu">
 			<a class="dropdown-item" href="../target/addsingle">Add Single</a>
-			<a class="dropdown-item" href="../target/addbuk">Bulk Target Upload</a>
+			<a class="dropdown-item" href="../target/addbulk">Bulk Target Upload</a>
 		    </div>
 		</div>
 	    </div> 

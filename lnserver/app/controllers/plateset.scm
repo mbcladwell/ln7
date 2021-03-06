@@ -487,8 +487,8 @@
 					 #f   ))					 
 				      (else #f))))
 		     
-		  ;;   (redirect-to rc (string-append "plate/getpltforps?id=" psid))
-		    (view-render "test2" (the-environment))
+		     (redirect-to rc (string-append "plate/getpltforps?id=" psid))
+		  ;;  (view-render "test2" (the-environment))
 		     )))
 
 
@@ -656,7 +656,7 @@
 	       (dummy (:conn rc sql2))
 	       (sql3 (string-append "SELECT process_access_ids(" psid ")"))
 	       (dummy (:conn rc sql3))
-	       (dest (string-append "/plateset/getps?id=" psid))
+	       (dest (string-append "/plateset/getps?id=" prjid))
 	       )
 	  (redirect-to rc dest )
 ;;	  	(view-render "test2" (the-environment))
@@ -896,7 +896,7 @@
 		 (dest-plate (result-ref x "dest_plate"))
 		 (dest-well (get-c5 x))
 		)
-            (cons (string-append "<tr><td></td><td>" sampleid "</td><td>" src-plate "</td><td>" src-well "</td><td>" dest-plate "</td><td>" dest-well "</td></tr>")
+            (cons (string-append "<tr><td>" sampleid "</td><td>" src-plate "</td><td>" src-well "</td><td>" dest-plate "</td><td>" dest-well "</td></tr>")
 		  prev)))
         '() a))
 
@@ -912,17 +912,19 @@
 			   (prjid (:cookies-value rc "prjid"))
 			   (sid (:cookies-value rc "sid"))
 			   (wl (:from-post rc 'get-vals "wl"))
-			  ;; (b  (list (uri-decode (:from-post rc 'get-vals "plateset-id"))))
-			  ; (start (map string-split b (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
-			  ;; (psid (caar start))
+	
+			   (all-ps-ids  (list (uri-decode (:from-post rc 'get-vals "plateset-id")))) ;;these are the checked ps-ids - should be only one
+			   (start (map string-split all-ps-ids (circular-list #\+))) ;;((1 2 96 1) (2 2 96 1))
+			   (psid (caar start))
+	    
 			   (sql (string-append "SELECT sample_id, source_plate, source_well, dest_plate, dest_well FROM worklists WHERE rearray_pairs_id ="  wl ))
 			   (holder    (DB-get-all-rows (:conn rc sql)))			   
-			   (body (prep-wl-rows holder))
+			   (body  (string-concatenate (prep-wl-rows holder)))
 			   (prjidq (addquotes prjid))
 			   ;;(sidq (addquotes sid))
 			   )
 		      (view-render "worklist" (the-environment)))
-		     ;; (view-render "test2" (the-environment)))
+		    ;;  (view-render "test2" (the-environment)))
 		    
 		   ))
 

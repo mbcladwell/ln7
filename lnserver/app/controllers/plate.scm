@@ -132,17 +132,16 @@
 	      (lambda (rc)
 		(let* ((help-topic "plate")
 		       (psid  (:from-post rc 'get "psid"))
-		       (include-controls (:from-post rc 'get "includecontrols"))
+		       (include-controls-pre (:from-post rc 'get "includecontrols"))
+		       (include-controls (if (equal? include-controls-pre "false") #f #t))
 		       (prjid (:cookies-value rc "prjid"))
-		       (userid (:cookies-value rc "userid"))
-		       (group (:cookies-value rc "group"))
 		       (sid (:cookies-value rc "sid"))		
 		       (sql (if include-controls (string-append "SELECT  plate_set.plate_set_sys_name , plate.plate_sys_name, plate_plate_set.plate_order, well_numbers.well_name, well_type.name, well.by_col, a.sample_sys_name, a.accs_id FROM  plate_set, plate_plate_set, plate_layout, well_numbers, well_type, plate, well LEFT JOIN (SELECT well_sample.well_id, sample.sample_sys_name, sample.accs_id FROM well, well_sample, sample WHERE well_sample.well_id=well.id and well_sample.sample_id=sample.id) AS a ON well.id=a.well_id WHERE plate_plate_set.plate_set_id=plate_set.id AND plate_plate_set.plate_id=plate.ID and plate.id=well.plate_id AND plate_set.ID =" psid " AND well_numbers.plate_format=plate_set.plate_format_id AND plate_layout.plate_layout_name_id=plate_set.plate_layout_name_id AND plate_layout.well_type_id=well_type.ID AND plate_layout.well_by_col=well.by_col AND plate.id=well.plate_id AND plate_plate_set.plate_id=plate.id AND well.by_col= well_numbers.by_col ORDER BY plate.id DESC, well.by_col DESC") (string-append "SELECT  plate_set.plate_set_sys_name , plate.plate_sys_name, plate_plate_set.plate_order, well_numbers.well_name, well_type.name, well.by_col, sample.sample_sys_name, sample.accs_id FROM  plate_set, plate_plate_set, plate, well, well_numbers, plate_layout, well_type, sample, well_sample WHERE plate_plate_set.plate_set_id=plate_set.id AND plate_plate_set.plate_id=plate.ID and plate.id=well.plate_id AND plate_set.ID =" psid " AND well_numbers.plate_format=plate_set.plate_format_id AND well_numbers.by_col=well.by_col AND plate_layout.plate_layout_name_id=plate_set.plate_layout_name_id AND plate_layout.well_type_id=well_type.ID AND plate_layout.well_by_col=well.by_col AND well_sample.well_id=well.id AND well_sample.sample_id=sample.id" )))
 		       (holder (DB-get-all-rows (:conn rc sql)))
 		       (body (string-concatenate (prep-wells-for-plt-rows holder))))
 		  (view-render "getwellsforps" (the-environment))
 		       
-		  ;;(view-render "test" (the-environment))
+		 ;; (view-render "test" (the-environment))
 		  
 		  )))
 

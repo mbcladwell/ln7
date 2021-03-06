@@ -44,11 +44,11 @@
 		(trg-name (result-ref x "target_layout_name_name"))
 		(descr (result-ref x "target_layout_name_desc"))
 		(reps (get-c6 x)))	      
-	    (cons (string-append "<tr><th>"
+	    (cons (string-append "<tr><td>"
 				 (if (string? prj-id)
 				     (string-append "PRJ-" prj-id)
 				     '(""))
-				 "</th><th><a href=\"gettrglytbyid?id=" id "\">" trg-lyt-sys-name  "</a></th><th>" trg-name "</th><th>" descr "</th><th>" reps "</th></tr>")
+				 "</td><td><a href=\"gettrglytbyid?id=" id "\">" trg-lyt-sys-name  "</a></td><td>" trg-name "</td><td>" descr "</td><td>" reps "</td></tr>")
 		  prev)))
         '() a))
 
@@ -78,11 +78,11 @@
 		(trg-descr (result-ref x "descr"))		
 		(quad (get-c6 x))
 		(trg-accs (result-ref x "accs_id")))
-	    (cons (string-append "<tr><th>" trg-sys-name  "</th><th>"
+	    (cons (string-append "<tr><td>" trg-sys-name  "</td><td>"
 				 (if (string? prj-id)
 				     (string-append "PRJ-" prj-id)
 				     '(""))
-				 "</th><th>" trg-name "</th><th>" quad "</th><th>" trg-descr "</th><th>" trg-accs "</th></tr>")
+				 "</td><td>" trg-name "</td><td>" quad "</td><td>" trg-descr "</td><td>" trg-accs "</td></tr>")
 		  prev)))
         '() a))
 
