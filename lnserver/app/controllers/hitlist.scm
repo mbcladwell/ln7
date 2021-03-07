@@ -3,7 +3,9 @@
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller hitlist) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (artanis utils)(artanis irregex)(srfi srfi-1)(dbi dbi) (lnserver sys extra))
+(use-modules (artanis utils)(artanis irregex)
+	     (srfi srfi-1)(dbi dbi) (lnserver sys extra)
+	      (ice-9 textual-ports)(ice-9 rdelim))
 
 
 (define (prep-hl-for-ar-rows a)
@@ -328,19 +330,56 @@
 
 
 
- ;; // new_plate_set(_descr VARCHAR(30),_plate_set_name VARCHAR(30), _num_plates INTEGER, _plate_format_id INTEGER, _plate_type_id INTEGER, _project_id INTEGER, _plate_layout_name_id INTEGER, _lnsession_id INTEGER, _with_samples boolean, _trg_layout_name_id INTEGER)         
 
- ;;      //using DefaultQuadruplicates for target layout : 3
- ;;      String insertSql1 = "SELECT new_plate_set ( ?, ?, ?, ?, ?, ?, ?, ?, ?, 3);";
- ;;      PreparedStatement insertPs =
- ;;          conn.prepareStatement(insertSql1, Statement.RETURN_GENERATED_KEYS);
- ;;      insertPs.setString(1, _description);
- ;;      insertPs.setString(2, _name);
- ;;      insertPs.setInt(3, Integer.valueOf(_num_plates));
- ;;      insertPs.setInt(4, plate_format_id);
- ;;      insertPs.setInt(5, plate_type_id);
- ;;      insertPs.setInt(6, project_id);
- ;;      insertPs.setInt(7, plate_layout_id);
- ;;      insertPs.setInt(8, session_id);
- ;;      insertPs.setBoolean(9, false);      
+(define (process-accs-row lst results )
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (string-append results "(" (caar lst) ", " (cadar lst) ", '"  (caddar lst)   "')" ))
+       results)
+       (begin
+	 (set! results (string-append results "(" (caar lst) ", " (cadar lst) ", '"  (caddar lst)   "')," ))
+	 (process-accs-row (cdr lst) results)) ))
+
+
+
+(define (get-hitlist-file f )
+  ;;for processing the tab delimitted file on the server
+  (if (access? f R_OK)
+      (let* (
+	     (my-port (open-input-file f))
+	     (ret #f)
+	     (holder '())
+	     (message "")
+	     (ret (stripfix (read-line my-port)))
+	     (header (string-split ret #\tab))
+	     (result (let* (
+			    (ret (read-line my-port))
+			    (dummy2 (while (not (eof-object? ret))
+				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
+					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
+				      (set! ret  (read-line my-port))))
+			   ;; (holder2 (process-accs-row holder ""))
+			    )	 
+				 holder)))
+	     result)
+      #f))
+
+
+
+(post "/hitlist/viewhits"
+		 #:conn #t
+		 #:cookies '(names prjid sid)
+		 #:from-post 'qstr
+  (lambda (rc)
+    (let* ((help-topic "hitlist")
+	   (prjid (:cookies-value rc "prjid"))	   
+	   (sid (:cookies-value rc "sid"))
+	   (hitfile (:from-post rc 'get-vals "hitfile"))
+	   (allhits (get-hitlist-file hitfile))
+	   
+	   )  
+      ;;(view-render "viewhits" (the-environment))
+      (view-render "test" (the-environment))
+      )))
+
      

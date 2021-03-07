@@ -157,7 +157,8 @@
 	  (sid (:cookies-value rc "sid"))
 	 (infile (get-rand-file-name "ar" "txt"))
 	 (infile2 (get-rand-file-name "ar2" "txt"))
-	 (outfile (get-rand-file-name "ar" "png"))	  
+	 (outfile (get-rand-file-name "ar" "png"))
+	 (hitfile (get-rand-file-name "hl" "txt"))
 	 (response "1")
 	 (threshold "3")
 	(sql (string-append "select assay_run.id, assay_run.assay_run_sys_name, assay_run.assay_run_name, assay_run.descr, assay_type.assay_type_name, plate_layout_name.sys_name, plate_layout_name.name FROM assay_run, assay_type, plate_layout_name WHERE assay_run.plate_layout_name_id=plate_layout_name.id AND assay_run.assay_type_id=assay_type.id AND assay_run.id =" arid ))
@@ -167,13 +168,14 @@
 	;;(dummy (:cookies-set! rc 'body "body" body))
 	(dummy3 (get-assayrun-table-for-r arid (string-append "pub/" infile) rc))
 	(dummy4 (get-assayrun-stats-for-r arid (string-append "pub/" infile2) rc))
-	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " " response  " " threshold )))
+	(dummy5 (system (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " pub/" hitfile " " response  " " threshold )))
 	(outfile2 (string-append "\"../" outfile "\""))
 	(hit-lists (get-hit-lists-for-arid arid rc))	
 	(hit-lists-encode (if  (equal? "" hit-lists) #f (htmlify hit-lists)))
 	(aridq (addquotes arid))  ;; for passing to html
 	(infileq (addquotes infile))
 	(infile2q (addquotes infile2))
+	(hitfileq (addquotes hitfile))
 	(body-encodeq (addquotes body-encode))
 	(hit-lists-encodeq (if hit-lists-encode (addquotes  hit-lists-encode) #f))
 	)
@@ -188,12 +190,11 @@
 		   (let* (
 			  (help-topic "assayrun")
 			  (prjid (:cookies-value rc "prjid"))
-			  (userid (:cookies-value rc "userid"))
-			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
 			  (arid  (stripfix (:from-post rc 'get-vals "arid")))
 			  (infile (stripfix (:from-post rc 'get-vals "infile")))
 			  (infile2 (stripfix (:from-post rc 'get-vals "infile2")))
+			  (hitfile (stripfix (:from-post rc 'get-vals "hitfile")))
 			  (body-encode   (uri-decode (:from-post rc 'get-vals "bodyencode"))) ;;body of the ar table
 			  (body (dehtmlify body-encode))
 			  (hit-lists-encode (uri-decode (:from-post rc 'get-vals "hitlistsencode")))
@@ -209,11 +210,12 @@
 			  (aridq (addquotes arid))  ;; for passing to html
 			  (infileq (addquotes infile))
 			  (infile2q (addquotes infile2))
+			  (hitfileq (addquotes hitfile))
 			  (body-encodeq (addquotes body-encode))
 			  (hit-lists-encodeq (addquotes hit-lists-encode))
 			  )
 		     (view-render "replot" (the-environment)))))
-	     ;;(view-render "test" (the-environment)))))
+	 ;;    (view-render "test" (the-environment)))))
 
 
 

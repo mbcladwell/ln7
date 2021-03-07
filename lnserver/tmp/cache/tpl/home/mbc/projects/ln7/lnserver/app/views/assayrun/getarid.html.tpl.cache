@@ -156,13 +156,14 @@
     </div>
     <div class=\"col\">
       <div class=\"form-group\">
-	<label for=\"manthreshold\">OR manually enter:</label><input type=\"text\" id=\"manthreshold\" name=\"manthreshold\">
+	  <label for=\"manthreshold\">OR manually enter:</label><input type=\"text\" id=\"manthreshold\" name=\"manthreshold\">
       </div>
     </div>      
   </div>
 
   <input type=\"hidden\" id=\"infile\" name=\"infile\" value=")(display  infileq )(display ">
   <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=")(display  infile2q )(display ">
+  <input type=\"hidden\" id=\"hitfile\" name=\"hitfile\" value=")(display  hitfileq )(display ">
   <input type=\"hidden\" id=\"arid\" name=\"arid\" value=")(display  aridq )(display ">
   <input type=\"hidden\" id=\"bodyencode\" name=\"bodyencode\" value=")(display  body-encodeq )(display ">
  <input type=\"hidden\" id=\"hitlistsencode\" name=\"hitlistsencode\" value=")(display  hit-lists-encodeq )(display ">

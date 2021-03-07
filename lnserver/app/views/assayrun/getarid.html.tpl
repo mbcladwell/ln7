@@ -43,13 +43,14 @@
     </div>
     <div class="col">
       <div class="form-group">
-	<label for="manthreshold">OR manually enter:</label><input type="text" id="manthreshold" name="manthreshold">
+	  <label for="manthreshold">OR manually enter:</label><input type="text" id="manthreshold" name="manthreshold">
       </div>
     </div>      
   </div>
 
   <input type="hidden" id="infile" name="infile" value=<%= infileq %>>
   <input type="hidden" id="infile2" name="infile2" value=<%= infile2q %>>
+  <input type="hidden" id="hitfile" name="hitfile" value=<%= hitfileq %>>
   <input type="hidden" id="arid" name="arid" value=<%= aridq %>>
   <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encodeq %>>
  <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encodeq %>>

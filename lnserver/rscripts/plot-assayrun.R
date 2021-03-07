@@ -5,24 +5,26 @@ rm(list=ls(all=TRUE))
 
 args = commandArgs(trailingOnly=TRUE)
 # test if there is at least one argument: if not, return an error
-if (length(args) %in% c(0,1,2,3)) {
-  stop("Error: args required: five inputs, in1, in2, output file, response and threshold", call.=FALSE)
+if (length(args) %in% c(0,1,2,3,4)) {
+  stop("Error: args required: six inputs, in1, in2, output file, hits file, response and threshold", call.=FALSE)
 }
 
 ## getwd()
-## infile <- "../pub/tmp/ar-5767138836884895425402.txt"
-## infile2 <- "../pub/tmp/ar2-7520900146830196696703.txt"
-## response <- 1
-## threshold <- 3
+## infile <- "../pub/tmp/ar-1562457325090311990834.txt"
+## infile2 <- "../pub/tmp/ar2-4956482081723254900063.txt"
+## response <- 2
+## threshold <- 0.4
 ## outfile <- "../tmp/out.png"
+## hitfile <- "../tmp/hl-4956482.txt"
 ##  d <- read.table( file = infile,   sep = "\t", header=TRUE)
 ##  d2 <- read.table( file = infile2,   sep = "\t", header=TRUE, row.names=NULL)
 
 infile <- args[1]
 infile2 <- args[2]
- outfile <- args[3]
-response <- args[4]
-threshold <- args[5]
+outfile <- args[3]
+hitfile <- args[4]
+response <- args[5]
+threshold <- args[6]
 
  d <- read.table(file=args[1], sep="\t", header=TRUE)
  d2 <- read.table(file=args[2], sep="\t", header=TRUE, row.names=NULL)
@@ -72,6 +74,9 @@ if(threshold %in% c("1","2","3")){
 names(d3) <- c("plate","well","response","type","spl")
 unks <- d3[d3$type==1,]
 hits <- unks[unks$response > threshold.val,]
+write.table(hits, file = hitfile, append =FALSE, quote = FALSE, sep = "\t",
+            eol = "\n", na = "NA", dec = ".", row.names = FALSE,
+            col.names = TRUE)
 num.hits <- length(unique(hits$spl)) 
 ##only want unique hits
 d3 <- d3[order(d3$response),]
@@ -89,7 +94,7 @@ legend("topright",  c("unknown","positive","negative","blank"), fill=c("white", 
 abline(h=threshold.val, lty="dashed")
 
 
-dev.off()  
-par(mar=c(5, 4, 4, 2) + 0.1)
+## dev.off()  
+## par(mar=c(5, 4, 4, 2) + 0.1)
  
 
