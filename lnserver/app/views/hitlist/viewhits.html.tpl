@@ -4,20 +4,11 @@
 
 <@include header.tpl %>
 <div class="container">
-    <form  id="hl_form">
-	<div>
-	<h2>View Hits </h2>
-	<label>Number of hits: <%=  numhits  %></label>
-  	<table id="hltable" class="table table-striped table-bordered">
-	    <thead><tr><th>Name</th><th>Project</th><th>Accession</th></tr></thead>
-	    <tbody> <%= body %></tbody>
-	</table>
-    </div>
-    <hr>
-	<div>
+    <form  id="vhl_form">
+	
  <div class="row">
      <div class="col">
-	 <h2>Hit availability</h2>
+	 <h2>Hits for AR-<%=  arid  %></h2>
      </div>
      <div class="col">
 	 <div class="dropdown dropright">
@@ -27,26 +18,43 @@
 		 </svg>
 	     </button>
 	     <div class="dropdown-menu">
-		 <a class="dropdown-item" onclick="editRearray()">Rearray</a>
+		 <a class="dropdown-item" onclick="makeNewHitList()">Add New Hit List</a>
 	     </div>
 	 </div>
      </div> 
- </div>  
- 
- <label>Hit List HL-<%= hlid %> has <%= numhits %> hits total</label>
-  	<table id="hlavail" class="table table-striped table-bordered">
-	    <thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>ID</th><th>Plate Set</th><th>Type</th><th>Format</th><th>Count</th></tr></thead>
-	    <tbody> <%= body2 %></tbody>
-	</table>
-	</div>
+ </div>
 
-	<input type="hidden" id="prjid" name="prjid" value=<%= prjidq %>>
-	<input type="hidden" id="sid" name="sid" value=<%= sidq %>>
-	<input type="hidden" id="hlid" name="hlid" value=<%= hlidq %>>
-	<input type="hidden" id="numhits" name="numhits" value=<%= numhitsq %>>
+
+ 
+ Response:&nbsp;<b> <%=  response  %></b><br>
+ Threshold:&nbsp;<b> <%=  threshold %></b><br>
+ Number of hits:&nbsp;<b> <%= num-hits %></b><br>
+ <div class="row">
+     <div class="col">
+	 <div class="form-group">
+	     <label for="tname">New Hit List Name:</label>
+	     <input type="text" id="hlname" class="form-control" name="hlname">
+	 </div>
+     </div>
+     <div class="col">    
+	 <div class="form-group">
+	     <label for="descr">Description:</label><input type="text" id="descr" class="form-control" name="descr"> 
+	 </div>
+     </div>
+ </div>
+
+ <input type="hidden" id="int-array" name="int-array" value=<%= hl-int-arrayq %>>
+ <input type="hidden" id="numhits" name="numhits" value=<%= num-hits %>>
+ <input type="hidden" id="arid" name="arid" value=<%= aridq %>>
+ 
+ <table id="hlavail" class="table table-striped table-bordered">
+     <thead><tr><th>Plate</th><th>Well</th><th>Sample ID</th></tr></thead>
+     <tbody> <%= body %></tbody>
+ </table>
+
 
     </form>
-
+    
 
     
 </div>
@@ -56,15 +64,12 @@
 
 <script>
 
- function editRearray(){
-     if(getCheckedBoxes("psid") == null || getCheckedBoxes("psid").length > 1 ){
-	window.alert("Please select a hit list to rearray!");}
-     else {
-	 var f = document.getElementById("hl_form");
-	 f.setAttribute("action", "/hitlist/rearray");
+ function makeNewHitList(){
+    	 var f = document.getElementById("vhl_form");
+	 f.setAttribute("action", "/hitlist/newhitlistfromview");
 	f.setAttribute("method", "POST");	
 	f.submit(); return false;
-     }	
+     	
     }
 
      

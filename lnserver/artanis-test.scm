@@ -41,3 +41,21 @@
 UPDATE config SET cust_id='jf8d9slkdow09ieieurie', cust_email='info@labsolns.com', cust_key='e118bd1efb4b4f5367cf99976267c5ad' WHERE id=1;
 
 UPDATE config SET cust_id='', cust_email='', cust_key='' WHERE id=1;
+
+(car '(1 1 -64.6179 1 1))
+(cadr '(1 1 -64.6179 1 1))
+(caddr '(1 1 -64.6179 1 1))
+(cadddr '(1 1 -64.6179 1 1))
+(car (cddddr '(1 1 -64.6179 1 1)))
+
+
+
+(car '("a" "b" "c" "d" "e"))
+(cadr '(1 1 -64.6179 1 1))
+(caddr '(1 1 -64.6179 1 1))
+(cadddr '(1 1 -64.6179 1 1))
+(car (cddddr '(1 1 -64.6179 1 1)))
+
+
+
+

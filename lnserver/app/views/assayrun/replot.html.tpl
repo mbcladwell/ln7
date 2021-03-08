@@ -17,7 +17,8 @@
 			</svg>
 		    </button>
 		    <div class="dropdown-menu">
-			<a class="dropdown-item" onclick="viewhits=()">View Hits</a>
+			<a class="dropdown-item" href="#"  onclick="viewhits()">View Hits</a>
+
 		    </div>
 		</div>
 	    </div> 
@@ -25,6 +26,9 @@
 	    <input type="hidden" id="infile2" name="infile2" value=<%= infile2q %>>
 	    <input type="hidden" id="hitfile" name="hitfile" value=<%= hitfileq %>>
 	    <input type="hidden" id="arid" name="arid" value=<%= aridq %>>
+	    <input type="hidden" id="response" name="response" value=<%= responseq %>>
+	    <input type="hidden" id="threshold" name="threshold" value=<%= thresholdq %>>
+
 	</div>
     </form>
   <table id="artable" class="display table table-striped table-bordered"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
@@ -70,12 +74,14 @@
 
   <input type="hidden" id="infile" name="infile" value=<%= infileq %>>
   <input type="hidden" id="infile2" name="infile2" value=<%= infile2q %>>
-  <input type="hidden" id="hitfile" name="infile2" value=<%= hitfileq %>>
+  <input type="hidden" id="hitfile" name="hitfile" value=<%= hitfileq %>>
   <input type="hidden" id="arid" name="arid" value=<%= aridq %>>
   <input type="hidden" id="bodyencode" name="bodyencode" value=<%= body-encodeq %>>
- <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encodeq %>>
+  <input type="hidden" id="hitlistsencode" name="hitlistsencode" value=<%= hit-lists-encodeq %>>
+  <input type="hidden" id="response" name="response" value=<%= responseq %>>
+  <input type="hidden" id="threshold" name="threshold" value=<%= thresholdq %>>
 
-   
+  
 </form>
 <hr>
 <h2>Hit Lists for AR-<%= arid %></h2>
@@ -88,7 +94,7 @@
 
 <script>
 
-function viewhits(){
+ function viewhits(){
 	 var f = document.getElementById("vhits_form");
 	 f.setAttribute("action", "/hitlist/viewhits");
 	f.setAttribute("method", "POST");	

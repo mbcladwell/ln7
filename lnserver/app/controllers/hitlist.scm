@@ -5,7 +5,10 @@
 
 (use-modules (artanis utils)(artanis irregex)
 	     (srfi srfi-1)(dbi dbi) (lnserver sys extra)
-	      (ice-9 textual-ports)(ice-9 rdelim))
+	     (ice-9 textual-ports)(ice-9 rdelim)
+	     (ice-9 string-fun) ;; string-replace-substring
+	     )
+
 
 
 (define (prep-hl-for-ar-rows a)
@@ -330,26 +333,63 @@
 
 
 
-
-(define (process-accs-row lst results )
+(define (process-hl-row lst results )
   (if (null? (cdr lst))
         (begin
-	 (set! results  (string-append results "(" (caar lst) ", " (cadar lst) ", '"  (caddar lst)   "')" ))
+	 (set! results  (string-append results "<tr><td>" (caar lst) "</td><td>" (cadar lst) "</td><td>" (cadr (cdddar lst))   "</td></tr>" ))
        results)
        (begin
-	 (set! results (string-append results "(" (caar lst) ", " (cadar lst) ", '"  (caddar lst)   "')," ))
-	 (process-accs-row (cdr lst) results)) ))
+	 (set! results (string-append results "<tr><td>" (caar lst) "</td><td>" (cadar lst) "</td><td>"  (cadr (cdddar lst))  "</td></tr>" ))
+	 (process-hl-row (cdr lst) results)
+       )
+       ))
 
 
 
-(define (get-hitlist-file f )
-  ;;for processing the tab delimitted file on the server
+;; (define (get-hitlist-file f )
+;;   ;;for processing the tab delimitted file on the server
+;;   (if (access? f R_OK)
+;;       (let* (
+;; 	     (my-port (open-input-file f))
+;; 	     (ret #f)
+;; 	     (holder '())
+;; 	     (message "made it here")
+;; 	     (ret (stripfix (read-line my-port)))
+;; 	     (header (string-split ret #\tab))
+;; 	     (result (let* (
+;; 			    (ret (read-line my-port))
+;; 			    (dummy2 (while (not (eof-object? ret))
+;; 				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
+;; 					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
+;; 				      (set! ret  (read-line my-port))))
+;; 			    (holder2 (process-hl-row holder ""))
+;; 			    )	 
+;; 		       holder2)))
+;; 	     result)
+;;       #f))
+
+
+(define (process-hl-get-int-array lst results )
+  (if (null? (cdr lst))
+        (begin
+	 (set! results  (string-append results  (cadr (cdddar lst))  ))
+	  results )
+       (begin
+	 (set! results (string-append results  (cadr (cdddar lst))  "+" ))
+	 (process-hl-get-int-array (cdr lst) results)
+       )
+       ))
+
+
+
+(define (get-hitlist-as-list f )
+  ;;for counting and making int array for postgres
   (if (access? f R_OK)
       (let* (
 	     (my-port (open-input-file f))
 	     (ret #f)
 	     (holder '())
-	     (message "")
+	     (message "made it here")
 	     (ret (stripfix (read-line my-port)))
 	     (header (string-split ret #\tab))
 	     (result (let* (
@@ -358,9 +398,8 @@
 				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
 					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
 				      (set! ret  (read-line my-port))))
-			   ;; (holder2 (process-accs-row holder ""))
 			    )	 
-				 holder)))
+		       holder)))
 	     result)
       #f))
 
@@ -374,12 +413,52 @@
     (let* ((help-topic "hitlist")
 	   (prjid (:cookies-value rc "prjid"))	   
 	   (sid (:cookies-value rc "sid"))
-	   (hitfile (:from-post rc 'get-vals "hitfile"))
-	   (allhits (get-hitlist-file hitfile))
+	   (arid (:from-post rc 'get-vals "arid"))
+	   (threshold-id (:from-post rc 'get-vals "threshold"))
+	   (threshold (cond((equal? threshold-id "1") "mean(pos)")
+			   ((equal? threshold-id "2") "mean(neg) + 2SD")
+			   ((equal? threshold-id "3") "mean(neg) + 3SD")
+			   (else "(Manually entered)")))
+	   (response-id (:from-post rc 'get-vals "response"))
+	   (response (cond ((equal? response-id "0") "Background Subtracted")
+			   ((equal? response-id "1") "Normalized")
+			   ((equal? response-id "2") "Normalized to postivie controls")
+			   ((equal? response-id "3") "% Enhanced")))
 	   
+	   (hitfile (string-append "../lnserver/pub/" (uri-decode (:from-post rc 'get-vals "hitfile"))))
+	   (aslist (get-hitlist-as-list hitfile))
+	   (body (process-hl-row aslist ""))
+	   ;;(body (get-hitlist-file hitfile))
+	   (num-hits (length aslist))
+	   (hl-int-arrayq (addquotes (process-hl-get-int-array aslist "")))
+	 (aridq (addquotes arid))
 	   )  
-      ;;(view-render "viewhits" (the-environment))
-      (view-render "test" (the-environment))
+      (view-render "viewhits" (the-environment))
+    ;;  (view-render "test2" (the-environment))
       )))
 
-     
+
+;;new_hit_list(_name VARCHAR(250), _descr VARCHAR(250), _num_hits INTEGER, _assay_run_id INTEGER, _sessions_id VARCHAR(32), hit_list integer[])
+
+(post "/hitlist/newhitlistfromview"
+		 #:conn #t
+		 #:cookies '(names prjid sid)
+		 #:from-post 'qstr
+  (lambda (rc)
+    (let* ((help-topic "hitlist")
+	   (prjid (:cookies-value rc "prjid"))	   
+	   (sid (:cookies-value rc "sid"))
+	   (arid (:from-post rc 'get-vals "arid"))
+	   (hlname (:from-post rc 'get-vals "hlname"))
+	   (descr (:from-post rc 'get-vals "descr"))
+	   (num-hits (:from-post rc 'get-vals "numhits"))
+	   ;; want a string like "'{"2", "3", "4"}'" note the single quotes
+	   (int-array  (uri-decode (:from-post rc 'get-vals "int-array")))
+	   (int-array (string-replace-substring int-array "+" "\", \""))
+	   (sql (string-append "SELECT new_hit_list('" hlname "', '" descr "', " num-hits ", " arid ", '" sid "', '{\"" int-array"\"}')" ))
+	   )  
+   ;;   (view-render "viewhits" (the-environment))
+      (view-render "test2" (the-environment))
+      )))
+
+

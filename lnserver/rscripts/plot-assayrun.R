@@ -10,14 +10,15 @@ if (length(args) %in% c(0,1,2,3,4)) {
 }
 
 ## getwd()
-## infile <- "../pub/tmp/ar-1562457325090311990834.txt"
-## infile2 <- "../pub/tmp/ar2-4956482081723254900063.txt"
-## response <- 2
-## threshold <- 0.4
-## outfile <- "../tmp/out.png"
-## hitfile <- "../tmp/hl-4956482.txt"
-##  d <- read.table( file = infile,   sep = "\t", header=TRUE)
-##  d2 <- read.table( file = infile2,   sep = "\t", header=TRUE, row.names=NULL)
+## infile <- "../pub/tmp/ar-1611327513526455862369.txt"
+## infile2 <- "../pub/tmp/ar2-2934925227220687847255.txt"
+## response <- 0
+## threshold <- 2
+## outfile <- "../pub/tmp/out.png"
+## hitfile <- "../pub/tmp/hl-4956482.txt"
+## d <- read.table( file = infile,   sep = "\t", header=TRUE)
+## d2 <- read.table( file = infile2,   sep = "\t", header=TRUE, row.names=NULL)
+
 
 infile <- args[1]
 infile2 <- args[2]
@@ -25,9 +26,8 @@ outfile <- args[3]
 hitfile <- args[4]
 response <- args[5]
 threshold <- args[6]
-
- d <- read.table(file=args[1], sep="\t", header=TRUE)
- d2 <- read.table(file=args[2], sep="\t", header=TRUE, row.names=NULL)
+d <- read.table(file=args[1], sep="\t", header=TRUE)
+d2 <- read.table(file=args[2], sep="\t", header=TRUE, row.names=NULL)
 
 ## response
 ## 0 raw

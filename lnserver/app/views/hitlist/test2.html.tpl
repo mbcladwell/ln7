@@ -6,7 +6,10 @@
 <body>
 
 
-<%= allhits %><br><br>
+
+<%= sql %><br><br>
+
+
 
 </body></html>
 

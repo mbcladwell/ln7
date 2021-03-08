@@ -130,7 +130,8 @@
 			</svg>
 		    </button>
 		    <div class=\"dropdown-menu\">
-			<a class=\"dropdown-item\" onclick=\"viewhits=()\">View Hits</a>
+			<a class=\"dropdown-item\" href=\"#\"  onclick=\"viewhits()\">View Hits</a>
+
 		    </div>
 		</div>
 	    </div> 
@@ -138,6 +139,9 @@
 	    <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=")(display  infile2q )(display ">
 	    <input type=\"hidden\" id=\"hitfile\" name=\"hitfile\" value=")(display  hitfileq )(display ">
 	    <input type=\"hidden\" id=\"arid\" name=\"arid\" value=")(display  aridq )(display ">
+	    <input type=\"hidden\" id=\"response\" name=\"response\" value=")(display  responseq )(display ">
+	    <input type=\"hidden\" id=\"threshold\" name=\"threshold\" value=")(display  thresholdq )(display ">
+
 	</div>
     </form>
   <table id=\"artable\" class=\"display table table-striped table-bordered\"><thead><tr><th>Assay Run</th><th>Name</th><th>Description</th><th>Type</th><th>Layout</th><th>Layout Name</th></tr></thead>
@@ -183,12 +187,14 @@
 
   <input type=\"hidden\" id=\"infile\" name=\"infile\" value=")(display  infileq )(display ">
   <input type=\"hidden\" id=\"infile2\" name=\"infile2\" value=")(display  infile2q )(display ">
-  <input type=\"hidden\" id=\"hitfile\" name=\"infile2\" value=")(display  hitfileq )(display ">
+  <input type=\"hidden\" id=\"hitfile\" name=\"hitfile\" value=")(display  hitfileq )(display ">
   <input type=\"hidden\" id=\"arid\" name=\"arid\" value=")(display  aridq )(display ">
   <input type=\"hidden\" id=\"bodyencode\" name=\"bodyencode\" value=")(display  body-encodeq )(display ">
- <input type=\"hidden\" id=\"hitlistsencode\" name=\"hitlistsencode\" value=")(display  hit-lists-encodeq )(display ">
+  <input type=\"hidden\" id=\"hitlistsencode\" name=\"hitlistsencode\" value=")(display  hit-lists-encodeq )(display ">
+  <input type=\"hidden\" id=\"response\" name=\"response\" value=")(display  responseq )(display ">
+  <input type=\"hidden\" id=\"threshold\" name=\"threshold\" value=")(display  thresholdq )(display ">
 
-   
+  
 </form>
 <hr>
 <h2>Hit Lists for AR-")(display  arid )(display "</h2>
@@ -201,7 +207,7 @@
 
 <script>
 
-function viewhits(){
+ function viewhits(){
 	 var f = document.getElementById(\"vhits_form\");
 	 f.setAttribute(\"action\", \"/hitlist/viewhits\");
 	f.setAttribute(\"method\", \"POST\");	
