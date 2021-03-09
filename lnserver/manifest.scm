@@ -1,2 +1,3 @@
 (specifications->manifest
-		'("guile@2.2.4" "guile-dbi" "guile-dbd-postgresql" "artanis" "coreutils" "gawk" "sed" "findutils" "glibc" "grep"  "openssl"  "r" "rest" "emacs"))
+		'("guile@3.0.5" "guile-lib"   "coreutils" "gawk" "sed" "findutils" "glibc" "grep" "bash-minimal" "openssl" "gnutls" "curl" "emacs" "libcanberra" "glibc-locales" "glibc-utf8-locales" "guile-hall" "autoconf" "make" "pkg-config" "texinfo"))
+
