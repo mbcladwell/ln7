@@ -8,7 +8,9 @@
 
 
  
- cookies:&nbsp; <%= all-ps-ids %><br><br>
+ cookies:&nbsp; <%= trglytid %><br><br>
+ cookies:&nbsp; <%= sql %><br><br>
+ 
  
  
   	

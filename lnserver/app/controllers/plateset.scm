@@ -188,16 +188,16 @@
 		(format (:from-post  rc 'get-vals "format"))
 		(plttypeid (:from-post  rc 'get-vals "plttypeid"))
 		(prjid (:cookies-value rc "prjid"))
-		(userid (:cookies-value rc "userid"))
-		(group (:cookies-value rc "group"))
 		(sid (:cookies-value rc "sid"))
 		(spllytid (:from-post rc 'get-vals "samplelyt"))
-		(trglytid (:from-post rc 'get-vals "trglyt"))    
+		(trglytid (if (:from-post rc 'get-vals "trglyt") (:from-post rc 'get-vals "trglyt") "1"))
 		(sql (string-append "select new_plate_set('" psdescr "', '" psname  "', " numplates ", " format ", " plttypeid ", " prjid ", " spllytid ", '" sid "', true, " trglytid  ")"))
 		(holder  (DB-get-all-rows (:conn rc sql)))		
 		(dest (string-append "/plateset/getps?id=" prjid))
-		)      
-	   (redirect-to rc dest ))))
+		)
+	  ;; (view-render "test2" (the-environment))
+	   (redirect-to rc dest )
+	   )))
 
 
 (post  "/plateset/addstep2"
@@ -208,7 +208,20 @@
 	 (let* ((help-topic "plateset")
 		(psname (:from-post rc 'get-vals "psname"))
 		(psdescr (:from-post rc 'get-vals "psdescr"))
- 		(numplates (:from-post rc 'get-vals "numplates"))
+ 	;;	(numplates (:from-post rc 'get-vals "numplates"))
+ 		(numplates-pre (:from-post rc 'get-vals "numplates"))
+		(gt10? (> (string->number numplates-pre) 10))
+		(numplates (if gt10?
+			       (let*(
+				     (sql "SELECT  cust_id, cust_key, cust_email FROM config WHERE id=1")
+				     (ret   (car (DB-get-all-rows (:conn rc sql))))
+				     (cust_id (assoc-ref ret "cust_id"))
+				     (cust_key (assoc-ref ret "cust_key"))
+				     (email (assoc-ref ret "cust_email"))
+				     (licensed? (if (and cust_id cust_key email ) (validate-key cust_id email cust_key) #f))
+				     )
+				 (if licensed? numplates-pre "10") )
+       		   numplates-pre))		
 
 		(format (:from-post  rc 'get-vals "format"))
 		(typeid (:from-post  rc 'get-vals "type"))
@@ -220,14 +233,12 @@
 		       ((equal? typeid "5") "archive")
 		       ((equal? typeid "6") "replicate")))
 		(prjid (:cookies-value rc "prjid"))
-		(userid (:cookies-value rc "userid"))
-		(group (:cookies-value rc "group"))
 		(sid (:cookies-value rc "sid"))
 		(reps 1)  ;;new plate sets never have replicates
 		(sql (string-append "select id, name from plate_layout_name WHERE source_dest = 'source' AND plate_format_id =" format))
 		(holder  (DB-get-all-rows (:conn rc sql)))
 		(sample-layout-pre '())
-		(sample-layouts  (dropdown-contents-with-id holder sample-layout-pre))
+		(sample-layouts (string-concatenate (dropdown-contents-with-id holder sample-layout-pre)))
 		
 		;; (sql2 (if (= reps 0)				    
 		;; 	  (string-append "SELECT id, target_layout_name_name FROM target_layout_name WHERE (project_id= " prjid "  OR project_id IS NULL )")   
@@ -239,7 +250,7 @@
 
 		(holder2  (DB-get-all-rows (:conn rc sql2)))
 		(target-layout-pre '())
-		(target-layouts  (dropdown-contents-with-id holder2 target-layout-pre))
+		(target-layouts  (string-concatenate (dropdown-contents-with-id holder2 target-layout-pre)))
 		
 		(trg-desc (cond
 			   ((equal? plttype "assay")
@@ -247,8 +258,6 @@
 			    )
 			    (else "(disabled -- for assay plates only)")))
 		(prjidq (addquotes prjid))
-		(useridq (addquotes userid))
-		(groupq (addquotes group))
 		(sidq (addquotes sid))
 		(psnameq (addquotes psname))
 		(psdescrq (addquotes psdescr))
@@ -274,11 +283,9 @@
 			  (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
 			  (holder3  (DB-get-all-rows (:conn rc sql3)))
 			  (plate-types-pre '())
-			  (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
+			  (plate-types (string-concatenate (dropdown-contents-with-id holder3 plate-types-pre)))
 			  (prjidq (addquotes prjid))
-			  (sidq (addquotes sid))
-
-			  )      
+			  (sidq (addquotes sid)))      
 		     (view-render "add" (the-environment)))))
 
 

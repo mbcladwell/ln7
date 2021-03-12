@@ -57,5 +57,6 @@ UPDATE config SET cust_id='', cust_email='', cust_key='' WHERE id=1;
 (car (cddddr '(1 1 -64.6179 1 1)))
 
 
+(define numplates "11")
 
-
+(> (string->number numplates) 10)

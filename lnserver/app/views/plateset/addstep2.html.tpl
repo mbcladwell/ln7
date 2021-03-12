@@ -35,7 +35,7 @@
      </div>
      <div class="form-group col-md-6">
 	 <label for="trglyt">Target Layout:</label> &nbsp;&nbsp;&nbsp;   <label for="target-desc"><%= trg-desc %></label> 
-	 <select name="trglyt"  class="custom-select" id="trglyt"  > <%= target-layouts %>  </select>
+	 <select class="custom-select" id="trglyt" name="trglyt"> <%= target-layouts %> </select>
 	 
 	 <div>	 
      </div>
@@ -84,7 +84,7 @@
      document.getElementById('trglyt').disabled = true;
  }
 
-    
+ 
 </script>
 
 

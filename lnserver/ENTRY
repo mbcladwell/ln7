@@ -5,7 +5,7 @@
               ;; only for this file, not controllers/views
 )
  ;; Put whatever you want to be called before server initilization here
-(add-to-load-path "/ln7")
+(add-to-load-path "/home/mbc/projects/ln7")
 
  (init-server)
 
