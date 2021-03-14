@@ -37,7 +37,7 @@
 <div class="row">
 <img src=<%= outfile2 %> align="left">
 </div>
-<form action="replot" method="POST" >
+<form action="/assayrun/replot" method="POST" >
 
   <div class="row">
     <div class="col">

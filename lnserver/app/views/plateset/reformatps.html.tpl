@@ -11,7 +11,7 @@
 	<label>Date:</label> &nbsp <b><%= today %></b>
       </div>
       <div class="form-group col-md-6">
-	<label>Owner:</label> &nbsp <b></b>
+	  <label>Owner:</label> &nbsp <b><%= username %></b>
       </div>
     </div>
     <hr>
