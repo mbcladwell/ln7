@@ -28,6 +28,7 @@
 	    <input type="hidden" id="arid" name="arid" value=<%= aridq %>>
 	    <input type="hidden" id="response" name="response" value=<%= responseq %>>
 	    <input type="hidden" id="threshold" name="threshold" value=<%= thresholdq %>>
+	    <input type="hidden" id="numhits" name="numhits" value=<%= numhitsq %>>
 
 	</div>
     </form>
@@ -95,10 +96,17 @@
 <script>
 
  function viewhits(){
+     if( <%= numhitsq %> == "0" ){
+	 var str1="A threshold of ";
+	 var str2=str1.concat(<%=  thresholdq  %>);
+	 var str3=str2.concat(" results in 0 hits!");
+	 window.alert(str3);
+     } else {
 	 var f = document.getElementById("vhits_form");
 	 f.setAttribute("action", "/hitlist/viewhits");
-	f.setAttribute("method", "POST");	
-	f.submit(); return false;
+	 f.setAttribute("method", "POST");	
+	 f.submit(); return false;
+     }
  }	
  
 

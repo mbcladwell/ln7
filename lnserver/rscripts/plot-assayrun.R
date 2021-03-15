@@ -10,10 +10,10 @@ if (length(args) %in% c(0,1,2,3,4)) {
 }
 
 ## getwd()
-## infile <- "../pub/tmp/ar-1611327513526455862369.txt"
-## infile2 <- "../pub/tmp/ar2-2934925227220687847255.txt"
-## response <- 0
-## threshold <- 2
+## infile <- "../pub/tmp/ar-8222479441190188284525.txt"
+## infile2 <- "../pub/tmp/ar2-7764507602467792171973.txt"
+## response <- 1
+## threshold <- 3
 ## outfile <- "../pub/tmp/out.png"
 ## hitfile <- "../pub/tmp/hl-4956482.txt"
 ## d <- read.table( file = infile,   sep = "\t", header=TRUE)
@@ -73,7 +73,8 @@ if(threshold %in% c("1","2","3")){
 
 names(d3) <- c("plate","well","response","type","spl")
 unks <- d3[d3$type==1,]
-hits <- unks[unks$response > threshold.val,]
+hitspre <- unks[unks$response > threshold.val,]
+hits <- hitspre[hitspre$spl > 0,]
 write.table(hits, file = hitfile, append =FALSE, quote = FALSE, sep = "\t",
             eol = "\n", na = "NA", dec = ".", row.names = FALSE,
             col.names = TRUE)

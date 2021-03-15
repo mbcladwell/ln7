@@ -185,6 +185,27 @@
     (view-render "getarid" (the-environment)))))
 
 
+(define (get-hitlist-as-list f )
+  ;;for counting and making int array for postgres
+  (if (access? f R_OK)
+      (let* (
+	     (my-port (open-input-file f))
+	     (ret #f)
+	     (holder '())
+	     (ret (stripfix (read-line my-port)))
+	     (header (string-split ret #\tab))
+	     (result (let* (
+			    (ret (read-line my-port))
+			    (dummy2 (while (not (eof-object? ret))
+				      (if (equal? (car (string-split (stripfix ret) #\tab)) "") #f
+					  (set! holder (cons (string-split (stripfix ret) #\tab) holder)))
+				      (set! ret  (read-line my-port))))
+			    )	 
+		       holder)))
+	     result)
+      #f))
+
+
 (post "/assayrun/replot"
       #:from-post 'qstr
       #:cookies '(names id infile infile2 response threshold body)
@@ -209,6 +230,9 @@
 			  (usethreshold (if (equal? manthreshold "") threshold manthreshold))
 			  (rscript (string-append "Rscript --vanilla ../lnserver/rscripts/plot-assayrun.R pub/" infile " pub/" infile2 " pub/" outfile " pub/" hitfile " " response  " " usethreshold ))
 			  (dummy (system rscript))
+			  (gethitfile (string-append "../lnserver/pub/" hitfile))
+			  (aslist (get-hitlist-as-list gethitfile))
+			  (numhits (number->string (length aslist)))
 			  (outfile2 (string-append "\"../" outfile "\""))
 			  (aridq (addquotes arid))  ;; for passing to html
 			  (responseq (addquotes response)) ;;needed for view hits but will change with replot
@@ -216,11 +240,12 @@
 			  (infileq (addquotes infile))
 			  (infile2q (addquotes infile2))
 			  (hitfileq (addquotes hitfile))
+			  (numhitsq (addquotes numhits))
 			  (body-encodeq (addquotes body-encode))
 			  (hit-lists-encodeq (addquotes hit-lists-encode))
 			  )
-		     (view-render "replot" (the-environment)))))
-	 ;;    (view-render "test" (the-environment)))))
+		    (view-render "replot" (the-environment)))))
+	     ;;(view-render "test" (the-environment)))))
 
 
 
@@ -245,3 +270,54 @@
             (cons (string-append "<tr><td><a href=\"/hitlist/getid?id=" (number->string (cdr (car x))) "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><tr>")
 		  prev)))
         '() a))
+
+
+;;assay_run_sys_name | plate_set_sys_name | plate_sys_name | plate_order | well_name | type_well | by_col |   response   |  bkgrnd_sub  |     norm     |   norm_pos   |  p_enhance   | sample_sys_name | accs_id | target_name | target_accs 
+
+
+(define (prep-alldata a)
+  ;; this differs from the one in extra.scm in that it does not provide AR-1 as hyperlink
+  ;; i.e. you are already on the assay-run page so there is no need to link again
+  (fold (lambda (x prev)
+          (let* (
+                (assay-run-sys-name (result-ref x "assay_run_sys_name"))
+		(plate-set-sys-name (result-ref x "plate_set_sys_name"))
+		(plate-sys-name (result-ref x "plate_sys_name"))
+		(plate-order (result-ref x "plate_order"))
+		(well-name (result-ref x "well_name"))
+		(type-well (result-ref x "type_well"))
+		(by-col (result-ref x "by_col"))
+		(response (result-ref x "response"))
+		(bkgrnd-sub (result-ref x "bkgrnd_sub"))
+		(norm (result-ref x "norm"))
+		(norm-pos (result-ref x "norm_pos"))
+		(p-enhance (result-ref x "p_enhance"))
+		(sample-sys-name (result-ref x "sample_sys_name"))
+		(accs-id (result-ref x "accs_id"))
+		(target-name (result-ref x "target_name"))
+		(target-accs (result-ref x "target_accs"))
+		)
+            (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" plate-set-sys-name "</td><td>" plate-sys-name "</td><td>" plate-order "</td><td>" well-name "</td><td>" type-well "</td><td>" by-col "</td><td>" response "</td><td>" bkgrnd-sub "</td><td>" norm "</td><td>" norm-pos "</td><td>" p-enhance "</td><td>" sample-sys-name "</td><td>" accs-id "</td><td>" target-name"</td><td>" target-accs "</td><tr>")
+		  prev)))
+        '() a))
+
+
+
+(post "/assayrun/getalldata"
+      #:from-post 'qstr
+      #:cookies '(names sid prjid)
+		 (lambda (rc)
+		   (let* (
+			  (help-topic "assayrun")
+			  (prjid (:cookies-value rc "prjid"))
+			  (sid (:cookies-value rc "sid"))
+			  (arid  (stripfix (:from-post rc 'get-vals "arid")))
+			  (sql (string-append "Select * from get_all_data_for_assay_run(" arid ")"))
+			  (holder (DB-get-all-rows (:conn rc sql)))
+			  (body (string-concatenate (prep-alldata holder)))
+			 
+	
+			  (aridq (addquotes arid))  ;; for passing to html
+			  )
+		;;    (view-render "getalldata" (the-environment)))))
+	     (view-render "test" (the-environment)))))

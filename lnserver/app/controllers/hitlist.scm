@@ -389,7 +389,6 @@
 	     (my-port (open-input-file f))
 	     (ret #f)
 	     (holder '())
-	     (message "made it here")
 	     (ret (stripfix (read-line my-port)))
 	     (header (string-split ret #\tab))
 	     (result (let* (
@@ -456,9 +455,10 @@
 	   (int-array  (uri-decode (:from-post rc 'get-vals "int-array")))
 	   (int-array (string-replace-substring int-array "+" "\", \""))
 	   (sql (string-append "SELECT new_hit_list('" hlname "', '" descr "', " num-hits ", " arid ", '" sid "', '{\"" int-array"\"}')" ))
+	   (dest (string-append "/assayrun/getarid?arid=" arid))
 	   )  
-   ;;   (view-render "viewhits" (the-environment))
-      (view-render "test2" (the-environment))
+      (redirect-to rc dest)
+     ;; (view-render "test2" (the-environment))
       )))
 
 

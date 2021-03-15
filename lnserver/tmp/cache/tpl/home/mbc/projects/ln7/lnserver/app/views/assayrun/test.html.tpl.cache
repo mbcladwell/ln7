@@ -7,15 +7,7 @@
   <h1>Test</h1><br><br>
 
 
-Threshold:&nbsp;&nbsp;")(display  threshold )(display "<br><br>
-Man Threshold:&nbsp;&nbsp;")(display  manthreshold )(display "<br><br>
-arid:&nbsp;&nbsp;")(display  arid )(display "<br><br>
-response:&nbsp;&nbsp;")(display  response )(display "<br><br>
-infile:&nbsp;&nbsp;")(display  infile )(display "<br><br>
-infile2:&nbsp;&nbsp;")(display  infile2 )(display "<br><br>
-outfile:&nbsp;&nbsp;")(display  outfile )(display "<br><br>
-rscript:&nbsp;&nbsp;")(display  rscript )(display "<br><br>
-
+Threshold:&nbsp;&nbsp;")(display  numhits )(display "<br><br>
 
 
  

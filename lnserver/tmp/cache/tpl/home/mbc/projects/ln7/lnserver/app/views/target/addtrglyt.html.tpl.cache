@@ -120,38 +120,38 @@
     <h3>Add Target Layout</h3><br>
 
     <form action=\"/addtrglytaction\" method=\"get\">
-      <div class=\"container\">
-	<div class=\"row\">
-	  <div class=\"col\">
-	    <div class=\"form-group\">
-	      <label for=\"tname\">Target Layout Name:</label>
-	      <input type=\"text\" id=\"tname\" class=\"form-control\" name=\"tlytname\">
+	<div class=\"container\">
+	    <div class=\"row\">
+		<div class=\"col\">
+		    <div class=\"form-group\">
+			<label for=\"tname\">Target Layout Name:</label>
+			<input type=\"text\" id=\"tname\" class=\"form-control\" name=\"tlytname\">
+		    </div>
+		</div>
+		<div class=\"col\">
+		    <div class=\"form-group\">
+			<label for=\"prj\">Project:</label>
+			<select name=\"projects\" class=\"form-control\" id=\"projects\">")(display  all-projects )(display " </select>
+		    </div>
+		</div>
 	    </div>
-	  </div>
-	  <div class=\"col\">
-	    <div class=\"form-group\">
-	      <label for=\"prj\">Project:</label>
-	      <select name=\"projects\" class=\"form-control\" id=\"projects\">")(display  all-projects )(display " </select>
+	    
+	    <div class=\"row\">
+		<div class=\"col\">    
+		    <div class=\"form-group\">
+			<label for=\"desc\">Description:</label><input type=\"text\" id=\"desc\" class=\"form-control\" name=\"desc\"> 
+		    </div>
+		</div>
+		<div class=\"col\">        
+		    <div class=\"form-group\">
+			<label for=\"reps\">Replication:</label><select name=\"reps\" id=\"reps\"  class=\"form-control\" onchange=\"repSelection(event)\">
+			    <option value=\"1\">1</option>  
+			    <option value=\"2\">2</option>
+			    <option value=\"4\">4</option>
+			</select>
+		    </div>
+		</div> 
 	    </div>
-	  </div>
-	</div>
-    
-  <div class=\"row\">
-    <div class=\"col\">    
-      <div class=\"form-group\">
-	<label for=\"desc\">Description:</label><input type=\"text\" id=\"desc\" class=\"form-control\" name=\"desc\"> 
-      </div>
-    </div>
-    <div class=\"col\">        
-      <div class=\"form-group\">
-	<label for=\"reps\">Replication:</label><select name=\"reps\" id=\"reps\"  class=\"form-control\" onchange=\"repSelection(event)\">
-	  <option value=\"1\">1</option>  
-	  <option value=\"2\">2</option>
-	  <option value=\"4\">4</option>
-	</select>
-      </div>
-    </div> 
-  </div>
  <hr>
 	<label for=\"\">Indicate quadrant contents:</label>
 
