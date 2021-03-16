@@ -27,7 +27,7 @@
 		(id-html (string-append "<a href=\"/layout/lytbyid?id=" id "\">" sys-name "</a>") ))
             (cons (string-append "<tr><td>" id-html "</th><td>" name "</td><td>" descr "</td>
 <td>"   plate-format-id "</td><td>" replicates "</td><td>" targets "</td>
-<td>"  use-edge "</td><td>" num-controls "</td><td>" unknown-n "</td><td>" control-loc "</td><td>" source-dest "</td><tr>")
+<td>"  use-edge "</td><td>" num-controls "</td><td>" unknown-n "</td><td>" control-loc "</td><td>" source-dest "</td></tr>")
 		  prev)))
         '() a))
 

@@ -18,7 +18,7 @@
 		(hit-list-name (result-ref x "hitlist_name"))
 		(descr (result-ref x "descr"))
 		(nhits (get-c5 x)))
-	      (cons (string-append "<tr><td><a href=\"/hitlist/gethlbyid?id=" id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
+	      (cons (string-append "<tr><td><a href=\"/hitlist/gethlbyid?id=" id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td></tr>")
 		  prev)))
         '() a))
 
@@ -42,7 +42,7 @@
 		(prj-id (get-c3 x ))
 		(accs (result-ref x "accs_id")))
 	      
-	      (cons (string-append "<tr><td>"  sample-sys-name "</td><td>" prj-id "</td><td>" accs "</td><tr>")
+	      (cons (string-append "<tr><td>"  sample-sys-name "</td><td>" prj-id "</td><td>" accs "</td></tr>")
 		  prev)))
         '() a))
 
@@ -53,7 +53,7 @@
 		(type (cdar (cddr x))) ;; coming out as "max"
 		(format (get-c4 x))
 		(nhits (get-c5 x)))
-	      (cons (string-append "<tr><td> <input type=\"radio\" id=\"psid\" name=\"psid\" value=\"" id "\"></td><td>" id "</td><td>" plate-set-sys-name "</td><td>" type "</td><td>" format "</td><td>" nhits "</td><tr>")
+	      (cons (string-append "<tr><td> <input type=\"radio\" id=\"psid\" name=\"psid\" value=\"" id "\"></td><td>" id "</td><td>" plate-set-sys-name "</td><td>" type "</td><td>" format "</td><td>" nhits "</td></tr>")
 		  prev)))
         '() a))
 
@@ -121,7 +121,7 @@
 		(hit-list-name (result-ref x "hitlist_name"))
 		(descr (result-ref x "descr"))
 		(nhits (get-c5 x)))
-	      (cons (string-append "<tr><td><a href=\"/hitlist/gethlbyid?id=" id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
+	      (cons (string-append "<tr><td><a href=\"/hitlist/gethlbyid?id=" id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td></tr>")
 		  prev)))
         '() a))
 

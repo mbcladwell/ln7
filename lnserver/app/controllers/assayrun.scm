@@ -296,27 +296,26 @@
 		(target-name (result-ref x "target_name"))
 		(target-accs (result-ref x "target_accs"))
 		)
-            (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" plate-set-sys-name "</td><td>" plate-sys-name "</td><td>" plate-order "</td><td>" well-name "</td><td>" type-well "</td><td>" by-col "</td><td>" response "</td><td>" bkgrnd-sub "</td><td>" norm "</td><td>" norm-pos "</td><td>" p-enhance "</td><td>" sample-sys-name "</td><td>" accs-id "</td><td>" target-name"</td><td>" target-accs "</td><tr>")
+            (cons (string-append "<tr><td>" assay-run-sys-name "</td><td>" plate-set-sys-name "</td><td>" plate-sys-name "</td><td>" plate-order "</td><td>" well-name "</td><td>" type-well "</td><td>" by-col "</td><td>" response "</td><td>" bkgrnd-sub "</td><td>" norm "</td><td>" norm-pos "</td><td>" p-enhance "</td><td>" sample-sys-name "</td><td>" accs-id "</td><td>" target-name"</td><td>" target-accs "</td></tr>")
 		  prev)))
         '() a))
 
 
 
 (post "/assayrun/getalldata"
-      #:from-post 'qstr
-      #:cookies '(names sid prjid)
-      #:conn #t
+		   #:from-post 'qstr
+			    #:cookies '(names sid prjid)
+			    #:conn #t
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "assayrun")
 			  (prjid (:cookies-value rc "prjid"))
 			  (sid (:cookies-value rc "sid"))
 			  (arid  (stripfix (:from-post rc 'get-vals "arid")))
-			  (sql (string-append "Select * from get_all_data_for_assay_run(" arid ")"))
-			  (holder (DB-get-all-rows (:conn rc sql)))
+			  (sql  (string-append "Select * from get_all_data_for_assay_run(" arid ")"))			  
+			  (holder (DB-get-all-rows (:conn rc sql)))			  
 			  (body (string-concatenate (prep-alldata holder)))
-	
 			  (aridq (addquotes arid))  ;; for passing to html
 			  )
 		    (view-render "getalldata" (the-environment)))))
-	    ;; (view-render "test" (the-environment)))))
+		 ;; (view-render "test" (the-environment)))))

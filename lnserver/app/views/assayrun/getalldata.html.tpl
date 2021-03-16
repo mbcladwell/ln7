@@ -6,7 +6,7 @@
 <div class="container">
     <h2>Data for AR-<%= arid %></h2>
     <table id="datatable" class="table table-striped table-bordered">
-	<thead><tr><th>Assay Run</th><th>Plate Set</th><th>Name</th><th>Order</th><th>Well</th><th>Type</th><th>WellNum</th><th>Response</th><th>BkgrndSub</th><th>Norm</th><th>NormPos</th><th>%Enhanced</th><th>Sample</th><th>SplAccs</th><th>Target</th><th>TrgAccs</th><th></th><th></th><th></th></tr></thead>
+	<thead><tr><th>Assay Run</th><th>Plate Set</th><th>Name</th><th>Order</th><th>Well</th><th>Type</th><th>WellNum</th><th>Response</th><th>BkgrndSub</th><th>Norm</th><th>NormPos</th><th>%Enhanced</th><th>Sample</th><th>SplAccs</th><th>Target</th><th>TrgAccs</th></tr></thead>
 	<tbody><%= body %></tbody>
     </table>
 </div>

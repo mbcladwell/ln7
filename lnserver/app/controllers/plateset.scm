@@ -51,7 +51,7 @@
 		(descr (result-ref x "descr"))
 		(nhits (get-c8 x))
 		)
-	      (cons (string-append "<tr><td><a href=\"/assayrun/getid?id=" id  "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" assay-type-name "</td><td><a href=\"/hitlist/gethlbyid?id=" hit-list-id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td><tr>")
+	      (cons (string-append "<tr><td><a href=\"/assayrun/getid?id=" id  "\">" assay-run-sys-name "</a></td><td>" assay-run-name "</td><td>" assay-type-name "</td><td><a href=\"/hitlist/gethlbyid?id=" hit-list-id  "\">" hit-list-sys-name "</a></td><td>" hit-list-name "</td><td>" descr "</td><td>" nhits "</td></tr>")
 		    prev)
 	      ))
         '() a))
