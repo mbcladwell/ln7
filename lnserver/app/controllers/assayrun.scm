@@ -272,26 +272,25 @@
         '() a))
 
 
-;;assay_run_sys_name | plate_set_sys_name | plate_sys_name | plate_order | well_name | type_well | by_col |   response   |  bkgrnd_sub  |     norm     |   norm_pos   |  p_enhance   | sample_sys_name | accs_id | target_name | target_accs 
 
 
 (define (prep-alldata a)
   ;; this differs from the one in extra.scm in that it does not provide AR-1 as hyperlink
   ;; i.e. you are already on the assay-run page so there is no need to link again
   (fold (lambda (x prev)
-          (let* (
-                (assay-run-sys-name (result-ref x "assay_run_sys_name"))
+          (let* ( (assay-run-sys-name (result-ref x "assay_run_sys_name"))
 		(plate-set-sys-name (result-ref x "plate_set_sys_name"))
 		(plate-sys-name (result-ref x "plate_sys_name"))
-		(plate-order (result-ref x "plate_order"))
+		(plate-order (get-c4 x ))
 		(well-name (result-ref x "well_name"))
 		(type-well (result-ref x "type_well"))
-		(by-col (result-ref x "by_col"))
-		(response (result-ref x "response"))
-		(bkgrnd-sub (result-ref x "bkgrnd_sub"))
-		(norm (result-ref x "norm"))
-		(norm-pos (result-ref x "norm_pos"))
-		(p-enhance (result-ref x "p_enhance"))
+		(by-col (get-c7 x))
+		(response (get-c8 x))
+		(bkgrnd-sub (get-c9 x))
+		(norm (get-c10 x))
+		(norm-pos (get-c11 x))
+		(p-enhance (get-c12 x))
+	     
 		(sample-sys-name (result-ref x "sample_sys_name"))
 		(accs-id (result-ref x "accs_id"))
 		(target-name (result-ref x "target_name"))
@@ -306,6 +305,7 @@
 (post "/assayrun/getalldata"
       #:from-post 'qstr
       #:cookies '(names sid prjid)
+      #:conn #t
 		 (lambda (rc)
 		   (let* (
 			  (help-topic "assayrun")
@@ -315,9 +315,8 @@
 			  (sql (string-append "Select * from get_all_data_for_assay_run(" arid ")"))
 			  (holder (DB-get-all-rows (:conn rc sql)))
 			  (body (string-concatenate (prep-alldata holder)))
-			 
 	
 			  (aridq (addquotes arid))  ;; for passing to html
 			  )
-		;;    (view-render "getalldata" (the-environment)))))
-	     (view-render "test" (the-environment)))))
+		    (view-render "getalldata" (the-environment)))))
+	    ;; (view-render "test" (the-environment)))))

@@ -18,6 +18,7 @@
 		    </button>
 		    <div class="dropdown-menu">
 			<a class="dropdown-item" href="#"  onclick="viewhits()">View Hits</a>
+			<a class="dropdown-item" href="#"  onclick="getalldata()">View all data</a>
 
 		    </div>
 		</div>
@@ -109,6 +110,12 @@ function viewhits(){
 	f.submit(); return false;
  }	
  
+function getalldata(){
+	 var f = document.getElementById("getarid_form");
+	 f.setAttribute("action", "/assayrun/getalldata");
+	f.setAttribute("method", "POST");	
+	f.submit(); return false;
+ }	
 
  
  $(document).ready(function() {
