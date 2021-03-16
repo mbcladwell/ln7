@@ -21,7 +21,7 @@
 		(now (time-second (current-time)))
 		(expired? (if (> (- now expires-seconds) 0) #t #f ))
 		(expire-text (if expired? expires (string-append "<font style=\"color:red\">" expires "</font>" ))))      
-	      (cons (string-append "<tr><td>" id  "</td><td>" lnuser-name "</td><td>" usergroup "</td><td>" expire-text  "</td><tr>")
+	      (cons (string-append "<tr><td>" id  "</td><td>" lnuser-name "</td><td>" usergroup "</td><td>" expire-text  "</td></tr>")
 		    prev)
 	      ))
         '() a))

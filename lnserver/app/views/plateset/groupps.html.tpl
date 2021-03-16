@@ -35,11 +35,11 @@
 
       <div class="form-group col-md-6">
 	<label for="tot-pl">Total number of plates:</label>&nbsp&nbsp<b><%= tot-plates %></b>
-	<input type="hidden" id="totplates" name="totplates" value=<%= tot-plates %>>
+	<input type="hidden" id="totplates" name="totplates" value=<%= totplatesq %>>
       </div>
    <div class="form-group col-md-6">     
 	<label for="format">Plate Format:</label>&nbsp&nbsp<b><%= format %></b>
-	<input type="hidden" id="format" name="format" value=<%= format %>>
+	<input type="hidden" id="format" name="format" value=<%= formatq %>>
    </div>
  </div>
 
@@ -57,7 +57,7 @@
 </div>
 
 
-<input type="hidden" id="lytid" name="lytid" value=<%= lyt-id %>>
+<input type="hidden" id="lytid" name="lytid" value=<%= lytidq %>>
 
 <input type="submit" class="btn btn-primary" value="Confirm and submit">
 </form> 

@@ -170,6 +170,9 @@
 			 (holder3  (DB-get-all-rows (:conn rc sql3)))
 			 (plate-types-pre '())
 			 (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
+			 (totplatesq (addquotes (number->string tot-plates)))
+			 (formatq (addquotes format))
+			 (lytidq (addquotes lyt-id))
 			 )
 		      (if (and format-equal? layout-equal?)
 			  (view-render "groupps" (the-environment))
@@ -291,36 +294,43 @@
 
 
 (post "/plateset/createbygroup"
-		  #:conn #t #:from-post 'qstr #:cookies '(names prjid userid group sid)
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
 		  (lambda (rc)
 		    (let* ((help-topic "plateset")
 			   (today (date->string  (current-date) "~Y-~m-~d"))
 			   (qstr  (:from-post rc 'get))
-			   (prjid (:cookies-ref rc 'prjid "prjid"))
+			   (prjid (:cookies-value rc  "prjid"))
 			   (userid (:cookies-value rc "userid"))
 			   (group (:cookies-value rc "group"))
 			   (sid (:cookies-value rc "sid"))
-			   (psname  (car (delete #f (map (match-lambda (("psname" x) x)(_ #f))  qstr))))
-			   (descr   (car (delete #f (map (match-lambda (("descr" x) x)(_ #f))  qstr))))
-			   (tot-plates (car (delete #f (map (match-lambda (("totplates" x) x)(_ #f))  qstr))))
-			   (format  (car (delete #f (map (match-lambda (("format" x) x)(_ #f))  qstr))))
-			   (type  (car (delete #f (map (match-lambda (("type" x) x)(_ #f))  qstr))))
-			   (lyt-id  (car (delete #f (map (match-lambda (("lytid" x) x)(_ #f))  qstr))))
-			    ;; see dbi.groupPlateSetsIntoNewPlateSet
+			   (psname (uri-decode (:from-post rc 'get-vals "psname")))
+			   (descr (uri-decode (:from-post rc 'get-vals "descr")))
+			   (tot-plates (:from-post rc 'get-vals "totplates"))
+			   (format (:from-post rc 'get-vals "format"))
+			   (type (:from-post rc 'get-vals "type"))
+			   (lyt-id (:from-post rc 'get-vals "lytid"))
+
+			   ;; see dbi.groupPlateSetsIntoNewPlateSet
 			   ;;CREATE OR REPLACE FUNCTION new_plate_set_from_group(_descr VARCHAR(30),_plate_set_name VARCHAR(30), _num_plates INTEGER, _plate_format_id INTEGER, _plate_type_id INTEGER, _project_id INTEGER, _plate_layout_name_id INTEGER, _sessions_id VARCHAR(32))
 			   ;; returns plate-set-id
 			   (sql (string-append "SELECT new_plate_set_from_group('" descr "', '" psname "', " tot-plates ", " format ", " type ", " prjid ", " lyt-id ", '" sid "')"))
 
-			   (psid (DB-get-all-rows (:conn rc sql)))
-			   (sql2 (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
+       			   (psid (DB-get-all-rows (:conn rc sql)))
+			  ;; (sql2 (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
+
+;; with worklist
+			   (sql2 (string-append "SELECT plate_set.id, plate_set.plate_set_sys_name, plate_set_name, plate_set.descr,  plate_type.plate_type_name, num_plates, format,  plate_layout_name.name,  plate_layout_name.id, plate_layout_name.replicates, rearray_pairs.ID FROM  plate_format, plate_type, plate_layout_name, plate_set FULL outer JOIN rearray_pairs ON plate_set.id= rearray_pairs.dest WHERE plate_format.id = plate_set.plate_format_id AND plate_set.plate_layout_name_id = plate_layout_name.id  AND plate_set.plate_type_id = plate_type.id  AND project_id =" prjid " ORDER BY plate_set.id"))
+
 			  (holder (DB-get-all-rows (:conn rc sql2)))
 			  (body  (string-concatenate  (prep-ps-for-prj-rows holder)) )
 			  (assay-runs (get-assay-runs-for-prjid prjid rc))
 			  (hit-lists (get-hit-lists-for-prjid prjid rc))
-			  
+			  (prjidq (addquotes prjid))
 			   )
 		      (view-render "getps" (the-environment))
-		     ;; (view-render "test" (the-environment))
+		     ;; (view-render "test2" (the-environment))
 		      
 		      )))
 
