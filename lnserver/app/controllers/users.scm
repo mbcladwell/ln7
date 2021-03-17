@@ -40,15 +40,27 @@
 
 (users-define add
 	      (options
-		       #:cookies '(names prjid userid sid))
+	       #:cookies '(names prjid sid)
+	       #:conn #t)
 
 	      (lambda (rc)
 		(let* ((help-topic "user")
-		       (prjid (:cookies-value rc "prjid"))
-		       (userid (:cookies-value rc "userid"))
+		       (prjid (:cookies-value rc "prjid"))		       
 		       (sid (:cookies-value rc "sid"))
+		       (sql "SELECT help_url_prefix,  cust_id, cust_key, cust_email FROM config WHERE id=1")
+		       (ret   (car (DB-get-all-rows (:conn rc sql))))
+		       (help-url-prefix (assoc-ref ret "help_url_prefix"))
+		       (cust_id (assoc-ref ret "cust_id"))
+		       (cust_key (assoc-ref ret "cust_key"))
+		       (email (assoc-ref ret "cust_email"))
+		       (register-url (string-append "http://" help-url-prefix "register"))
+		       (licensed? (if (and cust_id cust_key email ) (validate-key cust_id email cust_key) #f))					  
+		       (prjidq (addquotes prjid))
+		       (sidq (addquotes sid))
+		       (register-urlq (addquotes register-url))
+		       (dest (if licensed? "add" "unlicensed"))
 		       )
-		  (view-render "add" (the-environment)))))
+		  (view-render dest (the-environment)))))
 
 
 

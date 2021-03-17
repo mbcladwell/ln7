@@ -25,7 +25,7 @@
 		(control-loc (result-ref x "control_loc"))
 		(source-dest (result-ref x "source_dest"))
 		(id-html (string-append "<a href=\"/layout/lytbyid?id=" id "\">" sys-name "</a>") ))
-            (cons (string-append "<tr><td>" id-html "</th><td>" name "</td><td>" descr "</td>
+            (cons (string-append "<tr><td>" id-html "</td><td>" name "</td><td>" descr "</td>
 <td>"   plate-format-id "</td><td>" replicates "</td><td>" targets "</td>
 <td>"  use-edge "</td><td>" num-controls "</td><td>" unknown-n "</td><td>" control-loc "</td><td>" source-dest "</td></tr>")
 		  prev)))
@@ -80,10 +80,19 @@
 	   (body (string-concatenate (prep-lyt-rows holder))))
    (view-render "getall" (the-environment)))))
 
+(define (add-comma lst result)
+  ;;concatenates numbers as string, putting ", " between each
+  (if (null? (cdr lst))
+      (begin
+	(set! result (string-append result (car lst)))
+	result)
+      (begin
+	(set! result (string-append result (car lst) ", "))
+	(add-comma (cdr lst) result))))
 
 (layout-define lytbyid
 	       (options #:conn #t
-			    #:cookies '(names prjid userid sid))
+			#:cookies '(names prjid userid sid))
 	       (lambda (rc)
 		 (let* (
 			(help-topic "layouts")
@@ -97,15 +106,30 @@
 			(trg-rep-out (get-rand-file-name "lyt" "png"))	 
 			(outfile (string-append  (get-rand-file-name "lyt" "png")))
 			(format (get-format-for-layout-id id rc))
-			(sql (string-append "select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name where id=" id))
-			(holder (DB-get-all-rows (:conn rc sql)))
-			(body (string-concatenate (prep-lyt-rows holder)))
-			(dummy3 (get-data-for-layout id (string-append "pub/" infile) rc))
- 			(dummy4 (system (string-append "Rscript --vanilla rscripts/plot-layout.R pub/" infile " pub/" spl-out " pub/" spl-rep-out " pub/" trg-rep-out " " format)))
-			(spl-out2 (string-append "\"../" spl-out "\"" ))
-			(spl-rep-out2 (string-append "\"../" spl-rep-out "\""))
-			(trg-rep-out2  (string-append "\"../" trg-rep-out "\"")))
-		   (view-render "lytbyid" (the-environment))  )))
+			(sql (string-append "SELECT source_dest FROM plate_layout_name WHERE id=" id))
+			(srcdest (assoc-ref (car (DB-get-all-rows (:conn rc sql))) "source_dest"))
+			(sql (if (equal? srcdest "source")
+				 (string-append "select dest from layout_source_dest where src =" id)
+				 (string-append "select dest from layout_source_dest where src =(select src from layout_source_dest where dest = " id ") UNION select src from layout_source_dest where dest =" id " ORDER BY dest")))
+					
+			(holder (map cdar (DB-get-all-rows (:conn rc sql))))
+			(allids (if (equal? srcdest "source")
+				    (cons (string->number id) holder)
+				    holder))
+			(allidsstring (map number->string allids))
+			(allidscomma (add-comma allidsstring ""))
+			(sql (string-append "select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name where id IN (" allidscomma ") ORDER BY source_dest DESC"))
+			(holder  (DB-get-all-rows (:conn rc sql)))
+			 (body (string-concatenate (prep-lyt-rows holder)))
+			 (dummy3 (get-data-for-layout id (string-append "pub/" infile) rc))
+ 			 (dummy4 (system (string-append "Rscript --vanilla rscripts/plot-layout.R pub/" infile " pub/" spl-out " pub/" spl-rep-out " pub/" trg-rep-out " " format)))
+			 (spl-out2 (string-append "\"../" spl-out "\"" ))
+			 (spl-rep-out2 (string-append "\"../" spl-rep-out "\""))
+			 (trg-rep-out2  (string-append "\"../" trg-rep-out "\""))
+			)
+		   (view-render "lytbyid" (the-environment))
+		 ;;  (view-render "test" (the-environment))
+		   )))
 
 
 

@@ -101,14 +101,12 @@
 
 (hitlist-define importhl
 		;; for ?arid=1
-		(options #:cookies '(names prjid lnuser userid group sid))
+		(options #:cookies '(names prjid sid))
 		(lambda (rc)
 		  (let* ((help-topic "hitlist")
 			 (arid (get-from-qstr rc "arid"))
 						 
 			 (prjid (:cookies-value rc "prjid"))
-			 (userid (:cookies-value rc "userid"))
-			 (group (:cookies-value rc "group"))
 			 (sid (:cookies-value rc "sid"))
 			 )
 		    (view-render "importhl" (the-environment)))))
@@ -128,12 +126,10 @@
 
 (hitlist-define forprj
 		(options #:conn #t
-			 #:cookies '(names prjid lnuser userid group sid))
+			 #:cookies '(names prjid sid))
   (lambda (rc)
     (let* ((help-topic "hitlist")
 	   (prjid (get-from-qstr rc "prjid"))
-	   (userid (:cookies-value rc "userid"))
-	   (group (:cookies-value rc "group"))
 	   (sid (:cookies-value rc "sid"))
 	   (sql (string-append "SELECT hit_list.id, hit_list.hitlist_sys_name, hit_list.hitlist_name, hit_list.descr, hit_list.n FROM hit_list, assay_run, plate_set   WHERE hit_list.assay_run_id=assay_run.id AND assay_run.plate_set_id=plate_set.id AND plate_set.project_id=" prjid ))
 	   (holder (DB-get-all-rows (:conn rc sql)))

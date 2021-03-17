@@ -114,15 +114,18 @@
 <div id=\"content\">
 
 ")(display "
+ <div class=\"container\">
+ 
+  <h1>Add a User</h1><br><br>
 
-  <h1>Test</h1><br><br>
-
-
-
-<br><br>  ")(display  holder )(display "
-<br><br>  ")(display  sql )(display "
-
-
+ Adding new users is limited to users with a valid license.
+ <br><br>
+ Please see <a href=")(display  register-urlq )(display ">LIMS*Nucleus Registration</a>
+ 
+ 
+ 
+</form> 
+</div>
 
   
 ")(display "</div>

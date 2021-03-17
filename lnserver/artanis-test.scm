@@ -38,25 +38,29 @@
 
 (validate-key "jf8d9slkdow09ieieurie" "info@labsolns.com" "e118bd1efb4b4f5367cf99976267c5ad")
 
-UPDATE config SET cust_id='jf8d9slkdow09ieieurie', cust_email='info@labsolns.com', cust_key='e118bd1efb4b4f5367cf99976267c5ad' WHERE id=1;
 
-UPDATE config SET cust_id='', cust_email='', cust_key='' WHERE id=1;
+(define a '(((dest . 7)) ((dest . 8)) ((dest . 9)) ((dest . 10)) ((dest . 11)) ((dest . 12))))
 
-(car '(1 1 -64.6179 1 1))
-(cadr '(1 1 -64.6179 1 1))
-(caddr '(1 1 -64.6179 1 1))
-(cadddr '(1 1 -64.6179 1 1))
-(car (cddddr '(1 1 -64.6179 1 1)))
+(map  cdar a)
 
+(define b '(7 8 9 10 11 12))
 
+(define c (map number->string b))
 
-(car '("a" "b" "c" "d" "e"))
-(cadr '(1 1 -64.6179 1 1))
-(caddr '(1 1 -64.6179 1 1))
-(cadddr '(1 1 -64.6179 1 1))
-(car (cddddr '(1 1 -64.6179 1 1)))
+(map (string-append "," _) c)
 
 
-(define numplates "11")
 
-(> (string->number numplates) 10)
+(define (add-comma lst result)
+  (if (null? (cdr lst))
+      (begin
+	(set! result (string-append result (car lst)))
+	result)
+      (begin
+	(set! result (string-append result (car lst) ", "))
+	(add-comma (cdr lst) result))))
+
+(add-comma c "")
+
+
+select id, sys_name, name, descr, plate_format_id, replicates, targets, use_edge, num_controls, unknown_n, control_loc, source_dest from plate_layout_name where id IN (7, 8, 9, 10, 11, 12); 
