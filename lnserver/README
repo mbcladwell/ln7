@@ -62,11 +62,12 @@ plate.scm  getallwellsforps
 ## todo
 
 
-missing search box:  https://github.com/TheCoder4eu/BootsFaces-OSP/issues/1056
-
 worklists should have barcode ids
 
-replot not working properly
+split plate sets on plate menu
+
+restrict administrative functionality
+
 
 
 
