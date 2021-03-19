@@ -58,6 +58,10 @@ view layout select
 * LEFT JOIN with many-to-many table using as alias
 plate.scm  getallwellsforps
 
+;; default session is one hour.  Change it in:
+;; artanis/artanis/session.scm L388
+;; artanis/artanis/cookie.scm L129   to 21600 for 6 hours
+;; artanis/artanis/oht.scm L264   to 21600 for 6 hours
 
 ## todo
 
