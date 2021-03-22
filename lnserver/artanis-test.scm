@@ -57,7 +57,7 @@
 	(set! result (string-append result (car lst)))
 	result)
       (begin
-	(set! result (string-append result (car lst) ", "))
+	(set! result (string-append result (car lst) ","))
 	(add-comma (cdr lst) result))))
 
 (add-comma c "")

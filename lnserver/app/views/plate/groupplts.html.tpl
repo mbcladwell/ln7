@@ -4,9 +4,9 @@
   
 <@include header.tpl %>
 <div class="container">
-  <h1>Group Plate Sets</h1>
+  <h1>Group Plates</h1>
 
-  <form action="/plateset/createbygroup" method="post">
+  <form action="/plate/createbygroup" method="post">
     <div class="form-row">
       <div class="form-group col-md-6">
 	<label>Date:</label> &nbsp <b><%= today %></b>
@@ -28,14 +28,14 @@
     
   <div class="form-row">
       <div class="form-group col-md-12">
-	<label for="psid-num">Plate Set ID (# plates):</label> &nbsp<b><%= ps-num-text %></b>
+	<label for="psid-num">Plate IDs:</label> &nbsp<b><%= all-plate-ids-txt %></b>
       </div>
   </div>
  <div class="form-row">
 
       <div class="form-group col-md-6">
-	<label for="tot-pl">Total number of plates:</label>&nbsp&nbsp<b><%= tot-plates %></b>
-	<input type="hidden" id="totplates" name="totplates" value=<%= totplatesq %>>
+	<label for="tot-pl">Total number of plates:</label>&nbsp&nbsp<b><%= num-plates %></b>
+	<input type="hidden" id="numplates" name="numplates" value=<%= num-platesq %>>
       </div>
    <div class="form-group col-md-6">     
 	<label for="format">Plate Format:</label>&nbsp&nbsp<b><%= format %></b>
@@ -45,7 +45,7 @@
 
  <div class="form-row">
    <div class="form-group col-md-12">
-     <label for="sample">Sample Layout:</label>&nbsp&nbsp<b> <%= lyt-txt %></b>
+     <label for="sample">Sample Layout:</label>&nbsp&nbsp<b> <%= lyttxt %></b>
    </div>
  </div>
  
@@ -57,7 +57,8 @@
 </div>
 
 
-<input type="hidden" id="lytid" name="lytid" value=<%= lytidq %>>
+<input type="hidden" id="lytnameid" name="lytnameid" value=<%= lyt-name-idq %>>
+<input type="hidden" id="allplateids" name="allplateids" value=<%= all-plate-ids-txtq %>>
 
 <input type="submit" class="btn btn-primary" value="Confirm and submit">
 </form> 

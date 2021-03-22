@@ -5,6 +5,8 @@
 
 (use-modules (artanis utils)(artanis irregex)
 	     (artanis cookie)
+	     (ice-9 match)
+	     (srfi srfi-19) ;;date-time
 	     (srfi srfi-1)(dbi dbi)
 	     (lnserver sys extra))
 
@@ -18,7 +20,7 @@
 		(type (result-ref x "plate_type_name"))
 		(format (result-ref x "format")) ;;format
 		)
-            (cons (string-append "<tr><td><a href=\"getwellsforplt?pltid=" pltid "&psid=" psid "\">" plate-sys-name "</a></td><td>"  order  "</td><td>" type  "</td><td>"  format  "</td><td>" barcode  "</td></tr>")
+            (cons (string-append "<tr><td> <input type=\"checkbox\" id=\"" plate-sys-name  "\" name=\"plate-id\" value=\"" pltid "\" onclick=\"handleChkbxClick()\"></td><td><a href=\"getwellsforplt?pltid=" pltid "&psid=" psid "\">" plate-sys-name "</a></td><td>"  order  "</td><td>" type  "</td><td>"  format  "</td><td>" barcode  "</td></tr>")
 		  prev)))
         '() a))
 
@@ -145,3 +147,100 @@
 		  
 		  )))
 
+(define (add-comma lst result)
+  (if (null? (cdr lst))
+      (begin
+	(set! result (string-append result (car lst)))
+	result)
+      (begin
+	(set! result (string-append result (car lst) ","))
+	(add-comma (cdr lst) result))))
+
+
+(post "/plate/groupplts"
+	       #:conn #t
+	       #:cookies '(names prjid sid)
+	       #:from-post 'qstr
+	      (lambda (rc)
+		(let* ((help-topic "plate")
+		       (psid  (:from-post rc 'get "psid"))
+		       (prjid (:cookies-value rc "prjid"))
+		       (sid (:cookies-value rc "sid"))
+		       (today (date->string  (current-date) "~Y-~m-~d"))
+		       (qstr  (:from-post rc 'get))
+		       ;;(plate-id  (:from-post rc 'get "plate-id"))
+		       (username (cadr (get-id-name-group-email-for-session rc sid)))
+		       (all-plate-ids (delete #f (map (match-lambda (("plate-id" x) x)(_ #f))  qstr)))
+		       ;;(all-plate-ids-txt-pre   (map number->string all-plate-ids))
+		       (all-plate-ids-txt (add-comma all-plate-ids ""))		       
+		       (num-plates (number->string (length all-plate-ids)))
+		       (first-plate (car all-plate-ids))
+		       (sql (string-append "select plate_format_id, plate_layout_name_id from plate where id =" first-plate))
+		       (holder  (car  (DB-get-all-rows (:conn rc sql))))
+		       (format (number->string (assoc-ref holder "plate_format_id")))
+		       (lyt-name-id (number->string (assoc-ref holder "plate_layout_name_id")))
+		       (sql2 (string-append "SELECT name, descr from plate_layout_name where id ="  lyt-name-id))
+		       (holder2    (car  (DB-get-all-rows (:conn rc sql2))))
+		       (lyttxt (string-append  (cdar  holder2)  "; "  (cdadr  holder2)) )			     			   
+		       (sql3 (string-append "SELECT id, plate_type_name from plate_type"))
+		       (holder3  (DB-get-all-rows (:conn rc sql3)))
+		       (plate-types-pre '())
+		       (plate-types (dropdown-contents-with-id holder3 plate-types-pre))
+		       (num-platesq (addquotes  num-plates))
+		       (formatq (addquotes format))
+		       (lyttxtq (addquotes lyttxt))
+		       (lyt-name-idq (addquotes lyt-name-id))
+		       (all-plate-ids-txtq (addquotes all-plate-ids-txt))
+			 )
+	;;	  (view-render "test" (the-environment))	
+			  (view-render "groupplts" (the-environment))
+			
+		  )))
+
+
+
+(post "/plate/createbygroup"
+      #:conn #t
+      #:from-post 'qstr
+      #:cookies '(names prjid sid)
+		  (lambda (rc)
+		    (let* ((help-topic "plateset")
+			   (today (date->string  (current-date) "~Y-~m-~d"))
+			   (qstr  (:from-post rc 'get))
+			   (prjid (:cookies-value rc  "prjid"))
+			   (sid (:cookies-value rc "sid"))
+;;			   (username (cadr (get-id-name-group-email-for-session rc sid)))		    
+			   (psname (uri-decode (:from-post rc 'get-vals "psname")))
+			   (descr (uri-decode (:from-post rc 'get-vals "descr")))
+			   (num-plates (:from-post rc 'get-vals "numplates"))
+			   (format (:from-post rc 'get-vals "format"))
+			   (type (:from-post rc 'get-vals "type"))
+			   (lyt-name-id (:from-post rc 'get-vals "lytnameid"))
+			   (all-plate-ids-txt (uri-decode (:from-post rc 'get-vals "allplateids")))
+
+			   (sql (string-append "SELECT new_plate_set_from_group('" descr "', '" psname "', " num-plates ", " format ", " type ", " prjid ", " lyt-name-id ", '" sid "')"))
+
+       			   (psid  (number->string (assoc-ref (car (DB-get-all-rows (:conn rc sql))) "new_plate_set_from_group")))
+			  ;; (sql2 (string-append "select plate_set.id, plate_set_sys_name, plate_set_name, plate_set.descr, plate_type_name, num_plates, plate_set.plate_format_id, plate_layout_name_id, plate_layout_name.replicates from plate_set, plate_type, plate_layout_name where plate_set.plate_type_id=plate_type.id AND plate_set.plate_layout_name_id=plate_layout_name.id AND plate_set.project_id =" prjid ))
+
+			   ;;   String sqlString = "SELECT assoc_plate_ids_with_plate_set_id(?,?)";
+			   ;;   SELECT assoc_plate_ids_with_plate_set_id(ARRAY[11,12,13],13);
+
+			   (sql2 (string-append "SELECT assoc_plate_ids_with_plate_set_id(ARRAY[" all-plate-ids-txt "]," psid ")" ))
+			   (dummy (:conn rc sql2))	   
+			   )
+		      (redirect-to rc (string-append "/plateset/getps?id=" prjid))
+
+		    ;;  (view-render "test" (the-environment))
+		      
+		      )))
+
+
+   
+     
+
+
+
+		  
+		  
+		  

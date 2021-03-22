@@ -18,6 +18,7 @@
 			</svg>
 		    </button>
 		    <div class="dropdown-menu">
+			<a class="dropdown-item" href="#" onclick="groupPlates()" >Group Plates into Plate Set</a>
 			<a class="dropdown-item" href="#" onclick="getWellsForPS('false')" >All Wells for PS-<%= psid %></a>
 			<a class="dropdown-item" href="#" onclick="getWellsForPS('true')">Include Controls</a>
 		  </div>
@@ -26,7 +27,7 @@
 	</div>  
 	
 
-    <table class="display table table-striped table-bordered"><thead><tr><th>Plate</th><th>Plate Order</th><th>Plate Type</th><th>Format</th><th>Barcode</th></tr></thead>
+	<table class="display table table-striped table-bordered"><thead><tr><th><img src="../img/checkmark.png" height="20" width="20"></th><th>Plate</th><th>Plate Order</th><th>Plate Type</th><th>Format</th><th>Barcode</th></tr></thead>
     <tbody> <%= body %></tbody>
 </table>
 

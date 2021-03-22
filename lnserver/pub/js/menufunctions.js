@@ -161,4 +161,15 @@ function getCheckedBoxes(chkboxName) {
 }
 
 
+function groupPlates(){
+    if(getCheckedBoxes("plate-id") == null || getCheckedBoxes("plate-id").length < 2 ){
+	window.alert("Please select two or more plates!");}
+    else {
+    	var f = document.getElementById("getwellps");
+	f.setAttribute("action", "/plate/groupplts");
+	f.setAttribute("method", "POST");	
+	f.submit(); return false;
+
+    }
+}
 
