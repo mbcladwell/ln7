@@ -30,11 +30,15 @@
 		       (prjid (:cookies-value rc "prjid"))
 		       (userid (:cookies-value rc "userid"))
 		       (sid (:cookies-value rc "sid"))  
+		       (identity (get-id-name-group-email-for-session rc sid))
+		       (username (cadr identity))
+		       (group (caddr identity))  
 		       (sql "select person.id, person.usergroup, lnuser, email from person ORDER BY person.id DESC"  )
 		       (holder (DB-get-all-rows(:conn rc sql)))
 		       (body (string-concatenate (prep-user-rows holder)))
+		       (dest (if (equal? group "admin") "getall" "notadmin"))
 		       )
-		  (view-render "getall" (the-environment))
+		  (view-render dest (the-environment))
 		  )))
 
 
@@ -47,9 +51,6 @@
 		(let* ((help-topic "user")
 		       (prjid (:cookies-value rc "prjid"))		       
 		       (sid (:cookies-value rc "sid"))
-		       (identity (get-id-name-group-email-for-session rc sid))
-		       (username (cadr identity))
-		       (group (caddr identity))  
 	       ;; (sql "SELECT help_url_prefix,  cust_id, cust_key, cust_email FROM config WHERE id=1")
 		       ;; (ret   (car (DB-get-all-rows (:conn rc sql))))
 		       ;; (help-url-prefix (assoc-ref ret "help_url_prefix"))
@@ -61,9 +62,8 @@
 		       (prjidq (addquotes prjid))
 		       (sidq (addquotes sid))
 		      ;; (register-urlq (addquotes register-url))
-		       (dest (if (equal? group "admin") "add" "notadmin"))
 		       )
-		  (view-render dest (the-environment)))))
+		  (view-render "add" (the-environment)))))
 
 
 

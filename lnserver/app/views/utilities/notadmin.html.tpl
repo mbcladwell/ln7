@@ -5,16 +5,14 @@
 <@include header.tpl %>
  <div class="container">
  
-  <h1>View All Users</h1><br><br>
+  <h1>Register</h1><br><br>
 
- Viewing users is limited to administrators.
+ Registering is limited to administrators.
  <br><br>
 Username:&nbsp;<b><%= username %></b><br>
-Group:&nbsp;<b><%= group %></b><br><br>
-
-<img src="../img/notallowed.png">
+Group:&nbsp;<b><%= group %></b><br> <br> 
  
-
+<img src="../img/notallowed.png">
 </div>
 
   

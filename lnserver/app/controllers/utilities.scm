@@ -53,11 +53,14 @@
 			  (userid (:cookies-value rc "userid"))
 			  (group (:cookies-value rc "group"))
 			  (sid (:cookies-value rc "sid"))
-			  (get-ps-link (string-append "/plateset/getps?id=" prjid))
-			  (ps-add-link (string-append "/plateset/add?format=96&type=master&prjid=" prjid))	    
-			   (emptyreg? (equal? "" (cdaar (DB-get-all-rows (:conn rc sql))))))
+			  (emptyreg? (equal? "" (cdaar (DB-get-all-rows (:conn rc sql))))))
 		      (if emptyreg?
-			  (view-render "register" (the-environment))
+			  (let*((identity (get-id-name-group-email-for-session rc sid))
+				(username (cadr identity))
+				(group (caddr identity))
+				(dest (if (equal? group "admin") "register" "notadmin"))
+				)
+			  (view-render dest (the-environment)))
 			  (let* ((sql "select cust_id, cust_key, cust_email, version from config where id=1")
 				 (holder (car (DB-get-all-rows (:conn rc sql))))
 				 (vcust (assoc-ref holder "cust_id"))
@@ -68,7 +71,8 @@
 							 "Registration key:&nbsp;" vkey  "\n\n"
 							 "Email:&nbsp;" vemail "\n\n"
 							 "Version:&nbsp;" version)))			    
-			    (view-render "isreg" (the-environment)))))))
+			    (view-render "isreg" (the-environment)))
+			  ))))
 
 
 (utilities-define login
