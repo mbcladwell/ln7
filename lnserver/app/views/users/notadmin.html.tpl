@@ -12,7 +12,7 @@
 Username:&nbsp;<b><%= username %></b><br>
 Group:&nbsp;<b><%= group %></b><br><br>
 
-<img src="../img/notallowed.png">
+<img src="..img/notallowed.png">
  
 
 </div>
