@@ -12,7 +12,7 @@
 ;;	     (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors)
 ;;	     (web uri)(ice-9 pretty-print))
 
-(get "login"
+(get "/login"
 	       #:cookies '(names prjid sid )
   (lambda (rc)
     (let* ((login-failed (if (params rc "login_failed") (params rc "login_failed") ""))
