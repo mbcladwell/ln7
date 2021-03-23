@@ -20,7 +20,7 @@
 	  ;; (dummy (:cookies-remove! rc 'prjid ))
 	 ;;  (dummy (:cookies-remove! rc 'sid))
 	   (dest (params rc "destination"))
-	   (destinationq (addquotes (if dest dest "/project/getall")))
+	   (destinationq (addquotes (if dest dest "project/getall")))
 	 )
     (view-render "login" (the-environment))
   )))
