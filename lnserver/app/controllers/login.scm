@@ -22,7 +22,7 @@
 	   (dest (params rc "destination"))
 	   (destinationq (addquotes (if dest dest "/project/getall")))
 	 )
-    (view-render "/login" (the-environment))
+    (view-render "login" (the-environment))
   )))
 
 
