@@ -12,15 +12,17 @@
 ;;	     (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors)
 ;;	     (web uri)(ice-9 pretty-print))
 
-(get "/login"
-	       #:cookies '(names prjid sid )
+(get "/login/login"
+      #:cookies '(names prjid sid )
+   ;;   #:from-post #t
   (lambda (rc)
-    (let* ((login-failed (if (params rc "login_failed") (params rc "login_failed") ""))
+    (let* (
+	  ;; (login-failed (if (:from-post rc 'get-vals "login_failed") (:from-post rc 'get-vals "login_failed") ""))
+	   (login-failed (if (params rc "login_failed") (params rc  "login_failed") ""))
 	   (help-topic "login")
-	  ;; (dummy (:cookies-remove! rc 'prjid ))
-	 ;;  (dummy (:cookies-remove! rc 'sid))
+	;;   (dest (:from-post rc 'get-vals "destination"))
 	   (dest (params rc "destination"))
-	   (destinationq (addquotes (if dest dest "project/getall")))
+	   (destinationq (addquotes (if dest dest "/project/getall")))
 	 )
     (view-render "login" (the-environment))
   )))
@@ -53,7 +55,7 @@
 	     (let* (
 		    (dest (uri-decode (:from-post rc 'get-vals "destination")))
 		    ;; (dest (params rc "destination"))
-		    (requested-url  (if dest dest "project/getall")))
+		    (requested-url  (if dest dest "/project/getall")))
 	       (redirect-to rc requested-url))
 	     ;; requested url, sid, userid must be available at top level
 	     (let* ((sid (:auth rc))		    
@@ -72,11 +74,11 @@
 		    (requested-url (if sid (let* (
 						  (dest  (uri-decode (:from-post rc 'get-vals "destination")))				  			      
 						  )
-					     (if dest dest "project/getall"))
+					     (if dest dest "/project/getall"))
 				       "login?login_failed=Login_Failed!"))
 		    )
 	       (redirect-to rc requested-url)))))
-	     ;;  (view-render "test" (the-environment))))))
+	      ;; (view-render requested-url (the-environment))))))
 
   
 
