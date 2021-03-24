@@ -123,7 +123,7 @@
 Username:&nbsp;<b>")(display  username )(display "</b><br>
 Group:&nbsp;<b>")(display  group )(display "</b><br><br>
 
-<img src=\"../img/notallowed.png\">
+<img src=\"../../img/notallowed.png\">
  
 
 </div>
