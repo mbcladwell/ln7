@@ -12,7 +12,7 @@
 ;;	     (ice-9 textual-ports)(ice-9 rdelim)(rnrs bytevectors)
 ;;	     (web uri)(ice-9 pretty-print))
 
-(get "/login/login"
+(get "/login"
       #:cookies '(names prjid sid )
    ;;   #:from-post #t
   (lambda (rc)
