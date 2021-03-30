@@ -53,9 +53,9 @@
       (lambda (rc)	
 	 (if (:session rc 'check)
 	     (let* (
-		    (dest (uri-decode (:from-post rc 'get-vals "destination")))
+		    (dest (get-redirect-uri (uri-decode (:from-post rc 'get-vals "destination"))))
 		    ;; (dest (params rc "destination"))
-		    (requested-url  (if dest dest "/project/getall")))
+		    (requested-url  (if dest dest (get-redirect-uri "/project/getall"))))
 	       (redirect-to rc requested-url))
 	     ;; requested url, sid, userid must be available at top level
 	     (let* ((sid (:auth rc))		    
