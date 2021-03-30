@@ -53,10 +53,10 @@
       (lambda (rc)	
 	 (if (:session rc 'check)
 	     (let* (
-		    (dest (get-redirect-uri (uri-decode (:from-post rc 'get-vals "destination"))))
+		    (dest  (uri-decode (:from-post rc 'get-vals "destination")))
 		    ;; (dest (params rc "destination"))
-		    (requested-url  (if dest dest (get-redirect-uri "/project/getall"))))
-	       (redirect-to rc requested-url))
+		    (requested-url  (if dest dest  "/project/getall")))
+	       (redirect-to rc (get-redirect-uri requested-url)))
 	     ;; requested url, sid, userid must be available at top level
 	     (let* ((sid (:auth rc))		    
 		    (userid (if sid (let* (
@@ -72,17 +72,17 @@
 				      userid)
 				#f))
 		    (requested-url (if sid (let* (
-						  (dest  (get-redirect-uri (uri-decode (:from-post rc 'get-vals "destination"))))				  	      
+						  (dest   (uri-decode (:from-post rc 'get-vals "destination")))				  	      
 						  )
-					     (if dest dest (get-redirect-uri "/project/getall")))
+					     (if dest dest "/project/getall"))
 				       "login?login_failed=Login_Failed!"))
 		    )
-	       (redirect-to rc requested-url)))))
+	       (redirect-to rc (get-redirect-uri requested-url))))))
 	      ;; (view-render requested-url (the-environment))))))
 
 
 
 (define (get-redirect-uri dest)
-  (string->uri (string-append "http://3.135.1.200:3000" dest)))
+  (string->uri (string-append "http://3.13.182.53:3000" dest)))
 
 
