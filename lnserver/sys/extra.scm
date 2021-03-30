@@ -35,9 +35,10 @@
 	    get-key
 	    validate-key
 	    get-id-name-group-email-for-session
+	    get-redirect-uri
 	    ))
 
-(use-modules (artanis artanis)(artanis utils) (ice-9 local-eval) (srfi srfi-1)
+(use-modules (artanis artanis)(artanis utils)(artanis config) (ice-9 local-eval) (srfi srfi-1)
              (artanis irregex)(dbi dbi) (ice-9 textual-ports)(ice-9 rdelim)
 	     (rnrs bytevectors))
 
@@ -216,3 +217,5 @@
 
 ;; (username (cadr (get-id-name-group-email-for-session rc sid)))
 
+(define (get-redirect-uri dest)
+   (string->uri (string-append "http://" (get-conf '(host name)) ":3000" dest)))

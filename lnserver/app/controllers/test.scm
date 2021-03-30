@@ -2,15 +2,14 @@
 ;; Please add your license header here.
 ;; This file is generated automatically by GNU Artanis.
 (define-artanis-controller test) ; DO NOT REMOVE THIS LINE!!!
-(use-modules (web uri)(artanis config))
-
-(define (get-redirect-uri dest)
-  (string->uri (string-append (get-conf '(host name)) dest)))
 
 
 (test-define page1
-  (lambda (rc)
-   (view-render "page1" (the-environment))
+	     (lambda (rc)
+	       (let* (
+		      (result (get-redirect-uri "dest"))
+		      )
+   (view-render "page1" (the-environment)))
   ))
 
 (post "/test/page1action"

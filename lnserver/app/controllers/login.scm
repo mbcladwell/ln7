@@ -4,8 +4,8 @@
 
 (define-artanis-controller login) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (lnserver sys extra)(artanis cookie)
-	     (web uri))
+(use-modules (lnserver sys extra)(artanis cookie))
+	     
 
 ;;(use-modules (artanis artanis)(artanis utils)(artanis irregex)
 ;;	     ((rnrs) #:select (define-record-type))	     
@@ -57,7 +57,7 @@
 		    (dest  (uri-decode (:from-post rc 'get-vals "destination")))
 		    ;; (dest (params rc "destination"))
 		    (requested-url  (if dest dest  "/project/getall")))
-	       (redirect-to rc  requested-url))
+	       (redirect-to rc  (get-redirect-uri requested-url)))
 	     ;; requested url, sid, userid must be available at top level
 	     (let* ((sid (:auth rc))		    
 		    (userid (if sid (let* (
@@ -78,12 +78,8 @@
 					     (if dest dest "/project/getall"))
 				       "login?login_failed=Login_Failed!"))
 		    )
-	       (redirect-to rc requested-url)))))
+	       (redirect-to rc (get-redirect-uri requested-url))))))
 	      ;; (view-render requested-url (the-environment))))))
 
-
-
-(define (get-redirect-uri dest)
-  (string->uri (string-append "http://3.13.182.53:3000" dest)))
 
 
