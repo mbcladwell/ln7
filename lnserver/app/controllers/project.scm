@@ -28,36 +28,38 @@
 ;; <th><a href=\"/plateset/getps?id=" (number->string (cdr (car x))) "\">" project_sys_name "</a></th>
 
 
-;; (project-define getall
-;; 		(lambda (rc)
-;;     (let* ((help-topic "project")
-;; 	   (ret #f)
-;; 	   (holder '())
-;; 	   (dummy (dbi-query ciccio  "select id, project_sys_name, project_name, descr from project"  ))
-;; 	   (ret (dbi-get_row ciccio))
-;; 	   (dummy2 (while (not (equal? ret #f))     
-;; 		     (set! holder (cons ret holder))		   
-;; 		     (set! ret  (dbi-get_row ciccio))))
-;; 	   (body (string-concatenate (prep-project-rows holder)))
-;; 	   )
-;;       (view-render "getall" (the-environment))
-;;   )))
 
-(get "/project/getall" #:conn #t 
-     #:cookies '(names prjid sid)
-     #:with-auth "/login" 
-     (lambda (rc ) 
-       (let* ( 
-	      (help-topic "project")
-	      (prjid (:cookies-value rc "prjid"))
-	      (sid (:cookies-value rc "sid"))
-	      (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
-	      (body (string-concatenate (prep-project-rows holder)))
-	      (prjidq (addquotes prjid))
-	      (sidq (addquotes sid))
+;; (get "/project/getall" #:conn #t 
+;;      #:cookies '(names prjid sid)
+;;      #:with-auth "/login" 
+;;      (lambda (rc ) 
+;;        (let* ( 
+;; 	      (help-topic "project")
+;; 	      (prjid (:cookies-value rc "prjid"))
+;; 	      (sid (:cookies-value rc "sid"))
+;; 	      (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
+;; 	      (body (string-concatenate (prep-project-rows holder)))
+;; 	      (prjidq (addquotes prjid))
+;; 	      (sidq (addquotes sid))
 	     
-	      )
-	 (view-render "/getall" (the-environment)))))
+;; 	      )
+;; 	 (view-render "/getall" (the-environment)))))
+
+(project-define getall
+		(options #:conn #t 
+			 #:cookies '(names prjid sid)
+			 #:with-auth "/login" 
+			 (lambda (rc ) 
+			   (let* ( 
+				  (help-topic "project")
+				  (prjid (:cookies-value rc "prjid"))
+				  (sid (:cookies-value rc "sid"))
+				  (holder   (DB-get-all-rows (:conn rc "select id, project_sys_name, project_name, descr from project" )))  
+				  (body (string-concatenate (prep-project-rows holder)))
+				  (prjidq (addquotes prjid))
+				  (sidq (addquotes sid))				  
+				  )
+			     (view-render "getall" (the-environment)))))
 
 
 (get "/project/add"
