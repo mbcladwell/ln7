@@ -40,7 +40,7 @@
 
 (use-modules (artanis artanis)(artanis utils)(artanis config) (ice-9 local-eval) (srfi srfi-1)
              (artanis irregex)(dbi dbi) (ice-9 textual-ports)(ice-9 rdelim)
-	     (rnrs bytevectors))
+	     (rnrs bytevectors)(web uri))
 
 ;; artanis config: /etc/artanis/artanis.conf
 ;; pgbouncer -d ./syncd/pgbouncer.ini
