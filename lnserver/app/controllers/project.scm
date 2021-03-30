@@ -48,7 +48,7 @@
 (project-define getall
 		(options #:conn #t 
 			 #:cookies '(names prjid sid)
-			 #:with-auth "/login" 
+			 #:with-auth "/login" )
 			 (lambda (rc ) 
 			   (let* ( 
 				  (help-topic "project")
