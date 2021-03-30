@@ -5,7 +5,7 @@
 (use-modules (web uri))
 
 (define (get-redirect-uri dest)
-  (string->uri (string-append "http://3.13.182.53:3000" dest)))
+  (string->uri (string-append (get-conf '(host name)) dest)))
 
 
 (test-define page1
