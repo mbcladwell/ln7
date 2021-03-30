@@ -57,7 +57,7 @@
 		    (dest  (uri-decode (:from-post rc 'get-vals "destination")))
 		    ;; (dest (params rc "destination"))
 		    (requested-url  (if dest dest  "/project/getall")))
-	       (redirect-to rc (get-redirect-uri requested-url)))
+	       (redirect-to rc  requested-url))
 	     ;; requested url, sid, userid must be available at top level
 	     (let* ((sid (:auth rc))		    
 		    (userid (if sid (let* (
@@ -78,7 +78,7 @@
 					     (if dest dest "/project/getall"))
 				       "login?login_failed=Login_Failed!"))
 		    )
-	       (redirect-to rc (get-redirect-uri requested-url))))))
+	       (redirect-to rc requested-url)))))
 	      ;; (view-render requested-url (the-environment))))))
 
 
