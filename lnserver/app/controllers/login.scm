@@ -72,15 +72,19 @@
 				      userid)
 				#f))
 		    (requested-url (if sid (let* (
-						  (dest  (uri-decode (:from-post rc 'get-vals "destination")))				  			      
+						  (dest  (get-redirect-uri (uri-decode (:from-post rc 'get-vals "destination"))))				  	      
 						  )
-					     (if dest dest "/project/getall"))
+					     (if dest dest (get-redirect-uri "/project/getall")))
 				       "login?login_failed=Login_Failed!"))
 		    )
 	       (redirect-to rc requested-url)))))
 	      ;; (view-render requested-url (the-environment))))))
 
-  
+
+
+(define (get-redirect-uri dest)
+  (string->uri (string-append "http://3.135.1.200:3000/" dest)))
+
 
 ;; (get "/login/setuserid"
 ;;       #:conn #t
