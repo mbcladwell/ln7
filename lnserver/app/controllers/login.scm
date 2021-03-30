@@ -4,7 +4,8 @@
 
 (define-artanis-controller login) ; DO NOT REMOVE THIS LINE!!!
 
-(use-modules (lnserver sys extra)(artanis cookie))
+(use-modules (lnserver sys extra)(artanis cookie)
+	     (web uri))
 
 ;;(use-modules (artanis artanis)(artanis utils)(artanis irregex)
 ;;	     ((rnrs) #:select (define-record-type))	     
