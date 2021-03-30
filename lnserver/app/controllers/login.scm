@@ -83,49 +83,6 @@
 
 
 (define (get-redirect-uri dest)
-  (string->uri (string-append "http://3.135.1.200:3000/" dest)))
+  (string->uri (string-append "http://3.135.1.200:3000" dest)))
 
 
-;; (get "/login/setuserid"
-;;       #:conn #t
-;;       (lambda (rc)	
-;; 	     (let* (
-;; 		    (dest (uri-decode (params rc "dest")))
-;; 		    (sid (uri-decode (params rc "sid")))
-;; 		    (userid (uri-decode (params rc "userid")))
-;; 		    (sql (string-append "UPDATE sessions SET person_id=" userid " WHERE sid='" sid "'"))
-;; 		    (dummy (:conn rc sql))
-;; 		    )
-;; 	       (redirect-to rc dest))))
-;;	       (view-render "test" (the-environment)))))
-
-
-
-(login-define wauth
-	      (options  #:session #t
-			#:with-auth "/login")
-		;;	#:auth `(table person "lnuser" "passwd" "salt" ,my-hmac))      
-	      (lambda (rc)
-		(let* (
-		       (check (:session rc 'check))
-		       (results "empty"))
-		       ;;(results (:auth rc)))	 	  
-		  (view-render "test" (the-environment))
-		  )))
-
-(login-define sess
-	      (options  #:session #t
-			#:with-auth "/login")
-		;;	#:auth `(table person "lnuser" "passwd" "salt" ,my-hmac))      
-	      (lambda (rc)
-		(let* (
-		       (check (:session rc 'check))
-		       (results "empty"))
-		       ;;(results (:auth rc)))	 	  
-		  (view-render "test" (the-environment))
-		  )))
-
-(get "/find" #:session #t (lambda (rc)
-                             (if (:session rc 'check)
-                                 "YES"
-                               "NO!")))
