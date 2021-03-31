@@ -9,7 +9,7 @@
 	     (lnserver sys extra)(ice-9 match)
 	     (srfi srfi-11) ;; let-values
 	     (ice-9 textual-ports)(ice-9 rdelim)
-	     )
+	     (lnserver sys extra))
 
 (define (prep-ps-for-prj-rows a)
   (fold (lambda (x prev)
