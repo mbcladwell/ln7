@@ -135,7 +135,7 @@
 			 (dummy (:conn rc sql))
 			 )
 ;;		    (view-render "test" (the-environment))
-		    (redirect-to rc (string-append "plateset/getps?id="  prjid))
+		    (redirect-to rc (get-redirect-uri (string-append "plateset/getps?id="  prjid)))
   )))
 
 
@@ -197,7 +197,7 @@
 		(dest (string-append "/plateset/getps?id=" prjid))
 		)
 	  ;; (view-render "test2" (the-environment))
-	   (redirect-to rc dest )
+	   (redirect-to rc (get-redirect-uri dest ))
 	   )))
 
 
@@ -503,7 +503,7 @@
 					 #f   ))					 
 				      (else #f))))
 		     
-		     (redirect-to rc (string-append "plate/getpltforps?id=" psid))
+		     (redirect-to rc (get-redirect-uri (string-append "plate/getpltforps?id=" psid)))
 		  ;;  (view-render "test2" (the-environment))
 		     )))
 
@@ -674,7 +674,7 @@
 	       (dummy (:conn rc sql3))
 	       (dest (string-append "/plateset/getps?id=" prjid))
 	       )
-	  (redirect-to rc dest )
+	  (redirect-to rc (get-redirect-uri dest ))
 ;;	  	(view-render "test2" (the-environment))
 	  
 	  )))
@@ -770,7 +770,7 @@
 	       (dummy (:conn rc sql3))
 	       (dest (string-append "/plate/getpltforps?id=" psid))
 	       )
-	  (redirect-to rc dest )
+	  (redirect-to rc (get-redirect-uri dest ))
 ;;	  	(view-render "test2" (the-environment))
 	  
 	  )))
@@ -895,7 +895,7 @@
 			   (holder    (car  (DB-get-all-rows (:conn rc sql))))
 			   (destlytid (assoc-ref holder "reformat_plate_set"))
 			   )
-		      (redirect-to rc (string-append "/plateset/getps?id=" prjid))
+		      (redirect-to rc (get-redirect-uri (string-append "/plateset/getps?id=" prjid)))
 		    ;;  (view-render "test2" (the-environment))
 		      )))
 

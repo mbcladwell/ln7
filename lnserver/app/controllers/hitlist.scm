@@ -191,7 +191,7 @@
 	   (sql (string-append "SELECT new_hit_list('" name "', '" descr "'," num-hits ", " arid ", '" sid "', '{" f "}' )" ))
 	   (holder (:conn rc sql))
 	   (dest (string-append "/assayrun/getid?id=" arid)))  
-      (redirect-to rc dest )
+      (redirect-to rc (get-redirect-uri dest ))
       )))
 
 
@@ -323,7 +323,7 @@
 	   
 	   (destination (string-append "plateset/getps?id=" prjid))
 	   )  
-      (redirect-to rc destination)
+      (redirect-to rc (get-redirect-uri destination))
 ;;      (view-render "test2" (the-environment))
       )))
 
@@ -453,7 +453,7 @@
 	   (sql (string-append "SELECT new_hit_list('" hlname "', '" descr "', " num-hits ", " arid ", '" sid "', '{\"" int-array"\"}')" ))
 	   (dest (string-append "/assayrun/getarid?arid=" arid))
 	   )  
-      (redirect-to rc dest)
+      (redirect-to rc (get-redirect-uri dest))
      ;; (view-render "test2" (the-environment))
       )))
 

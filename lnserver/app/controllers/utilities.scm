@@ -100,11 +100,11 @@
 				      )
 				 (begin
 				  ;; (set! sid sid-candidate)
-				 (redirect-to rc "project/getall" )))
+				 (redirect-to rc (get-redirect-uri "project/getall" ))))
 			       (view-render "login" (the-environment)))))))
 
 (utilities-define help
 		  (lambda (rc)
 		    (let* ((topic (get-from-qstr rc "topic")))
-		    (redirect-to rc  (string-append "../software/" topic "/index.html") ))))
+		    (redirect-to rc  (get-redirect-uri (string-append "../software/" topic "/index.html") )))))
 

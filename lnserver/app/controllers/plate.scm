@@ -229,7 +229,7 @@
 			   (sql2 (string-append "SELECT assoc_plate_ids_with_plate_set_id(ARRAY[" all-plate-ids-txt "]," psid ")" ))
 			   (dummy (:conn rc sql2))	   
 			   )
-		      (redirect-to rc (string-append "/plateset/getps?id=" prjid))
+		      (redirect-to rc (get-redirect-uri (string-append "/plateset/getps?id=" prjid)))
 
 		    ;;  (view-render "test" (the-environment))
 		      

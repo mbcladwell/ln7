@@ -212,7 +212,7 @@
 		
 			 (dummy (:conn rc sql))
 			 )
-		    (redirect-to rc "target/getall" )
+		    (redirect-to rc (get-redirect-uri "/target/getall" ))
 		     ;;   (view-render "test" (the-environment))
 		  ;;  (pretty-print d)
 		    )))
@@ -259,7 +259,7 @@
 			 (sql (string-append "select new_target(" id ", '" tname "', '" desc "', '" accs "')"))			 
 			 (dummy (:conn rc sql))
 			 )
-		    (redirect-to rc "target/getall")
+		    (redirect-to rc (get-redirect-uri "/target/getall"))
   )))
 
 
@@ -342,6 +342,6 @@
 				   ((equal? reps "4") (get-from-qstr rc "t1"))))
 			 (sql (string-append "select new_target_layout_name(" id ", '" tlytname "', '" desc "', '" reps "', '" q1 "', '" q2 "', '" q3 "', '" q4 "')"))
 			 (dummy (:conn rc sql)))
-		    (redirect-to rc "target/gettrglyt" ))))
+		    (redirect-to rc (get-redirect-uri "/target/gettrglyt" )))))
      
 

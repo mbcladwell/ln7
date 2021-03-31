@@ -77,7 +77,7 @@
 	(email (get-from-qstr rc "email"))
 	(sql (string-append "insert into person (lnuser, passwd, salt, email, usergroup ) VALUES ('" name "', '" pwd "', '" salt "', '" email "', '" usergroup "')"))
 	(dummy (:conn rc sql)))
-    (redirect-to rc "/users/getall" ))
+    (redirect-to rc (get-redirect-uri "/users/getall" )))
   ))
 
 

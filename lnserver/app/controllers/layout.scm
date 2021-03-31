@@ -253,7 +253,7 @@
 	  (dummy (:conn rc sql))
 	  (dummy (sleep 5))
 	)
-   (redirect-to rc "/layout/getall" )
+   (redirect-to rc (get-redirect-uri "/layout/getall" ))
   )))
 
 

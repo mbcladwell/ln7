@@ -109,7 +109,7 @@
     			 (sql (string-append "select new_project('"  descr "', '" prj-name "', '" sid "')"))
 			 (dummy (:conn rc sql))
 			 )
-		    (redirect-to rc "project/getall")
+		    (redirect-to rc (get-redirect-uri "project/getall"))
   )))
 
 (project-define edit
@@ -143,7 +143,7 @@
 			 (dummy (:conn rc sql))
 			 )
 ;;		    (view-render "test" (the-environment))
-		    (redirect-to rc "project/getall")
+		    (redirect-to rc (get-redirect-uri "project/getall"))
   )))
 
 
