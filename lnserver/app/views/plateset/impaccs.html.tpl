@@ -31,10 +31,10 @@ Then submit must be pressed to process
       </div><br><br>
       <button type="submit" class="btn btn-primary">Submit</button><br>      
       <input type="hidden" id="datatransfer" name="datatransfer" >
-      <input type="hidden" id="psid" name="psid" value=<%= psid %>>
-      <input type="hidden" id="num-plates" name="num-plates" value=<%= num-plates %>>
-      <input type="hidden" id="format" name="format" value=<%= format %>>
-      <input type="hidden" id="rows-needed" name="rows-needed" value=<%= rows-needed %>>
+      <input type="hidden" id="psid" name="psid" value=<%= psidq %>>
+      <input type="hidden" id="num-plates" name="num-plates" value=<%= num-platesq %>>
+      <input type="hidden" id="format" name="format" value=<%= formatq %>>
+      <input type="hidden" id="rows-needed" name="rows-needed" value=<%= rows-neededq %>>
       
       
     </form>

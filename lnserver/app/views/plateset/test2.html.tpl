@@ -4,19 +4,16 @@
   
 <html></body>
 
-  <h1>Test</h1><br><br>
+    <h1>Test</h1><br><br>
 
 
- 
- cookies:&nbsp; <%= descr %><br><br>
- cookies:&nbsp; <%= psname %><br><br>
- cookies:&nbsp; <%= tot-plates %><br><br>
- cookies:&nbsp; <%= format %><br><br>
- cookies:&nbsp; <%= type %><br><br>
- cookies:&nbsp; <%= prjid %><br><br>
- cookies:&nbsp; <%= lyt-id %><br><br>
- cookies:&nbsp; <%= sid %><br><br>
- 
+    
+    cookies:&nbsp; <%= all-ps-ids %><br><br>
+    cookies:&nbsp; <%= format %><br><br>
+    cookies:&nbsp; <%= prjid %><br><br>
+    cookies:&nbsp; <%= sid %><br><br>
+    cookies:&nbsp; <%= psid %><br><br>
+    
  
  
   	

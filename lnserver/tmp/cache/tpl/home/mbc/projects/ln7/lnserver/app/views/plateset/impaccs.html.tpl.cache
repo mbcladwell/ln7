@@ -142,10 +142,10 @@ Then submit must be pressed to process
       </div><br><br>
       <button type=\"submit\" class=\"btn btn-primary\">Submit</button><br>      
       <input type=\"hidden\" id=\"datatransfer\" name=\"datatransfer\" >
-      <input type=\"hidden\" id=\"psid\" name=\"psid\" value=")(display  psid )(display ">
-      <input type=\"hidden\" id=\"num-plates\" name=\"num-plates\" value=")(display  num-plates )(display ">
-      <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  format )(display ">
-      <input type=\"hidden\" id=\"rows-needed\" name=\"rows-needed\" value=")(display  rows-needed )(display ">
+      <input type=\"hidden\" id=\"psid\" name=\"psid\" value=")(display  psidq )(display ">
+      <input type=\"hidden\" id=\"num-plates\" name=\"num-plates\" value=")(display  num-platesq )(display ">
+      <input type=\"hidden\" id=\"format\" name=\"format\" value=")(display  formatq )(display ">
+      <input type=\"hidden\" id=\"rows-needed\" name=\"rows-needed\" value=")(display  rows-neededq )(display ">
       
       
     </form>
@@ -181,7 +181,6 @@ Then submit must be pressed to process
 var str3 = \"/plateset/getps?id=\";
  var res3 = str3.concat( ")(display  prjid )(display " );
  document.getElementById(\"platesetgetps\").href = res3;
-
 
 
 
